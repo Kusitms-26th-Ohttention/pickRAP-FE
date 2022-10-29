@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     # Job steps
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v1
       
       - name: Caching dependencies
         id: cache-dependencies
