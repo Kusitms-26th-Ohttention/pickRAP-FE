@@ -19,11 +19,13 @@
     "plugin:@typescript-eslint/recommended",
     "plugin:storybook/recommended",
     "plugin:import/recommended",
+    "plugin:@tanstack/eslint-plugin-query/recommended",
     "plugin:import/typescript",
     "plugin:prettier/recommended"
   ],
   "plugins": [
     "simple-import-sort",
+    "@tanstack/query",
     "prettier"
   ],
   "settings": {
@@ -38,7 +40,11 @@
   },
   "rules": {
     "react-hooks/rules-of-hooks": "error",
-    "react-hooks/exhaustive-deps": "error",
+    "react-hooks/exhaustive-deps": [
+      "error", {
+        "additionalHooks": "(useRecoilCallback|useRecoilTransaction_UNSTABLE)"
+      }
+    ],
 
     "@typescript-eslint/consistent-type-imports": "error",
     "@typescript-eslint/naming-convention": [
