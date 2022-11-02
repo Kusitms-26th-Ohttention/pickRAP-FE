@@ -1,12 +1,6 @@
 import axios from 'axios';
 
-import LocalStorage from '@/infra/localStorage';
-
-const accessToken = { current: typeof window === 'undefined' ? null : LocalStorage.get('accessToken') };
-const setAccessToken = (t: string) => {
-  LocalStorage.set('accessToken', t);
-  accessToken.current = t;
-};
+import { getAccessToken } from '@/infra/api/token';
 
 const instance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_ENDPOINT,
@@ -16,7 +10,7 @@ const instance = axios.create({
 
 instance.interceptors.request.use((req) => {
   console.log('👀request :: ', req);
-  req.headers!.Authorization = `Bearer ${accessToken.current}`;
+  req.headers!.Authorization = `Bearer ${getAccessToken()}`;
   return req;
 });
 
@@ -45,4 +39,4 @@ instance.interceptors.response.use(
   },
 );
 
-export { instance, setAccessToken };
+export { instance };

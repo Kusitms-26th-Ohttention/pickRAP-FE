@@ -6,7 +6,6 @@ class authApi {
     return instance.post<Logout>('/mock');
   };
   login = () => {
-    console.dir(instance);
     return instance.post<Login>('/mock');
   };
   refresh = () => {

@@ -1,7 +1,7 @@
 import authApi from './auth';
 
 export const api = {
-  authApi,
+  auth: authApi,
 };
 
-export { setAccessToken } from './instance';
+export * from './token';
