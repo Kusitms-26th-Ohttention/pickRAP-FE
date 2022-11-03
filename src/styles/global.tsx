@@ -9,13 +9,14 @@ const globalCss = (theme: Theme) => css`
   body {
     width: 100%;
     height: 100%;
+    margin: 0 auto;
   }
 
   html {
     font-size: 62.5%;
   }
   body {
-    font-family: 'Noto Sans KR', 'Malgun Gothic', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', sans-serif;
+    font-family: 'Noto Sans KR', 'Apple Color Emoji', sans-serif;
   }
 
   * {
@@ -30,6 +31,7 @@ const globalCss = (theme: Theme) => css`
 
   a {
     text-decoration: none;
+    display: inline-block;
   }
 `;
 

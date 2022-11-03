@@ -52,20 +52,13 @@ const StyledWrapper = styled.div`
     margin: 0 0 8px;
     font-size: 20px;
     font-weight: 700;
-    color: ${(p) => p.theme.color.white};
+    color: ${(p) => p.theme.color.white01};
   }
   h2 {
     margin: 1.4em 0 12px;
     font-size: 16px;
     font-weight: 700;
-    color: ${(p) => p.theme.color.white};
-  }
-  h3 {
-    margin: 1em 0 4px;
-    border-bottom: 1px solid ${(p) => p.theme.color.whiteOpacity80};
-    padding-bottom: 4px;
-    font-weight: bold;
-    color: ${(p) => p.theme.color.white};
+    color: ${(p) => p.theme.color.white01};
   }
 `;
 
@@ -107,11 +100,11 @@ const Template: ComponentStory<any> = () => {
       <h1>Design System : Color</h1>
       <section>
         <h2>Color</h2>
-        <ColorList colors={color} namespace="white" excludeNamespace="whiteOpacity" />
-        <ColorList colors={color} namespace="primary" />
-        <ColorList colors={color} namespace="black" />
+        <ColorList colors={color} namespace="white" />
         <ColorList colors={color} namespace="gray" />
-        <ColorList colors={color} namespace="whiteOpacity" />
+        <ColorList colors={color} namespace="black" />
+        <ColorList colors={color} namespace="red" />
+        <ColorList colors={color} namespace="blue" />
       </section>
     </StyledWrapper>
   );

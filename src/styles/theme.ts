@@ -1,35 +1,34 @@
-/**
- * 1. primary, primary sub
- * 2. background
- * 3. gray series
- * 4. etc color
- *
- */
 import { font } from '@/styles/font';
 
 export const theme = {
   color: {
-    black: '#495057',
-    gray: '#F7F7F7',
-    primary: '#F15A25',
-    white: '#FFFFFF',
-    primary_disabled: '#E9BCAC',
-    background: '#D6DBDC', // screen background
-    gray01: '#C2CBCD',
-    gray02: '#B7C6CD',
-    gray03: '#A3B3BA',
-    gray04: '#717D82',
-    gray05: '#5A676A',
-    gray06: '#2D2D2D', // main article text
-    gray_toast: '#424b4d',
-    dim01: 'rgba(0, 0, 0, 0.1)', // main thumnail tag background
-    dim02: 'rgba(0, 0, 0, 0.2)',
-    dim03: 'rgba(0, 0, 0, 0.6)', //screen dim
-    alert: '#E9412b',
+    black01: '#000000',
+    black02: '#1e2329',
+    black03: '#2a2e34',
+    black04: '#3b4046',
 
-    whiteOpacity90: 'rgba(255, 255, 255, 0.9)',
-    whiteOpacity80: 'rgba(255, 255, 255, 0.8)',
-    whiteOpacity65: 'rgba(255, 255, 255, 0.65)',
+    gray01: '#0f0f0f',
+    gray02: '#282828',
+    gray03: '#424242',
+    gray04: '#5b5b5b',
+    gray05: '#757575',
+    gray06: '#8e8e8e',
+    gray07: '#a8a8a8',
+    gray08: '#c1c1c1',
+    gray09: '#dbdbdb',
+    gray10: '#f4f4f4',
+
+    white01: '#ffffff',
+    white02: '#f5f4f1',
+    white03: '#eae8e2',
+    white04: '#dfddd4',
+
+    yellow01: '#f5a302',
+    yellow02: '#f4b301',
+    yellow03: '#fed154',
+
+    red01: '#d53828',
+    blue01: '#6484f8',
   },
   borderRadius: {
     default: '4px',
