@@ -2,9 +2,10 @@ import { useRouter } from 'next/router';
 import { useCallback } from 'react';
 import { useRecoilState } from 'recoil';
 
+import { useLogin } from '@/application/hooks/api/auth/useLogin';
 import { userAuthState } from '@/application/store/user/userAuth';
 import { userInfoState } from '@/application/store/user/userInfo';
-import { api, getAccessToken, removeAccessToken, setAccessToken } from '@/infra/api';
+import { api, getAccessToken, removeAccessToken } from '@/infra/api';
 
 /**
  * 1. 유저의 로그인 여부 반환
@@ -28,14 +29,9 @@ export const useUser = () => {
     handleInfo();
   }
 
-  const login = useCallback(async () => {
-    const { data } = await api.auth.login();
-    setAccessToken(data.token);
-
-    await handleInfo();
-
-    setAuth({ isLogin: true });
-  }, [setAuth]);
+  const login = useLogin({
+    onSuccess: () => handleInfo().then(() => setAuth({ isLogin: true })),
+  });
 
   const logout = useCallback(async () => {
     await api.auth.logout();
