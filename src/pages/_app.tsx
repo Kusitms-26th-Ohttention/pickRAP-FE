@@ -4,6 +4,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import type { AppProps } from 'next/app';
 import { RecoilRoot } from 'recoil';
 
+import AppLayout from '@/containers/AppLayout';
 import { GlobalStyle, theme } from '@/styles';
 
 function MyApp({ Component, pageProps }: AppProps) {
@@ -15,7 +16,9 @@ function MyApp({ Component, pageProps }: AppProps) {
       <RecoilRoot>
         <ThemeProvider theme={theme}>
           <GlobalStyle />
-          <Component {...pageProps} />;
+          <AppLayout>
+            <Component {...pageProps} />;
+          </AppLayout>
         </ThemeProvider>
       </RecoilRoot>
     </QueryClientProvider>

@@ -17,6 +17,7 @@ const globalCss = (theme: Theme) => css`
 
   body {
     font-family: 'Noto Sans KR', 'Apple Color Emoji', sans-serif;
+    background: rgb(245, 245, 245);
   }
 
   * {

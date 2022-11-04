@@ -2,7 +2,7 @@ import { css } from '@emotion/react';
 import type { ComponentMeta, ComponentStory } from '@storybook/react';
 import React from 'react';
 
-import { ActiveButton } from '@/components/common/Button/Button';
+import { ActiveButton } from '@/components/common/Button/ActiveButton';
 import ButtonBase from '@/components/common/Button/ButtonBase';
 
 export default {
