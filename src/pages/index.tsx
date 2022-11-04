@@ -1,11 +1,26 @@
+import { css } from '@emotion/react';
 import type { NextPage } from 'next';
 import Image from 'next/image';
+import React from 'react';
+
+import ButtonBase from '@/components/common/Button/ButtonBase';
 
 import styles from '../styles/Home.module.css';
 
 const Home: NextPage = () => {
   return (
     <div className={styles.container}>
+      <ButtonBase>hello</ButtonBase>
+      <ButtonBase
+        custom={(theme) =>
+          css`
+            ${theme.font.R_BODY_14}
+            color: ${theme.color.blue01};
+          `
+        }
+      >
+        custom
+      </ButtonBase>
       <main className={styles.main}>
         <h1 className={styles.title}>
           Welcome to <a href="https://nextjs.org">Next.js!</a>

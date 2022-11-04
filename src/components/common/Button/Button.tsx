@@ -1,43 +1,31 @@
-import './button.css';
+import { css } from '@emotion/react';
+import type { ButtonHTMLAttributes } from 'react';
 
-import React from 'react';
+import ButtonBase from '@/components/common/Button/ButtonBase';
 
-interface ButtonProps {
-  /**
-   * Is this the principal call to action on the page?
-   */
-  primary?: boolean;
-  /**
-   * What background color to use
-   */
-  backgroundColor?: string;
-  /**
-   * How large should the button be?
-   */
-  size?: 'small' | 'medium' | 'large';
-  /**
-   * Button contents
-   */
-  label: string;
-  /**
-   * Optional click handler
-   */
-  onClick?: () => void;
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  active?: boolean;
 }
 
-/**
- * Primary UI component for user interaction
- */
-export const Button = ({ primary = false, size = 'medium', backgroundColor, label, ...props }: ButtonProps) => {
-  const mode = primary ? 'storybook-button--primary' : 'storybook-button--secondary';
+export const ActiveButton = ({ active, children, ...rest }: ButtonProps) => {
   return (
-    <button
-      type="button"
-      className={['storybook-button', `storybook-button--${size}`, mode].join(' ')}
-      style={{ backgroundColor }}
-      {...props}
+    <ButtonBase
+      custom={(theme) =>
+        active
+          ? css`
+              background: ${theme.color.black01};
+              color: ${theme.color.white01};
+              border-color: ${theme.color.black01};
+            `
+          : css`
+              background: ${theme.color.white01};
+              color: ${theme.color.gray08};
+              border-color: ${theme.color.gray08};
+            `
+      }
+      {...rest}
     >
-      {label}
-    </button>
+      {children}
+    </ButtonBase>
   );
 };

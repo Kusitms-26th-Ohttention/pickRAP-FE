@@ -4,7 +4,6 @@ import reset from 'emotion-reset';
 
 const globalCss = (theme: Theme) => css`
   ${reset}
-
   html,
   body {
     width: 100%;
@@ -15,6 +14,7 @@ const globalCss = (theme: Theme) => css`
   html {
     font-size: 62.5%;
   }
+
   body {
     font-family: 'Noto Sans KR', 'Apple Color Emoji', sans-serif;
   }
@@ -24,9 +24,16 @@ const globalCss = (theme: Theme) => css`
     font-family: inherit;
     word-break: keep-all;
     word-wrap: break-word;
+
     ::-webkit-scrollbar {
       display: none !important;
     }
+  }
+
+  button {
+    background: transparent none;
+    border: none;
+    cursor: pointer;
   }
 
   a {

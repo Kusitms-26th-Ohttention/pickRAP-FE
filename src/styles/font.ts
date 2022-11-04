@@ -37,6 +37,8 @@ export const font = {
   M_BODY_20: FONT({ size: 20, family: 'Noto Sans KR', weight: 'M' }),
   B_BODY_20: FONT({ size: 20, family: 'Noto Sans KR', weight: 'B' }),
 
+  M_POINT_14: FONT({ size: 14, family: 'SCoreDream', weight: 'M' }),
+  B_POINT_14: FONT({ size: 14, family: 'SCoreDream', weight: 'B' }),
   M_POINT_15: FONT({ size: 15, family: 'SCoreDream', weight: 'M' }),
   M_POINT_16: FONT({ size: 16, family: 'SCoreDream', weight: 'M' }),
   B_POINT_16: FONT({ size: 16, family: 'SCoreDream', weight: 'B' }),

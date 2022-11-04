@@ -3,7 +3,6 @@ import { DocsPage, DocsContainer } from '@storybook/addon-docs';
 import { INITIAL_VIEWPORTS } from '@storybook/addon-viewport';
 import { GlobalStyle, theme } from '../src/styles';
 import { ThemeProvider } from '@emotion/react';
-import { Story } from '@storybook/react';
 
 export const decorators = [
   (Story) => (
