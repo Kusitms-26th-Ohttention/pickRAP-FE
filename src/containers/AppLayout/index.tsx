@@ -19,10 +19,15 @@ const CSSWrapper = css`
 const CSSAppLayout = css`
   @media screen and (min-width: 450px) {
     width: 440px;
-    flex-direction: column;
   }
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: white;
+
+  display: flex;
   width: 100%;
-  height: 100%;
+  height: 100vh;
   box-shadow: rgb(0 0 0 / 16%) 0 0 8px;
   overflow: hidden;
 `;

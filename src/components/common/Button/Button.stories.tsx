@@ -4,6 +4,7 @@ import React from 'react';
 
 import { ActiveButton } from '@/components/common/Button/ActiveButton';
 import ButtonBase from '@/components/common/Button/ButtonBase';
+import { KakaoButton, NaverButton } from '@/components/common/Button/OAuthButton';
 
 export default {
   title: 'Components/Buttons',
@@ -26,6 +27,8 @@ const Template: ComponentStory<typeof ButtonBase> = (args) => (
     <ButtonBase>hello</ButtonBase>
     <ActiveButton active>다음</ActiveButton>
     <ActiveButton>다음</ActiveButton>
+    <KakaoButton />
+    <NaverButton />
   </div>
 );
 
