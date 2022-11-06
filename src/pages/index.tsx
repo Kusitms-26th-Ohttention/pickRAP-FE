@@ -1,5 +1,6 @@
 import { css } from '@emotion/react';
 import type { NextPage } from 'next';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 
 import { ButtonBase } from '@/components/common/Button';
@@ -8,7 +9,7 @@ const Home: NextPage = () => {
   const router = useRouter();
   return (
     <div css={CSSHome}>
-      <img src="/logo/white_pickrap.svg" alt="Logo" width={128} />
+      <Image src="/logo/white_pickrap.svg" alt="Logo" width={128} height={45} />
       <div
         css={css`
           width: calc(100% - 48px);
