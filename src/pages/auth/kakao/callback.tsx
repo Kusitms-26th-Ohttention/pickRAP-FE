@@ -5,7 +5,6 @@ import { api, setAccessToken } from '@/infra/api';
 
 const KakaoRedirectHandler = () => {
   const router = useRouter();
-  // const setIsLoggedIn = useSetRecoilState(loginState);
 
   const code = router.query.code as string;
   const { data } = useQuery({
@@ -13,8 +12,8 @@ const KakaoRedirectHandler = () => {
     queryFn: () => api.auth.snsLogin({ code, provider: 'kakao' }),
     onSuccess: (res) => {
       if (res.headers.authorization) {
-        setAccessToken(res.headers.authorization.slice(7));
-        // set recoil state
+        const token = res.headers.authorization.slice(7);
+        setAccessToken(token);
       }
       router.push('/auth/info');
     },
