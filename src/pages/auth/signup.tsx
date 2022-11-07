@@ -1,7 +1,8 @@
 import { css } from '@emotion/react';
 import type { NextPage } from 'next';
 
-import { ButtonBase, KakaoButton, NaverButton } from '@/components/common/Button';
+import { KakaoButton, NaverButton } from '@/components/auth/OAuthButton';
+import { ButtonBase } from '@/components/common/Button';
 
 const SignUp: NextPage = () => {
   return (
@@ -21,7 +22,7 @@ const SignUp: NextPage = () => {
               border-color: ${theme.color.black01};
               background: ${theme.color.black01};
               color: ${theme.color.white01};
-              box-shadow: 0px 5px 8px rgba(0, 0, 0, 0.25);
+              box-shadow: 0 5px 8px rgba(0, 0, 0, 0.25);
               padding: 14px 0;
             `
           }

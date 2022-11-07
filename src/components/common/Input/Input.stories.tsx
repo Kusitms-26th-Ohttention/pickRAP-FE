@@ -1,13 +1,13 @@
 import { css } from '@emotion/react';
 import type { ComponentMeta, ComponentStory } from '@storybook/react';
+import Image from 'next/image';
 import React from 'react';
 
 import InputBase from '@/components/common/Input/InputBase';
 
 export default {
-  title: 'Components/Inputs',
+  title: 'Components/common/Inputs',
   component: InputBase,
-  // More on argTypes: https://storybook.js.org/docs/react/api/argtypes
   argTypes: {
     backgroundColor: { control: 'color' },
   },
@@ -22,11 +22,11 @@ const Template: ComponentStory<typeof InputBase> = (args) => (
       width: 30%;
     `}
   >
-    <InputBase />
-    <InputBase rightPlaceholder={`I'm right`} />
+    <InputBase value={'value'} />
+    <InputBase rightPlaceholder={`0/10`} />
     <InputBase placeholder={'아이디 또는 이메일'} />
-    <InputBase rightPlaceholder={<button>btn</button>} />
-    <InputBase rightPlaceholder={<button>btn</button>} errMsg={'Error'} />
+    <InputBase rightPlaceholder={<Image src={'/icon/inputReset.svg'} width={20} height={20} />} error />
+    <InputBase type={'password'} />
   </div>
 );
 

@@ -35,6 +35,7 @@ const globalCss = (theme: Theme) => css`
     background: transparent none;
     border: none;
     cursor: pointer;
+    padding: 0;
   }
 
   a {
