@@ -20,6 +20,8 @@ const CSSAppLayout = css`
   @media screen and (min-width: 450px) {
     width: 440px;
   }
+  padding: 0 24px;
+
   flex-direction: column;
   justify-content: center;
   align-items: center;

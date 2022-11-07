@@ -7,21 +7,23 @@ import { Children, cloneElement, isValidElement } from 'react';
 import { AccentButton } from '@/components/common/Button';
 import { InputBase } from '@/components/common/Input';
 
-type AuthFormProps = FormHTMLAttributes<HTMLFormElement> & { errInput?: string };
-type AuthInputProps = InputHTMLAttributes<HTMLInputElement> & {
+interface AuthFormProps extends FormHTMLAttributes<HTMLFormElement> {
+  errInput?: string;
+}
+interface AuthInputProps extends InputHTMLAttributes<HTMLInputElement> {
   name: string;
   errMsg?: string;
   error?: boolean;
   handleChange?: (t: string) => void;
-};
+}
 const AuthInput = (props: AuthInputProps) => {
-  const { value, errMsg, handleChange, ...rest } = props;
+  const { value, handleChange, ...rest } = props;
 
   return (
     <InputBase
       {...rest}
       value={value}
-      handleChange={handleChange}
+      onChange={(e) => handleChange?.(e.target.value)}
       rightPlaceholder={
         value ? (
           <Image

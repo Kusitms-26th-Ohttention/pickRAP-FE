@@ -13,7 +13,6 @@ export const KakaoButton = () => {
       custom={css`
         background: #f9e007;
         border: none;
-        border-radius: 4px;
         padding: 14px 0;
       `}
     >
@@ -28,7 +27,6 @@ export const NaverButton = () => {
       custom={css`
         background: #2fb403;
         border: none;
-        border-radius: 4px;
         padding: 14px 0;
       `}
     >

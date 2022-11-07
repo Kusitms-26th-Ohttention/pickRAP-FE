@@ -7,10 +7,9 @@ interface InputBaseProps extends InputHTMLAttributes<HTMLInputElement> {
   custom?: SerializedStyles | ((theme: Theme) => SerializedStyles);
   rightPlaceholder?: JSX.Element | string;
   error?: boolean;
-  handleChange?: (t: string) => void;
 }
 
-const InputBase = ({ custom, rightPlaceholder, error, handleChange, ...rest }: InputBaseProps) => {
+const InputBase = ({ custom, rightPlaceholder, error, ...rest }: InputBaseProps) => {
   return (
     <div
       css={css`
@@ -19,7 +18,6 @@ const InputBase = ({ custom, rightPlaceholder, error, handleChange, ...rest }: I
       `}
     >
       <input
-        onChange={(event) => handleChange?.(event.target.value)}
         css={[
           CSSInputBase,
           error

@@ -16,7 +16,7 @@ class authApi {
       (acc, cur) => acc + `${cur}=${arg[cur]}&`,
       '?',
     );
-    return instance.get<SNSLoginResponse>(`/auth/${arg.provider}${parameter.slice(0, parameter.length)}`);
+    return instance.get<SNSLoginResponse>(`/auth/${arg.provider}${parameter.slice(0, parameter.length - 1)}`);
   };
 }
 

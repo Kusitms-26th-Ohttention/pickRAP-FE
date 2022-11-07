@@ -9,6 +9,7 @@ export interface Login {
 export interface SNSLoginRequest {
   code: string;
   provider: string;
+  state?: string;
 }
 
 export interface SNSLoginResponse {
