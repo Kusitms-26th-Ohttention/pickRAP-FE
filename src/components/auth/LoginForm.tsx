@@ -17,7 +17,7 @@ interface AuthInputProps extends InputHTMLAttributes<HTMLInputElement> {
   handleChange?: (t: string) => void;
 }
 const AuthInput = (props: AuthInputProps) => {
-  const { value, handleChange, ...rest } = props;
+  const { value, handleChange, errMsg, ...rest } = props;
 
   return (
     <InputBase

@@ -13,7 +13,7 @@ class authApi {
   };
   snsLogin = (arg: SNSLoginRequest) => {
     const parameter = (Object.keys(arg) as (keyof SNSLoginRequest)[]).reduce(
-      (acc, cur) => acc + `${cur}=${arg[cur]}&`,
+      (acc, cur) => acc + (arg[cur] ? `${cur}=${arg[cur]}&` : ''),
       '?',
     );
     return instance.get<SNSLoginResponse>(`/auth/${arg.provider}${parameter.slice(0, parameter.length - 1)}`);
