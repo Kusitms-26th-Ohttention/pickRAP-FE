@@ -9,7 +9,7 @@ const Home: NextPage = () => {
   const router = useRouter();
   return (
     <div css={CSSHome}>
-      <Image src="/logo/white_pickrap.svg" alt="Logo" width={128} height={45} />
+      <Image src="/logo/white_pickrap.svg" alt="Logo" width={177} height={90} />
       <div
         css={css`
           width: calc(100% - 48px);

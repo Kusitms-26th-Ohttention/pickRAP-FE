@@ -26,7 +26,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       <RecoilRoot initializeState={recoilInitializer}>
         <ThemeProvider theme={theme}>
           <GlobalStyle />
-          <AppLayout>
+          <AppLayout blackBackground={['/']}>
             <Component {...pageProps} />
           </AppLayout>
         </ThemeProvider>

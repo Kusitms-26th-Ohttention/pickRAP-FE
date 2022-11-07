@@ -1,10 +1,14 @@
 import { css } from '@emotion/react';
+import { useRouter } from 'next/router';
 import type { PropsWithChildren } from 'react';
 
-const AppLayout = ({ children }: PropsWithChildren) => {
+const AppLayout = ({ children, blackBackground }: PropsWithChildren<{ blackBackground: string[] }>) => {
+  const router = useRouter();
+  const color = blackBackground.includes(router.pathname) ? 'black' : 'white';
+
   return (
     <div css={CSSWrapper}>
-      <div css={CSSAppLayout}>{children}</div>
+      <div css={CSSAppLayout(color)}>{children}</div>
     </div>
   );
 };
@@ -16,7 +20,7 @@ const CSSWrapper = css`
   justify-content: center;
 `;
 
-const CSSAppLayout = css`
+const CSSAppLayout = (color: string) => css`
   @media screen and (min-width: 450px) {
     width: 440px;
   }
@@ -25,7 +29,7 @@ const CSSAppLayout = css`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: white;
+  background: ${color};
 
   display: flex;
   width: 100%;
