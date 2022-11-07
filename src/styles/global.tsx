@@ -41,6 +41,14 @@ const globalCss = (theme: Theme) => css`
     text-decoration: none;
     display: inline-block;
   }
+
+  span {
+    display: inline-block;
+  }
+
+  input:focus {
+    outline: none;
+  }
 `;
 
 export const GlobalStyle = () => <Global styles={globalCss} />;
