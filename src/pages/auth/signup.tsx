@@ -21,14 +21,18 @@ const SignUp: NextPage = () => {
     },
   });
   const [errInput, setErrInput] = useState('');
+  const [errForm, setErrForm] = useState('');
 
   const handleSubmit = () => {
+    setErrForm('');
     if (!isValidName) setErrInput('nickname');
     else if (!isValidEmail) setErrInput('email');
     else if (!isValidPass) setErrInput('password');
     else {
       // TODO useMutation /auth/sign-up
       setErrInput('');
+
+      // TODO useMutaion onError : setErrForm(message)
     }
   };
   return (
@@ -47,7 +51,7 @@ const SignUp: NextPage = () => {
             height: 146px;
           `}
         />
-        <AuthForm errInput={errInput} onSubmit={handleSubmit}>
+        <AuthForm errInput={errInput} onSubmit={handleSubmit} errFormMsg={errForm}>
           <AuthForm.Input
             name={'nickname'}
             errMsg={'프로필 이름을 입력해주세요'}
