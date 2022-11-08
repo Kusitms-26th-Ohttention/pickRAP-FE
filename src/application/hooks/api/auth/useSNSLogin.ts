@@ -11,7 +11,7 @@ interface UseSNSLoginProps {
 
 const useSNSLogin = ({ code, provider, state }: UseSNSLoginProps) => {
   const router = useRouter();
-  useQuery({
+  return useQuery({
     queryKey: ['accessToken', code, provider, state],
     queryFn: () => api.auth.snsLogin({ code, provider, state }),
     onSuccess: (res) => {

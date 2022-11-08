@@ -2,8 +2,9 @@ export interface Logout {
   ok: boolean;
 }
 
-export interface Login {
-  token: string;
+export interface LoginRequest {
+  email: string;
+  password: string;
 }
 
 export interface SNSLoginRequest {
