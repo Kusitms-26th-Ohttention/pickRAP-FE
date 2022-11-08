@@ -20,15 +20,22 @@ const withNavigation = <T extends JSX.IntrinsicAttributes>(
     return (
       <>
         <nav
-          css={css`
-            margin-top: 12px;
-            height: 48px;
-            width: 100%;
-            position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-          `}
+          css={[
+            css`
+              margin-top: 12px;
+              height: 48px;
+              width: 100%;
+              position: relative;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+            `,
+            !options.isMiddle &&
+              css`
+                justify-content: flex-start;
+                padding-left: 30px;
+              `,
+          ]}
         >
           <button
             onClick={() => router.push(options.backUrl)}
