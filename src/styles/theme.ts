@@ -5,7 +5,6 @@ export const theme = {
     black01: '#000000',
     black02: '#1e2329',
     black03: '#2a2e34',
-    black04: '#3b4046',
 
     gray01: '#0f0f0f',
     gray02: '#282828',
@@ -23,10 +22,7 @@ export const theme = {
     white03: '#eae8e2',
     white04: '#dfddd4',
 
-    yellow01: '#f5a302',
-    yellow02: '#f4b301',
-    yellow03: '#fed154',
-    yellow04: '#fff75a',
+    yellow01: '#fade44',
 
     red01: '#d53828',
     blue01: '#6484f8',

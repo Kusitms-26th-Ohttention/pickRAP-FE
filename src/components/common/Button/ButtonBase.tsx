@@ -30,15 +30,15 @@ const CSSButtonBase = (theme: Theme) => css`
 `;
 
 export const CSSBlackButton = (theme: Theme) => css`
-  background: ${theme.color.black01};
+  background: ${theme.color.black02};
   color: ${theme.color.white01};
-  border-color: ${theme.color.black01};
+  border-color: ${theme.color.black02};
 `;
 
 export const CSSWhiteButton = (theme: Theme) => css`
   background: ${theme.color.white01};
-  color: ${theme.color.gray08};
-  border-color: ${theme.color.gray08};
+  color: ${theme.color.gray06};
+  border-color: ${theme.color.gray09};
 `;
 
 export default ButtonBase;
