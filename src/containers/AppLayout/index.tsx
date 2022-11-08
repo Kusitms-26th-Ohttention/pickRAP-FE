@@ -29,7 +29,7 @@ const CSSAppLayout = (isBlack: boolean) => (theme: Theme) =>
     padding: 0 24px;
 
     flex-direction: column;
-    justify-content: center;
+    //justify-content: center;
     align-items: center;
     background: ${isBlack ? theme.color.black02 : theme.color.white01};
 

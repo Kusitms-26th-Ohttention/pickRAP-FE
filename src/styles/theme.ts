@@ -32,8 +32,7 @@ export const theme = {
     outer: '6px',
   },
   size: {
-    maxWidth: '480px',
-    layoutPadding: '0 16px',
+    navigationHeight: '60px',
   },
   font,
 };

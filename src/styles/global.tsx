@@ -43,7 +43,8 @@ const globalCss = (theme: Theme) => css`
     display: inline-block;
   }
 
-  span {
+  span,
+  label {
     display: inline-block;
   }
 
