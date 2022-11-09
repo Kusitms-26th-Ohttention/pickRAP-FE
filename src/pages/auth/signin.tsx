@@ -1,4 +1,3 @@
-import type { Theme } from '@emotion/react';
 import { css } from '@emotion/react';
 import type { NextPage } from 'next';
 import Image from 'next/image';
@@ -11,6 +10,7 @@ import { useInput } from '@/application/hooks/useInput';
 import errorHandler from '@/application/utils/errorHandler';
 import { AuthForm } from '@/components/auth/LoginForm';
 import { KakaoButton, NaverButton } from '@/components/auth/OAuthButton';
+import CheckBox from '@/components/common/CheckBox';
 
 const SignIn: NextPage = () => {
   const [email, handleEmail] = useInput();
@@ -60,16 +60,7 @@ const SignIn: NextPage = () => {
             value={password}
             handleChange={handlePassword}
           />
-          <p
-            css={(theme: Theme) =>
-              css`
-                ${theme.font.R_BODY_10} color: ${theme.color.gray07};
-                text-align: center;
-              `
-            }
-          >
-            자동 로그인 체크박스
-          </p>
+          <CheckBox checked>자동 로그인</CheckBox>
           <AuthForm.Submit type={'submit'}>로그인</AuthForm.Submit>
         </AuthForm>
         <div

@@ -54,6 +54,9 @@ const CSSInputBase = (theme: Theme) => css`
   &::placeholder {
     color: ${theme.color.gray08};
   }
+  &:focus {
+    border-color: ${theme.color.black02};
+  }
 `;
 
 export default InputBase;

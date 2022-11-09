@@ -29,15 +29,23 @@ const Profile: NextPage = () => {
           margin-top: 30px;
         `}
       >
-        <InputLabel>유저 이름</InputLabel>
-        <InputBase rightPlaceholder={`0/10`} value={name} onChange={(e) => setName(e.target.value)} />
+        <InputLabel>유저 이름</InputLabel>성{' '}
+        <InputBase
+          rightPlaceholder={`${name.length}/10`}
+          value={name}
+          onChange={(e) => e.target.value.length <= 10 && setName(e.target.value)}
+        />
         <div
           css={css`
             height: 24px;
           `}
         />
         <InputLabel>유저 소개글</InputLabel>
-        <InputBase rightPlaceholder={`0/100`} value={description} onChange={(e) => setDescription(e.target.value)} />
+        <InputBase
+          rightPlaceholder={`${description.length}/100`}
+          value={description}
+          onChange={(e) => e.target.value.length <= 100 && setDescription(e.target.value)}
+        />
       </div>
       <ActiveButton
         active
