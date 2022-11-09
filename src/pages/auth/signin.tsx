@@ -3,8 +3,10 @@ import { css } from '@emotion/react';
 import type { NextPage } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
-import React from 'react';
+import { useRouter } from 'next/router';
+import React, { useState } from 'react';
 
+import useSignIn from '@/application/hooks/api/auth/useSignIn';
 import { useInput } from '@/application/hooks/useInput';
 import { AuthForm } from '@/components/auth/LoginForm';
 import { KakaoButton, NaverButton } from '@/components/auth/OAuthButton';
@@ -12,10 +14,27 @@ import { KakaoButton, NaverButton } from '@/components/auth/OAuthButton';
 const SignIn: NextPage = () => {
   const [email, handleEmail] = useInput();
   const [password, handlePassword] = useInput();
+  const [errMsg, setErrMsg] = useState('');
+  const { mutate: loginMutate } = useSignIn();
+  const router = useRouter();
 
   const handleSubmit = () => {
-    // TODO Login /auth/login
-    // error 발생 시 AuthFormErrorMessage 출력
+    if (!email) setErrMsg('이메일을 입력해 주세요');
+    else if (!password) setErrMsg('비밀번호를 입력해 주세요');
+    else if (email && password) {
+      loginMutate(
+        { email, password },
+        {
+          onSuccess: () => {
+            router.push('/scrap');
+          },
+          onError: (err) => {
+            console.log('error callback:::', err);
+            // setErrMsg(err.response.data.message);
+          },
+        },
+      );
+    }
   };
   return (
     <>
@@ -34,7 +53,7 @@ const SignIn: NextPage = () => {
           `}
         />
         <Image src={'/logo/black_pickrap.svg'} width={164} height={39} priority />
-        <AuthForm onSubmit={handleSubmit}>
+        <AuthForm onSubmit={handleSubmit} errFormMsg={errMsg}>
           <AuthForm.Input name={'email'} placeholder={'아이디 또는 이메일'} value={email} handleChange={handleEmail} />
           <AuthForm.Input
             name={'password'}

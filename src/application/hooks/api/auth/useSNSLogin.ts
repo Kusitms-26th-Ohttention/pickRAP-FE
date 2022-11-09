@@ -22,7 +22,7 @@ const useSNSLogin = ({ code, provider, state }: UseSNSLoginProps) => {
       router.push('/auth/complete');
     },
     onError: () => {
-      console.error('로그인 에러');
+      console.error('SNS 로그인 에러');
     },
     enabled: !!code,
   });

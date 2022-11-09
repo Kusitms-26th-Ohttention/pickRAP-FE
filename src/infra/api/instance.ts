@@ -23,7 +23,6 @@ instance.interceptors.response.use(
   (err) => {
     if (axios.isAxiosError(err)) {
       const status = err.response?.status || -1;
-
       if (status == 401 && err.config && !err.config.headers!.retry) {
         const origin = err.config;
         origin.headers!.retry = true;
@@ -33,10 +32,9 @@ instance.interceptors.response.use(
         //   origin.headers!.Authorization = `Bearer ${token}`;
         //   return axios(origin);
         // });
-      } else {
-        return err;
       }
     }
+    throw err;
   },
 );
 
