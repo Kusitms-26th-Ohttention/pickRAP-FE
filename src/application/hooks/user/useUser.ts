@@ -2,7 +2,6 @@ import { useRouter } from 'next/router';
 import { useCallback } from 'react';
 import { useRecoilState } from 'recoil';
 
-import { useLogin } from '@/application/hooks/api/auth/useLogin';
 import { userAuthState } from '@/application/store/user/userAuth';
 import { userInfoState } from '@/application/store/user/userInfo';
 import { api, getAccessToken, removeAccessToken } from '@/infra/api';
@@ -29,10 +28,6 @@ export const useUser = () => {
     handleInfo();
   }
 
-  const login = useLogin({
-    onSuccess: () => handleInfo().then(() => setAuth({ isLogin: true })),
-  });
-
   const logout = useCallback(async () => {
     await api.auth.logout();
     removeAccessToken();
@@ -42,5 +37,5 @@ export const useUser = () => {
     router.push('/');
   }, [router, setAuth, setInfo]);
 
-  return { isLogin: auth.isLogin, userInfo: info, login, logout };
+  return { isLogin: auth.isLogin, userInfo: info, logout };
 };

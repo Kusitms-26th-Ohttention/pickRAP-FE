@@ -1,15 +1,25 @@
 import { instance } from '@/infra/api/instance';
-import type { Login, Logout } from '@/infra/api/types/auth';
+import type { LoginRequest, Logout, SNSLoginRequest, SNSLoginResponse } from '@/infra/api/types/auth';
 
 class authApi {
   logout = () => {
     return instance.post<Logout>('/mock');
   };
-  login = () => {
-    return instance.post<Login>('/mock');
+  login = (args: LoginRequest) => {
+    return instance.post('/auth/sign-in', args);
   };
-  refresh = () => {
-    return this.login();
+  signup = (args: LoginRequest) => {
+    return instance.post('/auth/sign-up', args);
+  };
+  reissue = () => {
+    return instance.post('/auth/reissue');
+  };
+  snsLogin = (arg: SNSLoginRequest) => {
+    const parameter = (Object.keys(arg) as (keyof SNSLoginRequest)[]).reduce(
+      (acc, cur) => acc + (arg[cur] ? `${cur}=${arg[cur]}&` : ''),
+      '?',
+    );
+    return instance.get<SNSLoginResponse>(`/auth/${arg.provider}${parameter.slice(0, parameter.length - 1)}`);
   };
 }
 

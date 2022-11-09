@@ -36,6 +36,14 @@ module.exports = {
       },
     });
 
+    config.module.rules.push({
+      test: /\.(ts|tsx)$/,
+      loader: require.resolve('babel-loader'),
+      options: {
+        presets: [require.resolve('@emotion/babel-preset-css-prop')],
+      },
+    });
+
     config.resolve.alias['@'] = path.resolve(__dirname, '../src/');
     return config;
   },

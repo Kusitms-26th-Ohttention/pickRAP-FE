@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import type { ComponentMeta, ComponentStory } from '@storybook/react';
+import React from 'react';
 
 import { theme } from '@/styles/theme';
 
