@@ -1,17 +1,19 @@
 import type { Theme } from '@emotion/react';
 import { css } from '@emotion/react';
 import type { NextPage } from 'next';
+import { router } from 'next/client';
 import React, { useState } from 'react';
 
 import useSignUp from '@/application/hooks/api/auth/useSignUp';
 import { useInput } from '@/application/hooks/useInput';
 import { EMAIL_REGEXP, PASSWORD_REGEXP } from '@/application/utils/constant';
+import errorHandler from '@/application/utils/errorHandler';
 import { AuthForm } from '@/components/auth/LoginForm';
 import { KakaoButton, NaverButton } from '@/components/auth/OAuthButton';
 import withNavigation from '@/containers/HOC/withNavigation';
 
 const SignUp: NextPage = () => {
-  const [nickname, handleNickname, isValidName] = useInput({ validator: (s) => s.length > 0 });
+  const [name, handleName, isValidName] = useInput({ validator: (s) => s.length > 0 });
 
   const [email, handleEmail, isValidEmail] = useInput({
     validator: (s) => EMAIL_REGEXP.test(s),
@@ -34,15 +36,10 @@ const SignUp: NextPage = () => {
     else {
       setErrInput('');
       signUpMutate(
-        { email, password },
+        { email, password, name },
         {
-          onSuccess: (res) => {
-            console.log(res.data);
-          },
-          onError: (err) => {
-            console.log('error callback:::', err);
-            // setErrForm(err.response.data.message);
-          },
+          onError: errorHandler(setErrForm),
+          onSuccess: () => router.push('/auth/complete'),
         },
       );
     }
@@ -65,8 +62,8 @@ const SignUp: NextPage = () => {
               name={'nickname'}
               errMsg={'프로필 이름을 입력해주세요'}
               placeholder={'프로필 이름'}
-              value={nickname}
-              handleChange={handleNickname}
+              value={name}
+              handleChange={handleName}
             />
             <AuthForm.Input
               name={'email'}

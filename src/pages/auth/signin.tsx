@@ -8,6 +8,7 @@ import React, { useState } from 'react';
 
 import useSignIn from '@/application/hooks/api/auth/useSignIn';
 import { useInput } from '@/application/hooks/useInput';
+import errorHandler from '@/application/utils/errorHandler';
 import { AuthForm } from '@/components/auth/LoginForm';
 import { KakaoButton, NaverButton } from '@/components/auth/OAuthButton';
 
@@ -28,10 +29,7 @@ const SignIn: NextPage = () => {
           onSuccess: () => {
             router.push('/scrap');
           },
-          onError: (err) => {
-            console.log('error callback:::', err);
-            // setErrMsg(err.response.data.message);
-          },
+          onError: errorHandler(setErrMsg),
         },
       );
     }
@@ -82,16 +80,16 @@ const SignIn: NextPage = () => {
               width: 100%;
               display: flex;
               color: ${theme.color.gray07};
-              & > a:visited {
+              > a:visited {
                 color: ${theme.color.gray07};
               }
-              & > a {
+              > a {
                 flex: 1 1 auto;
                 position: relative;
                 text-align: center;
                 border-left: solid 1px ${theme.color.gray07};
               }
-              & > a:first-of-type {
+              > a:first-of-type {
                 border-left: none;
               }
             `
