@@ -1,9 +1,10 @@
 import { css } from '@emotion/react';
 import type { NextPage } from 'next';
-import Image from 'next/image';
 import { useRouter } from 'next/router';
 import type { FC } from 'react';
 import React from 'react';
+
+import TopNavigation from '@/components/common/Navigation/TopNavigation';
 
 interface WithNavigationOptions {
   title: string;
@@ -12,52 +13,25 @@ interface WithNavigationOptions {
 }
 
 const withNavigation = <T extends JSX.IntrinsicAttributes>(
-  options: WithNavigationOptions,
+  { title, backUrl, isMiddle }: WithNavigationOptions,
   Component: NextPage<T> | FC<T>,
 ): FC<T> | NextPage<T> =>
   function Wrapped(props) {
     const router = useRouter();
     return (
       <>
-        <nav
-          css={[
+        <TopNavigation
+          onClick={() => router.push(backUrl)}
+          custom={
+            !isMiddle &&
             css`
-              margin-top: 12px;
-              height: 48px;
-              width: 100%;
-              position: relative;
-              display: flex;
-              justify-content: center;
-              align-items: center;
-            `,
-            !options.isMiddle &&
-              css`
-                justify-content: flex-start;
-                padding-left: 30px;
-              `,
-          ]}
+              justify-content: flex-start;
+              padding-left: 30px;
+            `
+          }
         >
-          <button
-            onClick={() => router.push(options.backUrl)}
-            css={css`
-              position: absolute;
-              left: 0;
-            `}
-          >
-            <Image src={'/icon/backArrow.svg'} height={17} width={10} />
-          </button>
-          <p
-            css={(theme) =>
-              css`
-                ${theme.font.M_POINT_18};
-                color: ${theme.color.black02};
-              `
-            }
-          >
-            {options.title}
-          </p>
-        </nav>
-
+          {title}
+        </TopNavigation>
         <Component {...props} />
       </>
     );

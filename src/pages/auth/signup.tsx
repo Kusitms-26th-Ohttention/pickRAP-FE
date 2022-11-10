@@ -1,7 +1,7 @@
 import type { Theme } from '@emotion/react';
 import { css } from '@emotion/react';
 import type { NextPage } from 'next';
-import { router } from 'next/client';
+import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 
 import useSignUp from '@/application/hooks/api/auth/useSignUp';
@@ -13,6 +13,7 @@ import { KakaoButton, NaverButton } from '@/components/auth/OAuthButton';
 import withNavigation from '@/containers/HOC/withNavigation';
 
 const SignUp: NextPage = () => {
+  const router = useRouter();
   const [name, handleName, isValidName] = useInput({ validator: (s) => s.length > 0 });
 
   const [email, handleEmail, isValidEmail] = useInput({
