@@ -4,16 +4,17 @@ import { useRouter } from 'next/router';
 import type { FC } from 'react';
 import React from 'react';
 
-import TopNavigation from '@/components/common/Navigation/TopNavigation';
+import { BottomNavigation, TopNavigation } from '@/components/common/Navigation';
 
 interface WithNavigationOptions {
   title: string;
   backUrl: string;
   isMiddle?: boolean;
+  BottomNav?: FC | null;
 }
 
 const withNavigation = <T extends JSX.IntrinsicAttributes>(
-  { title, backUrl, isMiddle }: WithNavigationOptions,
+  { title, backUrl, isMiddle, BottomNav }: WithNavigationOptions,
   Component: NextPage<T> | FC<T>,
 ): FC<T> | NextPage<T> =>
   function Wrapped(props) {
@@ -33,6 +34,7 @@ const withNavigation = <T extends JSX.IntrinsicAttributes>(
           {title}
         </TopNavigation>
         <Component {...props} />
+        {BottomNav ? <BottomNav /> : BottomNav === null ? null : <BottomNavigation />}
       </>
     );
   };
