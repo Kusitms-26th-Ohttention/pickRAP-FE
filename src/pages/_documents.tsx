@@ -4,7 +4,6 @@ export default function Document() {
   return (
     <Html>
       <Head>
-        <meta name="viewport" content="width=device-width,initial-scale=1" />
         <meta name="description" content="스크랩을 통해 꾸밈없는 자신의 모습을 마주해 보세요" />
         <link rel="icon" href="/public/favicon.ico" />
         <link

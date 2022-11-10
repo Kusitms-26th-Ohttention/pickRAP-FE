@@ -2,6 +2,7 @@ import { css } from '@emotion/react';
 import type { ComponentStory } from '@storybook/react';
 import React from 'react';
 
+import BottomNavigation from '@/components/common/Navigation/BottomNavigation';
 import TopNavigation from '@/components/common/Navigation/TopNavigation';
 
 export default {
@@ -18,10 +19,11 @@ const Template: ComponentStory<any> = (args) => (
       display: flex;
       flex-direction: column;
       gap: 10px;
-      width: 30%;
+      width: 100%;
     `}
   >
     <TopNavigation>타이틀</TopNavigation>
+    <BottomNavigation />
   </div>
 );
 
