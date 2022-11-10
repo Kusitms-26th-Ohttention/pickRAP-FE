@@ -44,7 +44,7 @@ const withNavigation = <T extends JSX.IntrinsicAttributes>(
               left: 0;
             `}
           >
-            <Image src={'/icon/back.svg'} height={17} width={10} />
+            <Image src={'/icon/backArrow.svg'} height={17} width={10} />
           </button>
           <p
             css={(theme) =>
