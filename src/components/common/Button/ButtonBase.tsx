@@ -1,12 +1,9 @@
-import type { SerializedStyles, Theme } from '@emotion/react';
+import type { CustomStyle, Theme } from '@emotion/react';
 import { css } from '@emotion/react';
 import type { ButtonHTMLAttributes } from 'react';
 
 interface ButtonBaseProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  custom?:
-    | (SerializedStyles | ((theme: Theme) => SerializedStyles))[]
-    | SerializedStyles
-    | ((theme: Theme) => SerializedStyles);
+  custom?: CustomStyle;
 }
 
 const ButtonBase = (props: ButtonBaseProps) => {

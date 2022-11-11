@@ -1,14 +1,11 @@
-import type { SerializedStyles, Theme } from '@emotion/react';
+import type { CustomStyle, SerializedStyles, Theme } from '@emotion/react';
 import type { ButtonHTMLAttributes } from 'react';
 
 import ButtonBase, { CSSBlackButton, CSSWhiteButton } from '@/components/common/Button/ButtonBase';
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   active?: boolean;
-  custom?:
-    | (SerializedStyles | ((theme: Theme) => SerializedStyles))[]
-    | SerializedStyles
-    | ((theme: Theme) => SerializedStyles);
+  custom?: CustomStyle;
 }
 
 export const ActiveButton = ({ active, children, custom, ...rest }: ButtonProps) => {
