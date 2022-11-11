@@ -29,7 +29,7 @@ const Profile: NextPage = () => {
           margin-top: 30px;
         `}
       >
-        <InputLabel>유저 이름</InputLabel>성{' '}
+        <InputLabel>유저 이름</InputLabel>
         <InputBase
           rightPlaceholder={`${name.length}/10`}
           value={name}
@@ -60,4 +60,7 @@ const Profile: NextPage = () => {
   );
 };
 
-export default withNavigation({ title: '나의 프로필', backUrl: '/auth/complete', isMiddle: true }, Profile);
+export default withNavigation(Profile, {
+  TopNav: { title: '나의 프로필', backUrl: '/auth/complete', isMiddle: true },
+  BottomNav: null,
+});

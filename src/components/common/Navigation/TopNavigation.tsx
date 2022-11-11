@@ -1,9 +1,8 @@
+import type { CustomStyle } from '@emotion/react';
 import { css } from '@emotion/react';
 import Image from 'next/image';
 import type { ReactNode } from 'react';
 import React from 'react';
-
-import type { CustomStyle } from '@/types';
 
 interface TopNavigationProps {
   custom?: CustomStyle;

@@ -115,4 +115,4 @@ const SignUp: NextPage = () => {
   );
 };
 
-export default withNavigation({ title: '회원가입', backUrl: '/', BottomNav: null }, SignUp);
+export default withNavigation(SignUp, { TopNav: { title: '회원가입', backUrl: '/' }, BottomNav: null });
