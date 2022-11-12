@@ -9,6 +9,8 @@ import { RecoilRoot } from 'recoil';
 
 import { queryClient } from '@/application/queryClient';
 import { userAuthState } from '@/application/store/user/userAuth';
+import { ToastProvider } from '@/components/common/Toast/context';
+import { ToastPortal } from '@/components/common/Toast/Portal';
 import AppLayout from '@/containers/AppLayout';
 import { getAccessToken } from '@/infra/api';
 import { GlobalStyle, theme } from '@/styles';
@@ -24,18 +26,20 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
       <Head>
-        <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
         <title>pickRAP</title>
       </Head>
       <QueryClientProvider client={queryClient}>
         <ReactQueryDevtools />
         <RecoilRoot initializeState={recoilInitializer}>
-          <ThemeProvider theme={theme}>
-            <GlobalStyle />
-            <AppLayout blackBackground={['/']}>
-              <Component {...pageProps} />
-            </AppLayout>
-          </ThemeProvider>
+          <ToastProvider>
+            <ThemeProvider theme={theme}>
+              <GlobalStyle />
+              <AppLayout blackBackground={['/']}>
+                <Component {...pageProps} />
+              </AppLayout>
+              <ToastPortal />
+            </ThemeProvider>
+          </ToastProvider>
         </RecoilRoot>
       </QueryClientProvider>
     </>
