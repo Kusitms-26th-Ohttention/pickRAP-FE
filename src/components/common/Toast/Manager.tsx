@@ -1,4 +1,5 @@
 import { css } from '@emotion/react';
+import { AnimatePresence } from 'framer-motion';
 import React from 'react';
 
 import { useToastContext } from '@/components/common/Toast/context';
@@ -20,11 +21,13 @@ const Manager = () => {
         pointer-events: none;
       `}
     >
-      {toasts.map((toast) => (
-        <Template id={toast.id} key={toast.id}>
-          {toast.content}
-        </Template>
-      ))}
+      <AnimatePresence>
+        {toasts.map((toast) => (
+          <Template id={toast.id} key={toast.id}>
+            {toast.content}
+          </Template>
+        ))}
+      </AnimatePresence>
     </section>
   );
 };
