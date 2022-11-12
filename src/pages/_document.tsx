@@ -1,11 +1,9 @@
-import { css } from '@emotion/react';
 import { Head, Html, Main, NextScript } from 'next/document';
 
 export default function Document() {
   return (
     <Html>
       <Head>
-        <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
         <meta name="description" content="스크랩을 통해 꾸밈없는 자신의 모습을 마주해 보세요" />
         <link rel="icon" href="/public/favicon.ico" />
         <link
@@ -16,16 +14,7 @@ export default function Document() {
       </Head>
       <body>
         <Main />
-        <div
-          id="toast-portal"
-          css={css`
-            left: 0;
-            right: 0;
-            bottom: 0;
-            z-index: 9999;
-            position: fixed;
-          `}
-        />
+        <div id="toast-portal" />
         <NextScript />
       </body>
     </Html>

@@ -1,25 +1,21 @@
-import type { ReactElement } from 'react';
 import { useCallback } from 'react';
 
-import { useToastContext } from '@/components/common/Toast/context';
+import type { ToastContentProps } from '@/components/common/Toast';
+import { useToastContext } from '@/components/common/Toast';
 
-interface ToastShowProps {
-  content: ReactElement;
-  id?: number;
-}
 const useToast = () => {
   const setToast = useToastContext()[1];
   const show = useCallback(
-    ({ id = Date.now(), content }: ToastShowProps) => {
-      setToast((prev) => [...prev, { id, content }]);
-    },
+    ({ id = Date.now(), content }: Optional<ToastContentProps, 'id'>) => setToast((prev) => [...prev, { id, content }]),
     [setToast],
   );
+
   const close = useCallback(() => {
     setToast([]);
   }, [setToast]);
+
   const replace = useCallback(
-    ({ id, content }: ToastShowProps) => {
+    ({ id, content }: Optional<ToastContentProps, 'id'>) => {
       if (!id) {
         setToast((prev) => {
           const ret = prev.map((toast) => ({ ...toast }));

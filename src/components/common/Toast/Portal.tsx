@@ -5,7 +5,7 @@ import useMount from '@/application/hooks/useMount';
 import Manager from '@/components/common/Toast/Manager';
 
 /**
- * 인터페이스
+ * hook 인터페이스
  * 1. Toast.show
  * 2. Toast.replace
  * 3. Toast.close
@@ -30,13 +30,15 @@ import Manager from '@/components/common/Toast/Manager';
 
 const TOAST_PORTAL_ID = 'toast-portal';
 
-export const ToastPortal = () => {
-  const ref = useRef();
+const ToastPortal = () => {
+  const ref = useRef<HTMLElement | null>();
   const isMounted = useMount();
 
   useEffect(() => {
     ref.current = document.getElementById(TOAST_PORTAL_ID);
   }, []);
 
-  return isMounted && createPortal(<Manager />, ref.current);
+  return isMounted && ref.current ? createPortal(<Manager />, ref.current) : null;
 };
+
+export default ToastPortal;
