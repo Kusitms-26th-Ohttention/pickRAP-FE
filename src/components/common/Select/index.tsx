@@ -39,6 +39,7 @@ function SelectRoot({ children, open, ...rest }: PropsWithChildren<SelectProps>)
         ref={ref}
         css={css`
           width: fit-content;
+          position: relative;
         `}
       >
         {children}
@@ -55,12 +56,7 @@ const Trigger = () => {
         display: flex;
         align-items: center;
       `}
-      onClick={() =>
-        setContext((prev) => {
-          console.log(context.open);
-          return { ...prev, open: !context.open };
-        })
-      }
+      onClick={() => setContext((prev) => ({ ...prev, open: !context.open }))}
     >
       <span
         css={(theme) => css`
@@ -78,7 +74,7 @@ const Trigger = () => {
           height: 9px;
           position: relative;
           transform: ${context.open ? 'rotate(0)' : 'rotate(180deg)'};
-          transition: transform 0.2s ease-in-out;
+          transition: transform 0.15s ease-in;
         `}
       >
         <Image layout="fill" objectFit="cover" src="/icon/selectArrow.svg" />
@@ -109,7 +105,8 @@ const OptionList = ({ children }: PropsWithChildren) => {
         color: ${theme.color.black02};
 
         opacity: ${context.open ? 1 : 0};
-        visibility: ${context.open ? 'visible' : 'collapse'};
+        visibility: ${context.open ? 'visible' : 'hidden'};
+        position: absolute;
 
         transition: opacity 0.15s ease-in-out;
       `}

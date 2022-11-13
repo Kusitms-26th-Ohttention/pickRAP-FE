@@ -12,12 +12,15 @@ export default {
 } as ComponentMeta<typeof Select>;
 
 export const Default: ComponentStory<typeof Select> = (args) => (
-  <Select {...args}>
-    <Select.Trigger />
-    <Select.OptionList>
-      <Select.Option value={'사진'} />
-      <Select.Option value={'비디오'} />
-      <Select.Option value={'파일'} />
-    </Select.OptionList>
-  </Select>
+  <>
+    <Select {...args}>
+      <Select.Trigger />
+      <Select.OptionList>
+        <Select.Option value={'사진'} />
+        <Select.Option value={'비디오'} />
+        <Select.Option value={'파일'} />
+      </Select.OptionList>
+    </Select>
+    absolute 테스트
+  </>
 );
