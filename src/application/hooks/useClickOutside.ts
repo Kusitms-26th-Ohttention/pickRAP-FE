@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 
-const useClickOutside = <T extends HTMLElement>(cb: (...args: any[]) => unknown) => {
+const useClickOutside = <T extends HTMLElement>(cb: (event: Event) => unknown) => {
   const ref = useRef<T>(null);
   const savedHandler = useRef(cb);
 
