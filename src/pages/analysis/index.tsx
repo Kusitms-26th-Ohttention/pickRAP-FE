@@ -7,4 +7,4 @@ const analysis: NextPage = () => {
   return <div>analysis</div>;
 };
 
-export default withAuth(withNavigation(analysis));
+export default withNavigation(analysis);

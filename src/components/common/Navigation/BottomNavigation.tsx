@@ -11,9 +11,9 @@ const BottomNavigation = () => {
         Object.entries(ICON_PROPERTY).map(([key, value]) => (
           <NavCell onClick={() => router.push(`/${key}`)} key={key}>
             {router.pathname === `/${key}` ? (
-              <Image src={`/icon/${key}.active.svg`} {...value.active} />
+              <Image src={`/icon/${key}.active.svg`} {...value} />
             ) : (
-              <Image src={`/icon/${key}.svg`} {...value.default} />
+              <Image src={`/icon/${key}.svg`} {...value} />
             )}
           </NavCell>
         ))
@@ -26,43 +26,19 @@ export default BottomNavigation;
 
 const ICON_PROPERTY = {
   scrap: {
-    active: {
-      width: 28,
-      height: 37,
-    },
-    default: {
-      width: 28,
-      height: 35,
-    },
+    width: 28,
+    height: 37,
   },
   magazine: {
-    active: {
-      width: 28,
-      height: 37,
-    },
-    default: {
-      width: 28,
-      height: 35,
-    },
+    width: 28,
+    height: 37,
   },
   analysis: {
-    active: {
-      width: 23,
-      height: 37,
-    },
-    default: {
-      width: 19,
-      height: 36,
-    },
+    width: 23,
+    height: 37,
   },
   search: {
-    active: {
-      width: 22,
-      height: 37,
-    },
-    default: {
-      width: 19,
-      height: 35,
-    },
+    width: 22,
+    height: 37,
   },
 } as const;
