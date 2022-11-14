@@ -1,9 +1,9 @@
-import type { Theme } from '@emotion/react';
 import { css, Global } from '@emotion/react';
 import reset from 'emotion-reset';
 
-const globalCss = (theme: Theme) => css`
-  ${reset}
+const globalCss = css`
+  ${reset};
+
   html,
   body {
     width: 100%;
@@ -41,6 +41,14 @@ const globalCss = (theme: Theme) => css`
   a {
     text-decoration: none;
     display: inline-block;
+  }
+
+  input,
+  textarea,
+  button,
+  select,
+  a {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   }
 
   span,

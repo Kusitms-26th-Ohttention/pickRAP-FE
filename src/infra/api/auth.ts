@@ -1,5 +1,5 @@
 import { instance } from '@/infra/api/instance';
-import type { LoginRequest, Logout, SNSLoginRequest, SNSLoginResponse } from '@/infra/api/types/auth';
+import type { LoginRequest, Logout, SignUpRequest, SNSLoginRequest, SNSLoginResponse } from '@/infra/api/types/auth';
 
 class authApi {
   logout = () => {
@@ -8,7 +8,7 @@ class authApi {
   login = (args: LoginRequest) => {
     return instance.post('/auth/sign-in', args);
   };
-  signup = (args: LoginRequest) => {
+  signup = (args: SignUpRequest) => {
     return instance.post('/auth/sign-up', args);
   };
   reissue = () => {

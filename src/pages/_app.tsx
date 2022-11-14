@@ -2,12 +2,14 @@ import { ThemeProvider } from '@emotion/react';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import type { AppProps } from 'next/app';
+import Head from 'next/head';
 import { useCallback } from 'react';
 import type { MutableSnapshot } from 'recoil';
 import { RecoilRoot } from 'recoil';
 
 import { queryClient } from '@/application/queryClient';
 import { userAuthState } from '@/application/store/user/userAuth';
+import { ToastPortal, ToastProvider } from '@/components/common/Toast';
 import AppLayout from '@/containers/AppLayout';
 import { getAccessToken } from '@/infra/api';
 import { GlobalStyle, theme } from '@/styles';
@@ -21,17 +23,26 @@ function MyApp({ Component, pageProps }: AppProps) {
   }, []);
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <ReactQueryDevtools />
-      <RecoilRoot initializeState={recoilInitializer}>
-        <ThemeProvider theme={theme}>
-          <GlobalStyle />
-          <AppLayout blackBackground={['/']}>
-            <Component {...pageProps} />
-          </AppLayout>
-        </ThemeProvider>
-      </RecoilRoot>
-    </QueryClientProvider>
+    <>
+      <Head>
+        <title>피크랩 | pickRAP</title>
+        <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+      </Head>
+      <QueryClientProvider client={queryClient}>
+        <ReactQueryDevtools />
+        <RecoilRoot initializeState={recoilInitializer}>
+          <ToastProvider>
+            <ThemeProvider theme={theme}>
+              <GlobalStyle />
+              <AppLayout blackBackground={['/']}>
+                <Component {...pageProps} />
+              </AppLayout>
+              <ToastPortal />
+            </ThemeProvider>
+          </ToastProvider>
+        </RecoilRoot>
+      </QueryClientProvider>
+    </>
   );
 }
 

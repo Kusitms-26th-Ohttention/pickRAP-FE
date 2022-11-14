@@ -1,4 +1,3 @@
-import type { Theme } from '@emotion/react';
 import { css } from '@emotion/react';
 import type { NextPage } from 'next';
 import Image from 'next/image';
@@ -8,8 +7,10 @@ import React, { useState } from 'react';
 
 import useSignIn from '@/application/hooks/api/auth/useSignIn';
 import { useInput } from '@/application/hooks/useInput';
+import errorHandler from '@/application/utils/errorHandler';
 import { AuthForm } from '@/components/auth/LoginForm';
 import { KakaoButton, NaverButton } from '@/components/auth/OAuthButton';
+import CheckBox from '@/components/common/CheckBox';
 
 const SignIn: NextPage = () => {
   const [email, handleEmail] = useInput();
@@ -28,10 +29,7 @@ const SignIn: NextPage = () => {
           onSuccess: () => {
             router.push('/scrap');
           },
-          onError: (err) => {
-            console.log('error callback:::', err);
-            // setErrMsg(err.response.data.message);
-          },
+          onError: errorHandler(setErrMsg),
         },
       );
     }
@@ -62,16 +60,7 @@ const SignIn: NextPage = () => {
             value={password}
             handleChange={handlePassword}
           />
-          <p
-            css={(theme: Theme) =>
-              css`
-                ${theme.font.R_BODY_10} color: ${theme.color.gray07};
-                text-align: center;
-              `
-            }
-          >
-            자동 로그인 체크박스
-          </p>
+          <CheckBox checked>자동 로그인</CheckBox>
           <AuthForm.Submit type={'submit'}>로그인</AuthForm.Submit>
         </AuthForm>
         <div
@@ -82,16 +71,16 @@ const SignIn: NextPage = () => {
               width: 100%;
               display: flex;
               color: ${theme.color.gray07};
-              & > a:visited {
+              > a:visited {
                 color: ${theme.color.gray07};
               }
-              & > a {
+              > a {
                 flex: 1 1 auto;
                 position: relative;
                 text-align: center;
                 border-left: solid 1px ${theme.color.gray07};
               }
-              & > a:first-of-type {
+              > a:first-of-type {
                 border-left: none;
               }
             `

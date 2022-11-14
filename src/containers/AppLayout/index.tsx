@@ -16,7 +16,7 @@ const AppLayout = ({ children, blackBackground }: PropsWithChildren<{ blackBackg
 
 const CSSWrapper = css`
   width: 100%;
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   justify-content: center;
 `;
@@ -29,13 +29,11 @@ const CSSAppLayout = (isBlack: boolean) => (theme: Theme) =>
     padding: 0 24px;
 
     flex-direction: column;
-    //justify-content: center;
     align-items: center;
     background: ${isBlack ? theme.color.black02 : theme.color.white01};
 
     display: flex;
     width: 100%;
-    height: 100vh;
     box-shadow: rgb(0 0 0 / 16%) 0 0 8px;
     overflow: hidden;
   `;

@@ -1,7 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
 
 import { api } from '@/infra/api';
-import type { LoginRequest } from '@/infra/api/types/auth';
 
-const useSignUp = () => useMutation((args: LoginRequest) => api.auth.signup(args));
+const useSignUp = <T extends Parameters<typeof api.auth.signup>[0]>() =>
+  useMutation((args: T) => api.auth.signup(args));
 export default useSignUp;

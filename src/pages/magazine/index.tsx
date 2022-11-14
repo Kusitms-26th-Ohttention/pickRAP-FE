@@ -1,7 +1,9 @@
 import type { NextPage } from 'next';
 
+import withNavigation from '@/containers/HOC/withNavigation';
+
 const Magazine: NextPage = () => {
-  return <div>magazine</div>;
+  return <>Magazine With Navigation</>;
 };
 
-export default Magazine;
+export default withNavigation(Magazine);
