@@ -43,6 +43,14 @@ const globalCss = css`
     display: inline-block;
   }
 
+  input,
+  textarea,
+  button,
+  select,
+  a {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  }
+
   span,
   label {
     display: inline-block;
