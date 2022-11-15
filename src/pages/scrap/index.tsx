@@ -5,7 +5,7 @@ import useToast from '@/application/hooks/useToast';
 import withNavigation from '@/containers/HOC/withNavigation';
 
 const Scrap: NextPage = () => {
-  const { show, replace } = useToast();
+  const { show, close } = useToast();
 
   return (
     <>
@@ -18,7 +18,14 @@ const Scrap: NextPage = () => {
             content: (
               <div>
                 <button>world</button>
-                <button onClick={() => replace({ content: "I'm replaced!" })}>replace</button>
+                <button
+                  onClick={() => {
+                    close();
+                    show({ content: "I'm replaced!", type: 'popup' });
+                  }}
+                >
+                  replace
+                </button>
               </div>
             ),
           })

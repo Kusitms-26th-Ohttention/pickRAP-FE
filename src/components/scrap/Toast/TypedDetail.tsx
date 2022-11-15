@@ -56,16 +56,16 @@ const TypedDetail = ({ onSubmit, onBack, type }: TypedDetailProps) => {
       >
         {type === 'input' ? (
           <>
-            <label htmlFor="textInput">링크 입력</label>
-            <InputBase ref={ref as Ref<HTMLInputElement>} />
+            <label htmlFor="link">링크 입력</label>
+            <InputBase ref={ref as Ref<HTMLInputElement>} id="link" />
           </>
         ) : (
           <>
-            {/*TODO textarea 추상화*/}
-            <label htmlFor="textInput">텍스트 입력</label>
+            {/* TODO textarea 추상화 */}
+            <label htmlFor="text">텍스트 입력</label>
             <textarea
               ref={ref as Ref<HTMLTextAreaElement>}
-              id="textInput"
+              id="text"
               css={(theme) => css`
                 border: 1px solid ${theme.color.gray09};
                 width: 100%;

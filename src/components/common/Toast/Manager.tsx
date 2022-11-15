@@ -3,7 +3,8 @@ import { AnimatePresence } from 'framer-motion';
 import React from 'react';
 
 import { useToastContext } from '@/components/common/Toast/context';
-import Template from '@/components/common/Toast/Template';
+
+import { BackDrop, PopupTemplate, ToastTemplate } from './Template';
 
 const Manager = () => {
   const toasts = useToastContext()[0];
@@ -22,11 +23,19 @@ const Manager = () => {
       `}
     >
       <AnimatePresence>
-        {toasts.map((toast) => (
-          <Template id={toast.id} key={toast.id}>
-            {toast.content}
-          </Template>
-        ))}
+        {toasts.map((toast) =>
+          toast.type === 'popup' ? (
+            <PopupTemplate id={toast.id} key={toast.id}>
+              {toast.content}
+            </PopupTemplate>
+          ) : (
+            <ToastTemplate id={toast.id} key={toast.id}>
+              {toast.content}
+            </ToastTemplate>
+          ),
+        )}
+
+        {toasts.length > 0 && <BackDrop />}
       </AnimatePresence>
     </section>
   );
