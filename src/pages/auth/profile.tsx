@@ -29,6 +29,7 @@ const Profile: NextPage = () => {
           margin-top: 30px;
         `}
       >
+        {/*TODO Input 길이 제한 custom hook 사용*/}
         <InputLabel>유저 이름</InputLabel>
         <InputBase
           rightPlaceholder={`${name.length}/10`}
