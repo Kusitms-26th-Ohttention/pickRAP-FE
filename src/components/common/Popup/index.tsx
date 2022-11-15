@@ -18,6 +18,7 @@ const Popup = ({ type, children }: PropsWithChildren<PopupProps>) => {
         color: ${theme.color.black02};
         line-height: 184%;
         gap: 30px;
+        padding: 24px;
       `}
     >
       {type === 'success' ? (

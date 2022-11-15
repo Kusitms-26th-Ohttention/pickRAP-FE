@@ -1,16 +1,10 @@
 import { css } from '@emotion/react';
 import { motion } from 'framer-motion';
-import type { ReactElement } from 'react';
+import type { PropsWithChildren } from 'react';
 import React from 'react';
 
 import useClickOutside from '@/application/hooks/useClickOutside';
-import useTimeout from '@/application/hooks/useTimeout';
 import useToast from '@/application/hooks/useToast';
-
-interface TemplateProps {
-  children: ReactElement | string;
-  id: number;
-}
 
 export const BackDrop = () => (
   <motion.div
@@ -31,7 +25,7 @@ export const BackDrop = () => (
   />
 );
 
-export const ToastTemplate = ({ children }: TemplateProps) => {
+const ToastTemplate = ({ children }: PropsWithChildren) => {
   const { close } = useToast();
   const ref = useClickOutside<HTMLDivElement>(close);
 
@@ -61,39 +55,4 @@ export const ToastTemplate = ({ children }: TemplateProps) => {
   );
 };
 
-const POPUP_TIMEOUT_DELAY = 1000;
-
-export const PopupTemplate = ({ children }: TemplateProps) => {
-  const { close } = useToast();
-  const ref = useClickOutside<HTMLDivElement>(close);
-  useTimeout(close, POPUP_TIMEOUT_DELAY);
-
-  return (
-    <motion.div
-      layout
-      ref={ref}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.2 }}
-      css={(theme) => css`
-        padding: 24px 16px;
-        background: ${theme.color.white01};
-        position: absolute;
-        width: 86vw;
-        max-width: 380px;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-
-        z-index: 1;
-        pointer-events: auto;
-
-        box-shadow: 0 8px 11px rgba(0, 0, 0, 0.1);
-        border-radius: 6px;
-      `}
-    >
-      {children}
-    </motion.div>
-  );
-};
+export default ToastTemplate;
