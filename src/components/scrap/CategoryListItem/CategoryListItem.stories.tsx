@@ -14,7 +14,7 @@ export default {
 
 export const Default: ComponentStory<typeof CategoryListItem> = (args) => (
   <>
-    <CategoryListItem {...args}></CategoryListItem>
+    <CategoryListItem {...args} select></CategoryListItem>
     <CategoryListItem {...args}></CategoryListItem>
   </>
 );

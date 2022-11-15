@@ -1,13 +1,15 @@
 import { css } from '@emotion/react';
 import Image from 'next/image';
+import type { ReactElement } from 'react';
 
 interface PhotoProps {
   src: string;
   width?: string;
   height?: string;
+  blur?: ReactElement;
 }
 
-const Photo = ({ src, width, height }: PhotoProps) => {
+const Photo = ({ src, width, height, blur }: PhotoProps) => {
   return (
     <div
       css={css`
@@ -18,6 +20,7 @@ const Photo = ({ src, width, height }: PhotoProps) => {
         overflow: hidden;
       `}
     >
+      {blur}
       <Image src={src} layout="fill" objectFit={'cover'} objectPosition="center" />
     </div>
   );
