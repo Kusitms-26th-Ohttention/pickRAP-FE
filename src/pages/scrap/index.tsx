@@ -1,11 +1,13 @@
 import type { NextPage } from 'next';
 import React from 'react';
 
+import usePopup from '@/application/hooks/usePopup';
 import useToast from '@/application/hooks/useToast';
 import withNavigation from '@/containers/HOC/withNavigation';
 
 const Scrap: NextPage = () => {
-  const { show, close } = useToast();
+  const { show } = useToast();
+  const popup = usePopup();
 
   return (
     <>
@@ -17,15 +19,7 @@ const Scrap: NextPage = () => {
             id: 2,
             content: (
               <div>
-                <button>world</button>
-                <button
-                  onClick={() => {
-                    close();
-                    show({ content: "I'm replaced!", type: 'popup' });
-                  }}
-                >
-                  replace
-                </button>
+                <button onClick={() => popup('성공했습니다', 'success')}>replace</button>
               </div>
             ),
           })
