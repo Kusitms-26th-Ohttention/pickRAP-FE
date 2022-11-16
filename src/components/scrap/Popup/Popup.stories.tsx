@@ -8,4 +8,9 @@ export default {
   component: null,
 };
 
-export const CreateCategory: ComponentStory<typeof _CreateCategory> = (args) => <_CreateCategory {...args} />;
+export const CreateCategory: ComponentStory<typeof _CreateCategory> = (args) => (
+  <>
+    <_CreateCategory {...args} />
+    <_CreateCategory isError {...args} />
+  </>
+);

@@ -1,5 +1,5 @@
 import { css } from '@emotion/react';
-import type { PropsWithChildren } from 'react';
+import type { PropsWithChildren, ReactElement } from 'react';
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { useSwipeable } from 'react-swipeable';
 
@@ -9,19 +9,21 @@ const SwipeSectionContext = createContext<boolean>(false);
 
 const OPEN_DELAY = 400;
 
-function SwipeSectionRoot({ children }: PropsWithChildren) {
-  const [open, setOpen] = useState(true);
+function SwipeSectionRoot({ children, background }: PropsWithChildren<{ background?: ReactElement }>) {
+  const [open, setOpen] = useState(false);
 
   const handlers = useSwipeable({
     onSwipedUp: () => setOpen(true),
     onSwipedDown: () => setOpen(false),
-    // swipeDuration: 500,
-    // preventScrollOnSwipe: true,
-    // trackMouse: true
   });
 
+  /**
+   * @todo (refactor)
+   *   Background 컴포넌트 props로 받지 말고 children 에서 get 하기
+   */
   return (
     <SwipeSectionContext.Provider value={open}>
+      {background}
       <section
         {...handlers}
         css={css`
@@ -114,7 +116,7 @@ const Description = ({ children }: PropsWithChildren) => {
 
   useEffect(() => {
     let id: NodeJS.Timeout;
-    if (init) id = setTimeout(() => setIsOpen(init), OPEN_DELAY);
+    if (init) id = setTimeout(() => setIsOpen(init), OPEN_DELAY / 2);
     else setIsOpen(false);
     return () => id && clearTimeout(id);
   }, [init]);

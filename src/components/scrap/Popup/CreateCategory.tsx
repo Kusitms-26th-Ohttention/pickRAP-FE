@@ -10,63 +10,77 @@ interface CreateCategoryProps {
   isError?: boolean;
 }
 
+// TODO (refactor) 에러 메세지 constant 파일 분리
+const CREATE_CATEGORY_ERROR = '이미 있는 제목입니다.';
+
 // TODO api 중복 카테고리 검증 후 오류 있으면 isError
 const CreateCategory = ({ onSubmit, isError }: CreateCategoryProps) => {
-  const [category, setCategory] = useInput({ maxLength: 20 });
+  const [category, setCategory] = useInput({ maxLength: 15 });
 
   return (
     <form
       onSubmit={(e) => {
         e.preventDefault();
-        console.log(category);
         category && onSubmit?.(category);
       }}
       css={css`
-        padding: 16px;
+        padding: 24px 16px;
+        gap: 32px;
         display: flex;
         flex-direction: column;
+        background: white;
       `}
     >
-      <div
-        css={css`
-          position: relative;
-        `}
-      >
+      <div>
         <InputLabel htmlFor={'category'}>카테고리명</InputLabel>
         <InputBase
-          rightPlaceholder={`${category.length}/20`}
+          rightPlaceholder={`${category.length}/15`}
           value={category}
           onChange={(e) => setCategory(e.target.value)}
           id={'category'}
         />
-        <span
-          css={(theme) =>
-            css`
-              ${theme.font.M_POINT_11};
-              color: ${theme.color.red01};
-              line-height: 160%;
-              vertical-align: middle;
-              position: absolute;
-              bottom: -26px;
-            `
-          }
-        >
-          {isError ? '이미 있는 카테고리 입니다' : <>&nbsp;</>}
-        </span>
+        {isError ? (
+          <span
+            css={(theme) =>
+              css`
+                margin-top: 6px;
+                ${theme.font.R_BODY_13};
+                color: ${theme.color.red01};
+                line-height: 160%;
+              `
+            }
+          >
+            {CREATE_CATEGORY_ERROR}
+          </span>
+        ) : null}
       </div>
-
-      <ActiveButton
-        active
-        custom={css`
-          margin-top: 16px;
-          width: 74px;
-          height: 40px;
-          padding: 0;
-          align-self: flex-end;
+      <div
+        css={css`
+          display: flex;
+          gap: 24px;
+          justify-content: center;
         `}
       >
-        생성
-      </ActiveButton>
+        <ActiveButton
+          custom={css`
+            width: 88px;
+            height: 40px;
+            padding: 0;
+          `}
+        >
+          취소
+        </ActiveButton>
+        <ActiveButton
+          active
+          custom={css`
+            width: 88px;
+            height: 40px;
+            padding: 0;
+          `}
+        >
+          생성
+        </ActiveButton>
+      </div>
     </form>
   );
 };

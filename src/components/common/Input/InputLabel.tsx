@@ -9,8 +9,9 @@ const InputLabel = ({ children, ...rest }: InputLabelProps) => {
       {...rest}
       css={(theme) =>
         css`
-          ${theme.font.B_POINT_16};
+          ${theme.font.B_POINT_17};
           margin-bottom: 8px;
+          line-height: 160%;
         `
       }
     >

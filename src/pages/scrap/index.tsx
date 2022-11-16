@@ -3,6 +3,7 @@ import React from 'react';
 
 import usePopup from '@/application/hooks/usePopup';
 import useToast from '@/application/hooks/useToast';
+import UploadButton from '@/components/scrap/UploadButton';
 import withNavigation from '@/containers/HOC/withNavigation';
 
 const Scrap: NextPage = () => {
@@ -12,7 +13,7 @@ const Scrap: NextPage = () => {
   return (
     <>
       Scrap With Navigation
-      <button> click</button>
+      <UploadButton />
       <button
         onClick={() =>
           show({

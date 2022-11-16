@@ -45,6 +45,7 @@ export const font = {
   M_POINT_15: FONT({ size: 15, family: 'SCoreDream', weight: 'M' }),
   M_POINT_16: FONT({ size: 16, family: 'SCoreDream', weight: 'M' }),
   B_POINT_16: FONT({ size: 16, family: 'SCoreDream', weight: 'B' }),
+  B_POINT_17: FONT({ size: 17, family: 'SCoreDream', weight: 'B' }),
   M_POINT_18: FONT({ size: 18, family: 'SCoreDream', weight: 'M' }),
   B_POINT_18: FONT({ size: 18, family: 'SCoreDream', weight: 'B' }),
   M_POINT_20: FONT({ size: 20, family: 'SCoreDream', weight: 'M' }),
