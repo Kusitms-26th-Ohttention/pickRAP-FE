@@ -9,17 +9,21 @@ const Home: NextPage = () => {
   const router = useRouter();
   // TODO 세션 인증 시 search 로 리다이렉트
   return (
+    <>
     <div css={CSSHome}>
+      <div css={css`margin-top: 256px;`} />
       <Image src="/logo/white_pickrap.svg" alt="Logo" width={177} height={90} />
-      <div
-        css={css`
-          width: 100%;
-          display: flex;
-          flex-direction: column;
-          gap: 12px;
-        `}
-      >
-        <ActiveButton
+    </div>
+    <div css={css`
+        height: 30%;
+        width: 100%;
+        display: flex;
+        flex-direction: column-reverse;
+        position: relative;
+        margin-bottom: 112px;
+        gap:12px;
+      `}>
+         <ActiveButton
           custom={(theme) =>
             css`
               color: ${theme.color.black02};
@@ -42,17 +46,16 @@ const Home: NextPage = () => {
           로그인
         </ActiveButton>
       </div>
-    </div>
+    </>
   );
 };
 
 const CSSHome = css`
-  height: 100%;
+  height: 70%;
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-evenly;
 `;
 
 export default Home;
