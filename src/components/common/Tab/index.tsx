@@ -14,10 +14,7 @@ import { Children, cloneElement, createContext, isValidElement, useContext, useS
 const TabContext = createContext<any[]>([0]);
 
 interface TabRootProps extends HTMLAttributes<HTMLDivElement> {
-  children:
-    | string
-    | ReactElement<HTMLAttributes<HTMLElement> & { idx?: number }>[]
-    | ReactElement<HTMLAttributes<HTMLElement> & { idx?: number }>;
+  children: string | ReactElement<{ idx?: number }>[] | ReactElement<{ idx?: number }>;
   css?: CustomStyle;
 }
 
@@ -57,7 +54,7 @@ const Panel = ({ children }: TabRootProps) => {
   );
 };
 
-const Group = ({ children }: TabRootProps) => {
+const Group = ({ children, start, decorator }: TabRootProps & { start?: boolean; decorator?: ReactElement }) => {
   const [currentIdx] = useContext(TabContext);
 
   return (
@@ -65,7 +62,8 @@ const Group = ({ children }: TabRootProps) => {
       css={(theme) =>
         css`
           border-bottom: 1px solid ${theme.color.gray09};
-          text-align: center;
+          text-align: ${start ? 'start' : 'center'};
+          position: relative;
         `
       }
     >
@@ -83,6 +81,7 @@ const Group = ({ children }: TabRootProps) => {
               })
           : null;
       })}
+      {decorator}
     </section>
   );
 };

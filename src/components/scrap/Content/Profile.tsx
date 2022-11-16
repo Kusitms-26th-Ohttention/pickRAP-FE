@@ -1,5 +1,6 @@
 import { css } from '@emotion/react';
-import Image from 'next/image';
+
+import RoundPhoto from '@/components/common/Photo/RoundPhoto';
 
 interface ProfileProps {
   src: string;
@@ -18,17 +19,7 @@ const Profile = ({ src, name, date }: ProfileProps) => {
         width: fit-content;
       `}
     >
-      <span
-        css={css`
-          position: relative;
-          overflow: hidden;
-          border-radius: 50%;
-          width: 19px;
-          height: 19px;
-        `}
-      >
-        <Image src={src} layout="fill" objectFit={'cover'} />
-      </span>
+      <RoundPhoto src={src} width={'19px'} height={'19px'} />
       <span
         css={(theme) =>
           css`
