@@ -1,6 +1,8 @@
 import { useRouter } from 'next/router';
+import { ThreeDotsSpinner } from '@/components/common/Spinner';
 
 import useSNSLogin from '@/application/hooks/api/auth/useSNSLogin';
+import { theme } from '@/styles';
 
 const KakaoRedirectHandler = () => {
   const router = useRouter();
@@ -9,7 +11,7 @@ const KakaoRedirectHandler = () => {
 
   useSNSLogin({ code, provider: 'kakao' });
 
-  return <>loading...</>;
+  return <ThreeDotsSpinner />;
 };
 
 export default KakaoRedirectHandler;

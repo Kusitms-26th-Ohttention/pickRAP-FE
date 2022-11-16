@@ -1,4 +1,5 @@
 import { useRouter } from 'next/router';
+import { ThreeDotsSpinner } from '@/components/common/Spinner';
 
 import useSNSLogin from '@/application/hooks/api/auth/useSNSLogin';
 
@@ -9,7 +10,7 @@ const NaverRedirectHandler = () => {
 
   useSNSLogin({ code, provider: 'naver', state });
 
-  return <>loading...</>;
+  //return  <ThreeDotsSpinner />;
 };
 
 export default NaverRedirectHandler;
