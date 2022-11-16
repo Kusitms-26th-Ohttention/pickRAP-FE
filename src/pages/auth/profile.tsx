@@ -9,8 +9,8 @@ import { InputBase, InputLabel } from '@/components/common/Input';
 import withNavigation from '@/containers/HOC/withNavigation';
 
 const Profile: NextPage = () => {
-  const [name, setName] = useInput();
-  const [description, setDescription] = useInput();
+  const [name, setName] = useInput({ maxLength: 10 });
+  const [description, setDescription] = useInput({ maxLength: 100 });
   const router = useRouter();
 
   return (
@@ -30,11 +30,7 @@ const Profile: NextPage = () => {
         `}
       >
         <InputLabel>유저 이름</InputLabel>
-        <InputBase
-          rightPlaceholder={`${name.length}/10`}
-          value={name}
-          onChange={(e) => e.target.value.length <= 10 && setName(e.target.value)}
-        />
+        <InputBase rightPlaceholder={`${name.length}/10`} value={name} onChange={(e) => setName(e.target.value)} />
         <div
           css={css`
             height: 24px;
@@ -44,7 +40,7 @@ const Profile: NextPage = () => {
         <InputBase
           rightPlaceholder={`${description.length}/100`}
           value={description}
-          onChange={(e) => e.target.value.length <= 100 && setDescription(e.target.value)}
+          onChange={(e) => setDescription(e.target.value)}
         />
       </div>
       <ActiveButton

@@ -1,7 +1,7 @@
 import type { SerializedStyles, Theme } from '@emotion/react';
 import { css } from '@emotion/react';
 import type { InputHTMLAttributes } from 'react';
-import React from 'react';
+import React, { forwardRef } from 'react';
 
 interface InputBaseProps extends InputHTMLAttributes<HTMLInputElement> {
   custom?: SerializedStyles | ((theme: Theme) => SerializedStyles);
@@ -9,7 +9,10 @@ interface InputBaseProps extends InputHTMLAttributes<HTMLInputElement> {
   error?: boolean;
 }
 
-const InputBase = ({ custom, rightPlaceholder, error, ...rest }: InputBaseProps) => {
+const InputBase = forwardRef<HTMLInputElement, InputBaseProps>(function Render(
+  { custom, rightPlaceholder, error, ...rest },
+  ref,
+) {
   return (
     <div
       css={css`
@@ -18,6 +21,7 @@ const InputBase = ({ custom, rightPlaceholder, error, ...rest }: InputBaseProps)
       `}
     >
       <input
+        ref={ref}
         css={[
           CSSInputBase,
           error
@@ -32,7 +36,7 @@ const InputBase = ({ custom, rightPlaceholder, error, ...rest }: InputBaseProps)
       <div css={CSSRightPlaceholder}>{rightPlaceholder}</div>
     </div>
   );
-};
+});
 
 const CSSRightPlaceholder = (theme: Theme) => css`
   position: absolute;

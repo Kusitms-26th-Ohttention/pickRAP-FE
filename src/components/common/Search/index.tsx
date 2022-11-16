@@ -79,7 +79,6 @@ const Search = (props: SearchProps) => {
             color: ${theme.color.gray02};
           `}
         />
-        용
       </motion.div>
       <button
         onClick={() => setOpen(true)}
