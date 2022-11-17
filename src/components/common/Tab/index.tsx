@@ -29,6 +29,9 @@ function TabRoot({ children }: PropsWithChildren) {
       <article
         css={css`
           width: 100%;
+          display: flex;
+          height: 100%;
+          flex-direction: column;
         `}
       >
         {children}
@@ -45,6 +48,8 @@ const Panel = ({ children }: TabRootProps) => {
       css={css`
         position: relative;
         margin-top: 42px;
+        flex-grow: 1;
+        overflow-y: hidden;
       `}
     >
       {Children.map(children, (child, e) => {
@@ -68,6 +73,7 @@ const Group = ({ children, start, decorator }: TabRootProps & { start?: boolean;
     <div
       css={css`
         position: relative;
+        flex-grow: 0;
         width: 100%;
       `}
     >
@@ -141,9 +147,16 @@ const Content = ({ children, css: style }: TabElementProps) => {
         css`
           padding-top: 26px;
           position: absolute;
-          width: 100%;
-          overflow: scroll;
-          max-height: 100vh;
+          //width: 100%;
+          overflow: auto;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          //height: fit-content;
+
+          //max-height: 90vh;
+          padding-bottom: 80px;
         `,
         style,
       ]}

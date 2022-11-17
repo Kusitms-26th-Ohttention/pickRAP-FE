@@ -105,12 +105,12 @@ const SignIn: NextPage = () => {
       </div>
       <div
         css={css`
-          height: 30%;
           width: 100%;
           display: flex;
-          flex-direction: column-reverse;
+          flex-direction: column;
           position: relative;
-          margin-bottom: 126px;
+          margin-top: auto;
+          margin-bottom: 55px;
           gap: 12px;
         `}
       >

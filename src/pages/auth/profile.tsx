@@ -51,7 +51,6 @@ const Profile: NextPage = () => {
           />
 
           <InputLabel>유저 소개글</InputLabel>
-          <InputLabel>유저 소개글</InputLabel>
           <InputBase
             rightPlaceholder={`${description.length}/100`}
             value={description}
@@ -61,12 +60,10 @@ const Profile: NextPage = () => {
       </div>
       <div
         css={css`
-          height: 30%;
           width: 100%;
           display: flex;
           flex-direction: column-reverse;
-          position: relative;
-          margin-bottom: 50px;
+          margin-top: auto;
         `}
       >
         <ActiveButton

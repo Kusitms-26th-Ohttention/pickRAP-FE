@@ -19,7 +19,7 @@ const Search = (props: SearchProps) => {
         ref.current && ref.current.value && props.onSubmit?.(ref.current.value);
       }}
       css={css`
-        position: ${open ? 'absolute' : 'relative'};
+        position: relative;
         width: 100%;
         display: flex;
         align-items: center;
@@ -36,6 +36,7 @@ const Search = (props: SearchProps) => {
         css={css`
           position: relative;
           width: 100%;
+          opacity: 0;
           display: flex;
           align-items: center;
           justify-content: flex-end;
@@ -73,7 +74,7 @@ const Search = (props: SearchProps) => {
           css={(theme) => css`
             border: 1px solid black;
             padding: 10px 30px;
-            width: 100%;
+            width: 0;
             border-radius: 30px;
             ${theme.font.R_BODY_14};
             color: ${theme.color.gray02};
