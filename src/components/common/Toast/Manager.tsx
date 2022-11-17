@@ -2,6 +2,7 @@ import { css } from '@emotion/react';
 import { AnimatePresence } from 'framer-motion';
 import React from 'react';
 
+import ModalTemplate from '@/components/common/Modal/Template';
 import PopupTemplate from '@/components/common/Popup/Template';
 import { useToastContext } from '@/components/common/Toast/context';
 import ToastTemplate, { BackDrop } from '@/components/common/Toast/Template';
@@ -26,6 +27,8 @@ const Manager = () => {
         {toasts.map((toast) =>
           toast.type === 'popup' ? (
             <PopupTemplate key={toast.id}>{toast.content}</PopupTemplate>
+          ) : toast.type === 'modal' ? (
+            <ModalTemplate key={toast.id}> {toast.content}</ModalTemplate>
           ) : (
             <ToastTemplate key={toast.id}>{toast.content}</ToastTemplate>
           ),
