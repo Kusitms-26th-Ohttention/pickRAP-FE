@@ -3,13 +3,16 @@ import { DocsPage, DocsContainer } from '@storybook/addon-docs';
 import { INITIAL_VIEWPORTS } from '@storybook/addon-viewport';
 import { GlobalStyle, theme } from '../src/styles';
 import { ThemeProvider } from '@emotion/react';
+import AppLayout from '../src/containers/AppLayout';
 
 export const decorators = [
   (Story) => (
     <>
       <GlobalStyle />
       <ThemeProvider theme={theme}>
-        <Story />
+        <AppLayout>
+          <Story />
+        </AppLayout>
       </ThemeProvider>
     </>
   ),
@@ -37,4 +40,5 @@ addParameters({
     container: DocsContainer,
     page: DocsPage,
   },
+  layout: 'fullscreen',
 });

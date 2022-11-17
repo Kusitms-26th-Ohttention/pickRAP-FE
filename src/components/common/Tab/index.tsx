@@ -26,7 +26,13 @@ function TabRoot({ children }: PropsWithChildren) {
   const value = useState(0);
   return (
     <TabContext.Provider value={value}>
-      <article>{children}</article>
+      <article
+        css={css`
+          width: 100%;
+        `}
+      >
+        {children}
+      </article>
     </TabContext.Provider>
   );
 }
@@ -38,6 +44,7 @@ const Panel = ({ children }: TabRootProps) => {
     <section
       css={css`
         position: relative;
+        margin-top: 42px;
       `}
     >
       {Children.map(children, (child, e) => {
@@ -58,31 +65,41 @@ const Group = ({ children, start, decorator }: TabRootProps & { start?: boolean;
   const [currentIdx] = useContext(TabContext);
 
   return (
-    <section
-      css={(theme) =>
-        css`
-          border-bottom: 1px solid ${theme.color.gray09};
-          text-align: ${start ? 'start' : 'center'};
-          position: relative;
-        `
-      }
+    <div
+      css={css`
+        position: relative;
+        width: 100%;
+      `}
     >
-      {Children.map(children, (child, e) => {
-        return isValidElement(child)
-          ? e === currentIdx
-            ? cloneElement(child, {
-                css: (theme) => css`
-                  color: ${theme.color.black02};
-                `,
-                idx: e,
-              })
-            : cloneElement(child, {
-                idx: e,
-              })
-          : null;
-      })}
-      {decorator}
-    </section>
+      <section
+        css={(theme) =>
+          css`
+            border-bottom: 1px solid ${theme.color.gray09};
+            text-align: ${start ? 'start' : 'center'};
+            position: absolute;
+            left: 0;
+            right: 0;
+            background: ${theme.color.white01};
+          `
+        }
+      >
+        {Children.map(children, (child, e) => {
+          return isValidElement(child)
+            ? e === currentIdx
+              ? cloneElement(child, {
+                  css: (theme) => css`
+                    color: ${theme.color.black02};
+                  `,
+                  idx: e,
+                })
+              : cloneElement(child, {
+                  idx: e,
+                })
+            : null;
+        })}
+        {decorator}
+      </section>
+    </div>
   );
 };
 
@@ -124,6 +141,9 @@ const Content = ({ children, css: style }: TabElementProps) => {
         css`
           padding-top: 26px;
           position: absolute;
+          width: 100%;
+          overflow: scroll;
+          max-height: 100vh;
         `,
         style,
       ]}
