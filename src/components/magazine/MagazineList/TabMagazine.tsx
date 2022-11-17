@@ -9,17 +9,19 @@ interface Magazine {
   name: string;
 }
 
-interface OtherMagazineProps {
+interface TabMagazineProps {
   magazines: Magazine[];
   selectItem?: boolean;
 }
-const OtherMagazine = ({ magazines, selectItem }: OtherMagazineProps) => {
+const TabMagazine = ({ magazines, selectItem }: TabMagazineProps) => {
   return (
     <div
       css={css`
         display: flex;
         flex-direction: column;
         gap: 32px;
+        width: 100%;
+        padding-bottom: 80px; // TODO Bottom Navigation height constant
       `}
     >
       {magazines.map((magazine, idx) => (
@@ -52,4 +54,4 @@ const OtherMagazine = ({ magazines, selectItem }: OtherMagazineProps) => {
   );
 };
 
-export default OtherMagazine;
+export default TabMagazine;

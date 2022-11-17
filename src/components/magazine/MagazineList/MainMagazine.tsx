@@ -16,6 +16,8 @@ const MainMagazine = ({ magazines }: MainMagazineProps) => {
     <div
       css={css`
         display: flex;
+        overflow-x: scroll;
+        width: 100%;
         gap: 10px;
       `}
     >

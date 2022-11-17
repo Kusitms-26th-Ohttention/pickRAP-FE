@@ -1,7 +1,7 @@
 import type { ComponentMeta, ComponentStory } from '@storybook/react';
 import React from 'react';
 
-import OtherMagazine from '@/components/magazine/MagazineList/OtherMagazine';
+import TabMagazine from '@/components/magazine/MagazineList/TabMagazine';
 
 import Tab from '.';
 
@@ -15,8 +15,8 @@ export default {
   title: 'Components/magazine/Tab',
   component: Tab,
   args: {
-    myMagazine: <OtherMagazine selectItem magazines={MOCK_DATA} />,
-    savedMagazine: <OtherMagazine magazines={MOCK_DATA} />,
+    myMagazine: <TabMagazine selectItem magazines={MOCK_DATA} />,
+    savedMagazine: <TabMagazine magazines={MOCK_DATA} />,
   },
 } as ComponentMeta<typeof Tab>;
 

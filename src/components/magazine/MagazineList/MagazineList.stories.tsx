@@ -2,7 +2,7 @@ import type { ComponentMeta, ComponentStory } from '@storybook/react';
 import React from 'react';
 
 import MainMagazine from '@/components/magazine/MagazineList/MainMagazine';
-import OtherMagazine from '@/components/magazine/MagazineList/OtherMagazine';
+import TabMagazine from '@/components/magazine/MagazineList/TabMagazine';
 
 const MAGAZINE = {
   src: '/picture/mock.png',
@@ -11,12 +11,12 @@ const MAGAZINE = {
 
 export default {
   title: 'Components/magazine/MyMagazine',
-  component: OtherMagazine,
+  component: TabMagazine,
   args: {
     magazines: [0, 0, 0, 0].map(() => MAGAZINE),
     selectItem: true,
   },
-} as ComponentMeta<typeof OtherMagazine>;
+} as ComponentMeta<typeof TabMagazine>;
 
 export const Main: ComponentStory<typeof MainMagazine> = (args) => <MainMagazine {...args} />;
-export const Other: ComponentStory<typeof OtherMagazine> = (args) => <OtherMagazine {...args} />;
+export const Tab: ComponentStory<typeof TabMagazine> = (args) => <TabMagazine {...args} />;

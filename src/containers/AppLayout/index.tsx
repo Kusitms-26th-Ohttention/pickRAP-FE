@@ -26,7 +26,7 @@ const CSSAppLayout = (isBlack: boolean) => (theme: Theme) =>
     @media screen and (min-width: 450px) {
       width: 440px;
     }
-    padding: 0 24px;
+    padding: 0 16px;
 
     flex-direction: column;
     align-items: center;
