@@ -5,7 +5,7 @@ import type { PropsWithChildren } from 'react';
 
 const AppLayout = ({ children, blackBackground }: PropsWithChildren<{ blackBackground: string[] }>) => {
   const router = useRouter();
-  const isBlack = blackBackground.includes(router.pathname);
+  const isBlack = blackBackground && blackBackground.includes(router.pathname);
 
   return (
     <div css={CSSWrapper}>
@@ -26,7 +26,7 @@ const CSSAppLayout = (isBlack: boolean) => (theme: Theme) =>
     @media screen and (min-width: 450px) {
       width: 440px;
     }
-    padding: 0 24px;
+    padding: 0 16px;
 
     flex-direction: column;
     align-items: center;
@@ -36,6 +36,7 @@ const CSSAppLayout = (isBlack: boolean) => (theme: Theme) =>
     width: 100%;
     box-shadow: rgb(0 0 0 / 16%) 0 0 8px;
     overflow: hidden;
+    position: relative;
   `;
 
 export default AppLayout;

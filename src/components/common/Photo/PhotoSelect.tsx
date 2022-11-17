@@ -33,7 +33,7 @@ const PhotoSelect = ({ enabled, onSelect, onUnselect }: PhotoSelectProps) => {
           position: absolute;
           top: 8px;
           z-index: 2;
-          visibility: ${drop && enabled ? 'visible' : 'hidden'};
+          display: ${drop && enabled ? 'inherit' : 'none'};
           right: 8px;
         `}
       >

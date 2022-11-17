@@ -35,6 +35,6 @@ export const theme = {
     navigationHeight: '60px',
   },
   font,
-};
+} as const;
 
 export type EmotionTheme = typeof theme;
