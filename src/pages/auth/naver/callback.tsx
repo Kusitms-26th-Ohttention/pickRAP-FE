@@ -10,7 +10,7 @@ const NaverRedirectHandler = () => {
 
   useSNSLogin({ code, provider: 'naver', state });
 
-  return  <ThreeDotsSpinner />;
+  return <ThreeDotsSpinner />;
 };
 
 export default NaverRedirectHandler;

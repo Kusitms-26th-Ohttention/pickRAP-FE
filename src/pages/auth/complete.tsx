@@ -16,19 +16,26 @@ const Complete: NextPage = () => {
           display: flex;
           flex-direction: column;
           position: relative;
-        `}>
-        <div css={css`margin-top: 220px;`} />
+        `}
+      >
+        <div
+          css={css`
+            margin-top: 220px;
+          `}
+        />
         <Image src={'/picture/signup.svg'} width={237} height={199} />
       </div>
-      <div css={css`
-        height: 30%;
-        width: 100%;
-        display: flex;
-        flex-direction: column-reverse;
-        position: relative;
-        margin-bottom: 112px;
-        gap: 10px;
-      `}>
+      <div
+        css={css`
+          height: 30%;
+          width: 100%;
+          display: flex;
+          flex-direction: column-reverse;
+          position: relative;
+          margin-bottom: 112px;
+          gap: 10px;
+        `}
+      >
         <ActiveButton active onClick={() => router.push('/auth/profile')}>
           프로필 설정하기
         </ActiveButton>

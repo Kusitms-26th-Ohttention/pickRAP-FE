@@ -56,7 +56,11 @@ const SignUp: NextPage = () => {
           position: relative;
         `}
       >
-        <div css={css`margin-top: 63px;`}></div>
+        <div
+          css={css`
+            margin-top: 63px;
+          `}
+        ></div>
         <div>
           <AuthForm errInput={errInput} onSubmit={handleSubmit} errFormMsg={errForm}>
             <AuthForm.Input
@@ -81,7 +85,11 @@ const SignUp: NextPage = () => {
               value={password}
               handleChange={handlePassword}
             />
-            <div css={css`margin-top: 19px;`}></div>
+            <div
+              css={css`
+                margin-top: 19px;
+              `}
+            ></div>
             <AuthForm.Submit type={'submit'}>계정 생성하기</AuthForm.Submit>
           </AuthForm>
           <p
@@ -97,7 +105,8 @@ const SignUp: NextPage = () => {
           </p>
         </div>
       </div>
-      <div css={css`
+      <div
+        css={css`
           height: 30%;
           width: 100%;
           display: flex;
@@ -105,10 +114,11 @@ const SignUp: NextPage = () => {
           position: relative;
           margin-bottom: 115px;
           gap: 12px;
-        `}>
-          <KakaoButton />
-          <NaverButton />
-        </div>
+        `}
+      >
+        <KakaoButton />
+        <NaverButton />
+      </div>
     </>
   );
 };
