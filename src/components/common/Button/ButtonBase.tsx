@@ -34,8 +34,8 @@ export const CSSBlackButton = (theme: Theme) => css`
 
 export const CSSWhiteButton = (theme: Theme) => css`
   background: ${theme.color.white01};
-  color: ${theme.color.gray06};
-  border-color: ${theme.color.gray09};
+  color: ${theme.color.gray08};
+  border-color: ${theme.color.gray08};
 `;
 
 export default ButtonBase;
