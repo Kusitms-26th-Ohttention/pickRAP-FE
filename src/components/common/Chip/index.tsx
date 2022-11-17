@@ -20,12 +20,12 @@ const CSSChipBase = (theme: Theme) => css`
   height: 22px;
   padding: 0 8px;
   border-radius: 11px;
-  border: 1px solid ${theme.color.gray07};
+  border: 1px solid ${theme.color.gray09};
   display: flex;
   justify-content: center;
   align-items: center;
   line-height: 26px;
-  color: ${theme.color.gray06};
+  color: ${theme.color.black03};
   ${theme.font.R_BODY_10};
 `;
 

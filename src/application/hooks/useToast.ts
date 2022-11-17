@@ -6,7 +6,7 @@ import { useToastContext } from '@/components/common/Toast';
 const useToast = () => {
   const setToast = useToastContext()[1];
   const show = useCallback(
-    ({ id = Date.now(), content }: Optional<ToastContentProps, 'id'>) => setToast((prev) => [...prev, { id, content }]),
+    ({ id = Date.now(), ...rest }: Optional<ToastContentProps, 'id'>) => setToast((prev) => [...prev, { id, ...rest }]),
     [setToast],
   );
 
@@ -15,15 +15,18 @@ const useToast = () => {
   }, [setToast]);
 
   const replace = useCallback(
-    ({ id, content }: Optional<ToastContentProps, 'id'>) => {
+    ({ id, ...rest }: Optional<ToastContentProps, 'id'>) => {
       if (!id) {
         setToast((prev) => {
           const ret = prev.map((toast) => ({ ...toast }));
-          ret[ret.length - 1].content = content;
+          ret[ret.length - 1] = {
+            ...rest,
+            id: Date.now(),
+          };
           return ret;
         });
       } else {
-        setToast((prev) => prev.filter((toast) => toast.id !== id));
+        // setToast((prev) => prev.filter((toast) => toast.id !== id));
       }
     },
     [setToast],

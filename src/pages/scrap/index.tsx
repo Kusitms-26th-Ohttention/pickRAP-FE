@@ -1,24 +1,26 @@
 import type { NextPage } from 'next';
 import React from 'react';
 
+import usePopup from '@/application/hooks/usePopup';
 import useToast from '@/application/hooks/useToast';
+import UploadButton from '@/components/scrap/UploadButton';
 import withNavigation from '@/containers/HOC/withNavigation';
 
 const Scrap: NextPage = () => {
-  const { show, replace } = useToast();
+  const { show } = useToast();
+  const popup = usePopup();
 
   return (
     <>
       Scrap With Navigation
-      <button> click</button>
+      <UploadButton />
       <button
         onClick={() =>
           show({
             id: 2,
             content: (
               <div>
-                <button>world</button>
-                <button onClick={() => replace({ content: "I'm replaced!" })}>replace</button>
+                <button onClick={() => popup('성공했습니다', 'success')}>replace</button>
               </div>
             ),
           })

@@ -4,6 +4,7 @@ import { createContext, useContext, useState } from 'react';
 export interface ToastContentProps {
   id: number;
   content: ReactElement | string;
+  type?: 'toast' | 'popup';
 }
 
 type ToastContextProps = [ToastContentProps[], Dispatch<SetStateAction<ToastContentProps[]>>];

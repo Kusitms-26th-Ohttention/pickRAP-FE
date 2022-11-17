@@ -51,6 +51,13 @@ const globalCss = css`
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   }
 
+  textarea {
+    border-style: none;
+    border-color: Transparent;
+    overflow: auto;
+    outline: none;
+  }
+
   span,
   label {
     display: inline-block;
