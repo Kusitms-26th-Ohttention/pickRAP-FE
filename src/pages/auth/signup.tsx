@@ -49,14 +49,18 @@ const SignUp: NextPage = () => {
     <>
       <div
         css={css`
+          height: 55%;
           width: 100%;
           display: flex;
           flex-direction: column;
           position: relative;
-          justify-content: space-evenly;
-          height: 100%;
         `}
       >
+        <div
+          css={css`
+            margin-top: 63px;
+          `}
+        ></div>
         <div>
           <AuthForm errInput={errInput} onSubmit={handleSubmit} errFormMsg={errForm}>
             <AuthForm.Input
@@ -81,6 +85,11 @@ const SignUp: NextPage = () => {
               value={password}
               handleChange={handlePassword}
             />
+            <div
+              css={css`
+                margin-top: 19px;
+              `}
+            ></div>
             <AuthForm.Submit type={'submit'}>계정 생성하기</AuthForm.Submit>
           </AuthForm>
           <p
@@ -95,21 +104,20 @@ const SignUp: NextPage = () => {
             가입하면 피크랩의 이용약관 & 개인 정보 보호 정책에 동의하시게 됩니다.
           </p>
         </div>
-
-        <div
-          css={css`
-            margin-bottom: 40px;
-            width: 100%;
-          `}
-        >
-          <KakaoButton />
-          <div
-            css={css`
-              height: 12px;
-            `}
-          />
-          <NaverButton />
-        </div>
+      </div>
+      <div
+        css={css`
+          height: 30%;
+          width: 100%;
+          display: flex;
+          flex-direction: column-reverse;
+          position: relative;
+          margin-bottom: 115px;
+          gap: 12px;
+        `}
+      >
+        <KakaoButton />
+        <NaverButton />
       </div>
     </>
   );

@@ -15,43 +15,70 @@ const Profile: NextPage = () => {
 
   return (
     <>
-      <Image
-        src={'/icon/profile.svg'}
-        width={100}
-        height={100}
-        onClick={() => {
-          // TODO profile image upload
-        }}
-      />
       <div
         css={css`
+          height: 60%;
           width: 100%;
-          margin-top: 30px;
+          display: flex;
+          flex-direction: column;
+          position: relative;
         `}
       >
-        <InputLabel>유저 이름</InputLabel>
-        <InputBase rightPlaceholder={`${name.length}/10`} value={name} onChange={(e) => setName(e.target.value)} />
         <div
           css={css`
-            height: 24px;
+            margin-top: 24px;
           `}
         />
-        <InputLabel>유저 소개글</InputLabel>
-        <InputBase
-          rightPlaceholder={`${description.length}/100`}
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
+        <Image
+          src={'/icon/profile.svg'}
+          width={100}
+          height={100}
+          onClick={() => {
+            // TODO profile image upload
+          }}
         />
+        <div
+          css={css`
+            margin-top: 24px;
+          `}
+        >
+          <InputLabel>유저 이름</InputLabel>
+          <InputBase rightPlaceholder={`${name.length}/10`} value={name} onChange={(e) => setName(e.target.value)} />
+          <div
+            css={css`
+              margin-top: 24px;
+            `}
+          />
+
+          <InputLabel>유저 소개글</InputLabel>
+          <InputLabel>유저 소개글</InputLabel>
+          <InputBase
+            rightPlaceholder={`${description.length}/100`}
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          />
+        </div>
       </div>
-      <ActiveButton
-        active
-        onClick={() => {
-          //TODO profile name description update
-          router.push('/scrap');
-        }}
+      <div
+        css={css`
+          height: 30%;
+          width: 100%;
+          display: flex;
+          flex-direction: column-reverse;
+          position: relative;
+          margin-bottom: 50px;
+        `}
       >
-        완료
-      </ActiveButton>
+        <ActiveButton
+          active
+          onClick={() => {
+            //TODO profile name description update
+            router.push('/scrap');
+          }}
+        >
+          완료
+        </ActiveButton>
+      </div>
     </>
   );
 };
