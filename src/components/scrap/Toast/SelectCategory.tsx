@@ -1,19 +1,16 @@
 import { css } from '@emotion/react';
 
+import useToast from '@/application/hooks/useToast';
+import useUploadScrap from '@/application/store/scrap/useUploadScrap';
+import { MOCK_GET_CATEGORIES } from '@/application/utils/mock';
 import Photo from '@/components/common/Photo';
+import TypedDetailContent from '@/components/scrap/Toast/TypedDetailContent';
 
-interface SelectCategoryProps {
-  onClose?: () => void;
-  categories: SelectCategoryItemProps[];
+interface SelectCategoryProps extends Category {
+  onClick: () => void;
 }
 
-interface SelectCategoryItemProps {
-  src: string;
-  name: string;
-  onClick?: () => any;
-}
-
-const SelectCategoryItem = ({ src, name, onClick }: SelectCategoryItemProps) => {
+const SelectCategoryItem = ({ file_url, name, onClick }: SelectCategoryProps) => {
   return (
     <li
       onClick={onClick}
@@ -26,7 +23,7 @@ const SelectCategoryItem = ({ src, name, onClick }: SelectCategoryItemProps) => 
       `}
     >
       <Photo
-        src={src}
+        src={file_url}
         custom={css`
           border-radius: 2px;
         `}
@@ -36,12 +33,12 @@ const SelectCategoryItem = ({ src, name, onClick }: SelectCategoryItemProps) => 
   );
 };
 
-const defaultAndNewCategory = [
-  { src: '/icon/scrap/defaultCategory.svg', name: '카테고리 미지정' },
-  { src: '/icon/scrap/newCategory.svg', name: '새로운 카테고리 생성' },
-];
+const SelectCategory = () => {
+  // TODO useQuery getCategories
 
-const SelectCategory = ({ onClose, categories }: SelectCategoryProps) => {
+  const categories = MOCK_GET_CATEGORIES;
+  const dispatch = useUploadScrap()[1];
+  const { replace } = useToast();
   return (
     <section
       css={css`
@@ -53,7 +50,7 @@ const SelectCategory = ({ onClose, categories }: SelectCategoryProps) => {
       <span
         css={(theme) =>
           css`
-            ${theme.font.B_POINT_16};
+            ${theme.font.B_POINT_17};
             color: ${theme.color.black02};
           `
         }
@@ -70,8 +67,15 @@ const SelectCategory = ({ onClose, categories }: SelectCategoryProps) => {
           line-height: 160%;
         `}
       >
-        {[...categories, ...defaultAndNewCategory].map((category) => (
-          <SelectCategoryItem key={category.src} {...category} />
+        {categories.map((category) => (
+          <SelectCategoryItem
+            key={category.file_url}
+            {...category}
+            onClick={() => {
+              dispatch({ type: 'category', data: category.id });
+              replace({ content: <TypedDetailContent /> });
+            }}
+          />
         ))}
       </ul>
     </section>

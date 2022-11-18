@@ -1,27 +1,30 @@
 import { css } from '@emotion/react';
-import React from 'react';
+import React, { useState } from 'react';
 
 import { useInput } from '@/application/hooks/useInput';
+import useToast from '@/application/hooks/useToast';
 import { ActiveButton } from '@/components/common/Button';
 import { InputBase, InputLabel } from '@/components/common/Input';
 
 interface CreateCategoryProps {
-  onSubmit?: (category: string) => void;
-  isError?: boolean;
+  onSuccess?: (categoryId: number) => void;
 }
 
 // TODO (refactor) 에러 메세지 constant 파일 분리
 const CREATE_CATEGORY_ERROR = '이미 있는 제목입니다.';
 
-// TODO api 중복 카테고리 검증 후 오류 있으면 isError
-const CreateCategory = ({ onSubmit, isError }: CreateCategoryProps) => {
+const CreateCategory = ({ onSuccess }: CreateCategoryProps) => {
   const [category, setCategory] = useInput({ maxLength: 15 });
+  const [isError, setIsError] = useState(false);
+  const { close } = useToast();
 
   return (
     <form
       onSubmit={(e) => {
         e.preventDefault();
-        category && onSubmit?.(category);
+        // TODO api 중복 카테고리 검증 후 오류 있으면 setIsError
+        // 성공 시 반환된 category id 전달
+        category && onSuccess?.(0);
       }}
       css={css`
         padding: 24px 16px;
@@ -62,6 +65,8 @@ const CreateCategory = ({ onSubmit, isError }: CreateCategoryProps) => {
         `}
       >
         <ActiveButton
+          type={'button'}
+          onClick={close}
           custom={css`
             width: 88px;
             height: 40px;

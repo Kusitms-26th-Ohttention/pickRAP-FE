@@ -3,6 +3,7 @@ import type { ChangeEvent } from 'react';
 import { useRef } from 'react';
 
 import useModal from '@/application/hooks/useModal';
+import usePopup from '@/application/hooks/usePopup';
 import useToast from '@/application/hooks/useToast';
 import useUploadScrap from '@/application/store/scrap/useUploadScrap';
 import { ActiveButton } from '@/components/common/Button';
@@ -12,6 +13,7 @@ import { TypedDetailContentToast, TypedDetailToast } from '@/components/scrap/To
 const CreateScrap = () => {
   const { close, replace } = useToast();
   const { show } = useModal();
+  const popup = usePopup();
   const dispatch = useUploadScrap()[1];
 
   const ref = useRef<HTMLInputElement>(null);
@@ -22,9 +24,10 @@ const CreateScrap = () => {
     dispatch({ type: 'file', data: file });
     replace({ content: <TypedDetailContentToast /> });
   };
-  const handleLinkInput = () => replace({ content: <TypedDetailToast type={'input'} /> });
-  const handleTextInput = () => replace({ content: <TypedDetailToast type={'textarea'} /> });
-  const handleCategoryName = () => show(<CreateCategory />);
+  const handleLinkInput = () => replace({ content: <TypedDetailToast type={'link'} /> });
+  const handleTextInput = () => replace({ content: <TypedDetailToast type={'text'} /> });
+  const handleCategoryName = () =>
+    show(<CreateCategory onSuccess={() => popup('성공적으로 생성 되었습니다', 'success')} />);
 
   return (
     <section
@@ -37,7 +40,7 @@ const CreateScrap = () => {
       <span
         css={(theme) =>
           css`
-            ${theme.font.B_POINT_16};
+            ${theme.font.B_POINT_17};
             color: ${theme.color.black02};
           `
         }
@@ -61,7 +64,7 @@ const CreateScrap = () => {
           }}
         >
           내 디바이스에서 파일 업로드
-          <input type="file" ref={ref} onChange={handleFileInput} style={{ display: 'none' }} />{' '}
+          <input type="file" ref={ref} onChange={handleFileInput} style={{ display: 'none' }} />
         </li>
         <li onClick={handleLinkInput}>링크 업로드</li>
         <li onClick={handleTextInput}>텍스트 업로드</li>

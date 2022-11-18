@@ -3,23 +3,33 @@ import Image from 'next/image';
 import type { Ref } from 'react';
 import React, { useRef } from 'react';
 
+import useToast from '@/application/hooks/useToast';
+import useUploadScrap from '@/application/store/scrap/useUploadScrap';
 import { ActiveButton } from '@/components/common/Button';
 import { InputBase } from '@/components/common/Input';
+import CreateScrap from '@/components/scrap/Toast/CreateScrap';
+import SelectCategory from '@/components/scrap/Toast/SelectCategory';
 
 interface TypedDetailProps {
   onSubmit?: (value: string) => void;
   onBack?: () => void;
-  type: 'input' | 'textarea';
+  type: 'link' | 'text';
 }
 
 const TypedDetail = ({ onSubmit, onBack, type }: TypedDetailProps) => {
   const ref = useRef<HTMLInputElement | HTMLTextAreaElement>();
+  const { replace } = useToast();
+  const dispatch = useUploadScrap()[1];
+
   return (
     <form
       onSubmit={(e) => {
         e.preventDefault();
-        console.log(ref.current?.value);
-        ref.current && onSubmit?.(ref.current.value);
+        if (ref.current?.value) {
+          onSubmit?.(ref.current.value);
+          dispatch({ type, data: ref.current.value });
+          replace({ content: <SelectCategory /> });
+        }
       }}
       css={css`
         display: flex;
@@ -34,13 +44,18 @@ const TypedDetail = ({ onSubmit, onBack, type }: TypedDetailProps) => {
             gap: 9px;
             align-items: flex-start;
             vertical-align: middle;
-            ${theme.font.B_POINT_18};
+            ${theme.font.B_POINT_17};
             color: ${theme.color.black02};
             line-height: 110%;
           `
         }
       >
-        <Image src={'/icon/backArrow.svg'} width={10} height={17} onClick={onBack} />
+        <Image
+          src={'/icon/backArrow.svg'}
+          width={10}
+          height={17}
+          onClick={() => replace({ content: <CreateScrap /> })}
+        />
         세부사항 입력
       </span>
 
@@ -54,7 +69,7 @@ const TypedDetail = ({ onSubmit, onBack, type }: TypedDetailProps) => {
           color: ${theme.color.gray03};
         `}
       >
-        {type === 'input' ? (
+        {type === 'link' ? (
           <>
             <label htmlFor="link">링크 입력</label>
             <InputBase ref={ref as Ref<HTMLInputElement>} id="link" />

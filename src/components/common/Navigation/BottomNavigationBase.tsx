@@ -13,8 +13,8 @@ const BottomNavigationBase = ({ children }: BottomNavigationBaseProps) => {
         z-index: 100;
         background: white;
         width: 100%;
-        position: fixed;
-        bottom: 0;
+        position: absolute;
+        bottom: -60px;
         left: 0;
         max-width: 440px;
         padding-top: 12px;

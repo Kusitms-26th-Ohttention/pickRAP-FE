@@ -8,7 +8,7 @@ import PhotoSelect from '@/components/common/Photo/PhotoSelect';
 interface CategoryListItemProps {
   src: string;
   title: string;
-  onClick?: () => any;
+  onClick?: () => void;
   select?: boolean;
 }
 
@@ -17,12 +17,18 @@ const CategoryListItem = ({ src, title, onClick, select }: CategoryListItemProps
     <section
       css={css`
         display: grid;
-        height: 44.44vw;
-        grid-template-columns: 44.44vw 44.44vw;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
         justify-content: space-between;
       `}
     >
-      <Photo src={src} blur={<PhotoSelect enabled={select} />} />
+      <Photo
+        src={src}
+        blur={<PhotoSelect enabled={select} />}
+        custom={css`
+          aspect-ratio: 1/1;
+        `}
+      />
       <div
         css={(theme) => css`
           border-bottom: 1px solid ${theme.color.gray10};

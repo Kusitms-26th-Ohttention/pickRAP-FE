@@ -17,6 +17,7 @@ const useUploadScrap = () => {
   const [scrap, setScrap] = useRecoilState(uploadScrapState);
 
   const handleScrap = ({ type, data }: HandleScrapArgs) => {
+    console.log('👀 UploadScrapState :::', type, data);
     switch (type) {
       case 'category':
         setScrap((prev) => ({ ...prev, category_id: data }));

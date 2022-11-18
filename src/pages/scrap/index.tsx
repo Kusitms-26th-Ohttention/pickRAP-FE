@@ -24,6 +24,7 @@ const Scrap: NextPage = () => {
 
   const handleDeleteScrap = () => {
     // TODO select 된 사진들 삭제 요청 mutation
+    setSelected({ ...selected, [ref.current]: false });
     popup(
       <span>
         성공적으로{' '}

@@ -3,8 +3,13 @@ import Image from 'next/image';
 import React from 'react';
 
 import { useInput } from '@/application/hooks/useInput';
+import usePopup from '@/application/hooks/usePopup';
+import useToast from '@/application/hooks/useToast';
+import useUploadScrap from '@/application/store/scrap/useUploadScrap';
 import { ActiveButton } from '@/components/common/Button';
 import { InputBase } from '@/components/common/Input';
+import Popup from '@/components/common/Popup';
+import SelectCategory from '@/components/scrap/Toast/SelectCategory';
 
 interface TypedDetailProps {
   onSubmit?: (value: string) => void;
@@ -15,12 +20,22 @@ const TypedDetail = ({ onSubmit, onBack }: TypedDetailProps) => {
   const [title, setTitle] = useInput({ maxLength: 15 });
   const [hashtag, setHashtag] = useInput();
   const [memo, setMemo] = useInput();
+  const { replace, show } = useToast();
+  const popup = usePopup();
+  const dispatch = useUploadScrap()[1];
 
   return (
     // TODO AuthForm 포함 Common Form 추상화
     <form
       onSubmit={(e) => {
         e.preventDefault();
+        if (!hashtag) {
+          show({ content: <Popup type={'warn'}>해시태그 입력은 필수입니다</Popup>, type: 'popup' });
+          return;
+        }
+        const tags = hashtag.split(' ');
+        dispatch({ type: 'information', data: { hashtags: tags, title, memo } });
+        popup('성공적으로 생성 되었습니다', 'success');
       }}
       css={css`
         display: flex;
@@ -29,13 +44,14 @@ const TypedDetail = ({ onSubmit, onBack }: TypedDetailProps) => {
       `}
     >
       <span
+        onClick={() => replace({ content: <SelectCategory /> })}
         css={(theme) =>
           css`
             display: flex;
             gap: 9px;
             align-items: flex-start;
             vertical-align: middle;
-            ${theme.font.B_POINT_18};
+            ${theme.font.B_POINT_17};
             color: ${theme.color.black02};
             line-height: 110%;
           `
@@ -109,7 +125,7 @@ const TypedDetail = ({ onSubmit, onBack }: TypedDetailProps) => {
           <InputBase id="memo" value={memo} onChange={(e) => setMemo(e.target.value)} />
         </div>
       </div>
-      <ActiveButton active>다음</ActiveButton>
+      <ActiveButton active>업로드 하기</ActiveButton>
     </form>
   );
 };
