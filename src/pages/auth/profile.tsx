@@ -62,14 +62,15 @@ const Profile: NextPage = () => {
         css={css`
           width: 100%;
           display: flex;
-          flex-direction: column-reverse;
-          margin-top: auto;
+          height: 52px;
+          position: absolute;
+          bottom: 0;
         `}
       >
         <ActiveButton
           active
           onClick={() => {
-            //TODO profile name description update
+            // TODO profile name description update
             router.push('/scrap');
           }}
         >
@@ -82,5 +83,5 @@ const Profile: NextPage = () => {
 
 export default withNavigation(Profile, {
   TopNav: { title: '나의 프로필', backUrl: '/auth/complete', isMiddle: true },
-  BottomNav: null,
+  noBottom: true,
 });

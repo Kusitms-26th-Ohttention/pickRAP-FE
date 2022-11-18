@@ -107,15 +107,15 @@ const SignIn: NextPage = () => {
         css={css`
           width: 100%;
           display: flex;
-          flex-direction: column;
+          height: 33%;
+          flex-direction: column-reverse;
           position: relative;
           margin-top: auto;
-          margin-bottom: 55px;
           gap: 12px;
         `}
       >
-        <KakaoButton />
         <NaverButton />
+        <KakaoButton />
       </div>
     </>
   );

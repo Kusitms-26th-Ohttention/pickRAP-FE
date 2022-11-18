@@ -10,6 +10,7 @@ import { BottomNavigationContext } from '@/containers/HOC/NavigationContext';
 
 interface WithNavigationOptions {
   TopNav?: { title: string; backUrl: string; isMiddle?: boolean };
+  noBottom?: boolean;
 }
 
 /**
@@ -42,7 +43,7 @@ const withNavigation = <T extends JSX.IntrinsicAttributes>(
         )}
 
         <Component {...props} />
-        {adaptor === 'default' ? <BottomNavigation /> : adaptor === null ? null : adaptor}
+        {options.noBottom ? null : adaptor === 'default' ? <BottomNavigation /> : adaptor === null ? null : adaptor}
       </BottomNavigationContext.Provider>
     );
   };

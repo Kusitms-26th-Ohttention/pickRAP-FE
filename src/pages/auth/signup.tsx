@@ -108,19 +108,18 @@ const SignUp: NextPage = () => {
       <div
         css={css`
           width: 100%;
+          height: 30%;
           display: flex;
-          flex-direction: column;
+          flex-direction: column-reverse;
           position: relative;
-          margin-top: auto;
-          margin-bottom: 55px;
           gap: 12px;
         `}
       >
-        <KakaoButton />
         <NaverButton />
+        <KakaoButton />
       </div>
     </>
   );
 };
 
-export default withNavigation(SignUp, { TopNav: { title: '회원가입', backUrl: '/' }, BottomNav: null });
+export default withNavigation(SignUp, { TopNav: { title: '회원가입', backUrl: '/' }, noBottom: true });

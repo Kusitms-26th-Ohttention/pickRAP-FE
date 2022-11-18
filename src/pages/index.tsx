@@ -20,12 +20,12 @@ const Home: NextPage = () => {
       </div>
       <div
         css={css`
-          height: 30%;
           width: 100%;
+          height: max-content;
+          margin-top: 70px;
           display: flex;
-          flex-direction: column-reverse;
+          flex-direction: column;
           position: relative;
-          margin-bottom: 112px;
           gap: 12px;
         `}
       >
@@ -34,6 +34,7 @@ const Home: NextPage = () => {
             css`
               color: ${theme.color.black02};
               border-color: ${theme.color.white01};
+              height: 52px;
             `
           }
           onClick={() => router.push('/auth/signup')}
@@ -46,6 +47,7 @@ const Home: NextPage = () => {
           custom={(theme) =>
             css`
               border-color: ${theme.color.white01};
+              height: 52px;
             `
           }
         >

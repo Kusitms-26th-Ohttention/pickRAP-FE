@@ -30,16 +30,30 @@ const Complete: NextPage = () => {
           height: 30%;
           width: 100%;
           display: flex;
-          flex-direction: column-reverse;
+          flex-direction: column;
           position: relative;
-          margin-bottom: 60px;
+          //margin-bottom: 100px;
+          margin-top: 40px;
           gap: 10px;
         `}
       >
-        <ActiveButton active onClick={() => router.push('/auth/profile')}>
+        <ActiveButton
+          css={css`
+            height: 52px;
+          `}
+          active
+          onClick={() => router.push('/auth/profile')}
+        >
           프로필 설정하기
         </ActiveButton>
-        <ActiveButton onClick={() => router.push('/scrap')}>건너뛰기</ActiveButton>
+        <ActiveButton
+          css={css`
+            height: 52px;
+          `}
+          onClick={() => router.push('/scrap')}
+        >
+          건너뛰기
+        </ActiveButton>
       </div>
     </>
   );
