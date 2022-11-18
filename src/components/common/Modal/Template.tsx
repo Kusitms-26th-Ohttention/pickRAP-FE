@@ -25,7 +25,7 @@ const ModalTemplate = ({ children }: PropsWithChildren) => {
         left: 50%;
         transform: translate(-50%, -50%);
 
-        z-index: 1;
+        z-index: 2;
         pointer-events: auto;
 
         box-shadow: 0 8px 11px rgba(0, 0, 0, 0.1);

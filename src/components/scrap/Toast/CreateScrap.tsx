@@ -1,12 +1,31 @@
 import { css } from '@emotion/react';
+import type { ChangeEvent } from 'react';
+import { useRef } from 'react';
 
+import useModal from '@/application/hooks/useModal';
+import useToast from '@/application/hooks/useToast';
+import useUploadScrap from '@/application/store/scrap/useUploadScrap';
 import { ActiveButton } from '@/components/common/Button';
+import CreateCategory from '@/components/scrap/Popup/CreateCategory';
+import { TypedDetailContentToast, TypedDetailToast } from '@/components/scrap/Toast/index';
 
-interface CreateScrapProps {
-  onClose?: () => void;
-}
+const CreateScrap = () => {
+  const { close, replace } = useToast();
+  const { show } = useModal();
+  const dispatch = useUploadScrap()[1];
 
-const CreateScrap = ({ onClose }: CreateScrapProps) => {
+  const ref = useRef<HTMLInputElement>(null);
+  const handleFileInput = (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    dispatch({ type: 'file', data: file });
+    replace({ content: <TypedDetailContentToast /> });
+  };
+  const handleLinkInput = () => replace({ content: <TypedDetailToast type={'input'} /> });
+  const handleTextInput = () => replace({ content: <TypedDetailToast type={'textarea'} /> });
+  const handleCategoryName = () => show(<CreateCategory />);
+
   return (
     <section
       css={css`
@@ -36,12 +55,19 @@ const CreateScrap = ({ onClose }: CreateScrapProps) => {
           margin-bottom: 20px;
         `}
       >
-        <li>내 디바이스에서 파일 업로드</li>
-        <li>링크 업로드</li>
-        <li>텍스트 업로드</li>
-        <li>카테고리 추가</li>
+        <li
+          onClick={() => {
+            ref.current?.click();
+          }}
+        >
+          내 디바이스에서 파일 업로드
+          <input type="file" ref={ref} onChange={handleFileInput} style={{ display: 'none' }} />{' '}
+        </li>
+        <li onClick={handleLinkInput}>링크 업로드</li>
+        <li onClick={handleTextInput}>텍스트 업로드</li>
+        <li onClick={handleCategoryName}>카테고리 추가</li>
       </ul>
-      <ActiveButton active onClick={onClose}>
+      <ActiveButton active onClick={close}>
         닫기
       </ActiveButton>
     </section>

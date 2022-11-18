@@ -107,6 +107,7 @@ const OptionList = ({ children }: PropsWithChildren) => {
         opacity: ${context.open ? 1 : 0};
         visibility: ${context.open ? 'visible' : 'hidden'};
         position: absolute;
+        z-index: 2; // TODO z index constant
 
         transition: opacity 0.15s ease-in-out;
       `}

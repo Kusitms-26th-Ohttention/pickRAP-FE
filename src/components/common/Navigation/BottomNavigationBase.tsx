@@ -10,7 +10,7 @@ const BottomNavigationBase = ({ children }: BottomNavigationBaseProps) => {
     <nav
       css={css`
         display: flex;
-        z-index: 9999;
+        z-index: 100;
         background: white;
         width: 100%;
         position: fixed;

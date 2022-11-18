@@ -1,17 +1,69 @@
 import { css } from '@emotion/react';
 import type { NextPage } from 'next';
 import Image from 'next/image';
-import React from 'react';
+import React, { useRef, useState } from 'react';
 
-import { MOCK_GET_CATEGORIES } from '@/application/utils/mock';
+import usePopup from '@/application/hooks/usePopup';
+import useToast from '@/application/hooks/useToast';
 import Search from '@/components/common/Search';
 import Tab from '@/components/common/Tab';
-import CategoryListItem from '@/components/scrap/CategoryListItem';
+import DeleteNavigation from '@/components/scrap/DeleteNavigation';
+import { CreateScrapToast, DeleteScrapToast } from '@/components/scrap/Toast';
 import UploadButton from '@/components/scrap/UploadButton';
+import { useBottomNavigationContext } from '@/containers/HOC/NavigationContext';
 import withNavigation from '@/containers/HOC/withNavigation';
+import CategoryListContainer from '@/containers/scrap/CategoryListContainer';
+import ContentListContainer from '@/containers/scrap/ContentListContainer';
 
 const Scrap: NextPage = () => {
-  const data = MOCK_GET_CATEGORIES;
+  const [selected, setSelected] = useState({ category: false, content: false });
+  const ref = useRef<'category' | 'content'>('category');
+  const setNavigation = useBottomNavigationContext()[1];
+  const { show } = useToast();
+  const popup = usePopup();
+
+  const handleDeleteScrap = () => {
+    // TODO select 된 사진들 삭제 요청 mutation
+    popup(
+      <span>
+        성공적으로{' '}
+        <span
+          css={(theme) =>
+            css`
+              color: ${theme.color.gray06};
+            `
+          }
+        >
+          삭제되었습니다
+        </span>
+      </span>,
+      'success',
+    );
+  };
+  const showDeleteScrapToast = () => show({ content: <DeleteScrapToast onDelete={handleDeleteScrap} /> });
+
+  const handleTabClick = (key: 'content' | 'category') => (
+    setNavigation(selected[key] ? <DeleteNavigation onClick={showDeleteScrapToast} /> : 'default'), (ref.current = key)
+  );
+
+  const handleMultiSelect = () =>
+    setSelected((prev) => {
+      const ret = { ...prev };
+      const deleted = ret[ref.current];
+      deleted ? setNavigation('default') : setNavigation(<DeleteNavigation onClick={showDeleteScrapToast} />);
+
+      ret[ref.current] = !ret[ref.current];
+      return ret;
+    });
+
+  const handleSearch = () => {
+    // TODO search api & setState
+  };
+
+  const handleUploadToast = () => {
+    // TODO Recoil provide
+    show({ content: <CreateScrapToast /> });
+  };
 
   return (
     <>
@@ -23,14 +75,24 @@ const Scrap: NextPage = () => {
           gap: 10px;
         `}
       >
-        <Search
-          onSubmit={() => {
-            /**/
-          }}
-        />
-        <Image src={'/icon/multiSelect.svg'} width={18} height={18} />
+        <Search onSubmit={handleSearch} />
+        <span
+          onClick={handleMultiSelect}
+          css={(theme) =>
+            css`
+              ${theme.font.R_BODY_15};
+              min-width: 30px;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+            `
+          }
+        >
+          {selected[ref.current] ? '취소' : <Image src={'/icon/multiSelect.svg'} width={18} height={18} />}
+        </span>
       </div>
       <span
+        onClick={handleUploadToast}
         css={css`
           position: absolute;
           right: 0;
@@ -42,34 +104,20 @@ const Scrap: NextPage = () => {
       </span>
       <Tab>
         <Tab.Group>
-          <Tab.Label>카테고리 별</Tab.Label>
-          <Tab.Label>콘텐츠 별</Tab.Label>
+          <Tab.Label onClick={() => handleTabClick('category')}>카테고리 별</Tab.Label>
+          <Tab.Label onClick={() => handleTabClick('content')}>콘텐츠 별</Tab.Label>
         </Tab.Group>
         <Tab.Panel>
           <Tab.Content>
-            <div css={CSSCategoryListContainer}>
-              {data.map((category) => (
-                <CategoryListItem src={category.file_url} title={category.name} key={category.id} />
-              ))}
-            </div>
+            <CategoryListContainer select={selected.category} />
           </Tab.Content>
           <Tab.Content>
-            <div css={CSSCategoryListContainer}>
-              {data.map((category) => (
-                <CategoryListItem src={category.file_url} title={category.name} key={category.id} />
-              ))}
-            </div>
+            <ContentListContainer select={selected.content} />
           </Tab.Content>
         </Tab.Panel>
       </Tab>
     </>
   );
 };
-
-const CSSCategoryListContainer = css`
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-`;
 
 export default withNavigation(Scrap);

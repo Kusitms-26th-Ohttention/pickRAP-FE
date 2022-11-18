@@ -18,7 +18,7 @@ const Manager = () => {
         left: 50%;
         transform: translateX(-50%);
         height: 100vh;
-        z-index: 9999;
+        z-index: 1000; // TODO z-index 정리
         position: fixed;
         pointer-events: none;
       `}

@@ -1,18 +1,29 @@
+import type { ReactElement } from 'react';
 import { useCallback } from 'react';
 
 import useToast from '@/application/hooks/useToast';
 import Confirm from '@/components/common/Modal/Confirm';
 
-const usePopup = () => {
-  const { show, close } = useToast();
+const useModal = () => {
+  const { show: showToast, close } = useToast();
 
-  return useCallback(
+  const confirm = useCallback(
     (message: string) => {
       close();
-      show({ content: <Confirm title={message} />, type: 'modal' });
+      showToast({ content: <Confirm title={message} />, type: 'modal' });
     },
-    [close, show],
+    [close, showToast],
   );
+
+  const show = useCallback(
+    (content: ReactElement) => {
+      close();
+      showToast({ content, type: 'modal' });
+    },
+    [close, showToast],
+  );
+
+  return { confirm, show };
 };
 
-export default usePopup;
+export default useModal;

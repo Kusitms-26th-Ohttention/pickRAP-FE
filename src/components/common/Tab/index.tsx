@@ -13,7 +13,7 @@ import { Children, cloneElement, createContext, isValidElement, useContext, useS
 
 const TabContext = createContext<any[]>([0]);
 
-interface TabRootProps extends HTMLAttributes<HTMLDivElement> {
+interface TabRootProps extends HTMLAttributes<HTMLButtonElement> {
   children: string | ReactElement<{ idx?: number }>[] | ReactElement<{ idx?: number }>;
   css?: CustomStyle;
 }
@@ -109,11 +109,12 @@ const Group = ({ children, start, decorator }: TabRootProps & { start?: boolean;
   );
 };
 
-const Label = ({ children, idx, css: style }: TabElementProps) => {
+const Label = ({ children, idx, css: style, onClick, ...rest }: TabElementProps) => {
   const setIdx = useContext(TabContext)[1];
 
   return (
     <button
+      {...rest}
       css={[
         css`
           padding: 10px;
@@ -123,7 +124,10 @@ const Label = ({ children, idx, css: style }: TabElementProps) => {
             border-bottom: 2px solid #000;
           `,
       ]}
-      onClick={() => setIdx(idx)}
+      onClick={(e) => {
+        setIdx(idx);
+        onClick?.(e);
+      }}
     >
       <span
         css={[

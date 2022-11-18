@@ -9,10 +9,9 @@ import { InputBase } from '@/components/common/Input';
 interface TypedDetailProps {
   onSubmit?: (value: string) => void;
   onBack?: () => void;
-  type: 'input' | 'textarea';
 }
 
-const TypedDetail = ({ onSubmit, onBack, type }: TypedDetailProps) => {
+const TypedDetail = ({ onSubmit, onBack }: TypedDetailProps) => {
   const [title, setTitle] = useInput({ maxLength: 15 });
   const [hashtag, setHashtag] = useInput();
   const [memo, setMemo] = useInput();

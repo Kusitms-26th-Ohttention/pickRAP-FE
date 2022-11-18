@@ -40,6 +40,11 @@ export interface GetScrapsResponse {
 
 export interface SaveScrapRequest {
   file: FormData;
+  category_id: number;
+  hashtags: { tag: string }[];
+  memo: string;
+  scrap_type: 'IMAGE' | 'VIDEO' | 'PDF' | 'TEXT' | 'LINK';
+  title: string;
 }
 
 export interface ModifyScrapRequest {
