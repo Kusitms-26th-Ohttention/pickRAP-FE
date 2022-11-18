@@ -5,7 +5,9 @@ import React, { useRef, useState } from 'react';
 
 import usePopup from '@/application/hooks/usePopup';
 import useToast from '@/application/hooks/useToast';
+import { DeletePopup } from '@/components/common/Popup/Sentence';
 import Search from '@/components/common/Search';
+import Select from '@/components/common/Select';
 import Tab from '@/components/common/Tab';
 import DeleteNavigation from '@/components/scrap/DeleteNavigation';
 import { CreateScrapToast, DeleteScrapToast } from '@/components/scrap/Toast';
@@ -14,9 +16,11 @@ import { useBottomNavigationContext } from '@/containers/HOC/NavigationContext';
 import withNavigation from '@/containers/HOC/withNavigation';
 import CategoryListContainer from '@/containers/scrap/CategoryListContainer';
 import ContentListContainer from '@/containers/scrap/ContentListContainer';
+import SearchListContainer from '@/containers/scrap/SearchListContainer';
 
 const Scrap: NextPage = () => {
   const [selected, setSelected] = useState({ category: false, content: false });
+  const [searchString, setSearchString] = useState('');
   const ref = useRef<'category' | 'content'>('category');
   const setNavigation = useBottomNavigationContext()[1];
   const { show } = useToast();
@@ -25,21 +29,7 @@ const Scrap: NextPage = () => {
   const handleDeleteScrap = () => {
     // TODO select 된 사진들 삭제 요청 mutation
     setSelected({ ...selected, [ref.current]: false });
-    popup(
-      <span>
-        성공적으로{' '}
-        <span
-          css={(theme) =>
-            css`
-              color: ${theme.color.gray06};
-            `
-          }
-        >
-          삭제되었습니다
-        </span>
-      </span>,
-      'success',
-    );
+    popup(DeletePopup, 'success');
   };
   const showDeleteScrapToast = () => show({ content: <DeleteScrapToast onDelete={handleDeleteScrap} /> });
 
@@ -57,8 +47,9 @@ const Scrap: NextPage = () => {
       return ret;
     });
 
-  const handleSearch = () => {
+  const handleSearch = (search: string) => {
     // TODO search api & setState
+    setSearchString(search);
   };
 
   const handleUploadToast = () => {
@@ -74,9 +65,10 @@ const Scrap: NextPage = () => {
           justify-content: flex-end;
           width: 100%;
           gap: 10px;
+          margin-bottom: 4px;
         `}
       >
-        <Search onSubmit={handleSearch} />
+        <Search onSubmit={handleSearch} onClosed={() => setSearchString('')} />
         <span
           onClick={handleMultiSelect}
           css={(theme) =>
@@ -103,20 +95,34 @@ const Scrap: NextPage = () => {
       >
         <UploadButton />
       </span>
-      <Tab>
-        <Tab.Group>
-          <Tab.Label onClick={() => handleTabClick('category')}>카테고리 별</Tab.Label>
-          <Tab.Label onClick={() => handleTabClick('content')}>콘텐츠 별</Tab.Label>
-        </Tab.Group>
-        <Tab.Panel>
-          <Tab.Content>
-            <CategoryListContainer select={selected.category} />
-          </Tab.Content>
-          <Tab.Content>
-            <ContentListContainer select={selected.content} />
-          </Tab.Content>
-        </Tab.Panel>
-      </Tab>
+      {searchString ? (
+        <SearchListContainer params={searchString} />
+      ) : (
+        <Tab>
+          <Tab.Group>
+            <Tab.Label onClick={() => handleTabClick('category')}>카테고리 별</Tab.Label>
+            <Tab.Label onClick={() => handleTabClick('content')}>콘텐츠 별</Tab.Label>
+          </Tab.Group>
+          <Tab.Panel>
+            <Tab.Content>
+              <CategoryListContainer select={selected.category} />
+            </Tab.Content>
+            <Tab.Content>
+              <Select value={'사진'}>
+                <Select.Trigger />
+                <Select.OptionList>
+                  <Select.Option value={'사진'} />
+                  <Select.Option value={'비디오'} />
+                  <Select.Option value={'파일'} />
+                  <Select.Option value={'링크'} />
+                  <Select.Option value={'텍스트'} />
+                </Select.OptionList>
+              </Select>
+              <ContentListContainer select={selected.content} />
+            </Tab.Content>
+          </Tab.Panel>
+        </Tab>
+      )}
     </>
   );
 };

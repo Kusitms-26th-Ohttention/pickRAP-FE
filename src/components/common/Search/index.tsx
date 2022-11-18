@@ -4,19 +4,19 @@ import type { FormHTMLAttributes } from 'react';
 import { useRef, useState } from 'react';
 
 interface SearchProps extends Omit<FormHTMLAttributes<HTMLFormElement>, 'onSubmit'> {
-  onSubmit: (query: string) => any;
+  onSubmit: (query: string) => void;
+  onClosed?: () => void;
 }
 
-const Search = (props: SearchProps) => {
+const Search = ({ onSubmit, onClosed }: SearchProps) => {
   const ref = useRef<HTMLInputElement>(null);
   const [open, setOpen] = useState(false);
 
   return (
     <form
-      {...props}
       onSubmit={(e) => {
         e.preventDefault();
-        ref.current && ref.current.value && props.onSubmit?.(ref.current.value);
+        ref.current && ref.current.value && onSubmit?.(ref.current.value);
       }}
       css={css`
         position: relative;
@@ -26,13 +26,35 @@ const Search = (props: SearchProps) => {
         justify-content: flex-end;
       `}
     >
+      <motion.button
+        animate={open ? 'open' : 'close'}
+        variants={{
+          open: { opacity: 1 },
+          close: { opacity: 0 },
+        }}
+        transition={{ duration: 0.2 }}
+        type={'button'}
+        onClick={() => {
+          setOpen(false);
+          if (ref.current) ref.current.value = '';
+          onClosed?.();
+        }}
+        css={css`
+          margin-right: 5px;
+          width: 10px;
+          height: 17px;
+          position: relative;
+          background-image: url('/icon/backArrow.svg');
+        `}
+      />
+
       <motion.div
         animate={open ? 'open' : 'close'}
         variants={{
           open: { opacity: 1 },
           close: { opacity: 0 },
         }}
-        transition={{ duration: 0.1 }}
+        transition={{ duration: 0.2 }}
         css={css`
           position: relative;
           width: 100%;
@@ -42,17 +64,6 @@ const Search = (props: SearchProps) => {
           justify-content: flex-end;
         `}
       >
-        <button
-          type={'button'}
-          onClick={() => setOpen(false)}
-          css={css`
-            margin-right: 5px;
-            width: 10px;
-            height: 17px;
-            position: relative;
-            background-image: url('/icon/backArrow.svg');
-          `}
-        />
         <span
           css={(theme) => css`
             ${theme.font.M_BODY_16};
@@ -67,14 +78,15 @@ const Search = (props: SearchProps) => {
         <motion.input
           animate={open ? 'open' : 'close'}
           variants={{
-            open: { width: '100%' },
-            close: { width: 0 },
+            open: { opacity: 1 },
+            close: { opacity: 0 },
           }}
+          transition={{ duration: 0.2 }}
           ref={ref}
           css={(theme) => css`
             border: 1px solid black;
-            padding: 10px 30px;
-            width: 0;
+            padding: 9px 30px;
+            width: 100%;
             border-radius: 30px;
             ${theme.font.R_BODY_14};
             color: ${theme.color.gray02};

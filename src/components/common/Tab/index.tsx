@@ -151,15 +151,11 @@ const Content = ({ children, css: style }: TabElementProps) => {
         css`
           padding-top: 26px;
           position: absolute;
-          //width: 100%;
           overflow: auto;
           top: 0;
           left: 0;
           right: 0;
           bottom: 0;
-          //height: fit-content;
-
-          //max-height: 90vh;
           padding-bottom: 80px;
         `,
         style,
