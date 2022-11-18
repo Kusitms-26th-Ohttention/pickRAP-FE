@@ -45,16 +45,17 @@ const CategoryListItem = ({ src, title, onClick, select }: CategoryListItemProps
         >
           {title}
         </p>
-        <span
+        <button
           onClick={onClick}
           css={css`
             position: absolute;
-            bottom: 14px;
+            padding: 30px 0 14px 30px;
             right: 0;
+            bottom: 0;
           `}
         >
           <Image src={'/icon/scrap/nextArrow.svg'} width={22} height={11} />
-        </span>
+        </button>
       </div>
     </section>
   );

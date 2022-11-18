@@ -4,8 +4,8 @@ import React, { useState } from 'react';
 
 interface PhotoSelectProps {
   enabled?: boolean;
-  onSelect?: (...args: any[]) => any;
-  onUnselect?: (...args: any[]) => any;
+  onSelect?: () => void;
+  onUnselect?: () => void;
 }
 const PhotoSelect = ({ enabled, onSelect, onUnselect }: PhotoSelectProps) => {
   const [drop, setDrop] = useState(false);
@@ -14,6 +14,7 @@ const PhotoSelect = ({ enabled, onSelect, onUnselect }: PhotoSelectProps) => {
     <>
       <div
         onClick={() => {
+          if (!enabled) return;
           if (!drop) onSelect?.();
           else onUnselect?.();
           setDrop(!drop);

@@ -42,6 +42,8 @@ const Search = ({ onSubmit, onClosed }: SearchProps) => {
         css={css`
           margin-right: 5px;
           width: 10px;
+          z-index: 2;
+          pointer-events: ${open ? 'initial' : 'none'};
           height: 17px;
           position: relative;
           background-image: url('/icon/backArrow.svg');

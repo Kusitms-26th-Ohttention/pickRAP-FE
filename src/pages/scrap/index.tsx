@@ -7,7 +7,6 @@ import usePopup from '@/application/hooks/usePopup';
 import useToast from '@/application/hooks/useToast';
 import { DeletePopup } from '@/components/common/Popup/Sentence';
 import Search from '@/components/common/Search';
-import Select from '@/components/common/Select';
 import Tab from '@/components/common/Tab';
 import DeleteNavigation from '@/components/scrap/DeleteNavigation';
 import { CreateScrapToast, DeleteScrapToast } from '@/components/scrap/Toast';
@@ -21,6 +20,7 @@ import SearchListContainer from '@/containers/scrap/SearchListContainer';
 const Scrap: NextPage = () => {
   const [selected, setSelected] = useState({ category: false, content: false });
   const [searchString, setSearchString] = useState('');
+  const [categoryInfo, setCategoryInfo] = useState<number | null>(null);
   const ref = useRef<'category' | 'content'>('category');
   const setNavigation = useBottomNavigationContext()[1];
   const { show } = useToast();
@@ -33,9 +33,10 @@ const Scrap: NextPage = () => {
   };
   const showDeleteScrapToast = () => show({ content: <DeleteScrapToast onDelete={handleDeleteScrap} /> });
 
-  const handleTabClick = (key: 'content' | 'category') => (
-    setNavigation(selected[key] ? <DeleteNavigation onClick={showDeleteScrapToast} /> : 'default'), (ref.current = key)
-  );
+  const handleTabClick = (key: 'content' | 'category') => {
+    setNavigation(selected[key] ? <DeleteNavigation onClick={showDeleteScrapToast} /> : 'default');
+    ref.current = key;
+  };
 
   const handleMultiSelect = () =>
     setSelected((prev) => {
@@ -57,6 +58,8 @@ const Scrap: NextPage = () => {
     show({ content: <CreateScrapToast /> });
   };
 
+  const handleClickCategoryList = (id: number) => () => setCategoryInfo(id);
+
   return (
     <>
       <div
@@ -66,8 +69,23 @@ const Scrap: NextPage = () => {
           width: 100%;
           gap: 10px;
           margin-bottom: 4px;
+          align-items: center;
         `}
       >
+        {categoryInfo !== null ? (
+          <span
+            onClick={() => setCategoryInfo(null)}
+            css={css`
+              width: 10px;
+              height: 17px;
+              position: absolute;
+              z-index: 1;
+              left: 0;
+            `}
+          >
+            <Image src={'/icon/backArrow.svg'} layout={'fill'} objectFit={'cover'} />
+          </span>
+        ) : null}
         <Search onSubmit={handleSearch} onClosed={() => setSearchString('')} />
         <span
           onClick={handleMultiSelect}
@@ -105,19 +123,13 @@ const Scrap: NextPage = () => {
           </Tab.Group>
           <Tab.Panel>
             <Tab.Content>
-              <CategoryListContainer select={selected.category} />
+              {categoryInfo === null ? (
+                <CategoryListContainer select={selected.category} onClickItem={handleClickCategoryList} />
+              ) : (
+                'hello'
+              )}
             </Tab.Content>
             <Tab.Content>
-              <Select value={'사진'}>
-                <Select.Trigger />
-                <Select.OptionList>
-                  <Select.Option value={'사진'} />
-                  <Select.Option value={'비디오'} />
-                  <Select.Option value={'파일'} />
-                  <Select.Option value={'링크'} />
-                  <Select.Option value={'텍스트'} />
-                </Select.OptionList>
-              </Select>
               <ContentListContainer select={selected.content} />
             </Tab.Content>
           </Tab.Panel>

@@ -1,39 +1,39 @@
 import { css } from '@emotion/react';
-import Image from 'next/image';
-import React from 'react';
+import React, { useState } from 'react';
 
 import { MOCK_GET_CATEGORIES } from '@/application/utils/mock';
 import Photo from '@/components/common/Photo';
 import PhotoSelect from '@/components/common/Photo/PhotoSelect';
+import Select from '@/components/common/Select';
 
 const ContentListContainer = ({ select }: { select?: boolean }) => {
+  const [filter, setFilter] = useState('사진');
   const data = MOCK_GET_CATEGORIES; // TODO useQuery with Select value
+
   return (
     <>
-      {data ? (
-        <div css={CSSContentListContainer}>
-          {data.map((photo) => (
-            <Photo
-              custom={css`
-                aspect-ratio: 1/1;
-              `}
-              key={photo.id}
-              src={photo.file_url}
-              blur={<PhotoSelect enabled={select} />}
-            />
-          ))}
-        </div>
-      ) : (
-        <div
-          css={css`
-            width: 100%;
-            text-align: center;
-            margin-top: 26px;
-          `}
-        >
-          <Image src={'/picture/noResult.svg'} width={170} height={148} />
-        </div>
-      )}
+      <Select value={'사진'} onChange={setFilter}>
+        <Select.Trigger />
+        <Select.OptionList>
+          <Select.Option value={'사진'} />
+          <Select.Option value={'비디오'} />
+          <Select.Option value={'파일'} />
+          <Select.Option value={'링크'} />
+          <Select.Option value={'텍스트'} />
+        </Select.OptionList>
+      </Select>
+      <div css={CSSContentListContainer}>
+        {data.map((photo) => (
+          <Photo
+            custom={css`
+              aspect-ratio: 1/1;
+            `}
+            key={photo.id}
+            src={photo.file_url}
+            blur={<PhotoSelect enabled={select} />}
+          />
+        ))}
+      </div>
     </>
   );
 };
