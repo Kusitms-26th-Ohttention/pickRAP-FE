@@ -110,7 +110,6 @@ const SignIn: NextPage = () => {
           height: 33%;
           flex-direction: column-reverse;
           position: relative;
-          margin-top: auto;
           gap: 12px;
         `}
       >

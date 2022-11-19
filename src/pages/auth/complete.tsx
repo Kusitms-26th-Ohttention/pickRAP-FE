@@ -32,8 +32,7 @@ const Complete: NextPage = () => {
           display: flex;
           flex-direction: column;
           position: relative;
-          //margin-bottom: 100px;
-          margin-top: 40px;
+          justify-content: center;
           gap: 10px;
         `}
       >

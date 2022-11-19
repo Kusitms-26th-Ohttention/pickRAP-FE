@@ -13,6 +13,7 @@ import { CreateScrapToast, DeleteScrapToast } from '@/components/scrap/Toast';
 import UploadButton from '@/components/scrap/UploadButton';
 import { useBottomNavigationContext } from '@/containers/HOC/NavigationContext';
 import withNavigation from '@/containers/HOC/withNavigation';
+import CategoryDetailContainer from '@/containers/scrap/CategoryDetailContainer';
 import CategoryListContainer from '@/containers/scrap/CategoryListContainer';
 import ContentListContainer from '@/containers/scrap/ContentListContainer';
 import SearchListContainer from '@/containers/scrap/SearchListContainer';
@@ -28,6 +29,7 @@ const Scrap: NextPage = () => {
 
   const handleDeleteScrap = () => {
     // TODO select 된 사진들 삭제 요청 mutation
+    // TODO select 된 category id / content id 관리
     setSelected({ ...selected, [ref.current]: false });
     popup(DeletePopup, 'success');
   };
@@ -53,10 +55,7 @@ const Scrap: NextPage = () => {
     setSearchString(search);
   };
 
-  const handleUploadToast = () => {
-    // TODO Recoil provide
-    show({ content: <CreateScrapToast /> });
-  };
+  const handleUploadToast = () => show({ content: <CreateScrapToast /> });
 
   const handleClickCategoryList = (id: number) => () => setCategoryInfo(id);
 
@@ -87,20 +86,22 @@ const Scrap: NextPage = () => {
           </span>
         ) : null}
         <Search onSubmit={handleSearch} onClosed={() => setSearchString('')} />
-        <span
-          onClick={handleMultiSelect}
-          css={(theme) =>
-            css`
-              ${theme.font.R_BODY_15};
-              min-width: 30px;
-              display: flex;
-              justify-content: center;
-              align-items: center;
-            `
-          }
-        >
-          {selected[ref.current] ? '취소' : <Image src={'/icon/multiSelect.svg'} width={18} height={18} />}
-        </span>
+        {!searchString ? (
+          <span
+            onClick={handleMultiSelect}
+            css={(theme) =>
+              css`
+                ${theme.font.R_BODY_15};
+                min-width: 30px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+              `
+            }
+          >
+            {selected[ref.current] ? '취소' : <Image src={'/icon/multiSelect.svg'} width={18} height={18} />}
+          </span>
+        ) : null}
       </div>
       <span
         onClick={handleUploadToast}
@@ -126,7 +127,7 @@ const Scrap: NextPage = () => {
               {categoryInfo === null ? (
                 <CategoryListContainer select={selected.category} onClickItem={handleClickCategoryList} />
               ) : (
-                'hello'
+                <CategoryDetailContainer id={categoryInfo} />
               )}
             </Tab.Content>
             <Tab.Content>

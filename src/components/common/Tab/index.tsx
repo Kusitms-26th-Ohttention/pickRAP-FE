@@ -32,6 +32,7 @@ function TabRoot({ children }: PropsWithChildren) {
           display: flex;
           height: 100%;
           flex-direction: column;
+          flex-grow: 1;
         `}
       >
         {children}
@@ -149,14 +150,13 @@ const Content = ({ children, css: style }: TabElementProps) => {
     <div
       css={[
         css`
-          padding-top: 26px;
           position: absolute;
-          overflow: auto;
           top: 0;
           left: 0;
           right: 0;
           bottom: 0;
-          padding-bottom: 80px;
+          display: flex;
+          flex-direction: column;
         `,
         style,
       ]}

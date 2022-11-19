@@ -1,12 +1,15 @@
 import { css } from '@emotion/react';
 
+import useModal from '@/application/hooks/useModal';
+import usePopup from '@/application/hooks/usePopup';
 import useToast from '@/application/hooks/useToast';
 import useUploadScrap from '@/application/store/scrap/useUploadScrap';
 import { MOCK_GET_CATEGORIES } from '@/application/utils/mock';
 import Photo from '@/components/common/Photo';
+import CreateCategory from '@/components/scrap/Popup/CreateCategory';
 import TypedDetailContent from '@/components/scrap/Toast/TypedDetailContent';
 
-interface SelectCategoryProps extends Category {
+interface SelectCategoryProps extends Pick<Category, 'name' | 'file_url'> {
   onClick: () => void;
 }
 
@@ -33,10 +36,17 @@ const SelectCategoryItem = ({ file_url, name, onClick }: SelectCategoryProps) =>
   );
 };
 
+const defaultCategory = { file_url: '/icon/scrap/defaultCategory.svg', name: '카테고리 미지정' } as Category;
+const newCategory = { file_url: '/icon/scrap/newCategory.svg', name: '새로운 카테고리 생성' } as Category;
+
 const SelectCategory = () => {
   // TODO useQuery getCategories
 
   const categories = MOCK_GET_CATEGORIES;
+  const popup = usePopup();
+  const { show } = useModal();
+  const { show: toast } = useToast();
+
   const dispatch = useUploadScrap()[1];
   const { replace } = useToast();
   return (
@@ -77,6 +87,27 @@ const SelectCategory = () => {
             }}
           />
         ))}
+        <SelectCategoryItem
+          onClick={() => {
+            dispatch({ type: 'category', data: 0 });
+            replace({ content: <TypedDetailContent /> });
+          }}
+          {...defaultCategory}
+        />
+        <SelectCategoryItem
+          onClick={() => {
+            show(
+              <CreateCategory
+                onSuccess={(id) => {
+                  popup('성공적으로 생성 되었습니다', 'success');
+                  dispatch({ type: 'category', data: id });
+                  setTimeout(() => toast({ content: <TypedDetailContent /> }), 1200);
+                }}
+              />,
+            );
+          }}
+          {...newCategory}
+        />
       </ul>
     </section>
   );
