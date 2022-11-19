@@ -11,11 +11,13 @@ const SwipeBackground = (props: SwipeBackgroundProps) => {
   return (
     <div
       css={css`
-        position: absolute;
+        position: fixed;
         left: 0;
         top: 0;
         right: 0;
         height: 58vh;
+        max-width: 440px;
+        margin: auto;
       `}
     >
       {props.type === 'img' ? (

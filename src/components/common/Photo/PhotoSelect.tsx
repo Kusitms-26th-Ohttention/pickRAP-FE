@@ -10,11 +10,10 @@ interface PhotoSelectProps {
 const PhotoSelect = ({ enabled, onSelect, onUnselect }: PhotoSelectProps) => {
   const [drop, setDrop] = useState(false);
 
-  return (
+  return enabled ? (
     <>
       <div
         onClick={() => {
-          if (!enabled) return;
           if (!drop) onSelect?.();
           else onUnselect?.();
           setDrop(!drop);
@@ -26,7 +25,7 @@ const PhotoSelect = ({ enabled, onSelect, onUnselect }: PhotoSelectProps) => {
           right: 0;
           position: absolute;
           z-index: 1;
-          background: ${drop && enabled ? 'rgba(0,0,0,0.7)' : 'none'};
+          background: ${drop ? 'rgba(0,0,0,0.7)' : 'none'};
         `}
       />
       <span
@@ -41,7 +40,7 @@ const PhotoSelect = ({ enabled, onSelect, onUnselect }: PhotoSelectProps) => {
         <Image src={'/icon/scrap/photoSelect.svg'} width={24} height={24} />
       </span>
     </>
-  );
+  ) : null;
 };
 
 export default PhotoSelect;

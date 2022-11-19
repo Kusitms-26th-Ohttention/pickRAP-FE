@@ -9,11 +9,13 @@ interface PhotoProps {
   height?: string;
   blur?: ReactElement;
   custom?: CustomStyle;
+  onClick?: () => void;
 }
 
-const Photo = ({ src, width, height, blur, custom }: PhotoProps) => {
+const Photo = ({ src, width, height, blur, custom, onClick }: PhotoProps) => {
   return (
     <div
+      onClick={onClick}
       css={[
         css`
           width: ${width ? width : '100%'};

@@ -1,4 +1,5 @@
 import { css } from '@emotion/react';
+import { useRouter } from 'next/router';
 import React from 'react';
 
 import Photo from '@/components/common/Photo';
@@ -9,6 +10,7 @@ interface PhotoListContainerProps {
   select?: boolean;
 }
 const PhotoListContainer = ({ data, select }: PhotoListContainerProps) => {
+  const router = useRouter();
   return (
     <div
       css={css`
@@ -34,6 +36,7 @@ const PhotoListContainer = ({ data, select }: PhotoListContainerProps) => {
               custom={css`
                 aspect-ratio: 1/1;
               `}
+              onClick={() => !select && router.push(`/scrap/${photo.id}`)}
               key={photo.id}
               blur={<PhotoSelect enabled={select} />}
               src={photo.file_url}
