@@ -6,8 +6,10 @@ import PhotoListContainer from '@/containers/scrap/PhotoListContainer';
 
 interface CategoryDetailContainerProps {
   id: number;
+  select?: boolean;
 }
-const CategoryDetailContainer = ({ id }: CategoryDetailContainerProps) => {
+
+const CategoryDetailContainer = ({ id, select }: CategoryDetailContainerProps) => {
   const data = MOCK_GET_CATEGORIES; // TODO useQuery with category id
 
   return (
@@ -25,7 +27,7 @@ const CategoryDetailContainer = ({ id }: CategoryDetailContainerProps) => {
       >
         {'내가 정말 좋아하는 색감'}
       </span>
-      <PhotoListContainer data={data} />
+      <PhotoListContainer data={data} select={select} />
     </>
   );
 };

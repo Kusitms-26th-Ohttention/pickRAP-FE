@@ -42,6 +42,7 @@ const Search = ({ onSubmit, onClosed }: SearchProps) => {
         css={css`
           margin-right: 5px;
           width: 10px;
+          opacity: 0;
           z-index: 2;
           pointer-events: ${open ? 'initial' : 'none'};
           height: 17px;

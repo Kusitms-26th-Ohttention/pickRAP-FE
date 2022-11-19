@@ -14,9 +14,15 @@ import SelectCategory from '@/components/scrap/Toast/SelectCategory';
 interface TypedDetailProps {
   onSubmit?: (value: string) => void;
   onBack?: () => void;
+  placeholder?: string;
 }
 
-const TypedDetail = ({ onSubmit, onBack }: TypedDetailProps) => {
+/**
+ * @todo
+ * Compound Component 로 유연성 고려하기
+ * placeholder props 추후 리팩토링
+ */
+const TypedDetail = ({ onSubmit, onBack, placeholder = '업로드 하기' }: TypedDetailProps) => {
   const [title, setTitle] = useInput({ maxLength: 15 });
   const [hashtag, setHashtag] = useInput();
   const [memo, setMemo] = useInput();
@@ -125,7 +131,7 @@ const TypedDetail = ({ onSubmit, onBack }: TypedDetailProps) => {
           <InputBase id="memo" value={memo} onChange={(e) => setMemo(e.target.value)} />
         </div>
       </div>
-      <ActiveButton active>업로드 하기</ActiveButton>
+      <ActiveButton active>{placeholder}</ActiveButton>
     </form>
   );
 };

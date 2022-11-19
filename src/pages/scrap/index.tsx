@@ -18,11 +18,14 @@ import CategoryListContainer from '@/containers/scrap/CategoryListContainer';
 import ContentListContainer from '@/containers/scrap/ContentListContainer';
 import SearchListContainer from '@/containers/scrap/SearchListContainer';
 
+const initSelectedContext = { category: false, content: false, categoryInfo: false };
+type SelectContextKey = keyof typeof initSelectedContext;
+
 const Scrap: NextPage = () => {
-  const [selected, setSelected] = useState({ category: false, content: false });
+  const [selected, setSelected] = useState(initSelectedContext);
   const [searchString, setSearchString] = useState('');
   const [categoryInfo, setCategoryInfo] = useState<number | null>(null);
-  const ref = useRef<'category' | 'content'>('category');
+  const ref = useRef<SelectContextKey>('category');
   const setNavigation = useBottomNavigationContext()[1];
   const { show } = useToast();
   const popup = usePopup();
@@ -35,7 +38,7 @@ const Scrap: NextPage = () => {
   };
   const showDeleteScrapToast = () => show({ content: <DeleteScrapToast onDelete={handleDeleteScrap} /> });
 
-  const handleTabClick = (key: 'content' | 'category') => {
+  const handleTabClick = (key: SelectContextKey) => {
     setNavigation(selected[key] ? <DeleteNavigation onClick={showDeleteScrapToast} /> : 'default');
     ref.current = key;
   };
@@ -45,7 +48,6 @@ const Scrap: NextPage = () => {
       const ret = { ...prev };
       const deleted = ret[ref.current];
       deleted ? setNavigation('default') : setNavigation(<DeleteNavigation onClick={showDeleteScrapToast} />);
-
       ret[ref.current] = !ret[ref.current];
       return ret;
     });
@@ -57,7 +59,10 @@ const Scrap: NextPage = () => {
 
   const handleUploadToast = () => show({ content: <CreateScrapToast /> });
 
-  const handleClickCategoryList = (id: number) => () => setCategoryInfo(id);
+  const handleClickCategoryList = (id: number) => () => {
+    ref.current = 'categoryInfo';
+    setCategoryInfo(id);
+  };
 
   return (
     <>
@@ -127,7 +132,7 @@ const Scrap: NextPage = () => {
               {categoryInfo === null ? (
                 <CategoryListContainer select={selected.category} onClickItem={handleClickCategoryList} />
               ) : (
-                <CategoryDetailContainer id={categoryInfo} />
+                <CategoryDetailContainer id={categoryInfo} select={selected.categoryInfo} />
               )}
             </Tab.Content>
             <Tab.Content>
