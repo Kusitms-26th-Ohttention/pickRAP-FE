@@ -1,7 +1,7 @@
 import type { ReactElement } from 'react';
 import { useCallback } from 'react';
 
-import useToast from '@/application/hooks/useToast';
+import useToast from '@/application/hooks/common/useToast';
 import Confirm from '@/components/common/Modal/Confirm';
 
 const useModal = () => {
