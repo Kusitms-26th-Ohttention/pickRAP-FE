@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 import React from 'react';
 
-import { MOCK_GET_CATEGORIES } from '@/application/utils/mock';
+import { useGetCategories } from '@/application/hooks/api/category';
 import CategoryListItem from '@/components/scrap/CategoryListItem';
 interface CategoryListContainerProps {
   select: boolean;
@@ -9,7 +9,7 @@ interface CategoryListContainerProps {
 }
 
 const CategoryListContainer = ({ select, onClickItem }: CategoryListContainerProps) => {
-  const data = MOCK_GET_CATEGORIES; // TODO get Category with useQuery
+  const { categories } = useGetCategories();
   return (
     <div
       css={css`
@@ -30,11 +30,11 @@ const CategoryListContainer = ({ select, onClickItem }: CategoryListContainerPro
         `}
       >
         <div css={CSSCategoryListContainer}>
-          {data.map((category) => (
+          {categories?.map((category) => (
             <CategoryListItem
               onClick={onClickItem(category.id)}
               select={select}
-              src={category.file_url}
+              src={category.file_url ?? '/icon/scrap/defaultCategory.svg'}
               title={category.name}
               key={category.id}
             />

@@ -1,9 +1,37 @@
+import type { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 import axios from 'axios';
 
 import { API_ENDPOINT } from '@/application/utils/constant';
-import { getAccessToken } from '@/infra/api/token';
+import auth from '@/infra/api/auth';
+import { getAccessToken, setAccessToken } from '@/infra/api/token';
 
-const instance = axios.create({
+interface CustomInstance extends AxiosInstance {
+  get<T = unknown, R = AxiosResponse<APIResponse<T>>, D = unknown>(
+    url: string,
+    config?: AxiosRequestConfig<D>,
+  ): Promise<R>;
+  delete<T = unknown, R = AxiosResponse<APIResponse<T>>, D = unknown>(
+    url: string,
+    config?: AxiosRequestConfig<D>,
+  ): Promise<R>;
+  post<T = unknown, R = AxiosResponse<APIResponse<T>>, D = unknown>(
+    url: string,
+    data?: D,
+    config?: AxiosRequestConfig<D>,
+  ): Promise<R>;
+  put<T = unknown, R = AxiosResponse<APIResponse<T>>, D = unknown>(
+    url: string,
+    data?: D,
+    config?: AxiosRequestConfig<D>,
+  ): Promise<R>;
+  patch<T = unknown, R = AxiosResponse<APIResponse<T>>, D = unknown>(
+    url: string,
+    data?: D,
+    config?: AxiosRequestConfig<D>,
+  ): Promise<R>;
+}
+
+const instance: CustomInstance = axios.create({
   baseURL: API_ENDPOINT,
   withCredentials: true,
   headers: {},
@@ -22,19 +50,23 @@ instance.interceptors.response.use(
   },
   (err) => {
     if (axios.isAxiosError(err)) {
-      const status = err.response?.status || -1;
-      if (status == 401 && err.config && !err.config.headers!.retry) {
-        const origin = err.config;
-        origin.headers!.retry = true;
-        // authApi.refresh().then((res) => {
-        //   const { token } = res.data;
-        //   setAccessToken(token);
-        //   origin.headers!.Authorization = `Bearer ${token}`;
-        //   return axios(origin);
-        // });
+      const status = err.response?.status;
+      const origin = err.config as AxiosRequestConfig;
+
+      if (status == 401 && origin.url !== '/auth/reissue' && !origin.headers?.retry) {
+        return auth.reissue().then((res) => {
+          origin.headers!.retry = true;
+          if (res.headers.authorization) {
+            const token = res.headers.authorization.slice(7);
+            origin.headers!.Authorization = `Bearer ${token}`;
+
+            setAccessToken(token);
+            return axios.request(origin);
+          }
+        });
       }
     }
-    throw err;
+    return Promise.reject(err);
   },
 );
 

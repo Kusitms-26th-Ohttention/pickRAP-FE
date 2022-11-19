@@ -16,6 +16,7 @@ type HandleScrapArgs =
 const useUploadScrap = () => {
   const [scrap, setScrap] = useRecoilState(uploadScrapState);
 
+  // TODO reducer 비슷한데 더 좋은 방법 없을지?
   const handleScrap = ({ type, data }: HandleScrapArgs) => {
     console.log('👀 UploadScrapState :::', type, data);
     switch (type) {

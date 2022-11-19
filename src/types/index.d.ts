@@ -6,3 +6,9 @@ interface Category {
   name: string;
   scrapType: 'IMAGE';
 }
+
+interface APIResponse<T = any> {
+  code: number;
+  data: T;
+  message: string;
+}

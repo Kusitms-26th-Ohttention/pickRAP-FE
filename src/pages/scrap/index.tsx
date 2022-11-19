@@ -7,6 +7,7 @@ import usePopup from '@/application/hooks/usePopup';
 import useToast from '@/application/hooks/useToast';
 import { DeletePopup } from '@/components/common/Popup/Sentence';
 import Search from '@/components/common/Search';
+import { ThreeDotsSpinner } from '@/components/common/Spinner';
 import Tab from '@/components/common/Tab';
 import DeleteNavigation from '@/components/scrap/DeleteNavigation';
 import { CreateScrapToast, DeleteScrapToast } from '@/components/scrap/Toast';
@@ -17,6 +18,7 @@ import CategoryDetailContainer from '@/containers/scrap/CategoryDetailContainer'
 import CategoryListContainer from '@/containers/scrap/CategoryListContainer';
 import ContentListContainer from '@/containers/scrap/ContentListContainer';
 import SearchListContainer from '@/containers/scrap/SearchListContainer';
+import SSRSafeSuspense from '@/containers/Suspense';
 
 const initSelectedContext = { category: false, content: false, categoryInfo: false };
 type SelectContextKey = keyof typeof initSelectedContext;
@@ -127,18 +129,20 @@ const Scrap: NextPage = () => {
             <Tab.Label onClick={() => handleTabClick('category')}>카테고리 별</Tab.Label>
             <Tab.Label onClick={() => handleTabClick('content')}>콘텐츠 별</Tab.Label>
           </Tab.Group>
-          <Tab.Panel>
-            <Tab.Content>
-              {categoryInfo === null ? (
-                <CategoryListContainer select={selected.category} onClickItem={handleClickCategoryList} />
-              ) : (
-                <CategoryDetailContainer id={categoryInfo} select={selected.categoryInfo} />
-              )}
-            </Tab.Content>
-            <Tab.Content>
-              <ContentListContainer select={selected.content} />
-            </Tab.Content>
-          </Tab.Panel>
+          <SSRSafeSuspense fallback={<ThreeDotsSpinner />}>
+            <Tab.Panel>
+              <Tab.Content>
+                {categoryInfo === null ? (
+                  <CategoryListContainer select={selected.category} onClickItem={handleClickCategoryList} />
+                ) : (
+                  <CategoryDetailContainer id={categoryInfo} select={selected.categoryInfo} />
+                )}
+              </Tab.Content>
+              <Tab.Content>
+                <ContentListContainer select={selected.content} />
+              </Tab.Content>
+            </Tab.Panel>
+          </SSRSafeSuspense>
         </Tab>
       )}
     </>
