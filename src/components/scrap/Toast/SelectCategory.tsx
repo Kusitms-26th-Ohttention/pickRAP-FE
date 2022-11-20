@@ -1,10 +1,12 @@
 import { css } from '@emotion/react';
+import axios from 'axios';
 
-import { useGetCategories } from '@/application/hooks/api/category';
+import { useGetCategories, useSaveCategory } from '@/application/hooks/api/category';
 import useModal from '@/application/hooks/common/useModal';
 import usePopup from '@/application/hooks/common/usePopup';
 import useToast from '@/application/hooks/common/useToast';
 import useScrapForm from '@/application/store/scrap/useScrapForm';
+import { ERR_CODE } from '@/application/utils/constant';
 import Photo from '@/components/common/Photo';
 import CreateCategory from '@/components/scrap/Popup/CreateCategory';
 import TypedComplete from '@/components/scrap/Toast/TypedComplete';
@@ -46,6 +48,7 @@ const SelectCategory = () => {
 
   const { handleScrap } = useScrapForm();
   const { replace, show: toast } = useToast();
+  const mutation = useSaveCategory();
   return (
     <section
       css={css`
@@ -90,12 +93,24 @@ const SelectCategory = () => {
           onClick={() => {
             show(
               <CreateCategory
-                onSuccess={(id) => {
-                  popup('성공적으로 생성 되었습니다', 'success');
-                  handleScrap({ type: 'category', data: id });
-                  // TODO popup().then Promise로 api 개선
-                  // 현재 버그 가능성 많음
-                  setTimeout(() => toast({ content: <TypedComplete /> }), 1500);
+                onSubmit={(category, setError) => {
+                  mutation.mutate(
+                    { name: category },
+                    {
+                      onSuccess: ({ data }) => {
+                        popup('성공적으로 생성 되었습니다', 'success');
+                        handleScrap({ type: 'category', data: data.data.id });
+                        // TODO popup().then Promise로 api 개선
+                        // 현재 버그 가능성 많음
+                        setTimeout(() => toast({ content: <TypedComplete /> }), 1500);
+                      },
+                      onError: (err) => {
+                        if (axios.isAxiosError(err)) {
+                          err.response?.data.code === ERR_CODE.DUPLICATED_CATEGORY && setError(true);
+                        }
+                      },
+                    },
+                  );
                 }}
               />,
             );
