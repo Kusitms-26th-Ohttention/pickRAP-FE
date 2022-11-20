@@ -3,7 +3,7 @@ import Image from 'next/image';
 import type { PropsWithChildren } from 'react';
 import { useState } from 'react';
 
-import useClickOutside from '@/application/hooks/useClickOutside';
+import useClickOutside from '@/application/hooks/utils/useClickOutside';
 
 import type { SelectProps } from './context';
 import { SelectContext, useSelectContext } from './context';

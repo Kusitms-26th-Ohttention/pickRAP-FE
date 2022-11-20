@@ -1,16 +1,36 @@
 import { css } from '@emotion/react';
 import React, { useState } from 'react';
 
-import { MOCK_GET_CATEGORIES } from '@/application/utils/mock';
+import { useGetScrapByType } from '@/application/hooks/api/scrap';
 import Select from '@/components/common/Select';
 import PhotoListContainer from '@/containers/scrap/PhotoListContainer';
 
 interface ContentListContainerProps {
   select?: boolean;
 }
+
+const getTypeFromFilter = (filter: string) => {
+  switch (filter) {
+    case '사진':
+      return 'image';
+    case '비디오':
+      return 'video';
+    case '파일':
+      return 'pdf';
+    case '링크':
+      return 'link';
+    case '텍스트':
+      return 'text';
+    default:
+      return 'image';
+  }
+};
+
 const ContentListContainer = ({ select }: ContentListContainerProps) => {
   const [filter, setFilter] = useState('사진');
-  const data = MOCK_GET_CATEGORIES; // TODO useQuery with Select value
+
+  // TODO 스크랩 타입 소문자로 통일하기
+  const { scraps } = useGetScrapByType({ filter: getTypeFromFilter(filter) });
 
   return (
     <>
@@ -32,7 +52,7 @@ const ContentListContainer = ({ select }: ContentListContainerProps) => {
         </Select>
       </span>
 
-      <PhotoListContainer data={data} select={select} />
+      <PhotoListContainer data={scraps || []} select={select} />
     </>
   );
 };

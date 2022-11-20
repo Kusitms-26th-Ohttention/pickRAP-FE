@@ -19,6 +19,7 @@ const QueryClientProvider = ({ hydrateState, children }: Props) => {
             retry: 0,
             refetchOnWindowFocus: false,
             refetchOnMount: false,
+            keepPreviousData: true,
           },
         },
       }),

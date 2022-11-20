@@ -5,7 +5,7 @@ import { useGetCategories } from '@/application/hooks/api/category';
 import CategoryListItem from '@/components/scrap/CategoryListItem';
 interface CategoryListContainerProps {
   select: boolean;
-  onClickItem: (id: number) => () => void;
+  onClickItem: (info: { id: number; name: string }) => void;
 }
 
 const CategoryListContainer = ({ select, onClickItem }: CategoryListContainerProps) => {
@@ -32,7 +32,7 @@ const CategoryListContainer = ({ select, onClickItem }: CategoryListContainerPro
         <div css={CSSCategoryListContainer}>
           {categories?.map((category) => (
             <CategoryListItem
-              onClick={onClickItem(category.id)}
+              onClick={() => onClickItem({ id: category.id, name: category.name })}
               select={select}
               src={category.file_url ?? '/icon/scrap/defaultCategory.svg'}
               title={category.name}

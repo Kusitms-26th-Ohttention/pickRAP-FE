@@ -3,7 +3,7 @@ import type { NextPage } from 'next';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 
-import { useInput } from '@/application/hooks/useInput';
+import { useInput } from '@/application/hooks/common/useInput';
 import { ActiveButton } from '@/components/common/Button';
 import { InputBase, InputLabel } from '@/components/common/Input';
 import withNavigation from '@/containers/HOC/withNavigation';

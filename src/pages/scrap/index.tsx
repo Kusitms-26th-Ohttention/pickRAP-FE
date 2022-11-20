@@ -3,8 +3,8 @@ import type { NextPage } from 'next';
 import Image from 'next/image';
 import React, { useRef, useState } from 'react';
 
-import usePopup from '@/application/hooks/usePopup';
-import useToast from '@/application/hooks/useToast';
+import usePopup from '@/application/hooks/common/usePopup';
+import useToast from '@/application/hooks/common/useToast';
 import { DeletePopup } from '@/components/common/Popup/Sentence';
 import Search from '@/components/common/Search';
 import { ThreeDotsSpinner } from '@/components/common/Spinner';
@@ -26,7 +26,9 @@ type SelectContextKey = keyof typeof initSelectedContext;
 const Scrap: NextPage = () => {
   const [selected, setSelected] = useState(initSelectedContext);
   const [searchString, setSearchString] = useState('');
-  const [categoryInfo, setCategoryInfo] = useState<number | null>(null);
+
+  // TODO 응답 데이터에 카테고뢰 이름 있는지 확인
+  const [categoryInfo, setCategoryInfo] = useState<{ id: number; name: string }>({ id: 0, name: '' });
   const ref = useRef<SelectContextKey>('category');
   const setNavigation = useBottomNavigationContext()[1];
   const { show } = useToast();
@@ -61,9 +63,9 @@ const Scrap: NextPage = () => {
 
   const handleUploadToast = () => show({ content: <CreateScrapToast /> });
 
-  const handleClickCategoryList = (id: number) => () => {
+  const handleClickCategoryList = (info: typeof categoryInfo) => {
     ref.current = 'categoryInfo';
-    setCategoryInfo(id);
+    setCategoryInfo(info);
   };
 
   return (
@@ -78,9 +80,9 @@ const Scrap: NextPage = () => {
           align-items: center;
         `}
       >
-        {categoryInfo !== null ? (
+        {categoryInfo.name ? (
           <span
-            onClick={() => setCategoryInfo(null)}
+            onClick={() => setCategoryInfo({ id: 0, name: '' })}
             css={css`
               width: 10px;
               height: 17px;
@@ -122,20 +124,22 @@ const Scrap: NextPage = () => {
         <UploadButton />
       </span>
       {searchString ? (
-        <SearchListContainer params={searchString} />
+        <SSRSafeSuspense fallback={<ThreeDotsSpinner />}>
+          <SearchListContainer params={searchString} />
+        </SSRSafeSuspense>
       ) : (
         <Tab>
           <Tab.Group>
             <Tab.Label onClick={() => handleTabClick('category')}>카테고리 별</Tab.Label>
             <Tab.Label onClick={() => handleTabClick('content')}>콘텐츠 별</Tab.Label>
           </Tab.Group>
-          <SSRSafeSuspense fallback={<ThreeDotsSpinner />}>
+          <SSRSafeSuspense fallback={null}>
             <Tab.Panel>
               <Tab.Content>
-                {categoryInfo === null ? (
+                {!categoryInfo.name ? (
                   <CategoryListContainer select={selected.category} onClickItem={handleClickCategoryList} />
                 ) : (
-                  <CategoryDetailContainer id={categoryInfo} select={selected.categoryInfo} />
+                  <CategoryDetailContainer info={categoryInfo} select={selected.categoryInfo} />
                 )}
               </Tab.Content>
               <Tab.Content>

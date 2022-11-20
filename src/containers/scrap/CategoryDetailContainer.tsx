@@ -1,16 +1,16 @@
 import { css } from '@emotion/react';
 import React from 'react';
 
-import { MOCK_GET_CATEGORIES } from '@/application/utils/mock';
+import { useGetContentByCategory } from '@/application/hooks/api/category';
 import PhotoListContainer from '@/containers/scrap/PhotoListContainer';
 
 interface CategoryDetailContainerProps {
-  id: number;
+  info: { id: number; name: string };
   select?: boolean;
 }
 
-const CategoryDetailContainer = ({ id, select }: CategoryDetailContainerProps) => {
-  const data = MOCK_GET_CATEGORIES; // TODO useQuery with category id
+const CategoryDetailContainer = ({ select, info }: CategoryDetailContainerProps) => {
+  const { categories } = useGetContentByCategory({ id: info.id });
 
   return (
     <>
@@ -25,9 +25,9 @@ const CategoryDetailContainer = ({ id, select }: CategoryDetailContainerProps) =
           `
         }
       >
-        {'내가 정말 좋아하는 색감'}
+        {info.name}
       </span>
-      <PhotoListContainer data={data} select={select} />
+      <PhotoListContainer data={categories} select={select} />
     </>
   );
 };

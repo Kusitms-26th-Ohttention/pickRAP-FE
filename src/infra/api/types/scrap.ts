@@ -1,18 +1,17 @@
-export interface GetScrapDetailResponse {
-  category: string;
-  content: string;
-  create_time: string;
-  file_url: string;
-  hashtags: string[];
-  id: number;
-  memo: string;
-  scrap_type: 'IMAGE' | 'todo';
-  title: string;
+export type GetScrapDetailResponse = Scrap;
+
+export interface GetScrapBySearchRequest {
+  search: string;
+  pageParam?: number;
 }
-type ScrapContent = GetScrapDetailResponse;
+
+export interface GetScrapByTypeRequest {
+  filter: ScrapType;
+  pageParam?: number;
+}
 
 export interface GetScrapsResponse {
-  content: ScrapContent[];
+  content: Scrap[];
   empty: boolean;
   first: boolean;
   last: boolean;
@@ -39,16 +38,17 @@ export interface GetScrapsResponse {
 }
 
 export interface SaveScrapRequest {
-  file: FormData;
+  file: File;
   category_id: number;
-  hashtags: { tag: string }[];
+  content: string;
+  hashtags: string[];
   memo: string;
-  scrap_type: 'IMAGE' | 'VIDEO' | 'PDF' | 'TEXT' | 'LINK';
+  scrap_type: ScrapType;
   title: string;
 }
 
 export interface ModifyScrapRequest {
-  hashtags: { tag: string }[];
+  hashtags: string[];
   id: number;
   memo: string;
   title: string;

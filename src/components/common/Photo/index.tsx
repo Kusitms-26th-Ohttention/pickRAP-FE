@@ -9,10 +9,11 @@ interface PhotoProps {
   height?: string;
   blur?: ReactElement;
   custom?: CustomStyle;
+  text?: string;
   onClick?: () => void;
 }
 
-const Photo = ({ src, width, height, blur, custom, onClick }: PhotoProps) => {
+const Photo = ({ src, width, height, blur, custom, onClick, text }: PhotoProps) => {
   return (
     <div
       onClick={onClick}
@@ -28,7 +29,33 @@ const Photo = ({ src, width, height, blur, custom, onClick }: PhotoProps) => {
       ]}
     >
       {blur}
-      <Image src={src} layout="fill" objectFit={'cover'} objectPosition="center" />
+      {src ? (
+        <Image src={src} layout="fill" objectFit={'cover'} objectPosition="center" />
+      ) : (
+        // TODO 다른 컴포넌트로 책임 분리
+        <div
+          css={css`
+            width: 100%;
+            height: 100%;
+            background: #dbdbdb;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+          `}
+        >
+          <span
+            css={css`
+              overflow: hidden;
+              text-overflow: ellipsis;
+              display: -webkit-box;
+              -webkit-line-clamp: 2;
+              -webkit-box-orient: vertical;
+            `}
+          >
+            {text}
+          </span>
+        </div>
+      )}
     </div>
   );
 };

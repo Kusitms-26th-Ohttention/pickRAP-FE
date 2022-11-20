@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 
 import useSignUp from '@/application/hooks/api/auth/useSignUp';
-import { useInput } from '@/application/hooks/useInput';
+import { useInput } from '@/application/hooks/common/useInput';
 import { EMAIL_REGEXP, PASSWORD_REGEXP } from '@/application/utils/constant';
 import errorHandler from '@/application/utils/errorHandler';
 import { AuthForm } from '@/components/auth/LoginForm';

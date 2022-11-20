@@ -1,7 +1,7 @@
 import type { ComponentProps } from 'react';
 import { Suspense } from 'react';
 
-import useMount from '@/application/hooks/useMount';
+import useMount from '@/application/hooks/utils/useMount';
 
 const SSRSafeSuspense = (props: ComponentProps<typeof Suspense>) => {
   const isMounted = useMount();

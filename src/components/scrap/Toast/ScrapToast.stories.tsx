@@ -3,8 +3,8 @@ import React from 'react';
 
 import _DeleteScrap from '@/components/scrap/Toast/DeleteScrap';
 import _SelectCategory from '@/components/scrap/Toast/SelectCategory';
+import _TypedDetailContent from '@/components/scrap/Toast/TypedComplete';
 import _TypedDetail from '@/components/scrap/Toast/TypedDetail';
-import _TypedDetailContent from '@/components/scrap/Toast/TypedDetailContent';
 
 import _CreateScrap from './CreateScrap';
 

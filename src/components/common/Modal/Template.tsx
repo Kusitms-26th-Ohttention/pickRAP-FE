@@ -3,8 +3,8 @@ import { motion } from 'framer-motion';
 import type { PropsWithChildren } from 'react';
 import React from 'react';
 
-import useClickOutside from '@/application/hooks/useClickOutside';
-import useToast from '@/application/hooks/useToast';
+import useToast from '@/application/hooks/common/useToast';
+import useClickOutside from '@/application/hooks/utils/useClickOutside';
 
 const ModalTemplate = ({ children }: PropsWithChildren) => {
   const { close } = useToast();

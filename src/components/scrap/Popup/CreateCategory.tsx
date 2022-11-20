@@ -1,8 +1,8 @@
 import { css } from '@emotion/react';
 import React, { useState } from 'react';
 
-import { useInput } from '@/application/hooks/useInput';
-import useToast from '@/application/hooks/useToast';
+import { useInput } from '@/application/hooks/common/useInput';
+import useToast from '@/application/hooks/common/useToast';
 import { ActiveButton } from '@/components/common/Button';
 import { InputBase, InputLabel } from '@/components/common/Input';
 

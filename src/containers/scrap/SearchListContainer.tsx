@@ -1,19 +1,18 @@
 import { css } from '@emotion/react';
 import Image from 'next/image';
 
-import { MOCK_GET_CATEGORIES } from '@/application/utils/mock';
+import { useGetScrapBySearch } from '@/application/hooks/api/scrap';
 import PhotoListContainer from '@/containers/scrap/PhotoListContainer';
 
 interface SearchListContainerProps {
   params?: string;
 }
 const SearchListContainer = ({ params }: SearchListContainerProps) => {
-  const data = MOCK_GET_CATEGORIES; // TODO useQuery with search value
-
-  return data ? (
+  const { scraps } = useGetScrapBySearch({ search: params || '' });
+  return scraps.length ? (
     <>
       <span style={{ height: 26 }} />
-      <PhotoListContainer data={data} />
+      <PhotoListContainer data={scraps} />
     </>
   ) : (
     <div
