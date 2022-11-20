@@ -19,7 +19,7 @@ interface TypedDetailProps {
 const TypedDetail = ({ onSubmit, onBack, type }: TypedDetailProps) => {
   const ref = useRef<HTMLInputElement | HTMLTextAreaElement>();
   const { replace } = useToast();
-  const dispatch = useScrapForm()[1];
+  const { handleScrap } = useScrapForm();
 
   return (
     <form
@@ -27,7 +27,7 @@ const TypedDetail = ({ onSubmit, onBack, type }: TypedDetailProps) => {
         e.preventDefault();
         if (ref.current?.value) {
           onSubmit?.(ref.current.value);
-          dispatch({ type, data: ref.current.value });
+          handleScrap({ type, data: ref.current.value });
           replace({ content: <SelectCategoryToast /> });
         }
       }}

@@ -28,7 +28,9 @@ const TypedComplete = ({ onSubmit, onBack, placeholder = '업로드 하기' }: T
   const [memo, setMemo] = useInput();
   const { replace, show } = useToast();
   const popup = usePopup();
-  const { uploadRequest, ...rest } = useScrapForm()[0];
+  const {
+    scrap: { uploadRequest, ...rest },
+  } = useScrapForm();
 
   return (
     // TODO AuthForm 포함 Common Form 추상화
@@ -44,7 +46,8 @@ const TypedComplete = ({ onSubmit, onBack, placeholder = '업로드 하기' }: T
           { ...rest, hashtags: tags, title, memo },
           {
             onSuccess: () => {
-              popup('성공적으로 생성 되었습니다', 'success');
+              // TODO 매우 별로인 코드
+              popup(`성공적으로 ${placeholder === '완료 하기' ? '수정' : '생성'} 되었습니다`, 'success');
             },
           },
         );

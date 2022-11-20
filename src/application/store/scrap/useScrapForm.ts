@@ -49,7 +49,7 @@ const useScrapForm = () => {
     [setScrap],
   );
 
-  return [scrap, handleScrap, setRequest] as const;
+  return { scrap, handleScrap, setRequest } as const;
 };
 
 export default useScrapForm;

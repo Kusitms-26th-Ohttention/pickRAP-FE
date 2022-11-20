@@ -3,9 +3,9 @@ import Image from 'next/image';
 import React from 'react';
 
 type SwipeBackgroundProps =
-  | { type: 'img'; src: string }
-  | { type: 'memo'; text: string }
-  | { type: 'link'; preview: unknown };
+  | { type: 'image'; src?: string }
+  | { type: 'text'; text?: string }
+  | { type: 'link'; preview?: unknown };
 
 const SwipeBackground = (props: SwipeBackgroundProps) => {
   return (
@@ -20,21 +20,21 @@ const SwipeBackground = (props: SwipeBackgroundProps) => {
         margin: auto;
       `}
     >
-      {props.type === 'img' ? (
-        <Image src={props.src} layout="fill" objectFit={'cover'} />
-      ) : props.type === 'memo' ? (
+      {props.type === 'image' ? (
+        <Image src={props.src || '/icon/scrap/defaultCategory.svg'} layout="fill" objectFit={'cover'} />
+      ) : props.type === 'text' ? (
         <span
           css={(theme) => css`
             background: ${theme.color.gray02};
             word-wrap: break-word;
             color: ${theme.color.white01};
             line-height: 160%;
-            width: 100%;
+            width: 100vw;
+            max-width: 440px;
             height: 58vh;
             ${theme.font.R_BODY_12};
-            padding: 0 18px;
+            padding: 100px 18px 0 18px;
             display: table-cell;
-            vertical-align: middle;
             white-space: pre-wrap;
           `}
         >

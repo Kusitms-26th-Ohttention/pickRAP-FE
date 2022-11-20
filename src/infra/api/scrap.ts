@@ -6,8 +6,8 @@ import type {
   GetScrapDetailRequest,
   GetScrapDetailResponse,
   GetScrapsResponse,
-  ModifyScrapRequest,
   SaveScrapRequest,
+  UpdateScrapReqeust,
 } from '@/infra/api/types/scrap';
 
 class ScrapApi {
@@ -18,7 +18,7 @@ class ScrapApi {
   getScrapById = ({ id }: GetScrapDetailRequest) => this.api.get<GetScrapDetailResponse>(`/scrap/${id}`);
 
   getScrapByType = ({ filter, pageParam }: GetScrapByTypeRequest) =>
-    this.api.get<GetScrapsResponse>(`/scrap/type/${filter}?order_keyword=desc&page=${pageParam || ''}`);
+    this.api.get<GetScrapsResponse>(`/scrap/type/${filter}?page=${pageParam || ''}&order_keyword=desc`);
 
   saveScrap = ({ file, ...rest }: SaveScrapRequest) => {
     const request = new FormData();
@@ -27,7 +27,7 @@ class ScrapApi {
 
     return this.api.post('/scrap', request);
   };
-  modifyScrap = (data: ModifyScrapRequest) => {
+  updateScrap = (data: UpdateScrapReqeust) => {
     return this.api.put('/scrap', data);
   };
   deleteScrap = ({ id }: DeleteScrapRequest) => {

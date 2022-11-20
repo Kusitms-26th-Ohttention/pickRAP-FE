@@ -134,12 +134,12 @@ const Description = ({ children }: PropsWithChildren) => {
             line-height: 1.6;
             margin-bottom: 10px;
             word-wrap: break-word;
+            display: -webkit-box;
           `,
         !isOpen &&
           css`
             overflow: hidden;
             text-overflow: ellipsis;
-            display: -webkit-box;
             -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
           `,

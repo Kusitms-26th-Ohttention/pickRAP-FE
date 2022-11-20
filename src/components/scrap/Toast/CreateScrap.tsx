@@ -9,13 +9,13 @@ import useToast from '@/application/hooks/common/useToast';
 import useScrapForm from '@/application/store/scrap/useScrapForm';
 import { ActiveButton } from '@/components/common/Button';
 import CreateCategory from '@/components/scrap/Popup/CreateCategory';
-import { TypedDetailContentToast, TypedDetailToast } from '@/components/scrap/Toast/index';
+import { TypedCompleteToast, TypedDetailToast } from '@/components/scrap/Toast/index';
 
 const CreateScrap = () => {
   const { close, replace } = useToast();
   const { show } = useModal();
   const popup = usePopup();
-  const [, dispatch, setRequest] = useScrapForm();
+  const { handleScrap, setRequest } = useScrapForm();
   const mutation = useSaveScrap();
   const ref = useRef<HTMLInputElement>(null);
 
@@ -27,8 +27,8 @@ const CreateScrap = () => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    dispatch({ type: 'file', data: file });
-    replace({ content: <TypedDetailContentToast /> });
+    handleScrap({ type: 'file', data: file });
+    replace({ content: <TypedCompleteToast /> });
   };
   const handleLinkInput = () => replace({ content: <TypedDetailToast type={'link'} /> });
   const handleTextInput = () => replace({ content: <TypedDetailToast type={'text'} /> });

@@ -7,8 +7,6 @@ export const useGetCategories = () => {
   const { data, ...rest } = useQuery({
     queryKey: ['getCategories'],
     queryFn: api.category.getCategories,
-    cacheTime: Infinity,
-    staleTime: 100000,
   });
   return { ...rest, categories: data?.data.data || [] };
 };
@@ -18,15 +16,13 @@ export const useGetContentByCategory = ({ id }: Parameters<typeof api.category.g
     queryKey: ['getContentByCategory', id],
     queryFn: ({ pageParam }) => api.category.getContentByCategory({ id, pageParam }),
     getNextPageParam: (lastPage) =>
-      lastPage.data.data.numberOfElement
-        ? lastPage.data.data.pageable.offset + lastPage.data.data.pageable.pageSize
-        : undefined,
+      !lastPage.data.data.scrapResponses.last ? lastPage.data.data.nextScrapId : undefined,
   });
 
   const categories = data
     ? data.pages
-        .map((page) => page.data.data.content)
-        .reduce<GetContentByCategoryResponse['content']>(
+        .map((page) => page.data.data.scrapResponses.content)
+        .reduce<GetContentByCategoryResponse['scrapResponses']['content']>(
           (mergedContents, currentContents) => [...mergedContents, ...currentContents],
           [],
         )

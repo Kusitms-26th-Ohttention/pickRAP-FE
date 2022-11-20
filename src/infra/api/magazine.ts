@@ -4,8 +4,8 @@ import type {
   GetScrapDetailRequest,
   GetScrapDetailResponse,
   GetScrapsResponse,
-  ModifyScrapRequest,
   SaveScrapRequest,
+  UpdateScrapReqeust,
 } from '@/infra/api/types/scrap';
 
 class MagazineApi {
@@ -20,7 +20,7 @@ class MagazineApi {
   saveScrap = (data: SaveScrapRequest) => {
     return this.api.post('/scrap', data);
   };
-  modifyScrap = (data: ModifyScrapRequest) => {
+  modifyScrap = (data: UpdateScrapReqeust) => {
     return this.api.put('/scrap', data);
   };
   deleteScrap = ({ id }: DeleteScrapRequest) => {

@@ -11,29 +11,32 @@ export interface GetScrapByTypeRequest {
 }
 
 export interface GetScrapsResponse {
-  content: Scrap[];
-  empty: boolean;
-  first: boolean;
-  last: boolean;
-  number: number;
-  numberOfElement: number;
-  pageable: {
-    offset: number;
-    pageNumber: number;
-    pageSize: number;
-    paged: boolean;
+  nextScrapId: number;
+  scrapResponses: {
+    content: Scrap[];
+    empty: boolean;
+    first: boolean;
+    last: boolean;
+    number: number;
+    numberOfElement: number;
+    pageable: {
+      offset: number;
+      pageNumber: number;
+      pageSize: number;
+      paged: boolean;
+      sort: {
+        empty: boolean;
+        sorted: boolean;
+        unsorted: boolean;
+      };
+      unpaged: boolean;
+    };
+    size: number;
     sort: {
       empty: boolean;
       sorted: boolean;
       unsorted: boolean;
     };
-    unpaged: boolean;
-  };
-  size: number;
-  sort: {
-    empty: boolean;
-    sorted: boolean;
-    unsorted: boolean;
   };
 }
 
@@ -47,7 +50,7 @@ export interface SaveScrapRequest {
   title: string;
 }
 
-export interface ModifyScrapRequest {
+export interface UpdateScrapReqeust {
   hashtags: string[];
   id: number;
   memo: string;
@@ -55,6 +58,6 @@ export interface ModifyScrapRequest {
 }
 
 export interface DeleteScrapRequest {
-  id: number[];
+  id: number;
 }
 export type GetScrapDetailRequest = DeleteScrapRequest;

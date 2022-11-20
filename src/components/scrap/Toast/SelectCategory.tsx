@@ -44,7 +44,7 @@ const SelectCategory = () => {
   const popup = usePopup();
   const { show } = useModal();
 
-  const dispatch = useScrapForm()[1];
+  const { handleScrap } = useScrapForm();
   const { replace, show: toast } = useToast();
   return (
     <section
@@ -81,7 +81,7 @@ const SelectCategory = () => {
             {...category}
             file_url={category.file_url || '/icon/scrap/defaultCategory.svg'}
             onClick={() => {
-              dispatch({ type: 'category', data: category.id });
+              handleScrap({ type: 'category', data: category.id });
               replace({ content: <TypedComplete /> });
             }}
           />
@@ -92,7 +92,7 @@ const SelectCategory = () => {
               <CreateCategory
                 onSuccess={(id) => {
                   popup('성공적으로 생성 되었습니다', 'success');
-                  dispatch({ type: 'category', data: id });
+                  handleScrap({ type: 'category', data: id });
                   // TODO popup().then Promise로 api 개선
                   // 현재 버그 가능성 많음
                   setTimeout(() => toast({ content: <TypedComplete /> }), 1500);

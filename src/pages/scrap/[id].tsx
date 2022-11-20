@@ -4,49 +4,59 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
 
+import { useGetScrapById, useUpdateScrap } from '@/application/hooks/api/scrap';
 import useToast from '@/application/hooks/common/useToast';
 import useScrapForm from '@/application/store/scrap/useScrapForm';
-import { MEMO, PROFILE } from '@/application/utils/mock';
+import { PROFILE } from '@/application/utils/mock';
 import { ActiveButton } from '@/components/common/Button';
 import { Profile } from '@/components/scrap/Content/Content.stories';
 import SwipeBackground from '@/components/scrap/Content/SwipeBackground';
 import SwipeSection from '@/components/scrap/Content/SwipeSection';
-import { TypedDetailContentToast } from '@/components/scrap/Toast';
-import { api } from '@/infra/api';
+import { TypedCompleteToast } from '@/components/scrap/Toast';
 
 const ShowScrap: NextPage = () => {
   const { show } = useToast();
   const router = useRouter();
 
-  const setRequest = useScrapForm()[2];
+  const id = Number(router.query.id);
+  const mutation = useUpdateScrap(id);
+  const { scrap } = useGetScrapById({ id });
 
+  const { setRequest } = useScrapForm();
   useEffect(() => {
-    setRequest<typeof api.scrap.modifyScrap>(api.scrap.modifyScrap);
-  }, [setRequest]);
+    setRequest(mutation.mutate);
+  }, [mutation.mutate, setRequest]);
 
-  // TODO useQuery with content id (router.query.id)
-  // TODO useMutation for modify
+  const scrapType = scrap?.scrap_type.toLowerCase() as 'image' | 'text' | 'link';
+
+  const swipeBackgroundProps =
+    scrapType === 'image'
+      ? { src: scrap?.file_url, type: scrapType }
+      : scrapType === 'text'
+      ? { text: scrap?.content, type: scrapType }
+      : { preview: scrap?.file_url, type: scrapType };
+
   return (
     <>
       <span
         onClick={() => router.back()}
         css={css`
           position: fixed;
+          padding-top: 8px;
           z-index: 1;
         `}
       >
         <Image src={'/icon/borderBackArrow.svg'} width={35} height={34} />
       </span>
-      <SwipeSection background={<SwipeBackground src={'/picture/mock.png'} type={'img'} />}>
+      <SwipeSection background={<SwipeBackground {...swipeBackgroundProps} />}>
         <SwipeSection.Able>
-          <SwipeSection.Title>강릉 겨울바다 색감</SwipeSection.Title>
-          <SwipeSection.Description>{MEMO}</SwipeSection.Description>
+          <SwipeSection.Title>{scrap?.title}</SwipeSection.Title>
+          <SwipeSection.Description>{scrap?.memo}</SwipeSection.Description>
         </SwipeSection.Able>
         <SwipeSection.Bottom>
-          <SwipeSection.Tag tags={['#블루', '#감성적인', '#겨울바다']} />
+          <SwipeSection.Tag tags={scrap?.hashtags || []} />
           <Profile {...PROFILE} />
-          {/* TODO 수정을 위한 토스트 컴포넌트 제작 */}
-          <ActiveButton active onClick={() => show({ content: <TypedDetailContentToast placeholder={'완료 하기'} /> })}>
+          <ActiveButton active onClick={() => show({ content: <TypedCompleteToast placeholder={'완료 하기'} /> })}>
             편집하기
           </ActiveButton>
         </SwipeSection.Bottom>
