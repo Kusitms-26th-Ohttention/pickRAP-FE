@@ -6,8 +6,8 @@ import type {
   GetContentByCategoryResponse,
   SaveCategoryRequest,
   SaveCategoryResponse,
+  UpdateCategoryRequest,
 } from '@/infra/api/types/category';
-import type { UpdateScrapReqeust } from '@/infra/api/types/scrap';
 
 class CategoryApi {
   constructor(private api: typeof instance) {}
@@ -19,11 +19,12 @@ class CategoryApi {
 
   saveCategory = (data: SaveCategoryRequest) => this.api.post<SaveCategoryResponse>('/category', data);
 
-  modifyCategory = (data: UpdateScrapReqeust) => {
-    return this.api.put(`/category/${data.id}`, { title: data.title });
+  updateCategory = (data: UpdateCategoryRequest) => {
+    return this.api.put(`/category/${data.id}`, { name: data.name });
   };
-  deleteScrap = ({ id }: DeleteCategoryRequest) => {
-    return this.api.delete(`/category/?id=${id}`);
+  deleteCategory = ({ ids }: DeleteCategoryRequest) => {
+    const param = ids.reduce((acc, cur) => `${acc}${cur},`, '').slice(0, -1);
+    return this.api.delete(`/category/?ids=${param}`);
   };
 }
 

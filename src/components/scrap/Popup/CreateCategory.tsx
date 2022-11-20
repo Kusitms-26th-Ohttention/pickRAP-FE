@@ -1,4 +1,5 @@
 import { css } from '@emotion/react';
+import type { Dispatch, SetStateAction } from 'react';
 import React, { useState } from 'react';
 
 import { useInput } from '@/application/hooks/common/useInput';
@@ -7,13 +8,13 @@ import { ActiveButton } from '@/components/common/Button';
 import { InputBase, InputLabel } from '@/components/common/Input';
 
 interface CreateCategoryProps {
-  onSuccess?: (categoryId: number) => void;
+  onSubmit?: (category: string, errorFn: Dispatch<SetStateAction<boolean>>) => void;
 }
 
 // TODO (refactor) 에러 메세지 constant 파일 분리
 const CREATE_CATEGORY_ERROR = '이미 있는 제목입니다.';
 
-const CreateCategory = ({ onSuccess }: CreateCategoryProps) => {
+const CreateCategory = ({ onSubmit }: CreateCategoryProps) => {
   const [category, setCategory] = useInput({ maxLength: 15 });
   const [isError, setIsError] = useState(false);
   const { close } = useToast();
@@ -22,9 +23,7 @@ const CreateCategory = ({ onSuccess }: CreateCategoryProps) => {
     <form
       onSubmit={(e) => {
         e.preventDefault();
-        // TODO api 중복 카테고리 검증 후 오류 있으면 setIsError
-        // 성공 시 반환된 category id 전달
-        category && onSuccess?.(0);
+        category && onSubmit?.(category, setIsError);
       }}
       css={css`
         padding: 24px 16px;
@@ -83,7 +82,7 @@ const CreateCategory = ({ onSuccess }: CreateCategoryProps) => {
             padding: 0;
           `}
         >
-          생성
+          완료
         </ActiveButton>
       </div>
     </form>

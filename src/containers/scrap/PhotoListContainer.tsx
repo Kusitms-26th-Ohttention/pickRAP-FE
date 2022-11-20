@@ -6,7 +6,7 @@ import Photo from '@/components/common/Photo';
 import PhotoSelect from '@/components/common/Photo/PhotoSelect';
 
 interface PhotoListContainerProps {
-  data: Category[] | Scrap[];
+  data: Scrap[];
   select?: boolean;
 }
 const PhotoListContainer = ({ data, select }: PhotoListContainerProps) => {
@@ -39,7 +39,7 @@ const PhotoListContainer = ({ data, select }: PhotoListContainerProps) => {
               onClick={() => !select && router.push(`/scrap/${photo.id}`)}
               key={photo.id}
               blur={<PhotoSelect enabled={select} />}
-              src={photo.file_url}
+              src={photo.scrap_type.toLowerCase() === 'image' ? photo.file_url : photo.url_preview}
               text={photo.content}
             />
           ))}

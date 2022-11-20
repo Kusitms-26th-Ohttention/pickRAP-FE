@@ -13,6 +13,9 @@ interface PhotoProps {
   onClick?: () => void;
 }
 
+const base64Blur =
+  'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAQAAAAnOwc2AAAAEUlEQVR42mO8/Z8BAzAOZUEAQ+ESj6kXXm0AAAAASUVORK5CYII=';
+
 const Photo = ({ src, width, height, blur, custom, onClick, text }: PhotoProps) => {
   return (
     <div
@@ -30,7 +33,14 @@ const Photo = ({ src, width, height, blur, custom, onClick, text }: PhotoProps) 
     >
       {blur}
       {src ? (
-        <Image src={src} layout="fill" objectFit={'cover'} objectPosition="center" />
+        <Image
+          blurDataURL={base64Blur}
+          src={src}
+          layout="fill"
+          objectFit={'cover'}
+          objectPosition="center"
+          placeholder={'blur'}
+        />
       ) : (
         // TODO 다른 컴포넌트로 책임 분리
         <div

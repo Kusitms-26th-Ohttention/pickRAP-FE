@@ -39,7 +39,7 @@ const CategoryListItem = ({ src, title, onClick, select }: CategoryListItemProps
           css={(theme) => css`
             ${theme.font.B_BODY_16};
             color: ${theme.color.black03};
-            max-width: 104px;
+            padding-right: 48px;
             line-height: 160%;
           `}
         >

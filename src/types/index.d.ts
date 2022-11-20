@@ -26,4 +26,5 @@ interface Scrap {
   memo: string;
   scrap_type: ScrapType;
   title: string;
+  url_preview: string;
 }

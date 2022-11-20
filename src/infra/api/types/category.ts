@@ -6,7 +6,7 @@ export interface GetContentByCategoryRequest {
 }
 
 export interface SaveCategoryRequest {
-  id: string;
+  name: string;
 }
 
 export interface SaveCategoryResponse {
@@ -14,7 +14,7 @@ export interface SaveCategoryResponse {
   name: string;
 }
 
-export interface ModifyCategoryRequest {
+export interface UpdateCategoryRequest {
   id: number;
   name: string;
 }
@@ -22,4 +22,6 @@ export interface ModifyCategoryRequest {
 export type GetContentByCategoryResponse = GetScrapsResponse;
 
 export type GetCategoriesResponse = Category[];
-export type DeleteCategoryRequest = SaveCategoryRequest;
+export interface DeleteCategoryRequest {
+  ids: number[];
+}

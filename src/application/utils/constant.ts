@@ -7,3 +7,7 @@ export const DOMAIN = process.env.NODE_ENV === 'production' ? 'https://pickrap.v
 
 export const EMAIL_REGEXP = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
 export const PASSWORD_REGEXP = /^.*(?=^.{8,15}$)(?=.*[a-zA-Z])(?=.*[!@#$%^&+=]).*$/;
+
+export const ERR_CODE = {
+  DUPLICATED_CATEGORY: 4004,
+} as const;

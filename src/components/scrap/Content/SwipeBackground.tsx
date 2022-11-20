@@ -2,10 +2,7 @@ import { css } from '@emotion/react';
 import Image from 'next/image';
 import React from 'react';
 
-type SwipeBackgroundProps =
-  | { type: 'image'; src?: string }
-  | { type: 'text'; text?: string }
-  | { type: 'link'; preview?: unknown };
+type SwipeBackgroundProps = { type: 'image' | 'link'; src?: string } | { type: 'text'; text?: string };
 
 const SwipeBackground = (props: SwipeBackgroundProps) => {
   return (
@@ -20,8 +17,8 @@ const SwipeBackground = (props: SwipeBackgroundProps) => {
         margin: auto;
       `}
     >
-      {props.type === 'image' ? (
-        <Image src={props.src || '/icon/scrap/defaultCategory.svg'} layout="fill" objectFit={'cover'} />
+      {props.type === 'image' || props.type === 'link' ? (
+        <Image priority src={props.src || '/icon/scrap/defaultCategory.svg'} layout="fill" objectFit={'cover'} />
       ) : props.type === 'text' ? (
         <span
           css={(theme) => css`

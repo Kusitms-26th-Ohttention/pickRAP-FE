@@ -30,11 +30,11 @@ const ShowScrap: NextPage = () => {
   const scrapType = scrap?.scrap_type.toLowerCase() as 'image' | 'text' | 'link';
 
   const swipeBackgroundProps =
-    scrapType === 'image'
-      ? { src: scrap?.file_url, type: scrapType }
-      : scrapType === 'text'
+    scrapType === 'text'
       ? { text: scrap?.content, type: scrapType }
-      : { preview: scrap?.file_url, type: scrapType };
+      : scrapType === 'image'
+      ? { src: scrap?.file_url, type: scrapType }
+      : { src: scrap?.url_preview, type: scrapType };
 
   return (
     <>

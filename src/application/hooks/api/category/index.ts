@@ -1,4 +1,4 @@
-import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { api } from '@/infra/api';
 import type { GetContentByCategoryResponse } from '@/infra/api/types/category';
@@ -30,3 +30,19 @@ export const useGetContentByCategory = ({ id }: Parameters<typeof api.category.g
 
   return { ...rest, categories };
 };
+
+export const useSaveCategory = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: api.category.saveCategory,
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['getCategories'] }),
+  });
+};
+export const useUpdateCategory = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: api.category.updateCategory,
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['getCategories'] }),
+  });
+};
+export const useDeleteCategory = () => useMutation({ mutationFn: api.category.deleteCategory });

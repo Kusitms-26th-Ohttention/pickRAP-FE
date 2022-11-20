@@ -27,7 +27,7 @@ const Scrap: NextPage = () => {
   const [selected, setSelected] = useState(initSelectedContext);
   const [searchString, setSearchString] = useState('');
 
-  // TODO 응답 데이터에 카테고뢰 이름 있는지 확인
+  // TODO 카테고리 상세 페이지 분리
   const [categoryInfo, setCategoryInfo] = useState<{ id: number; name: string }>({ id: 0, name: '' });
   const ref = useRef<SelectContextKey>('category');
   const setNavigation = useBottomNavigationContext()[1];

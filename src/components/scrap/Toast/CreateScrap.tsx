@@ -1,15 +1,18 @@
 import { css } from '@emotion/react';
+import axios from 'axios';
 import type { ChangeEvent } from 'react';
 import { useEffect, useRef } from 'react';
 
+import { useSaveCategory } from '@/application/hooks/api/category';
 import { useSaveScrap } from '@/application/hooks/api/scrap';
 import useModal from '@/application/hooks/common/useModal';
 import usePopup from '@/application/hooks/common/usePopup';
 import useToast from '@/application/hooks/common/useToast';
 import useScrapForm from '@/application/store/scrap/useScrapForm';
+import { ERR_CODE } from '@/application/utils/constant';
 import { ActiveButton } from '@/components/common/Button';
 import CreateCategory from '@/components/scrap/Popup/CreateCategory';
-import { TypedCompleteToast, TypedDetailToast } from '@/components/scrap/Toast/index';
+import { SelectCategoryToast, TypedDetailToast } from '@/components/scrap/Toast/index';
 
 const CreateScrap = () => {
   const { close, replace } = useToast();
@@ -17,6 +20,7 @@ const CreateScrap = () => {
   const popup = usePopup();
   const { handleScrap, setRequest } = useScrapForm();
   const mutation = useSaveScrap();
+  const categoryMutation = useSaveCategory();
   const ref = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -28,12 +32,30 @@ const CreateScrap = () => {
     if (!file) return;
 
     handleScrap({ type: 'file', data: file });
-    replace({ content: <TypedCompleteToast /> });
+    replace({ content: <SelectCategoryToast /> });
   };
   const handleLinkInput = () => replace({ content: <TypedDetailToast type={'link'} /> });
   const handleTextInput = () => replace({ content: <TypedDetailToast type={'text'} /> });
   const handleCategoryName = () =>
-    show(<CreateCategory onSuccess={() => popup('성공적으로 생성 되었습니다', 'success')} />);
+    show(
+      <CreateCategory
+        onSubmit={(category, setError) => {
+          categoryMutation.mutate(
+            { name: category },
+            {
+              onSuccess: () => {
+                popup('성공적으로 생성 되었습니다', 'success');
+              },
+              onError: (err) => {
+                if (axios.isAxiosError(err)) {
+                  err.response?.data.code === ERR_CODE.DUPLICATED_CATEGORY && setError(true);
+                }
+              },
+            },
+          );
+        }}
+      />,
+    );
 
   return (
     <section

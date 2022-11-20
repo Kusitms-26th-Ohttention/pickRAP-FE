@@ -25,7 +25,7 @@ const DESCRIPTION =
   '겨울에는 진짜 강릉 겨울바다 한번씩 가줘야한다고 생각해요. 겨울에도 영롱한 블루계열이 너무 맘에 드네요. 겨울에는 진짜 강릉 겨울바다 한번씩 가줘야한다고 생각해요. 겨울에도 영롱한 블루계열이 너무 맘에 드네요. 겨울에는 진짜 강릉 겨울바다 한번씩 가줘야한다고 생각해요. 겨울에도 영롱한 블루계열이 너무 맘에 드네요. 겨울에는 진짜 강릉 겨울바다 한번씩 가줘야한다고 생각해요. ';
 
 export const SwipeSectionImg: ComponentStory<typeof _SwipeSection> = (args) => (
-  <_SwipeSection {...args} background={<SwipeBackground src={'/picture/mock.png'} type={'img'} />}>
+  <_SwipeSection {...args} background={<SwipeBackground src={'/picture/mock.png'} type={'image'} />}>
     <_SwipeSection.Able>
       <_SwipeSection.Title>강릉 겨울바다 색감</_SwipeSection.Title>
       <_SwipeSection.Description>{DESCRIPTION}</_SwipeSection.Description>
@@ -43,7 +43,7 @@ const MEMO = `사람에게는 저마다의 바다가  있고 사람에게는 저
  무릇, 모든 별들도 시간의 흐름에 따라 조금씩 변해가기 마련이거늘, 하물며 시간의 연장선에서 사람이라는 존재가 할 수 있는 일은 기껏 해봐야 남들처럼 사는 일이거나 남들처럼 살지 않는 일에 지나지 않아.`;
 
 export const SwipeSectionMemo: ComponentStory<typeof _SwipeSection> = (args) => (
-  <_SwipeSection {...args} background={<SwipeBackground text={MEMO} type={'memo'} />}>
+  <_SwipeSection {...args} background={<SwipeBackground text={MEMO} type={'text'} />}>
     <_SwipeSection.Able>
       <_SwipeSection.Title>강릉 겨울바다 색감</_SwipeSection.Title>
       <_SwipeSection.Description>{DESCRIPTION}</_SwipeSection.Description>
