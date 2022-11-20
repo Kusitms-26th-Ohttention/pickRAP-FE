@@ -11,7 +11,7 @@ const useToast = () => {
   );
 
   const close = useCallback(() => {
-    setToast([]);
+    setToast((prev) => (prev.length ? prev.slice(0, -1) : []));
   }, [setToast]);
 
   const replace = useCallback(
@@ -26,6 +26,7 @@ const useToast = () => {
           return ret;
         });
       } else {
+        // TODO 로직 마저 작성
         // setToast((prev) => prev.filter((toast) => toast.id !== id));
       }
     },

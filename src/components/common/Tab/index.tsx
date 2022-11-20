@@ -13,7 +13,7 @@ import { Children, cloneElement, createContext, isValidElement, useContext, useS
 
 const TabContext = createContext<any[]>([0]);
 
-interface TabRootProps extends HTMLAttributes<HTMLDivElement> {
+interface TabRootProps extends HTMLAttributes<HTMLButtonElement> {
   children: string | ReactElement<{ idx?: number }>[] | ReactElement<{ idx?: number }>;
   css?: CustomStyle;
 }
@@ -29,6 +29,10 @@ function TabRoot({ children }: PropsWithChildren) {
       <article
         css={css`
           width: 100%;
+          display: flex;
+          height: 100%;
+          flex-direction: column;
+          flex-grow: 1;
         `}
       >
         {children}
@@ -45,6 +49,8 @@ const Panel = ({ children }: TabRootProps) => {
       css={css`
         position: relative;
         margin-top: 42px;
+        flex-grow: 1;
+        overflow-y: hidden;
       `}
     >
       {Children.map(children, (child, e) => {
@@ -68,6 +74,7 @@ const Group = ({ children, start, decorator }: TabRootProps & { start?: boolean;
     <div
       css={css`
         position: relative;
+        flex-grow: 0;
         width: 100%;
       `}
     >
@@ -103,11 +110,12 @@ const Group = ({ children, start, decorator }: TabRootProps & { start?: boolean;
   );
 };
 
-const Label = ({ children, idx, css: style }: TabElementProps) => {
+const Label = ({ children, idx, css: style, onClick, ...rest }: TabElementProps) => {
   const setIdx = useContext(TabContext)[1];
 
   return (
     <button
+      {...rest}
       css={[
         css`
           padding: 10px;
@@ -117,7 +125,10 @@ const Label = ({ children, idx, css: style }: TabElementProps) => {
             border-bottom: 2px solid #000;
           `,
       ]}
-      onClick={() => setIdx(idx)}
+      onClick={(e) => {
+        setIdx(idx);
+        onClick?.(e);
+      }}
     >
       <span
         css={[
@@ -139,11 +150,13 @@ const Content = ({ children, css: style }: TabElementProps) => {
     <div
       css={[
         css`
-          padding-top: 26px;
           position: absolute;
-          width: 100%;
-          overflow: scroll;
-          max-height: 100vh;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          display: flex;
+          flex-direction: column;
         `,
         style,
       ]}

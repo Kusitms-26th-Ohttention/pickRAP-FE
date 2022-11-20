@@ -27,10 +27,13 @@ function SwipeSectionRoot({ children, background }: PropsWithChildren<{ backgrou
       <section
         {...handlers}
         css={css`
-          position: absolute;
+          position: fixed;
           bottom: 0;
           left: 0;
+          right: 0;
           width: 100%;
+          max-width: 440px; // TODO max width constant
+          margin: auto;
           max-height: ${open ? '90vh' : '44vh'};
           height: 100%;
           background: #ffffff;
@@ -131,12 +134,12 @@ const Description = ({ children }: PropsWithChildren) => {
             line-height: 1.6;
             margin-bottom: 10px;
             word-wrap: break-word;
+            display: -webkit-box;
           `,
         !isOpen &&
           css`
             overflow: hidden;
             text-overflow: ellipsis;
-            display: -webkit-box;
             -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
           `,

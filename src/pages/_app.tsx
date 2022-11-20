@@ -1,20 +1,23 @@
 import { ThemeProvider } from '@emotion/react';
-import { QueryClientProvider } from '@tanstack/react-query';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
+import type { ComponentProps } from 'react';
 import { useCallback } from 'react';
 import type { MutableSnapshot } from 'recoil';
 import { RecoilRoot } from 'recoil';
 
-import { queryClient } from '@/application/queryClient';
+import QueryClientProvider from '@/application/queryClient';
 import { userAuthState } from '@/application/store/user/userAuth';
 import { ToastPortal, ToastProvider } from '@/components/common/Toast';
 import AppLayout from '@/containers/AppLayout';
 import { getAccessToken } from '@/infra/api';
 import { GlobalStyle, theme } from '@/styles';
 
-function MyApp({ Component, pageProps }: AppProps) {
+type PageProps = {
+  hydrateState: ComponentProps<typeof QueryClientProvider>['hydrateState'];
+};
+
+const App = ({ Component, pageProps }: AppProps<PageProps>) => {
   const recoilInitializer = useCallback(({ set }: MutableSnapshot) => {
     const token = getAccessToken();
     if (token) {
@@ -28,8 +31,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <title>피크랩 | pickRAP</title>
         <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
       </Head>
-      <QueryClientProvider client={queryClient}>
-        <ReactQueryDevtools />
+      <QueryClientProvider hydrateState={pageProps.hydrateState}>
         <RecoilRoot initializeState={recoilInitializer}>
           <ToastProvider>
             <ThemeProvider theme={theme}>
@@ -44,6 +46,6 @@ function MyApp({ Component, pageProps }: AppProps) {
       </QueryClientProvider>
     </>
   );
-}
+};
 
-export default MyApp;
+export default App;

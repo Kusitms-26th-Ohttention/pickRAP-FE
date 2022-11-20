@@ -2,13 +2,15 @@ import { css } from '@emotion/react';
 import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import type { FC } from 'react';
-import React from 'react';
+import React, { useState } from 'react';
 
 import { BottomNavigation, TopNavigation } from '@/components/common/Navigation';
+import type { BottomNavigationState } from '@/containers/HOC/NavigationContext';
+import { BottomNavigationContext } from '@/containers/HOC/NavigationContext';
 
 interface WithNavigationOptions {
   TopNav?: { title: string; backUrl: string; isMiddle?: boolean };
-  BottomNav?: FC | null;
+  noBottom?: boolean;
 }
 
 /**
@@ -22,8 +24,9 @@ const withNavigation = <T extends JSX.IntrinsicAttributes>(
 ): FC<T> | NextPage<T> =>
   function Wrapped(props) {
     const router = useRouter();
+    const [adaptor, setAdaptor] = useState<BottomNavigationState>('default');
     return (
-      <>
+      <BottomNavigationContext.Provider value={[adaptor, setAdaptor]}>
         {options.TopNav && (
           <TopNavigation
             onClick={() => router.push(options.TopNav!.backUrl)}
@@ -40,8 +43,8 @@ const withNavigation = <T extends JSX.IntrinsicAttributes>(
         )}
 
         <Component {...props} />
-        {options.BottomNav ? <options.BottomNav /> : options.BottomNav === null ? null : <BottomNavigation />}
-      </>
+        {options.noBottom ? null : adaptor === 'default' ? <BottomNavigation /> : adaptor === null ? null : adaptor}
+      </BottomNavigationContext.Provider>
     );
   };
 

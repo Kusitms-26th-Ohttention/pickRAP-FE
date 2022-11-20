@@ -11,6 +11,6 @@ export default {
 export const CreateCategory: ComponentStory<typeof _CreateCategory> = (args) => (
   <>
     <_CreateCategory {...args} />
-    <_CreateCategory isError {...args} />
+    <_CreateCategory {...args} />
   </>
 );

@@ -3,7 +3,7 @@ import Image from 'next/image';
 import type { PropsWithChildren } from 'react';
 import { useState } from 'react';
 
-import useClickOutside from '@/application/hooks/useClickOutside';
+import useClickOutside from '@/application/hooks/utils/useClickOutside';
 
 import type { SelectProps } from './context';
 import { SelectContext, useSelectContext } from './context';
@@ -107,6 +107,7 @@ const OptionList = ({ children }: PropsWithChildren) => {
         opacity: ${context.open ? 1 : 0};
         visibility: ${context.open ? 'visible' : 'hidden'};
         position: absolute;
+        z-index: 2; // TODO z index constant
 
         transition: opacity 0.15s ease-in-out;
       `}

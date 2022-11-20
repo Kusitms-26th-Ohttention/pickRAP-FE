@@ -3,7 +3,7 @@ import type { NextPage } from 'next';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 
-import { useInput } from '@/application/hooks/useInput';
+import { useInput } from '@/application/hooks/common/useInput';
 import { ActiveButton } from '@/components/common/Button';
 import { InputBase, InputLabel } from '@/components/common/Input';
 import withNavigation from '@/containers/HOC/withNavigation';
@@ -51,7 +51,6 @@ const Profile: NextPage = () => {
           />
 
           <InputLabel>유저 소개글</InputLabel>
-          <InputLabel>유저 소개글</InputLabel>
           <InputBase
             rightPlaceholder={`${description.length}/100`}
             value={description}
@@ -61,18 +60,17 @@ const Profile: NextPage = () => {
       </div>
       <div
         css={css`
-          height: 30%;
           width: 100%;
           display: flex;
-          flex-direction: column-reverse;
-          position: relative;
-          margin-bottom: 50px;
+          height: 52px;
+          position: absolute;
+          bottom: 0;
         `}
       >
         <ActiveButton
           active
           onClick={() => {
-            //TODO profile name description update
+            // TODO profile name description update
             router.push('/scrap');
           }}
         >
@@ -85,5 +83,5 @@ const Profile: NextPage = () => {
 
 export default withNavigation(Profile, {
   TopNav: { title: '나의 프로필', backUrl: '/auth/complete', isMiddle: true },
-  BottomNav: null,
+  noBottom: true,
 });

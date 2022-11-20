@@ -1,19 +1,21 @@
 import { css } from '@emotion/react';
+import axios from 'axios';
 
+import { useGetCategories, useSaveCategory } from '@/application/hooks/api/category';
+import useModal from '@/application/hooks/common/useModal';
+import usePopup from '@/application/hooks/common/usePopup';
+import useToast from '@/application/hooks/common/useToast';
+import useScrapForm from '@/application/store/scrap/useScrapForm';
+import { ERR_CODE } from '@/application/utils/constant';
 import Photo from '@/components/common/Photo';
+import CreateCategory from '@/components/scrap/Popup/CreateCategory';
+import TypedComplete from '@/components/scrap/Toast/TypedComplete';
 
-interface SelectCategoryProps {
-  onClose?: () => void;
-  categories: SelectCategoryItemProps[];
+interface SelectCategoryProps extends Pick<Category, 'name' | 'file_url'> {
+  onClick: () => void;
 }
 
-interface SelectCategoryItemProps {
-  src: string;
-  name: string;
-  onClick?: () => any;
-}
-
-const SelectCategoryItem = ({ src, name, onClick }: SelectCategoryItemProps) => {
+const SelectCategoryItem = ({ file_url, name, onClick }: SelectCategoryProps) => {
   return (
     <li
       onClick={onClick}
@@ -26,7 +28,7 @@ const SelectCategoryItem = ({ src, name, onClick }: SelectCategoryItemProps) => 
       `}
     >
       <Photo
-        src={src}
+        src={file_url}
         custom={css`
           border-radius: 2px;
         `}
@@ -36,12 +38,17 @@ const SelectCategoryItem = ({ src, name, onClick }: SelectCategoryItemProps) => 
   );
 };
 
-const defaultAndNewCategory = [
-  { src: '/icon/scrap/defaultCategory.svg', name: '카테고리 미지정' },
-  { src: '/icon/scrap/newCategory.svg', name: '새로운 카테고리 생성' },
-];
+const newCategory = { file_url: '/icon/scrap/newCategory.svg', name: '새로운 카테고리 생성' } as Category;
 
-const SelectCategory = ({ onClose, categories }: SelectCategoryProps) => {
+const SelectCategory = () => {
+  const { categories } = useGetCategories();
+
+  const popup = usePopup();
+  const { show } = useModal();
+
+  const { handleScrap } = useScrapForm();
+  const { replace, show: toast } = useToast();
+  const mutation = useSaveCategory();
   return (
     <section
       css={css`
@@ -53,7 +60,7 @@ const SelectCategory = ({ onClose, categories }: SelectCategoryProps) => {
       <span
         css={(theme) =>
           css`
-            ${theme.font.B_POINT_16};
+            ${theme.font.B_POINT_17};
             color: ${theme.color.black02};
           `
         }
@@ -70,9 +77,46 @@ const SelectCategory = ({ onClose, categories }: SelectCategoryProps) => {
           line-height: 160%;
         `}
       >
-        {[...categories, ...defaultAndNewCategory].map((category) => (
-          <SelectCategoryItem key={category.src} {...category} />
+        {categories.map((category) => (
+          <SelectCategoryItem
+            // TODO file name constant
+            key={category.file_url || '/icon/scrap/defaultCategory.svg'}
+            {...category}
+            file_url={category.file_url || '/icon/scrap/defaultCategory.svg'}
+            onClick={() => {
+              handleScrap({ type: 'category', data: category.id });
+              replace({ content: <TypedComplete /> });
+            }}
+          />
         ))}
+        <SelectCategoryItem
+          onClick={() => {
+            show(
+              <CreateCategory
+                onSubmit={(category, setError) => {
+                  mutation.mutate(
+                    { name: category },
+                    {
+                      onSuccess: ({ data }) => {
+                        popup('성공적으로 생성 되었습니다', 'success');
+                        handleScrap({ type: 'category', data: data.data.id });
+                        // TODO popup().then Promise로 api 개선
+                        // 현재 버그 가능성 많음
+                        setTimeout(() => toast({ content: <TypedComplete /> }), 1500);
+                      },
+                      onError: (err) => {
+                        if (axios.isAxiosError(err)) {
+                          err.response?.data.code === ERR_CODE.DUPLICATED_CATEGORY && setError(true);
+                        }
+                      },
+                    },
+                  );
+                }}
+              />,
+            );
+          }}
+          {...newCategory}
+        />
       </ul>
     </section>
   );

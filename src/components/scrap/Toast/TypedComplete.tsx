@@ -2,26 +2,55 @@ import { css } from '@emotion/react';
 import Image from 'next/image';
 import React from 'react';
 
-import { useInput } from '@/application/hooks/useInput';
+import { useInput } from '@/application/hooks/common/useInput';
+import usePopup from '@/application/hooks/common/usePopup';
+import useToast from '@/application/hooks/common/useToast';
+import useScrapForm from '@/application/store/scrap/useScrapForm';
 import { ActiveButton } from '@/components/common/Button';
 import { InputBase } from '@/components/common/Input';
+import Popup from '@/components/common/Popup';
+import { SelectCategoryToast } from '@/components/scrap/Toast/index';
 
 interface TypedDetailProps {
   onSubmit?: (value: string) => void;
   onBack?: () => void;
-  type: 'input' | 'textarea';
+  placeholder?: string;
 }
 
-const TypedDetail = ({ onSubmit, onBack, type }: TypedDetailProps) => {
+/**
+ * @todo
+ * Compound Component 로 유연성 고려하기
+ * placeholder props 추후 리팩토링
+ */
+const TypedComplete = ({ onSubmit, onBack, placeholder = '업로드 하기' }: TypedDetailProps) => {
   const [title, setTitle] = useInput({ maxLength: 15 });
   const [hashtag, setHashtag] = useInput();
   const [memo, setMemo] = useInput();
+  const { replace, show } = useToast();
+  const popup = usePopup();
+  const {
+    scrap: { uploadRequest, ...rest },
+  } = useScrapForm();
 
   return (
     // TODO AuthForm 포함 Common Form 추상화
     <form
       onSubmit={(e) => {
         e.preventDefault();
+        if (!hashtag) {
+          show({ content: <Popup type={'warn'}>해시태그 입력은 필수입니다</Popup>, type: 'popup' });
+          return;
+        }
+        const tags = hashtag.split(' ');
+        uploadRequest(
+          { ...rest, hashtags: tags, title, memo },
+          {
+            onSuccess: () => {
+              // TODO 매우 별로인 코드
+              popup(`성공적으로 ${placeholder === '완료 하기' ? '수정' : '생성'} 되었습니다`, 'success');
+            },
+          },
+        );
       }}
       css={css`
         display: flex;
@@ -30,13 +59,15 @@ const TypedDetail = ({ onSubmit, onBack, type }: TypedDetailProps) => {
       `}
     >
       <span
+        onClick={() => replace({ content: <SelectCategoryToast /> })}
         css={(theme) =>
           css`
             display: flex;
+            width: fit-content;
             gap: 9px;
             align-items: flex-start;
             vertical-align: middle;
-            ${theme.font.B_POINT_18};
+            ${theme.font.B_POINT_17};
             color: ${theme.color.black02};
             line-height: 110%;
           `
@@ -110,9 +141,9 @@ const TypedDetail = ({ onSubmit, onBack, type }: TypedDetailProps) => {
           <InputBase id="memo" value={memo} onChange={(e) => setMemo(e.target.value)} />
         </div>
       </div>
-      <ActiveButton active>다음</ActiveButton>
+      <ActiveButton active>{placeholder}</ActiveButton>
     </form>
   );
 };
 
-export default TypedDetail;
+export default TypedComplete;

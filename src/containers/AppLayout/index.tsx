@@ -9,7 +9,19 @@ const AppLayout = ({ children, blackBackground }: PropsWithChildren<{ blackBackg
 
   return (
     <div css={CSSWrapper}>
-      <div css={CSSAppLayout(isBlack)}>{children}</div>
+      <div css={CSSAppLayout(isBlack)}>
+        <div
+          css={css`
+            width: 100%;
+            height: 100%;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+          `}
+        >
+          {children}
+        </div>
+      </div>
     </div>
   );
 };
@@ -26,7 +38,7 @@ const CSSAppLayout = (isBlack: boolean) => (theme: Theme) =>
     @media screen and (min-width: 450px) {
       width: 440px;
     }
-    padding: 0 16px;
+    padding: 24px 16px 60px 16px;
 
     flex-direction: column;
     align-items: center;

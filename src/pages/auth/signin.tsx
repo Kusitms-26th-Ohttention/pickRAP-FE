@@ -6,7 +6,7 @@ import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 
 import useSignIn from '@/application/hooks/api/auth/useSignIn';
-import { useInput } from '@/application/hooks/useInput';
+import { useInput } from '@/application/hooks/common/useInput';
 import errorHandler from '@/application/utils/errorHandler';
 import { AuthForm } from '@/components/auth/LoginForm';
 import { KakaoButton, NaverButton } from '@/components/auth/OAuthButton';
@@ -105,17 +105,16 @@ const SignIn: NextPage = () => {
       </div>
       <div
         css={css`
-          height: 30%;
           width: 100%;
           display: flex;
+          height: 33%;
           flex-direction: column-reverse;
           position: relative;
-          margin-bottom: 126px;
           gap: 12px;
         `}
       >
-        <KakaoButton />
         <NaverButton />
+        <KakaoButton />
       </div>
     </>
   );

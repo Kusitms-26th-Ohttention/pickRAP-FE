@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 
-import useMount from '@/application/hooks/useMount';
+import useMount from '@/application/hooks/utils/useMount';
 import Manager from '@/components/common/Toast/Manager';
 
 /**

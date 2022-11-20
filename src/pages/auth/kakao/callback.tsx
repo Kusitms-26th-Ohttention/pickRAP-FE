@@ -8,6 +8,7 @@ const KakaoRedirectHandler = () => {
 
   const code = router.query.code as string;
 
+  // TODO 로그인 회원가입 경우 분리
   useSNSLogin({ code, provider: 'kakao' });
 
   return <ThreeDotsSpinner />;

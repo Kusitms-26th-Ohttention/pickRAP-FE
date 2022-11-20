@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 
 import useSignUp from '@/application/hooks/api/auth/useSignUp';
-import { useInput } from '@/application/hooks/useInput';
+import { useInput } from '@/application/hooks/common/useInput';
 import { EMAIL_REGEXP, PASSWORD_REGEXP } from '@/application/utils/constant';
 import errorHandler from '@/application/utils/errorHandler';
 import { AuthForm } from '@/components/auth/LoginForm';
@@ -107,20 +107,19 @@ const SignUp: NextPage = () => {
       </div>
       <div
         css={css`
-          height: 30%;
           width: 100%;
+          height: 30%;
           display: flex;
           flex-direction: column-reverse;
           position: relative;
-          margin-bottom: 115px;
           gap: 12px;
         `}
       >
-        <KakaoButton />
         <NaverButton />
+        <KakaoButton />
       </div>
     </>
   );
 };
 
-export default withNavigation(SignUp, { TopNav: { title: '회원가입', backUrl: '/' }, BottomNav: null });
+export default withNavigation(SignUp, { TopNav: { title: '회원가입', backUrl: '/' }, noBottom: true });
