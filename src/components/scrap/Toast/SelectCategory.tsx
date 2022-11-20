@@ -1,13 +1,13 @@
 import { css } from '@emotion/react';
 
-import useModal from '@/application/hooks/useModal';
-import usePopup from '@/application/hooks/usePopup';
-import useToast from '@/application/hooks/useToast';
-import useUploadScrap from '@/application/store/scrap/useUploadScrap';
-import { MOCK_GET_CATEGORIES } from '@/application/utils/mock';
+import { useGetCategories } from '@/application/hooks/api/category';
+import useModal from '@/application/hooks/common/useModal';
+import usePopup from '@/application/hooks/common/usePopup';
+import useToast from '@/application/hooks/common/useToast';
+import useScrapForm from '@/application/store/scrap/useScrapForm';
 import Photo from '@/components/common/Photo';
 import CreateCategory from '@/components/scrap/Popup/CreateCategory';
-import TypedDetailContent from '@/components/scrap/Toast/TypedDetailContent';
+import TypedComplete from '@/components/scrap/Toast/TypedComplete';
 
 interface SelectCategoryProps extends Pick<Category, 'name' | 'file_url'> {
   onClick: () => void;
@@ -36,19 +36,16 @@ const SelectCategoryItem = ({ file_url, name, onClick }: SelectCategoryProps) =>
   );
 };
 
-const defaultCategory = { file_url: '/icon/scrap/defaultCategory.svg', name: '카테고리 미지정' } as Category;
 const newCategory = { file_url: '/icon/scrap/newCategory.svg', name: '새로운 카테고리 생성' } as Category;
 
 const SelectCategory = () => {
-  // TODO useQuery getCategories
+  const { categories } = useGetCategories();
 
-  const categories = MOCK_GET_CATEGORIES;
   const popup = usePopup();
   const { show } = useModal();
-  const { show: toast } = useToast();
 
-  const dispatch = useUploadScrap()[1];
-  const { replace } = useToast();
+  const dispatch = useScrapForm()[1];
+  const { replace, show: toast } = useToast();
   return (
     <section
       css={css`
@@ -79,21 +76,16 @@ const SelectCategory = () => {
       >
         {categories.map((category) => (
           <SelectCategoryItem
-            key={category.file_url}
+            // TODO file name constant
+            key={category.file_url || '/icon/scrap/defaultCategory.svg'}
             {...category}
+            file_url={category.file_url || '/icon/scrap/defaultCategory.svg'}
             onClick={() => {
               dispatch({ type: 'category', data: category.id });
-              replace({ content: <TypedDetailContent /> });
+              replace({ content: <TypedComplete /> });
             }}
           />
         ))}
-        <SelectCategoryItem
-          onClick={() => {
-            dispatch({ type: 'category', data: 0 });
-            replace({ content: <TypedDetailContent /> });
-          }}
-          {...defaultCategory}
-        />
         <SelectCategoryItem
           onClick={() => {
             show(
@@ -101,7 +93,9 @@ const SelectCategory = () => {
                 onSuccess={(id) => {
                   popup('성공적으로 생성 되었습니다', 'success');
                   dispatch({ type: 'category', data: id });
-                  setTimeout(() => toast({ content: <TypedDetailContent /> }), 1200);
+                  // TODO popup().then Promise로 api 개선
+                  // 현재 버그 가능성 많음
+                  setTimeout(() => toast({ content: <TypedComplete /> }), 1500);
                 }}
               />,
             );

@@ -6,7 +6,7 @@ import Photo from '@/components/common/Photo';
 import PhotoSelect from '@/components/common/Photo/PhotoSelect';
 
 interface PhotoListContainerProps {
-  data: Category[];
+  data: Category[] | Scrap[];
   select?: boolean;
 }
 const PhotoListContainer = ({ data, select }: PhotoListContainerProps) => {
@@ -40,6 +40,7 @@ const PhotoListContainer = ({ data, select }: PhotoListContainerProps) => {
               key={photo.id}
               blur={<PhotoSelect enabled={select} />}
               src={photo.file_url}
+              text={photo.content}
             />
           ))}
         </div>

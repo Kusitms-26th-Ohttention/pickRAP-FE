@@ -2,14 +2,14 @@ import { css } from '@emotion/react';
 import Image from 'next/image';
 import React from 'react';
 
-import { useInput } from '@/application/hooks/useInput';
-import usePopup from '@/application/hooks/usePopup';
-import useToast from '@/application/hooks/useToast';
-import useUploadScrap from '@/application/store/scrap/useUploadScrap';
+import { useInput } from '@/application/hooks/common/useInput';
+import usePopup from '@/application/hooks/common/usePopup';
+import useToast from '@/application/hooks/common/useToast';
+import useScrapForm from '@/application/store/scrap/useScrapForm';
 import { ActiveButton } from '@/components/common/Button';
 import { InputBase } from '@/components/common/Input';
 import Popup from '@/components/common/Popup';
-import SelectCategory from '@/components/scrap/Toast/SelectCategory';
+import { SelectCategoryToast } from '@/components/scrap/Toast/index';
 
 interface TypedDetailProps {
   onSubmit?: (value: string) => void;
@@ -22,13 +22,13 @@ interface TypedDetailProps {
  * Compound Component 로 유연성 고려하기
  * placeholder props 추후 리팩토링
  */
-const TypedDetail = ({ onSubmit, onBack, placeholder = '업로드 하기' }: TypedDetailProps) => {
+const TypedComplete = ({ onSubmit, onBack, placeholder = '업로드 하기' }: TypedDetailProps) => {
   const [title, setTitle] = useInput({ maxLength: 15 });
   const [hashtag, setHashtag] = useInput();
   const [memo, setMemo] = useInput();
   const { replace, show } = useToast();
   const popup = usePopup();
-  const dispatch = useUploadScrap()[1];
+  const { uploadRequest, ...rest } = useScrapForm()[0];
 
   return (
     // TODO AuthForm 포함 Common Form 추상화
@@ -40,8 +40,14 @@ const TypedDetail = ({ onSubmit, onBack, placeholder = '업로드 하기' }: Typ
           return;
         }
         const tags = hashtag.split(' ');
-        dispatch({ type: 'information', data: { hashtags: tags, title, memo } });
-        popup('성공적으로 생성 되었습니다', 'success');
+        uploadRequest(
+          { ...rest, hashtags: tags, title, memo },
+          {
+            onSuccess: () => {
+              popup('성공적으로 생성 되었습니다', 'success');
+            },
+          },
+        );
       }}
       css={css`
         display: flex;
@@ -50,10 +56,11 @@ const TypedDetail = ({ onSubmit, onBack, placeholder = '업로드 하기' }: Typ
       `}
     >
       <span
-        onClick={() => replace({ content: <SelectCategory /> })}
+        onClick={() => replace({ content: <SelectCategoryToast /> })}
         css={(theme) =>
           css`
             display: flex;
+            width: fit-content;
             gap: 9px;
             align-items: flex-start;
             vertical-align: middle;
@@ -136,4 +143,4 @@ const TypedDetail = ({ onSubmit, onBack, placeholder = '업로드 하기' }: Typ
   );
 };
 
-export default TypedDetail;
+export default TypedComplete;

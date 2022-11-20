@@ -1,6 +1,8 @@
 import { instance } from '@/infra/api/instance';
 import type {
   DeleteScrapRequest,
+  GetScrapBySearchRequest,
+  GetScrapByTypeRequest,
   GetScrapDetailRequest,
   GetScrapDetailResponse,
   GetScrapsResponse,
@@ -10,24 +12,26 @@ import type {
 
 class ScrapApi {
   constructor(private api: typeof instance) {}
-  // TODO api가 너무 어렵다.. 수정될듯
-  getScrapsAll = () => {
-    return this.api.get<GetScrapsResponse>('/scrap/all');
-  };
-  getScrapDetail = ({ id }: GetScrapDetailRequest) => {
-    return this.api.get<GetScrapDetailResponse>(`/scrap/?id=${id}`);
-  };
-  saveScrap = (data: SaveScrapRequest) => {
-    return this.api.post('/scrap', data);
+  getScrapBySearch = ({ search, pageParam }: GetScrapBySearchRequest) =>
+    this.api.get<GetScrapsResponse>(`/scrap?search_keyword=${search}&order_keyword=desc&page=${pageParam || ''}`);
+
+  getScrapById = ({ id }: GetScrapDetailRequest) => this.api.get<GetScrapDetailResponse>(`/scrap/${id}`);
+
+  getScrapByType = ({ filter, pageParam }: GetScrapByTypeRequest) =>
+    this.api.get<GetScrapsResponse>(`/scrap/type/${filter}?order_keyword=desc&page=${pageParam || ''}`);
+
+  saveScrap = ({ file, ...rest }: SaveScrapRequest) => {
+    const request = new FormData();
+    request.append('file', file);
+    request.append('scrap_request', new Blob([JSON.stringify({ ...rest })], { type: 'application/json' }));
+
+    return this.api.post('/scrap', request);
   };
   modifyScrap = (data: ModifyScrapRequest) => {
     return this.api.put('/scrap', data);
   };
   deleteScrap = ({ id }: DeleteScrapRequest) => {
     return this.api.delete(`/scrap/?id=${id}`);
-  };
-  searchScrap = () => {
-    return this.api.get('/scrap/reissue');
   };
 }
 

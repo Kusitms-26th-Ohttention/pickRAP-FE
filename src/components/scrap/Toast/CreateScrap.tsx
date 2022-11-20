@@ -1,11 +1,12 @@
 import { css } from '@emotion/react';
 import type { ChangeEvent } from 'react';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 
-import useModal from '@/application/hooks/useModal';
-import usePopup from '@/application/hooks/usePopup';
-import useToast from '@/application/hooks/useToast';
-import useUploadScrap from '@/application/store/scrap/useUploadScrap';
+import { useSaveScrap } from '@/application/hooks/api/scrap';
+import useModal from '@/application/hooks/common/useModal';
+import usePopup from '@/application/hooks/common/usePopup';
+import useToast from '@/application/hooks/common/useToast';
+import useScrapForm from '@/application/store/scrap/useScrapForm';
 import { ActiveButton } from '@/components/common/Button';
 import CreateCategory from '@/components/scrap/Popup/CreateCategory';
 import { TypedDetailContentToast, TypedDetailToast } from '@/components/scrap/Toast/index';
@@ -14,9 +15,14 @@ const CreateScrap = () => {
   const { close, replace } = useToast();
   const { show } = useModal();
   const popup = usePopup();
-  const dispatch = useUploadScrap()[1];
-
+  const [, dispatch, setRequest] = useScrapForm();
+  const mutation = useSaveScrap();
   const ref = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    setRequest(mutation.mutate);
+  }, [mutation.mutate, setRequest]);
+
   const handleFileInput = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;

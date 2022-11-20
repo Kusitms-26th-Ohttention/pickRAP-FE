@@ -3,12 +3,12 @@ import Image from 'next/image';
 import type { Ref } from 'react';
 import React, { useRef } from 'react';
 
-import useToast from '@/application/hooks/useToast';
-import useUploadScrap from '@/application/store/scrap/useUploadScrap';
+import useToast from '@/application/hooks/common/useToast';
+import useScrapForm from '@/application/store/scrap/useScrapForm';
 import { ActiveButton } from '@/components/common/Button';
 import { InputBase } from '@/components/common/Input';
 import CreateScrap from '@/components/scrap/Toast/CreateScrap';
-import SelectCategory from '@/components/scrap/Toast/SelectCategory';
+import { SelectCategoryToast } from '@/components/scrap/Toast/index';
 
 interface TypedDetailProps {
   onSubmit?: (value: string) => void;
@@ -19,7 +19,7 @@ interface TypedDetailProps {
 const TypedDetail = ({ onSubmit, onBack, type }: TypedDetailProps) => {
   const ref = useRef<HTMLInputElement | HTMLTextAreaElement>();
   const { replace } = useToast();
-  const dispatch = useUploadScrap()[1];
+  const dispatch = useScrapForm()[1];
 
   return (
     <form
@@ -28,7 +28,7 @@ const TypedDetail = ({ onSubmit, onBack, type }: TypedDetailProps) => {
         if (ref.current?.value) {
           onSubmit?.(ref.current.value);
           dispatch({ type, data: ref.current.value });
-          replace({ content: <SelectCategory /> });
+          replace({ content: <SelectCategoryToast /> });
         }
       }}
       css={css`
