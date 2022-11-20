@@ -3,7 +3,7 @@ export const MOCK_GET_CATEGORIES: Category[] = new Array(10).fill(0).map(() => (
   file_url: '/picture/mock.png',
   id: 0,
   name: 'mock name',
-  scrapType: 'IMAGE' as const,
+  scrapType: 'image' as const,
 }));
 
 export const PROFILE = {

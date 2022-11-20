@@ -2,19 +2,28 @@ import { css } from '@emotion/react';
 import type { NextPage } from 'next';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import React from 'react';
+import React, { useEffect } from 'react';
 
-import useToast from '@/application/hooks/useToast';
+import useToast from '@/application/hooks/common/useToast';
+import useScrapForm from '@/application/store/scrap/useScrapForm';
 import { MEMO, PROFILE } from '@/application/utils/mock';
 import { ActiveButton } from '@/components/common/Button';
 import { Profile } from '@/components/scrap/Content/Content.stories';
 import SwipeBackground from '@/components/scrap/Content/SwipeBackground';
 import SwipeSection from '@/components/scrap/Content/SwipeSection';
 import { TypedDetailContentToast } from '@/components/scrap/Toast';
+import { api } from '@/infra/api';
 
 const ShowScrap: NextPage = () => {
   const { show } = useToast();
   const router = useRouter();
+
+  const setRequest = useScrapForm()[2];
+
+  useEffect(() => {
+    setRequest<typeof api.scrap.modifyScrap>(api.scrap.modifyScrap);
+  }, [setRequest]);
+
   // TODO useQuery with content id (router.query.id)
   // TODO useMutation for modify
   return (
