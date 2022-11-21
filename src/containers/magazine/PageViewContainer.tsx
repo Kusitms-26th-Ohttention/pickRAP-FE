@@ -5,41 +5,14 @@ import React from 'react';
 
 import { PAGES } from '@/application/utils/mock';
 import Photo from '@/components/common/Photo';
-import ShowPageNavigation from '@/components/magazine/TopNavigation/ShowPageNavigation';
 
 interface Props {
   pages: Page[];
 }
 
-const MOCK_DATE = '2022.11.02';
-
 const PageViewContainer = ({ pages = PAGES }: Props) => {
   return (
     <>
-      <ShowPageNavigation name={'나의 패션'} />
-      <div
-        css={css`
-          margin-top: 36px;
-          display: flex;
-          flex-direction: column;
-          align-items: flex-end;
-          margin-bottom: 2px;
-        `}
-      >
-        <Image src={'/icon/magazine/mockReaction.svg'} width={70} height={24} />
-        <span
-          css={(theme) =>
-            css`
-              ${theme.font.R_BODY_12};
-              color: ${theme.color.gray06};
-              line-height: 26px;
-              letter-spacing: 0.005em;
-            `
-          }
-        >
-          {MOCK_DATE}
-        </span>
-      </div>
       <article
         css={css`
           position: relative;

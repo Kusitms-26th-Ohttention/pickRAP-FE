@@ -44,6 +44,8 @@ const Confirm = ({ title, onReject, onSuccess }: ConfirmProps) => {
           custom={css`
             width: 88px;
             display: inline-block;
+            height: 40px;
+            padding: 0;
           `}
         >
           아니오
@@ -54,6 +56,8 @@ const Confirm = ({ title, onReject, onSuccess }: ConfirmProps) => {
           custom={css`
             width: 88px;
             display: inline-block;
+            height: 40px;
+            padding: 0;
           `}
         >
           예

@@ -7,8 +7,8 @@ import usePopup from '@/application/hooks/common/usePopup';
 import useToast from '@/application/hooks/common/useToast';
 import useScrapForm from '@/application/store/scrap/useScrapForm';
 import { ERR_CODE } from '@/application/utils/constant';
+import CreateCategory from '@/components/category/CreateCategory';
 import Photo from '@/components/common/Photo';
-import CreateCategory from '@/components/scrap/Popup/CreateCategory';
 import TypedComplete from '@/components/scrap/Toast/TypedComplete';
 
 interface SelectCategoryProps extends Pick<Category, 'name' | 'file_url'> {
