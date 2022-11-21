@@ -1,15 +1,14 @@
-export const MOCK_GET_CATEGORIES: Category[] = new Array(10).fill(0).map(() => ({
-  content: 'mock content',
-  file_url: '/picture/mock.png',
-  id: 0,
-  name: 'mock name',
-  scrapType: 'image' as const,
+export const MAGAZINES = [0, 0, 0, 0].map(() => ({
+  src: '/picture/mock.png',
+  name: '나의 진로 계획',
 }));
 
 export const PROFILE = {
   src: '/picture/mock.png',
-  name: '박지수',
+  name: '홍길동',
   date: '2022.11.17',
+  description: '진정한 나의 모습을 담은 나만의 바이블',
+  hashtags: ['#포폴용도', '#자료모음', '#패션피플'],
 };
 
 export const MEMO = `사람에게는 저마다의 바다가  있고 사람에게는 저마다의 파도가 있기 마련이지. 우리는 한낱 사람이라서 일렁였고 고작 사람이기 때문에 글썽일 수밖에는 없었던 거야. 우리는 서로 모든 이들에게 타인이기 때문에 내리는 비에 옷깃을 젖어야 했으며 그마저도 사람이기 때문에 그 빗속을 외로이 걸을 수 밖에 없었던 거야.

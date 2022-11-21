@@ -22,18 +22,20 @@ interface TabElementProps extends TabRootProps {
   idx?: number;
 }
 
-function TabRoot({ children }: PropsWithChildren) {
+function TabRoot({ children, custom }: PropsWithChildren<{ custom?: CustomStyle }>) {
   const value = useState(0);
   return (
     <TabContext.Provider value={value}>
       <article
-        css={css`
-          width: 100%;
-          display: flex;
-          height: 100%;
-          flex-direction: column;
-          flex-grow: 1;
-        `}
+        css={[
+          css`
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+          `,
+          custom,
+        ]}
       >
         {children}
       </article>
@@ -48,7 +50,7 @@ const Panel = ({ children }: TabRootProps) => {
     <section
       css={css`
         position: relative;
-        margin-top: 42px;
+        margin-top: 43px;
         flex-grow: 1;
         overflow-y: hidden;
       `}

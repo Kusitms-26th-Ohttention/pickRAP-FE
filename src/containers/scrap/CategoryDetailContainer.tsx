@@ -29,8 +29,8 @@ const CategoryDetailContainer = ({ select, info }: CategoryDetailContainerProps)
             ${theme.font.B_POINT_20};
             line-height: 160%;
             color: ${theme.color.black02};
-            margin-top: 26px;
-            margin-bottom: 12px;
+            margin-top: 3.2vh;
+            margin-bottom: 1.5vh;
             display: flex;
             align-items: center;
           `

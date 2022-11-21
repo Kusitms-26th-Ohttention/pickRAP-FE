@@ -1,17 +1,17 @@
 import { css } from '@emotion/react';
 import Image from 'next/image';
-import type { ReactElement } from 'react';
 import React from 'react';
 
+import type { UseScrollDetectOption } from '@/application/hooks/utils/useScrollDetect';
+import { MAGAZINES } from '@/application/utils/mock';
 import Tab from '@/components/common/Tab';
+import { TabMagazine } from '@/components/magazine/MagazineList';
 
 interface MagazineTabProps {
-  myMagazine: ReactElement;
-  savedMagazine: ReactElement;
   onMultiSelect?: () => void;
+  onScrollDown?: UseScrollDetectOption['onScroll'];
 }
-// TODO 스크롤 컴포넌트 내부에서 바로 삽입
-const MagazineTab = ({ myMagazine, savedMagazine, onMultiSelect }: MagazineTabProps) => {
+const MyMagazineWithTab = ({ onMultiSelect, onScrollDown }: MagazineTabProps) => {
   return (
     <Tab>
       <Tab.Group
@@ -25,7 +25,7 @@ const MagazineTab = ({ myMagazine, savedMagazine, onMultiSelect }: MagazineTabPr
               bottom: 15px;
             `}
           >
-            <Image src={'/icon/magazine/multiSelect.svg'} width={18} height={18} />
+            <Image src={'/icon/multiSelect.svg'} width={18} height={18} />
           </span>
         }
       >
@@ -33,11 +33,15 @@ const MagazineTab = ({ myMagazine, savedMagazine, onMultiSelect }: MagazineTabPr
         <Tab.Label>저장한 매거진</Tab.Label>
       </Tab.Group>
       <Tab.Panel>
-        <Tab.Content>{myMagazine}</Tab.Content>
-        <Tab.Content>{savedMagazine}</Tab.Content>
+        <Tab.Content>
+          <TabMagazine magazines={MAGAZINES} onScrollDown={onScrollDown} />
+        </Tab.Content>
+        <Tab.Content>
+          <TabMagazine magazines={MAGAZINES} onScrollDown={onScrollDown} />
+        </Tab.Content>
       </Tab.Panel>
     </Tab>
   );
 };
 
-export default MagazineTab;
+export default MyMagazineWithTab;
