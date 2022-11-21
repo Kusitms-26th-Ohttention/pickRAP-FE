@@ -106,7 +106,7 @@ const SelectCategory = () => {
                       },
                       onError: (err) => {
                         if (axios.isAxiosError(err)) {
-                          err.response?.data.code === ERR_CODE.DUPLICATED_CATEGORY && setError(true);
+                          err.response?.data.code === ERR_CODE.CREATE_DUPLICATED_CATEGORY && setError(true);
                         }
                       },
                     },

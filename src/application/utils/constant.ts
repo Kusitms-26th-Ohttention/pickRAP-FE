@@ -9,5 +9,6 @@ export const EMAIL_REGEXP = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
 export const PASSWORD_REGEXP = /^.*(?=^.{8,15}$)(?=.*[a-zA-Z])(?=.*[!@#$%^&+=]).*$/;
 
 export const ERR_CODE = {
-  DUPLICATED_CATEGORY: 4004,
+  CREATE_DUPLICATED_CATEGORY: 4004,
+  MODIFY_DUPLICATED_CATEGORY: 4005,
 } as const;
