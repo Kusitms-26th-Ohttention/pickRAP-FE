@@ -4,7 +4,7 @@ import Photo from '@/components/common/Photo';
 import PhotoSelect from '@/components/common/Photo/PhotoSelect';
 
 interface Props {
-  item: Magazine;
+  item: MagazineThumbnail;
   selectItem?: boolean;
   width?: string;
   height?: string;
@@ -13,7 +13,7 @@ interface Props {
 const PhotoListItem = ({ item, selectItem, ratio, ...rest }: Props) => {
   return (
     <article
-      key={item.src}
+      key={item.cover_url}
       css={css`
         aspect-ratio: ${ratio || 'unset'};
       `}
@@ -23,7 +23,7 @@ const PhotoListItem = ({ item, selectItem, ratio, ...rest }: Props) => {
         custom={css`
           border-radius: 2px;
         `}
-        src={item.src}
+        src={item.cover_url}
         {...rest}
       />
       <span
@@ -36,7 +36,7 @@ const PhotoListItem = ({ item, selectItem, ratio, ...rest }: Props) => {
           `
         }
       >
-        {item.name}
+        {item.title}
       </span>
     </article>
   );

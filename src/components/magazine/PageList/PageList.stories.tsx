@@ -1,30 +1,15 @@
 import type { ComponentMeta, ComponentStory } from '@storybook/react';
 import React from 'react';
 
+import { MAGAZINES } from '@/application/utils/mock';
+
 import _PageList from '.';
 
 export default {
   title: 'Components/magazine/PageList',
   component: _PageList,
   args: {
-    pages: [
-      {
-        src: '/picture/mock.png',
-        name: '홍길동',
-      },
-      {
-        src: '/picture/mock.png',
-        name: '홍길동',
-      },
-      {
-        src: '/picture/mock.png',
-        name: '홍길동',
-      },
-      {
-        src: '/picture/mock.png',
-        name: '홍길동',
-      },
-    ],
+    pages: MAGAZINES,
   },
 } as ComponentMeta<typeof _PageList>;
 

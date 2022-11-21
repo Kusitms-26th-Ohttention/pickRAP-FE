@@ -2,6 +2,7 @@ import { css } from '@emotion/react';
 import Image from 'next/image';
 import React, { useRef, useState } from 'react';
 
+import { MAGAZINES } from '@/application/utils/mock';
 import Switch from '@/components/common/Switch';
 import PageList from '@/components/magazine/PageList';
 
@@ -9,25 +10,6 @@ interface Props {
   name?: string;
   privated?: boolean;
 }
-
-const MOCK = [
-  {
-    src: '/picture/mock.png',
-    name: '홍길동',
-  },
-  {
-    src: '/picture/mock.png',
-    name: '홍길동',
-  },
-  {
-    src: '/picture/mock.png',
-    name: '홍길동',
-  },
-  {
-    src: '/picture/mock.png',
-    name: '홍길동',
-  },
-];
 const MagazineCreateContainer = ({ name, privated }: Props) => {
   const [magazineName, setMagazineName] = useState(name || '제목');
   const isPrivate = useRef(privated ?? true);
@@ -80,7 +62,7 @@ const MagazineCreateContainer = ({ name, privated }: Props) => {
           <Switch defaultChecked={isPrivate.current} onClick={(p) => (isPrivate.current = p)} />
         </span>
       </div>
-      <PageList pages={MOCK} />
+      <PageList pages={MAGAZINES} />
     </>
   );
 };

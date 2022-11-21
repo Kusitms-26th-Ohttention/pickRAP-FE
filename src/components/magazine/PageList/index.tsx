@@ -3,7 +3,7 @@ import { css } from '@emotion/react';
 import PageListItem from '@/components/magazine/PhotoListItem';
 
 interface Props {
-  pages: { src: string; name: string }[];
+  pages: MagazineThumbnail[];
 }
 const PageList = ({ pages }: Props) => {
   return (
@@ -16,9 +16,12 @@ const PageList = ({ pages }: Props) => {
       `}
     >
       {pages.map((page) => (
-        <PageListItem key={page.src} item={page} ratio={'100/134'} />
+        <PageListItem key={page.magazine_id} item={page} ratio={'100/134'} />
       ))}
-      <PageListItem item={{ src: '/icon/magazine/addPage.svg', name: '페이지 추가' }} ratio={'100/134'} />
+      <PageListItem
+        item={{ cover_url: '/icon/magazine/addPage.svg', title: '페이지 추가', magazine_id: 0 }}
+        ratio={'100/134'}
+      />
     </div>
   );
 };

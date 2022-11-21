@@ -1,6 +1,7 @@
 export const MAGAZINES = [0, 0, 0, 0].map(() => ({
-  src: '/picture/mock.png',
-  name: '나의 진로 계획',
+  cover_url: '/picture/mock.png',
+  title: '나의 진로 계획',
+  magazine_id: 0,
 }));
 
 export const PROFILE = {

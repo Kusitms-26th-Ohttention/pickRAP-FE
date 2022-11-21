@@ -6,7 +6,7 @@ import Photo from '@/components/common/Photo';
 import PhotoSelect from '@/components/common/Photo/PhotoSelect';
 
 interface TabMagazineProps {
-  magazines: Magazine[];
+  magazines: MagazineThumbnail[];
   selectItem?: boolean;
   onScrollDown?: UseScrollDetectOption['onScroll'];
 }
@@ -46,7 +46,7 @@ const TabMagazine = ({ magazines, selectItem, onScrollDown }: TabMagazineProps) 
         >
           {magazines.map((magazine, idx) => (
             <article
-              key={magazine.src}
+              key={magazine.cover_url}
               css={
                 idx % 2 &&
                 css`
@@ -54,7 +54,12 @@ const TabMagazine = ({ magazines, selectItem, onScrollDown }: TabMagazineProps) 
                 `
               }
             >
-              <Photo blur={<PhotoSelect enabled={selectItem} />} src={magazine.src} width={'196px'} height={'255px'} />
+              <Photo
+                blur={<PhotoSelect enabled={selectItem} />}
+                src={magazine.cover_url}
+                width={'196px'}
+                height={'255px'}
+              />
               <span
                 css={(theme) =>
                   css`
@@ -66,7 +71,7 @@ const TabMagazine = ({ magazines, selectItem, onScrollDown }: TabMagazineProps) 
                   `
                 }
               >
-                {magazine.name}
+                {magazine.title}
               </span>
             </article>
           ))}

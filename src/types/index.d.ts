@@ -29,7 +29,23 @@ interface Scrap {
   url_preview: string;
 }
 
+interface Page {
+  content: string;
+  file_url: string;
+  page_id: number;
+  text: string;
+}
+
+interface MagazineThumbnail {
+  cover_url: string;
+  title: string;
+  magazine_id: number;
+}
+
 interface Magazine {
-  src: string;
-  name: string;
+  create_date: string;
+  magazine_id: number;
+  open_status: boolean;
+  title: string;
+  page_list: Page[];
 }

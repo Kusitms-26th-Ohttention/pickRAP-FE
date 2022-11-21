@@ -3,7 +3,7 @@ import { css } from '@emotion/react';
 import PhotoListItem from '@/components/magazine/PhotoListItem';
 
 interface MainMagazineProps {
-  magazines: Magazine[];
+  magazines: MagazineThumbnail[];
 }
 const MainMagazine = ({ magazines }: MainMagazineProps) => {
   return (
@@ -17,7 +17,7 @@ const MainMagazine = ({ magazines }: MainMagazineProps) => {
       `}
     >
       {magazines.map((magazine) => (
-        <PhotoListItem key={magazine.src} item={magazine} width={'120px'} height={'155px'} />
+        <PhotoListItem key={magazine.cover_url} item={magazine} width={'120px'} height={'155px'} />
       ))}
     </div>
   );
