@@ -4,7 +4,7 @@ import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import React, { useCallback, useState } from 'react';
 
-import { MAGAZINES, PROFILE } from '@/application/utils/mock';
+import { MAGAZINE_THUMBNAILS, PROFILE } from '@/application/utils/mock';
 import { MainMagazine } from '@/components/magazine/MagazineList';
 import Profile from '@/components/magazine/Profile';
 import MyMagazineWithTab from '@/components/magazine/Tab';
@@ -54,7 +54,7 @@ const Magazine: NextPage = () => {
         >
           나의 메인 매거진
         </span>
-        <MainMagazine magazines={MAGAZINES} />
+        <MainMagazine magazines={MAGAZINE_THUMBNAILS} />
       </motion.div>
       <span
         onClick={handleUpload}

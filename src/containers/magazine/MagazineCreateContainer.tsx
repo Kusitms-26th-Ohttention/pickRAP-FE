@@ -2,7 +2,7 @@ import { css } from '@emotion/react';
 import Image from 'next/image';
 import React, { useRef, useState } from 'react';
 
-import { MAGAZINES } from '@/application/utils/mock';
+import { MAGAZINE_THUMBNAILS } from '@/application/utils/mock';
 import Switch from '@/components/common/Switch';
 import PageList from '@/components/magazine/PageList';
 
@@ -62,7 +62,7 @@ const MagazineCreateContainer = ({ name, privated }: Props) => {
           <Switch defaultChecked={isPrivate.current} onClick={(p) => (isPrivate.current = p)} />
         </span>
       </div>
-      <PageList pages={MAGAZINES} />
+      <PageList pages={MAGAZINE_THUMBNAILS} />
     </>
   );
 };

@@ -23,7 +23,7 @@ const ShowPageNavigation = ({ name, onEdit, onStar }: ShowPageNavigationProps) =
       `}
     >
       <div>
-        <Image src={'/icon/backArrow.svg'} width={10} height={17} onClick={() => router.back()} />
+        <Image src={'/icon/backArrow.svg'} width={10} height={17} onClick={() => router.push('/magazine')} />
         <span
           css={(theme) =>
             css`

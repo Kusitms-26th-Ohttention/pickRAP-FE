@@ -1,7 +1,8 @@
-import type { ComponentMeta, ComponentStory } from '@storybook/react';
+import type { ComponentStory } from '@storybook/react';
 import React from 'react';
 
 import MagazineCreateContainer from '@/containers/magazine/MagazineCreateContainer';
+import PageViewContainer from '@/containers/magazine/PageViewContainer';
 
 export default {
   title: 'containers/magazine',
@@ -11,3 +12,4 @@ export default {
 export const MagazineCreate: ComponentStory<typeof MagazineCreateContainer> = (args) => (
   <MagazineCreateContainer {...args}>MagazineCreateContainer</MagazineCreateContainer>
 );
+export const PageView: ComponentStory<typeof PageViewContainer> = (args) => <PageViewContainer {...args} />;

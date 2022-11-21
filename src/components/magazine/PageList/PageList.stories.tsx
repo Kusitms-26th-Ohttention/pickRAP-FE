@@ -1,7 +1,7 @@
 import type { ComponentMeta, ComponentStory } from '@storybook/react';
 import React from 'react';
 
-import { MAGAZINES } from '@/application/utils/mock';
+import { MAGAZINE_THUMBNAILS } from '@/application/utils/mock';
 
 import _PageList from '.';
 
@@ -9,7 +9,7 @@ export default {
   title: 'Components/magazine/PageList',
   component: _PageList,
   args: {
-    pages: MAGAZINES,
+    pages: MAGAZINE_THUMBNAILS,
   },
 } as ComponentMeta<typeof _PageList>;
 

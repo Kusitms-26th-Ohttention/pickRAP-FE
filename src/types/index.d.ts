@@ -30,7 +30,7 @@ interface Scrap {
 }
 
 interface Page {
-  content: string;
+  contents: string;
   file_url: string;
   page_id: number;
   text: string;

@@ -1,7 +1,7 @@
 import type { ComponentMeta, ComponentStory } from '@storybook/react';
 import React from 'react';
 
-import { MAGAZINES } from '@/application/utils/mock';
+import { MAGAZINE_THUMBNAILS } from '@/application/utils/mock';
 import MainMagazine from '@/components/magazine/MagazineList/MainMagazine';
 import TabMagazine from '@/components/magazine/MagazineList/TabMagazine';
 
@@ -9,7 +9,7 @@ export default {
   title: 'Components/magazine/MyMagazine',
   component: TabMagazine,
   args: {
-    magazines: MAGAZINES,
+    magazines: MAGAZINE_THUMBNAILS,
     selectItem: true,
   },
 } as ComponentMeta<typeof TabMagazine>;
