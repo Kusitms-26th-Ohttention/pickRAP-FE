@@ -2,15 +2,18 @@ import { css } from '@emotion/react';
 import { useRouter } from 'next/router';
 import React from 'react';
 
+import useIntersectionObserver from '@/application/hooks/utils/useIntersectionObserver';
 import Photo from '@/components/common/Photo';
 import PhotoSelect from '@/components/common/Photo/PhotoSelect';
 
 interface PhotoListContainerProps {
   data: Scrap[];
   select?: boolean;
+  onEndReached?: () => void;
 }
-const PhotoListContainer = ({ data, select }: PhotoListContainerProps) => {
+const PhotoListContainer = ({ data, select, onEndReached }: PhotoListContainerProps) => {
   const router = useRouter();
+  const ref = useIntersectionObserver({ callback: onEndReached });
   return (
     <div
       css={css`
@@ -44,6 +47,7 @@ const PhotoListContainer = ({ data, select }: PhotoListContainerProps) => {
             />
           ))}
         </div>
+        <span ref={ref} />
       </div>
     </div>
   );

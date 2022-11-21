@@ -29,8 +29,7 @@ const getTypeFromFilter = (filter: string) => {
 const ContentListContainer = ({ select }: ContentListContainerProps) => {
   const [filter, setFilter] = useState('사진');
 
-  // TODO 스크랩 타입 소문자로 통일하기
-  const { scraps } = useGetScrapByType({ filter: getTypeFromFilter(filter) });
+  const { scraps, fetchNextPage } = useGetScrapByType({ filter: getTypeFromFilter(filter) });
 
   return (
     <>
@@ -52,7 +51,7 @@ const ContentListContainer = ({ select }: ContentListContainerProps) => {
         </Select>
       </span>
 
-      <PhotoListContainer data={scraps || []} select={select} />
+      <PhotoListContainer data={scraps || []} select={select} onEndReached={fetchNextPage} />
     </>
   );
 };

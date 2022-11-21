@@ -56,10 +56,7 @@ const Scrap: NextPage = () => {
       return ret;
     });
 
-  const handleSearch = (search: string) => {
-    // TODO search api & setState
-    setSearchString(search);
-  };
+  const handleSearch = (search: string) => setSearchString(search);
 
   const handleUploadToast = () => show({ content: <CreateScrapToast /> });
 

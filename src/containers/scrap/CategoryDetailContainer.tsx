@@ -16,7 +16,7 @@ interface CategoryDetailContainerProps {
 }
 
 const CategoryDetailContainer = ({ select, info }: CategoryDetailContainerProps) => {
-  const { categories } = useGetContentByCategory({ id: info.id });
+  const { categories, fetchNextPage } = useGetContentByCategory({ id: info.id });
   const [categoryName, setCategoryName] = useState(info.name);
   const mutation = useUpdateCategory();
   const { show } = useModal();
@@ -70,7 +70,7 @@ const CategoryDetailContainer = ({ select, info }: CategoryDetailContainerProps)
           <Image src={'/icon/edit.svg'} layout={'fill'} objectFit={'cover'} />
         </button>
       </span>
-      <PhotoListContainer data={categories} select={select} />
+      <PhotoListContainer data={categories} select={select} onEndReached={fetchNextPage} />
     </>
   );
 };

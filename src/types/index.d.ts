@@ -28,3 +28,8 @@ interface Scrap {
   title: string;
   url_preview: string;
 }
+
+interface Magazine {
+  src: string;
+  name: string;
+}
