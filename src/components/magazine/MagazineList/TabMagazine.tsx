@@ -3,12 +3,6 @@ import { css } from '@emotion/react';
 import Photo from '@/components/common/Photo';
 import PhotoSelect from '@/components/common/Photo/PhotoSelect';
 
-// TODO 프로젝트 전역에서 사용하는 타입은 index.d.ts로 분리
-interface Magazine {
-  src: string;
-  name: string;
-}
-
 interface TabMagazineProps {
   magazines: Magazine[];
   selectItem?: boolean;

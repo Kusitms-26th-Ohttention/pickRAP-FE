@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 
-import MagazineListItem from '@/components/magazine/MagazineList/MagazineListItem';
+import PhotoListItem from '@/components/magazine/PhotoListItem';
 
 interface MainMagazineProps {
   magazines: Magazine[];
@@ -16,7 +16,7 @@ const MainMagazine = ({ magazines }: MainMagazineProps) => {
       `}
     >
       {magazines.map((magazine) => (
-        <MagazineListItem key={magazine.src} magazine={magazine} width={'120px'} height={'155px'} />
+        <PhotoListItem key={magazine.src} item={magazine} width={'120px'} height={'155px'} />
       ))}
     </div>
   );
