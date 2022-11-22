@@ -12,3 +12,7 @@ export const ERR_CODE = {
   CREATE_DUPLICATED_CATEGORY: 4004,
   MODIFY_DUPLICATED_CATEGORY: 4005,
 } as const;
+
+export const ERR_MESSAGE = {
+  DUPLICATED_TITLE: '이미 있는 제목입니다.',
+} as const;

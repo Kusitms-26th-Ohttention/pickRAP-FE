@@ -2,9 +2,12 @@ import { css } from '@emotion/react';
 import Image from 'next/image';
 import React, { useRef, useState } from 'react';
 
+import useModal from '@/application/hooks/common/useModal';
 import useToast from '@/application/hooks/common/useToast';
+import { ERR_MESSAGE } from '@/application/utils/constant';
 import { MAGAZINE_THUMBNAILS } from '@/application/utils/mock';
 import SelectCategoryWithContent from '@/components/category/SelectCategoryWithContent';
+import InputModal from '@/components/common/Modal/Input';
 import Switch from '@/components/common/Switch';
 import PageList from '@/components/magazine/PageList';
 
@@ -16,6 +19,7 @@ const MagazineCreateContainer = ({ name, privated }: Props) => {
   const [magazineName, setMagazineName] = useState(name || '제목');
   const isPrivate = useRef(privated ?? true);
   const { show } = useToast();
+  const { show: modal } = useModal();
 
   return (
     <>
@@ -41,6 +45,18 @@ const MagazineCreateContainer = ({ name, privated }: Props) => {
         >
           {magazineName}
           <button
+            onClick={() =>
+              modal(
+                <InputModal
+                  title={'제목 수정'}
+                  errMsg={ERR_MESSAGE.DUPLICATED_TITLE}
+                  onSubmit={(value, errorFn) => {
+                    // TODO useMutation
+                    console.log(value);
+                  }}
+                />,
+              )
+            }
             css={css`
               margin-left: 6px;
               width: 22px;
