@@ -21,11 +21,12 @@ const Photo = ({ src, width, height, blur, custom, onClick, text }: PhotoProps) 
     <div
       onClick={onClick}
       css={[
-        css`
+        (theme) => css`
           width: ${width ? width : '100%'};
           height: ${height ? height : '100%'};
           border-radius: 4px;
           position: relative;
+          background: ${theme.color.gray10};
           overflow: hidden;
         `,
         custom,

@@ -130,7 +130,7 @@ const Scrap: NextPage = () => {
             <Tab.Label onClick={() => handleTabClick('category')}>카테고리 별</Tab.Label>
             <Tab.Label onClick={() => handleTabClick('content')}>콘텐츠 별</Tab.Label>
           </Tab.Group>
-          <SSRSafeSuspense fallback={null}>
+          <SSRSafeSuspense fallback={<ThreeDotsSpinner />}>
             <Tab.Panel>
               <Tab.Content>
                 {!categoryInfo.name ? (

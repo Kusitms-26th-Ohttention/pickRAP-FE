@@ -1,4 +1,3 @@
-export { default as SelectCategoryToast } from '../../category/SelectCategory';
 export { default as CreateScrapToast } from './CreateScrap';
 export { default as DeleteScrapToast } from './DeleteScrap';
 export { default as TypedCompleteToast } from './TypedComplete';

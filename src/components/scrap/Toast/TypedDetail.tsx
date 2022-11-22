@@ -5,10 +5,10 @@ import React, { useRef } from 'react';
 
 import useToast from '@/application/hooks/common/useToast';
 import useScrapForm from '@/application/store/scrap/useScrapForm';
+import SelectCategoryWithCreate from '@/components/category/SelectCategoryWithCreate';
 import { ActiveButton } from '@/components/common/Button';
 import { InputBase } from '@/components/common/Input';
 import CreateScrap from '@/components/scrap/Toast/CreateScrap';
-import { SelectCategoryToast } from '@/components/scrap/Toast/index';
 
 interface TypedDetailProps {
   onSubmit?: (value: string) => void;
@@ -28,7 +28,7 @@ const TypedDetail = ({ onSubmit, onBack, type }: TypedDetailProps) => {
         if (ref.current?.value) {
           onSubmit?.(ref.current.value);
           handleScrap({ type, data: ref.current.value });
-          replace({ content: <SelectCategoryToast /> });
+          replace({ content: <SelectCategoryWithCreate /> });
         }
       }}
       css={css`

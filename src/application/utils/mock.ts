@@ -30,3 +30,16 @@ export const MAGAZINE = {
   page_list: PAGES,
   title: '나는 더미 데이터',
 };
+
+export const SCRAPS = [0, 0, 0, 0, 0, 0].map(() => ({
+  category: '테스트 카테고리',
+  content: '테스트 콘텐츠',
+  create_time: new Date().toISOString(),
+  file_url: '/picture/mock.png',
+  hashtags: ['#포폴용도', '#자료모음', '#패션피플'],
+  id: 0,
+  memo: '메모메모',
+  scrap_type: 'image',
+  title: '타이틀',
+  url_preview: '',
+}));

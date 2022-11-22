@@ -1,54 +1,19 @@
 import { css } from '@emotion/react';
-import axios from 'axios';
+import type { PropsWithChildren, ReactElement } from 'react';
+import { cloneElement } from 'react';
 
-import { useGetCategories, useSaveCategory } from '@/application/hooks/api/category';
-import useModal from '@/application/hooks/common/useModal';
-import usePopup from '@/application/hooks/common/usePopup';
+import { useGetCategories } from '@/application/hooks/api/category';
 import useToast from '@/application/hooks/common/useToast';
-import useScrapForm from '@/application/store/scrap/useScrapForm';
-import { ERR_CODE } from '@/application/utils/constant';
-import CreateCategory from '@/components/category/CreateCategory';
-import Photo from '@/components/common/Photo';
-import TypedComplete from '@/components/scrap/Toast/TypedComplete';
+import SelectCategoryItem from '@/components/category/SelectCategoryItem';
 
-interface SelectCategoryProps extends Pick<Category, 'name' | 'file_url'> {
-  onClick: () => void;
+interface Props {
+  nextToast: ReactElement;
+  onClickItem?: (id: number) => void;
 }
 
-const SelectCategoryItem = ({ file_url, name, onClick }: SelectCategoryProps) => {
-  return (
-    <li
-      onClick={onClick}
-      css={css`
-        display: grid;
-        grid-template-columns: 36px 1fr;
-        height: 36px;
-        gap: 10px;
-        align-items: center;
-      `}
-    >
-      <Photo
-        src={file_url}
-        custom={css`
-          border-radius: 2px;
-        `}
-      />
-      {name}
-    </li>
-  );
-};
-
-const newCategory = { file_url: '/icon/scrap/newCategory.svg', name: '새로운 카테고리 생성' } as Category;
-
-const SelectCategory = () => {
+const SelectCategory = ({ children, nextToast, onClickItem }: PropsWithChildren<Props>) => {
   const { categories } = useGetCategories();
-
-  const popup = usePopup();
-  const { show } = useModal();
-
-  const { handleScrap } = useScrapForm();
-  const { replace, show: toast } = useToast();
-  const mutation = useSaveCategory();
+  const { replace } = useToast();
   return (
     <section
       css={css`
@@ -84,39 +49,12 @@ const SelectCategory = () => {
             {...category}
             file_url={category.file_url || '/icon/scrap/defaultCategory.svg'}
             onClick={() => {
-              handleScrap({ type: 'category', data: category.id });
-              replace({ content: <TypedComplete /> });
+              onClickItem?.(category.id);
+              replace({ content: cloneElement(nextToast, { ...category }) });
             }}
           />
         ))}
-        <SelectCategoryItem
-          onClick={() => {
-            show(
-              <CreateCategory
-                onSubmit={(category, setError) => {
-                  mutation.mutate(
-                    { name: category },
-                    {
-                      onSuccess: ({ data }) => {
-                        popup('성공적으로 생성 되었습니다', 'success');
-                        handleScrap({ type: 'category', data: data.data.id });
-                        // TODO popup().then Promise로 api 개선
-                        // 현재 버그 가능성 많음
-                        setTimeout(() => toast({ content: <TypedComplete /> }), 1500);
-                      },
-                      onError: (err) => {
-                        if (axios.isAxiosError(err)) {
-                          err.response?.data.code === ERR_CODE.CREATE_DUPLICATED_CATEGORY && setError(true);
-                        }
-                      },
-                    },
-                  );
-                }}
-              />,
-            );
-          }}
-          {...newCategory}
-        />
+        {children}
       </ul>
     </section>
   );

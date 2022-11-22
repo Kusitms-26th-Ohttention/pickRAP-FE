@@ -7,6 +7,17 @@ import React from 'react';
 import { ActiveButton } from '@/components/common/Button';
 import MagazineCreateContainer from '@/containers/magazine/MagazineCreateContainer';
 
+/**
+ * @todo
+ * 토스트에 대한 고찰..
+ * 간단한 메세지(성공, 오류, 경고)는 hook 함수로 호출하는 것이 좋지만
+ * 복잡한 UI 띄우는 작업은 일반적인 리액트 컴포넌트로 표현해야 할 듯 보임
+ *
+ * 문제점 1. 토스트 내용 컴포넌트 간의 강한 결합
+ * 문제점 2. 복잡한 함수 호출 구조
+ *
+ * 리팩토링 필요
+ */
 const UploadMagazine: NextPage = () => {
   const router = useRouter();
   return (

@@ -33,7 +33,7 @@ const useScrollDetect = <T extends HTMLElement>({ onScroll }: UseScrollDetectOpt
       }
     };
 
-    target?.addEventListener('scroll', handleScroll);
+    target?.addEventListener('scroll', handleScroll, { passive: true });
 
     return () => target?.removeEventListener('scroll', handleScroll);
   }, [onScroll]);

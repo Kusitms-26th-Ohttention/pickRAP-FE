@@ -9,6 +9,7 @@ interface Props {
   width?: string;
   height?: string;
   ratio?: string;
+  onClick?: () => void;
 }
 const PhotoListItem = ({ item, selectItem, ratio, ...rest }: Props) => {
   return (

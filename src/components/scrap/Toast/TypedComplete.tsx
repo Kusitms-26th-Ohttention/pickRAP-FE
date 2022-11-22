@@ -6,10 +6,10 @@ import { useInput } from '@/application/hooks/common/useInput';
 import usePopup from '@/application/hooks/common/usePopup';
 import useToast from '@/application/hooks/common/useToast';
 import useScrapForm from '@/application/store/scrap/useScrapForm';
+import SelectCategoryWithCreate from '@/components/category/SelectCategoryWithCreate';
 import { ActiveButton } from '@/components/common/Button';
 import { InputBase } from '@/components/common/Input';
 import Popup from '@/components/common/Popup';
-import { SelectCategoryToast } from '@/components/scrap/Toast/index';
 
 interface TypedDetailProps {
   onSubmit?: (value: string) => void;
@@ -59,7 +59,7 @@ const TypedComplete = ({ onSubmit, onBack, placeholder = '업로드 하기' }: T
       `}
     >
       <span
-        onClick={() => replace({ content: <SelectCategoryToast /> })}
+        onClick={() => replace({ content: <SelectCategoryWithCreate /> })}
         css={(theme) =>
           css`
             display: flex;

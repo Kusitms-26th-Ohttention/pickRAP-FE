@@ -2,7 +2,9 @@ import { css } from '@emotion/react';
 import Image from 'next/image';
 import React, { useRef, useState } from 'react';
 
+import useToast from '@/application/hooks/common/useToast';
 import { MAGAZINE_THUMBNAILS } from '@/application/utils/mock';
+import SelectCategoryWithContent from '@/components/category/SelectCategoryWithContent';
 import Switch from '@/components/common/Switch';
 import PageList from '@/components/magazine/PageList';
 
@@ -13,6 +15,8 @@ interface Props {
 const MagazineCreateContainer = ({ name, privated }: Props) => {
   const [magazineName, setMagazineName] = useState(name || '제목');
   const isPrivate = useRef(privated ?? true);
+  const { show } = useToast();
+
   return (
     <>
       <div
@@ -62,7 +66,7 @@ const MagazineCreateContainer = ({ name, privated }: Props) => {
           <Switch defaultChecked={isPrivate.current} onClick={(p) => (isPrivate.current = p)} />
         </span>
       </div>
-      <PageList pages={MAGAZINE_THUMBNAILS} />
+      <PageList pages={MAGAZINE_THUMBNAILS} onSetThumbnail={() => show({ content: <SelectCategoryWithContent /> })} />
     </>
   );
 };
