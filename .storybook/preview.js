@@ -1,26 +1,23 @@
 import { addParameters } from '@storybook/react';
 import { DocsPage, DocsContainer } from '@storybook/addon-docs';
 import { INITIAL_VIEWPORTS } from '@storybook/addon-viewport';
-// import React from 'react';
-// import { GlobalStyle } from '@/styles';
-// import Layout from '@/components/Layout';
-// import { Story } from '@storybook/react';
-// import { ThemeProvider } from '@emotion/react';
-// import theme from '@/styles/theme';
+import { GlobalStyle, theme } from '../src/styles';
+import { ThemeProvider } from '@emotion/react';
+import AppLayout from '../src/containers/AppLayout';
+import { RecoilRoot } from 'recoil';
 
-// Global decorator to apply the styles to all stories
-// export const decorators = [
-//   (Story) => (
-//     <>
-//       <GlobalStyle />
-//       <ThemeProvider theme={theme}>
-//         <Layout>
-//           <Story />
-//         </Layout>
-//       </ThemeProvider>
-//     </>
-//   ),
-// ];
+export const decorators = [
+  (Story) => (
+    <RecoilRoot>
+      <GlobalStyle />
+      <ThemeProvider theme={theme}>
+        <AppLayout>
+          <Story />
+        </AppLayout>
+      </ThemeProvider>
+    </RecoilRoot>
+  ),
+];
 
 export const parameters = {
   actions: { argTypesRegex: '^on[A-Z].*' },
@@ -44,4 +41,5 @@ addParameters({
     container: DocsContainer,
     page: DocsPage,
   },
+  layout: 'fullscreen',
 });

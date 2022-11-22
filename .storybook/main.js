@@ -13,26 +13,18 @@ module.exports = {
     builder: '@storybook/builder-webpack5',
   },
   webpackFinal: async (config) => {
-    // disable whatever is already set to load SVGs
-    config.module.rules.filter((rule) => rule.test.test('.svg')).forEach((rule) => (rule.exclude = /\.svg$/i));
-
-    // add SVGR instead
+    const fileLoaderRule = config.module.rules.find((rule) => rule.test.test('.svg'));
+    fileLoaderRule.exclude = /\.svg$/;
     config.module.rules.push({
       test: /\.svg$/,
-      use: [
-        {
-          loader: '@svgr/webpack',
-        },
-        {
-          loader: 'file-loader',
-          options: {
-            name: 'static/media/[path][name].[ext]',
-          },
-        },
-      ],
-      type: 'javascript/auto',
-      issuer: {
-        and: [/\.(ts|tsx|js|jsx|md|mdx)$/],
+      use: ['@svgr/webpack', 'url-loader'],
+    });
+
+    config.module.rules.push({
+      test: /\.(ts|tsx)$/,
+      loader: require.resolve('babel-loader'),
+      options: {
+        presets: [require.resolve('@emotion/babel-preset-css-prop')],
       },
     });
 
