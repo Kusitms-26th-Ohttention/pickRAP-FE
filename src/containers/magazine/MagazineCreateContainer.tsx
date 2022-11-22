@@ -6,7 +6,7 @@ import useModal from '@/application/hooks/common/useModal';
 import useToast from '@/application/hooks/common/useToast';
 import { ERR_MESSAGE } from '@/application/utils/constant';
 import { MAGAZINE_THUMBNAILS } from '@/application/utils/mock';
-import SelectCategoryWithContent from '@/components/category/SelectCategoryWithContent';
+import SelectCategoryWithContent from '@/components/category/Select/SelectCategoryWithContent';
 import InputModal from '@/components/common/Modal/Input';
 import Switch from '@/components/common/Switch';
 import PageList from '@/components/magazine/PageList';

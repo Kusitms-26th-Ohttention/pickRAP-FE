@@ -1,4 +1,5 @@
 import { css } from '@emotion/react';
+import { useRouter } from 'next/router';
 
 import PhotoListItem from '@/components/magazine/PhotoListItem';
 
@@ -6,6 +7,7 @@ interface MainMagazineProps {
   magazines: MagazineThumbnail[];
 }
 const MainMagazine = ({ magazines }: MainMagazineProps) => {
+  const router = useRouter();
   return (
     <div
       css={css`
@@ -17,7 +19,13 @@ const MainMagazine = ({ magazines }: MainMagazineProps) => {
       `}
     >
       {magazines.map((magazine) => (
-        <PhotoListItem key={magazine.cover_url} item={magazine} width={'120px'} height={'155px'} />
+        <PhotoListItem
+          onClick={() => router.push(`/magazine/${magazine.magazine_id}`)}
+          key={magazine.cover_url}
+          item={magazine}
+          width={'120px'}
+          height={'155px'}
+        />
       ))}
     </div>
   );

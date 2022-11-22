@@ -6,9 +6,9 @@ import usePopup from '@/application/hooks/common/usePopup';
 import useToast from '@/application/hooks/common/useToast';
 import useScrapForm from '@/application/store/scrap/useScrapForm';
 import { ERR_CODE } from '@/application/utils/constant';
-import CreateCategory from '@/components/category/CreateCategory';
-import SelectCategory from '@/components/category/SelectCategory';
-import SelectCategoryItem from '@/components/category/SelectCategoryItem';
+import CreateCategory from '@/components/category/Modal/CreateCategory';
+import SelectCategory from '@/components/category/Select/SelectCategory';
+import SelectCategoryItem from '@/components/category/Select/SelectCategoryItem';
 import TypedComplete from '@/components/scrap/Toast/TypedComplete';
 
 const newCategory = { file_url: '/icon/scrap/newCategory.svg', name: '새로운 카테고리 생성' } as Category;

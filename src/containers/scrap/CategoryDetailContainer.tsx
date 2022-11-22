@@ -7,7 +7,7 @@ import { useGetContentByCategory, useUpdateCategory } from '@/application/hooks/
 import useModal from '@/application/hooks/common/useModal';
 import usePopup from '@/application/hooks/common/usePopup';
 import { ERR_CODE } from '@/application/utils/constant';
-import CreateCategory from '@/components/category/CreateCategory';
+import CreateCategory from '@/components/category/Modal/CreateCategory';
 import PhotoListContainer from '@/containers/scrap/PhotoListContainer';
 
 interface CategoryDetailContainerProps {

@@ -8,7 +8,7 @@ const useModal = () => {
   const { show: showToast, close } = useToast();
 
   const confirm = useCallback(
-    (message: string, { ...rest }: { onSuccess: () => void }) => {
+    (message: string, { ...rest }: { onSuccess: () => void; description?: string }) => {
       close();
       showToast({
         content: <Confirm title={message} {...rest} onReject={close} />,

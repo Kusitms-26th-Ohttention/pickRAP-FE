@@ -4,7 +4,7 @@ import { cloneElement } from 'react';
 
 import { useGetCategories } from '@/application/hooks/api/category';
 import useToast from '@/application/hooks/common/useToast';
-import SelectCategoryItem from '@/components/category/SelectCategoryItem';
+import SelectCategoryItem from '@/components/category/Select/SelectCategoryItem';
 
 interface Props {
   nextToast: ReactElement;

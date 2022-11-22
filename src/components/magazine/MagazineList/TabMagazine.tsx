@@ -1,4 +1,5 @@
 import { css } from '@emotion/react';
+import { useRouter } from 'next/router';
 
 import type { UseScrollDetectOption } from '@/application/hooks/utils/useScrollDetect';
 import useScrollDetect from '@/application/hooks/utils/useScrollDetect';
@@ -13,6 +14,7 @@ interface TabMagazineProps {
 
 const TabMagazine = ({ magazines, selectItem, onScrollDown }: TabMagazineProps) => {
   const ref = useScrollDetect<HTMLDivElement>({ onScroll: onScrollDown });
+  const router = useRouter();
 
   return (
     <div
@@ -59,6 +61,7 @@ const TabMagazine = ({ magazines, selectItem, onScrollDown }: TabMagazineProps) 
                 src={magazine.cover_url}
                 width={'196px'}
                 height={'255px'}
+                onClick={() => router.push(`/magazine/${magazine.magazine_id}`)}
               />
               <span
                 css={(theme) =>

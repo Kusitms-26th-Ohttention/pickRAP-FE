@@ -7,9 +7,9 @@ import React, { useCallback, useState } from 'react';
 import { MAGAZINE_THUMBNAILS, PROFILE } from '@/application/utils/mock';
 import { MainMagazine } from '@/components/magazine/MagazineList';
 import Profile from '@/components/magazine/Profile';
-import MyMagazineWithTab from '@/components/magazine/Tab';
 import UploadButton from '@/components/scrap/UploadButton';
 import withNavigation from '@/containers/HOC/withNavigation';
+import MyMagazineWithTab from '@/containers/magazine/TabMagazineViewContainer';
 
 const Magazine: NextPage = () => {
   const [isOpen, setIsOpen] = useState('down');

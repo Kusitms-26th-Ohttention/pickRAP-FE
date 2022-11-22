@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 import { useGetContentByCategory } from '@/application/hooks/api/category';
 import useToast from '@/application/hooks/common/useToast';
 import useIntersectionObserver from '@/application/hooks/utils/useIntersectionObserver';
-import SelectCategoryWithContent from '@/components/category/SelectCategoryWithContent';
+import SelectCategoryWithContent from '@/components/category/Select/SelectCategoryWithContent';
 import { ActiveButton } from '@/components/common/Button';
 import Photo from '@/components/common/Photo';
 import PhotoSelect from '@/components/common/Photo/PhotoSelect';

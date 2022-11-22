@@ -6,7 +6,7 @@ import { useInput } from '@/application/hooks/common/useInput';
 import usePopup from '@/application/hooks/common/usePopup';
 import useToast from '@/application/hooks/common/useToast';
 import useScrapForm from '@/application/store/scrap/useScrapForm';
-import SelectCategoryWithCreate from '@/components/category/SelectCategoryWithCreate';
+import SelectCategoryWithCreate from '@/components/category/Select/SelectCategoryWithCreate';
 import { ActiveButton } from '@/components/common/Button';
 import { InputBase } from '@/components/common/Input';
 import Popup from '@/components/common/Popup';

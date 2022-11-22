@@ -10,8 +10,8 @@ import usePopup from '@/application/hooks/common/usePopup';
 import useToast from '@/application/hooks/common/useToast';
 import useScrapForm from '@/application/store/scrap/useScrapForm';
 import { ERR_CODE } from '@/application/utils/constant';
-import CreateCategory from '@/components/category/CreateCategory';
-import SelectCategoryWithCreate from '@/components/category/SelectCategoryWithCreate';
+import CreateCategory from '@/components/category/Modal/CreateCategory';
+import SelectCategoryWithCreate from '@/components/category/Select/SelectCategoryWithCreate';
 import { ActiveButton } from '@/components/common/Button';
 import { TypedDetailToast } from '@/components/scrap/Toast/index';
 

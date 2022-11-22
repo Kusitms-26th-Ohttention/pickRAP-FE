@@ -5,7 +5,7 @@ import React, { useRef } from 'react';
 
 import useToast from '@/application/hooks/common/useToast';
 import useScrapForm from '@/application/store/scrap/useScrapForm';
-import SelectCategoryWithCreate from '@/components/category/SelectCategoryWithCreate';
+import SelectCategoryWithCreate from '@/components/category/Select/SelectCategoryWithCreate';
 import { ActiveButton } from '@/components/common/Button';
 import { InputBase } from '@/components/common/Input';
 import CreateScrap from '@/components/scrap/Toast/CreateScrap';
