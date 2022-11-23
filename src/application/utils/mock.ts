@@ -43,3 +43,4 @@ export const SCRAPS = [0, 0, 0, 0, 0, 0].map(() => ({
   title: '타이틀',
   url_preview: '',
 }));
+export const EDIT_PAGE = [0, 0, 0, 0, 0].map(() => ({ scrap_id: 0, text: '', src: '/picture/mock.png' }));

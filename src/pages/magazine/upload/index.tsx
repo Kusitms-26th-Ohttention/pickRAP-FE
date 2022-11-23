@@ -20,6 +20,7 @@ import MagazineCreateContainer from '@/containers/magazine/MagazineCreateContain
  */
 const UploadMagazine: NextPage = () => {
   const router = useRouter();
+  // TODO upload magazine context recoil
   return (
     <>
       <div
@@ -28,12 +29,13 @@ const UploadMagazine: NextPage = () => {
           justify-content: flex-end;
           width: 100%;
           gap: 10px;
+          height: 28px;
           margin-bottom: 4px;
           align-items: center;
         `}
       >
         <span
-          onClick={() => router.back()}
+          onClick={() => router.push('/magazine')}
           css={css`
             width: 10px;
             height: 17px;

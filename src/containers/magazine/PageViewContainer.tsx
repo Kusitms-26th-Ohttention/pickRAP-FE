@@ -1,6 +1,7 @@
 import type { Theme } from '@emotion/react';
 import { css } from '@emotion/react';
 import Image from 'next/image';
+import Link from 'next/link';
 import React from 'react';
 
 import { PAGES } from '@/application/utils/mock';
@@ -21,13 +22,13 @@ const PageViewContainer = ({ pages = PAGES }: Props) => {
       >
         <ol css={CSSCarouselContainer}>
           {pages.map((page, idx) => (
-            <li key={page.page_id} id={`page${idx}`} css={CSSCarouselItem}>
+            <li key={page.page_id} id={`${idx}`} css={CSSCarouselItem}>
               <Photo src={page.file_url} height={'45vh'} />
               <p css={CSSPageContent}>{page.contents}</p>
               <div css={CSSSnapper} />
               <div css={CSSCarouselHandle}>
-                <a href={`#page${idx === 0 ? pages.length - 1 : idx - 1}`}>Prev Item</a>
-                <a href={`#page${idx === pages.length - 1 ? 0 : idx + 1}`}>Next Item</a>
+                <Link href={{ hash: `#${idx === 0 ? pages.length - 1 : idx - 1}` }}>Prev Item</Link>
+                <Link href={{ hash: `#${idx === pages.length - 1 ? 0 : idx + 1}` }}>Next Item</Link>
               </div>
             </li>
           ))}
@@ -62,6 +63,8 @@ const CSSCarouselItem = css`
   position: relative;
   flex: 0 0 100%;
   width: 100%;
+  margin-right: 32px;
+
   counter-increment: item;
   a {
     width: 48px;
@@ -84,6 +87,8 @@ const CSSCarouselHandle = css`
   bottom: 0;
   right: 0;
   font-size: 0;
+  gap: 12px;
+  display: flex;
 `;
 
 const CSSSnapper = css`

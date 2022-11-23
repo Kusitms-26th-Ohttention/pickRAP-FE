@@ -68,7 +68,7 @@ const CategoryContentList = ({ name, id = 0, onSubmit }: Props) => {
               onClick={() => setPickId(scrap.id)}
               key={scrap.id}
               blur={<PhotoSelect enabled value={scrap.id === pickId} />}
-              src={scrap.scrap_type.toLowerCase() === 'image' ? scrap.file_url : scrap.url_preview}
+              src={scrap.scrap_type === 'image' ? scrap.file_url : scrap.url_preview}
               text={scrap.content}
             />
           ))}

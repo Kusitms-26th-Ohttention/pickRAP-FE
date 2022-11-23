@@ -42,7 +42,7 @@ const PhotoListContainer = ({ data, select, onEndReached }: PhotoListContainerPr
               onClick={() => !select && router.push(`/scrap/${photo.id}`)}
               key={photo.id}
               blur={<PhotoSelect enabled={select} />}
-              src={photo.scrap_type.toLowerCase() === 'image' ? photo.file_url : photo.url_preview}
+              src={photo.scrap_type === 'image' ? photo.file_url : photo.url_preview}
               text={photo.content}
             />
           ))}

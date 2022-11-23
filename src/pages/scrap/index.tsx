@@ -73,6 +73,7 @@ const Scrap: NextPage = () => {
           justify-content: flex-end;
           width: 100%;
           gap: 10px;
+          height: 28px;
           margin-bottom: 4px;
           align-items: center;
         `}

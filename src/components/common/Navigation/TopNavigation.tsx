@@ -15,13 +15,12 @@ const TopNavigation = ({ custom, onClick, children }: TopNavigationProps) => {
     <nav
       css={[
         css`
-          margin-top: 12px;
-          height: 48px;
           width: 100%;
           position: relative;
           display: flex;
           justify-content: center;
           align-items: center;
+          margin-bottom: 4px;
         `,
         custom,
       ]}
@@ -30,21 +29,25 @@ const TopNavigation = ({ custom, onClick, children }: TopNavigationProps) => {
         onClick={onClick}
         css={css`
           position: absolute;
+          display: flex;
+          align-items: center;
           left: 0;
         `}
       >
         <Image src={'/icon/backArrow.svg'} height={17} width={10} />
       </button>
-      <p
+      <span
         css={(theme) =>
           css`
             ${theme.font.M_POINT_18};
             color: ${theme.color.black02};
+            line-height: 26px;
+            margin-top: 2px;
           `
         }
       >
         {children}
-      </p>
+      </span>
     </nav>
   );
 };
