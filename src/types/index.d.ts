@@ -8,6 +8,7 @@ interface APIResponse<T = any> {
 
 type ScrapType = 'image' | 'text' | 'link' | 'video' | 'pdf';
 
+// TODO Domain layer 로 전역 타입 이동
 interface Category {
   content: string;
   file_url: string;
