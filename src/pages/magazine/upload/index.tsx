@@ -2,7 +2,7 @@ import { css } from '@emotion/react';
 import type { NextPage } from 'next';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 
 import useToast from '@/application/hooks/common/useToast';
 import { useSetMagazineInfo } from '@/application/store/magazine/hook';
@@ -25,6 +25,7 @@ const UploadMagazine: NextPage = () => {
   const router = useRouter();
   const { show, close } = useToast();
   const setMagazineInfo = useSetMagazineInfo();
+  const [coverUrl, setCoverUrl] = useState('');
 
   // TODO [] replace Get Magazine/{id} query
   const pages = useMemo(() => {
@@ -32,7 +33,7 @@ const UploadMagazine: NextPage = () => {
       [].length === 0
         ? [
             {
-              file_url: '',
+              file_url: coverUrl,
               contents: '1 페이지',
               page_id: 0,
               text: '',
@@ -53,7 +54,6 @@ const UploadMagazine: NextPage = () => {
             <SelectCategoryWithContent
               multiSelect
               onSubmit={(pages) => {
-                console.log(pages);
                 setMagazineInfo({ page_list: pages });
                 router.push('/magazine/upload/page').then(close);
               }}
@@ -66,7 +66,7 @@ const UploadMagazine: NextPage = () => {
         content: (
           <SelectCategoryWithContent
             onSubmit={(pages) => {
-              console.log(pages);
+              setCoverUrl(pages.src);
               setMagazineInfo({ cover_scrap_id: pages.scrap_id });
               close();
             }}
@@ -75,7 +75,7 @@ const UploadMagazine: NextPage = () => {
       });
 
     return ret;
-  }, [close, router, setMagazineInfo, show]);
+  }, [close, coverUrl, router, setMagazineInfo, show]);
 
   return (
     <>

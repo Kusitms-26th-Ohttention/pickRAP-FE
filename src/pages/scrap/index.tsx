@@ -74,7 +74,7 @@ const Scrap: NextPage = () => {
           width: 100%;
           gap: 10px;
           height: 28px;
-          margin-bottom: 4px;
+          margin-bottom: 10px;
           align-items: center;
         `}
       >
