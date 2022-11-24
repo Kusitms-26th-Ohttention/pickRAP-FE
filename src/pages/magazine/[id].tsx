@@ -6,6 +6,7 @@ import React from 'react';
 
 import { useGetMagazineDetail } from '@/application/hooks/api/magazine';
 import useModal from '@/application/hooks/common/useModal';
+import { useSetMagazineInfo } from '@/application/store/magazine/hook';
 import ShowPageNavigation from '@/components/magazine/TopNavigation/ShowPageNavigation';
 import PageViewContainer from '@/containers/magazine/PageViewContainer';
 
@@ -13,10 +14,18 @@ const ShowMagazine: NextPage = () => {
   const router = useRouter();
   const id = router.query.id ? Number(router.query.id) : 0;
   const { magazine } = useGetMagazineDetail({ id });
+  const setMagazineInfo = useSetMagazineInfo();
+
   const { confirm } = useModal();
   const modalOption = {
     onSuccess: () => {
-      // TODO router push /magazine/edit/{page hashtag id}
+      setMagazineInfo({
+        ...magazine,
+        start_number: (magazine?.page_list.length || 0) + 2,
+        page_list:
+          magazine?.page_list.map((m) => ({ src: m.file_url || m.contents, text: m.text, scrap_id: m.page_id })) || [],
+      });
+      router.push(`/magazine/edit/${id}`);
     },
   };
   return (

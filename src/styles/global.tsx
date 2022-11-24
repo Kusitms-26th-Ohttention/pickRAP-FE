@@ -38,7 +38,10 @@ const globalCss = css`
     padding: 0;
   }
 
-  a {
+  a,
+  a:hover,
+  a:focus,
+  a:active {
     text-decoration: none;
     display: inline-block;
   }

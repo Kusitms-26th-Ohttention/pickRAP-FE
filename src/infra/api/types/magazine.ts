@@ -10,9 +10,7 @@ export interface SaveMagazineRequest {
 export interface GetMagazineDetailRequest {
   id: number;
 }
-export interface GetMagazineDetailResponse extends Omit<Magazine, 'page_list'> {
-  page_list: Omit<Page, 'type'>[];
-}
+export type GetMagazineDetailResponse = Magazine;
 
 export type UpdateMagazineRequest = SaveMagazineRequest & { id: number };
 
