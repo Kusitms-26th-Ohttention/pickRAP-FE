@@ -3,7 +3,7 @@ import { css } from '@emotion/react';
 import PageListItem from '@/components/magazine/PhotoListItem';
 
 interface Props {
-  pages: ((MagazineThumbnail | Page) & { onClick?: () => void })[];
+  pages: (MagazineThumbnail & { onClick?: () => void })[];
 }
 const PageList = ({ pages }: Props) => {
   return (

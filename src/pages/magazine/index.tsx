@@ -4,12 +4,14 @@ import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import React, { useCallback, useState } from 'react';
 
-import { MAGAZINE_THUMBNAILS, PROFILE } from '@/application/utils/mock';
+import { PROFILE } from '@/application/utils/mock';
+import { ThreeDotsSpinner } from '@/components/common/Spinner';
 import { MainMagazine } from '@/components/magazine/MagazineList';
 import Profile from '@/components/magazine/Profile';
 import UploadButton from '@/components/scrap/UploadButton';
 import withNavigation from '@/containers/HOC/withNavigation';
 import MyMagazineWithTab from '@/containers/magazine/TabMagazineViewContainer';
+import SSRSafeSuspense from '@/containers/Suspense';
 
 const Magazine: NextPage = () => {
   const [isOpen, setIsOpen] = useState('down');
@@ -54,7 +56,7 @@ const Magazine: NextPage = () => {
         >
           나의 메인 매거진
         </span>
-        <MainMagazine magazines={MAGAZINE_THUMBNAILS} />
+        <MainMagazine magazines={[]} />
       </motion.div>
       <span
         onClick={handleUpload}
@@ -67,7 +69,9 @@ const Magazine: NextPage = () => {
       >
         <UploadButton />
       </span>
-      <MyMagazineWithTab onScrollDown={handleScrollDown} />
+      <SSRSafeSuspense fallback={<ThreeDotsSpinner />}>
+        <MyMagazineWithTab onScrollDown={handleScrollDown} />
+      </SSRSafeSuspense>
     </AnimatePresence>
   );
 };

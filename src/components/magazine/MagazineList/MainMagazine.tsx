@@ -1,6 +1,7 @@
 import { css } from '@emotion/react';
 import { useRouter } from 'next/router';
 
+import NoMagazine from '@/components/magazine/NoMagazine';
 import PhotoListItem from '@/components/magazine/PhotoListItem';
 
 interface MainMagazineProps {
@@ -27,6 +28,7 @@ const MainMagazine = ({ magazines }: MainMagazineProps) => {
           height={'155px'}
         />
       ))}
+      {magazines.length === 0 && <NoMagazine />}
     </div>
   );
 };

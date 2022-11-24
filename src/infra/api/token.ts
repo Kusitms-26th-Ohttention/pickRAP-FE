@@ -10,4 +10,4 @@ export const removeAccessToken = () => {
   LocalStorage.remove(LOCAL_STORAGE_KEYS.TOKEN);
   accessToken.current = null;
 };
-export const getAccessToken = () => process.env.NEXT_PUBLIC_ADMIN_TOKEN;
+export const getAccessToken = () => accessToken.current;

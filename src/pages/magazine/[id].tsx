@@ -1,27 +1,39 @@
 import { css } from '@emotion/react';
 import type { NextPage } from 'next';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 import React from 'react';
 
+import { useGetMagazineDetail } from '@/application/hooks/api/magazine';
 import useModal from '@/application/hooks/common/useModal';
-import { PAGES } from '@/application/utils/mock';
+import { useSetMagazineInfo } from '@/application/store/magazine/hook';
 import ShowPageNavigation from '@/components/magazine/TopNavigation/ShowPageNavigation';
 import PageViewContainer from '@/containers/magazine/PageViewContainer';
 
-const MOCK_DATE = '2022.11.02';
-const MOCK_NAME = '나의 패션';
-
 const ShowMagazine: NextPage = () => {
-  // TODO useQuery with router.query.id
+  const router = useRouter();
+  const id = router.query.id ? Number(router.query.id) : 0;
+  const { magazine } = useGetMagazineDetail({ id });
+  const setMagazineInfo = useSetMagazineInfo();
+
   const { confirm } = useModal();
   const modalOption = {
     onSuccess: () => {
-      // TODO router push /magazine/edit/{page hashtag id}
+      setMagazineInfo({
+        ...magazine,
+        start_number: (magazine?.page_list.length || 0) + 2,
+        page_list:
+          magazine?.page_list.map((m) => ({ src: m.file_url || m.contents, text: m.text, scrap_id: m.page_id })) || [],
+      });
+      router.push(`/magazine/edit/${id}`);
     },
   };
   return (
     <>
-      <ShowPageNavigation name={MOCK_NAME} onEdit={() => confirm('수정 페이지로 이동하시겠어요?', modalOption)} />
+      <ShowPageNavigation
+        name={magazine?.title || ''}
+        onEdit={() => confirm('수정 페이지로 이동하시겠어요?', modalOption)}
+      />
       <div
         css={css`
           margin-top: 36px;
@@ -42,10 +54,10 @@ const ShowMagazine: NextPage = () => {
             `
           }
         >
-          {MOCK_DATE}
+          {magazine && `${magazine.created_date[0]}. ${magazine.created_date[1]}. ${magazine.created_date[2]}`}
         </span>
       </div>
-      <PageViewContainer pages={PAGES} />
+      <PageViewContainer pages={magazine?.page_list || []} />
     </>
   );
 };

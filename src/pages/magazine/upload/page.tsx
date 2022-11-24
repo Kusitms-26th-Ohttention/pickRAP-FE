@@ -1,9 +1,13 @@
+import { css } from '@emotion/react';
 import type { NextPage } from 'next';
+import { useRouter } from 'next/router';
 import React from 'react';
 
-import { useMagazineInfo } from '@/application/store/magazine/hook';
+import useModal from '@/application/hooks/common/useModal';
+import { useEditPageReset, useEditPageValue } from '@/application/store/edit/hook';
+import { useMagazineInfo, useSetMagazineInfo } from '@/application/store/magazine/hook';
 import { ActiveButton } from '@/components/common/Button';
-import withNavigation from '@/containers/HOC/withNavigation';
+import { TopNavigation } from '@/components/common/Navigation';
 import PageEditContainer from '@/containers/magazine/PageEditContainer';
 
 /**
@@ -18,19 +22,46 @@ import PageEditContainer from '@/containers/magazine/PageEditContainer';
  * 8. 저장 버튼 누를 시 mutation
  */
 const UploadPage: NextPage = () => {
+  const router = useRouter();
+  const { confirm } = useModal();
   const magazineInfo = useMagazineInfo();
+  const setMagazineInfo = useSetMagazineInfo();
+  const editPages = useEditPageValue();
+  const resetEditPages = useEditPageReset();
   const editContainerProps = {
-    pages: magazineInfo.page_list,
+    pages: editPages,
     startPage: magazineInfo.start_number,
   };
   return (
     <>
+      <TopNavigation
+        onClick={() => {
+          confirm('페이지를 나가시겠어요?', {
+            onSuccess: () => {
+              resetEditPages();
+              router.push('/magazine/upload');
+            },
+            description: '페이지를 나가면, 저장되지 않습니다',
+          });
+        }}
+        custom={css`
+          justify-content: flex-start;
+          padding-left: 30px;
+        `}
+      >
+        페이지 추가
+      </TopNavigation>
       <PageEditContainer {...editContainerProps} />
       <ActiveButton
         active
         onClick={() => {
-          console.debug('final upload state :::', magazineInfo);
-          // TODO Mutation, GET /magazine/{id} invalidate, redirect
+          console.debug('final upload state :::', editPages);
+          setMagazineInfo((prev) => ({
+            ...prev,
+            page_list: [...(prev?.page_list || []), ...editPages],
+            start_number: prev.start_number! + editPages.length,
+          }));
+          router.replace('/magazine/upload');
         }}
       >
         저장
@@ -39,7 +70,4 @@ const UploadPage: NextPage = () => {
   );
 };
 
-export default withNavigation(UploadPage, {
-  TopNav: { title: '페이지 추가', backUrl: '/magazine/upload' },
-  noBottom: true,
-});
+export default UploadPage;

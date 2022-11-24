@@ -1,7 +1,5 @@
 import { atom, DefaultValue, selector, selectorFamily } from 'recoil';
 
-import { EDIT_PAGE } from '@/application/utils/mock';
-
 export interface MagazineState {
   cover_scrap_id: number;
   open_status: boolean;
@@ -15,8 +13,8 @@ export const magazineState = atom<MagazineState>({
   default: {
     cover_scrap_id: 0,
     open_status: false,
-    start_number: 0,
-    page_list: EDIT_PAGE,
+    start_number: 2,
+    page_list: [],
     title: '제목',
   },
   effects: [
@@ -28,11 +26,6 @@ export const magazineState = atom<MagazineState>({
   ],
 });
 
-/**
- * page selectorFamily
- * 1. get: id 값에 따라 page_list[id] 반환
- * 2. set: id 별 text 변경
- */
 export const pageSelector = selectorFamily<Partial<EditPage>, number>({
   key: 'PageSelector',
   get:

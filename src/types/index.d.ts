@@ -8,6 +8,7 @@ interface APIResponse<T = any> {
 
 type ScrapType = 'image' | 'text' | 'link' | 'video' | 'pdf';
 
+// TODO Domain layer 로 전역 타입 이동
 interface Category {
   content: string;
   file_url: string;
@@ -19,7 +20,7 @@ interface Category {
 interface Scrap {
   category: string;
   content: string;
-  create_time: string;
+  created_time: string;
   file_url: string;
   hashtags: string[];
   id: number;
@@ -34,18 +35,16 @@ interface Page {
   file_url: string;
   page_id: number;
   text: string;
-  type: 'page';
 }
 
 interface MagazineThumbnail {
   cover_url: string;
   title: string;
   magazine_id: number;
-  type: 'thumbnail';
 }
 
 interface Magazine {
-  create_date: string;
+  created_date: string;
   magazine_id: number;
   open_status: boolean;
   title: string;

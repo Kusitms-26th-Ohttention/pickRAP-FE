@@ -2,8 +2,8 @@ import { css } from '@emotion/react';
 import Image from 'next/image';
 import React from 'react';
 
+import { useGetMagazines } from '@/application/hooks/api/magazine';
 import type { UseScrollDetectOption } from '@/application/hooks/utils/useScrollDetect';
-import { MAGAZINE_THUMBNAILS } from '@/application/utils/mock';
 import Tab from '@/components/common/Tab';
 import { TabMagazine } from '@/components/magazine/MagazineList';
 
@@ -12,6 +12,7 @@ interface MagazineTabProps {
   onScrollDown?: UseScrollDetectOption['onScroll'];
 }
 const MyMagazineWithTab = ({ onMultiSelect, onScrollDown }: MagazineTabProps) => {
+  const { magazines } = useGetMagazines();
   return (
     <Tab>
       <Tab.Group
@@ -34,10 +35,10 @@ const MyMagazineWithTab = ({ onMultiSelect, onScrollDown }: MagazineTabProps) =>
       </Tab.Group>
       <Tab.Panel>
         <Tab.Content>
-          <TabMagazine magazines={MAGAZINE_THUMBNAILS} onScrollDown={onScrollDown} />
+          <TabMagazine magazines={magazines} onScrollDown={onScrollDown} />
         </Tab.Content>
         <Tab.Content>
-          <TabMagazine magazines={MAGAZINE_THUMBNAILS} onScrollDown={onScrollDown} />
+          <TabMagazine magazines={[]} onScrollDown={onScrollDown} />
         </Tab.Content>
       </Tab.Panel>
     </Tab>

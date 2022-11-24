@@ -13,6 +13,7 @@ import DeleteNavigation from '@/components/scrap/DeleteNavigation';
 import { CreateScrapToast, DeleteScrapToast } from '@/components/scrap/Toast';
 import UploadButton from '@/components/scrap/UploadButton';
 import { useBottomNavigationContext } from '@/containers/HOC/NavigationContext';
+import withAuth from '@/containers/HOC/withAuth';
 import withNavigation from '@/containers/HOC/withNavigation';
 import CategoryDetailContainer from '@/containers/scrap/CategoryDetailContainer';
 import CategoryListContainer from '@/containers/scrap/CategoryListContainer';
@@ -151,4 +152,4 @@ const Scrap: NextPage = () => {
   );
 };
 
-export default withNavigation(Scrap);
+export default withAuth(withNavigation(Scrap));

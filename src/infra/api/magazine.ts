@@ -1,33 +1,38 @@
 import { instance } from '@/infra/api/instance';
 import type {
-  DeleteScrapRequest,
-  GetScrapDetailRequest,
-  GetScrapDetailResponse,
-  GetScrapsResponse,
-  SaveScrapRequest,
-  UpdateScrapReqeust,
-} from '@/infra/api/types/scrap';
+  DeleteMagazineRequest,
+  DeletePageRequest,
+  GetMagazineDetailRequest,
+  GetMagazineDetailResponse,
+  GetMagazinesResponse,
+  SaveMagazineRequest,
+  UpdateMagazineRequest,
+} from '@/infra/api/types/magazine';
 
 class MagazineApi {
   constructor(private api: typeof instance) {}
-  // TODO api가 아직 덜 만들어짐
   getMagazines = () => {
-    return this.api.get<GetScrapsResponse>('/scrap/all');
+    return this.api.get<GetMagazinesResponse>('/magazine');
   };
-  getScrapDetail = ({ id }: GetScrapDetailRequest) => {
-    return this.api.get<GetScrapDetailResponse>(`/scrap/?id=${id}`);
+  saveMagazine = (args: SaveMagazineRequest) => {
+    return this.api.post(`/magazine`, args);
   };
-  saveScrap = (data: SaveScrapRequest) => {
-    return this.api.post('/scrap', data);
+  deleteMagazines = ({ ids }: DeleteMagazineRequest) => {
+    //TODO flat ids array
+    return this.api.delete(`/magazine?ids=${ids}`);
   };
-  modifyScrap = (data: UpdateScrapReqeust) => {
-    return this.api.put('/scrap', data);
+  getMagazineDetail = ({ id }: GetMagazineDetailRequest) => {
+    return this.api.get<GetMagazineDetailResponse>(`/magazine/${id}`);
   };
-  deleteScrap = ({ id }: DeleteScrapRequest) => {
-    return this.api.delete(`/scrap/?id=${id}`);
+  updateMagazine = ({ id, ...rest }: UpdateMagazineRequest) => {
+    return this.api.put(`/magazine/${id}`, rest);
   };
-  searchScrap = () => {
-    return this.api.get('/scrap/reissue');
+  deletePages = ({ ids }: DeletePageRequest) => {
+    //TODO flat ids array
+    return this.api.delete(`/magazine/page?ids=${ids}`);
+  };
+  checkTitle = (title: string) => {
+    return this.api.get<boolean>(`/magazine/check-exist-title/${title}`);
   };
 }
 

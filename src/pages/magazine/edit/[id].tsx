@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import React, { useMemo, useState } from 'react';
 
-import { useSaveMagazine } from '@/application/hooks/api/magazine';
+import { useUpdateMagazine } from '@/application/hooks/api/magazine';
 import useToast from '@/application/hooks/common/useToast';
 import { useEditPageReset, useEditPageSet } from '@/application/store/edit/hook';
 import { useMagazineInfo, useResetMagazineInfo, useSetMagazineInfo } from '@/application/store/magazine/hook';
@@ -14,36 +14,34 @@ import MagazineCreateContainer from '@/containers/magazine/MagazineCreateContain
 
 /**
  * @todo
- * 토스트에 대한 고찰..
- * 간단한 메세지(성공, 오류, 경고)는 hook 함수로 호출하는 것이 좋지만
- * 복잡한 UI 띄우는 작업은 일반적인 리액트 컴포넌트로 표현해야 할 듯 보임
- *
- * 문제점 1. 토스트 내용 컴포넌트 간의 강한 결합
- * 문제점 2. 복잡한 함수 호출 구조
- *
- * 리팩토링 필요
+ * 수정 페이지 완성
  */
-const UploadMagazine: NextPage = () => {
+const EditMagazine: NextPage = () => {
   const router = useRouter();
+  const id = router.query.id ? Number(router.query.id) : 0;
   const { show, close } = useToast();
   const setMagazineInfo = useSetMagazineInfo();
   const [coverUrl, setCoverUrl] = useState('');
   const magazineInfo = useMagazineInfo();
   const [_, setEditPage] = useEditPageSet();
-  const mutation = useSaveMagazine();
+  const mutation = useUpdateMagazine();
   const resetMagazineInfo = useResetMagazineInfo();
   const resetEditPage = useEditPageReset();
 
   const handleBack = () => {
-    router.replace('/magazine');
-    resetMagazineInfo();
-    resetEditPage();
+    router.replace(`/magazine/${id}`).then(() => {
+      resetMagazineInfo();
+      resetEditPage();
+    });
   };
 
   const handleComplete = () => {
-    mutation.mutate(magazineInfo, {
-      onSuccess: handleBack,
-    });
+    mutation.mutate(
+      { ...magazineInfo, id },
+      {
+        onSuccess: handleBack,
+      },
+    );
     console.debug('complete :::', magazineInfo);
   };
 
@@ -147,4 +145,4 @@ const UploadMagazine: NextPage = () => {
   );
 };
 
-export default UploadMagazine;
+export default EditMagazine;
