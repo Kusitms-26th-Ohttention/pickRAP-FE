@@ -47,3 +47,5 @@ export const useDeletePages = () => {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['getMagazineDetail'] }),
   });
 };
+
+export const useMagazineCheckTitle = () => useMutation({ mutationFn: api.magazine.checkTitle });

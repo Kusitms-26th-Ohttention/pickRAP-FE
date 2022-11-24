@@ -31,6 +31,9 @@ class MagazineApi {
     //TODO flat ids array
     return this.api.delete(`/magazine/page?ids=${ids}`);
   };
+  checkTitle = (title: string) => {
+    return this.api.get<boolean>(`/magazine/check-exist-title/${title}`);
+  };
 }
 
 export default new MagazineApi(instance);

@@ -1,5 +1,6 @@
 import { css } from '@emotion/react';
 
+import useToast from '@/application/hooks/common/useToast';
 import { ActiveButton } from '@/components/common/Button';
 
 interface ConfirmProps {
@@ -9,6 +10,8 @@ interface ConfirmProps {
   description?: string;
 }
 const Confirm = ({ title, onReject, onSuccess, description }: ConfirmProps) => {
+  const { close } = useToast();
+
   return (
     <div
       css={css`
@@ -46,7 +49,7 @@ const Confirm = ({ title, onReject, onSuccess, description }: ConfirmProps) => {
       ) : null}
       <div
         css={css`
-          margin-top: 38px;
+          margin-top: 36px;
           width: 100%;
           display: flex;
           justify-content: center;
@@ -66,7 +69,10 @@ const Confirm = ({ title, onReject, onSuccess, description }: ConfirmProps) => {
         </ActiveButton>
         <ActiveButton
           active
-          onClick={onSuccess}
+          onClick={() => {
+            onSuccess?.();
+            close();
+          }}
           custom={css`
             width: 88px;
             display: inline-block;

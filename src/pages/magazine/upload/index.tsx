@@ -34,13 +34,15 @@ const UploadMagazine: NextPage = () => {
   const resetMagazineInfo = useResetMagazineInfo();
   const resetEditPage = useEditPageReset();
 
+  const handleBack = () => {
+    router.replace('/magazine');
+    resetMagazineInfo();
+    resetEditPage();
+  };
+
   const handleComplete = () => {
     mutation.mutate(magazineInfo, {
-      onSuccess: () => {
-        router.replace('/magazine');
-        resetMagazineInfo();
-        resetEditPage();
-      },
+      onSuccess: handleBack,
     });
     console.debug('complete :::', magazineInfo);
   };
@@ -106,7 +108,7 @@ const UploadMagazine: NextPage = () => {
         `}
       >
         <span
-          onClick={() => router.push('/magazine')}
+          onClick={handleBack}
           css={css`
             width: 10px;
             height: 17px;

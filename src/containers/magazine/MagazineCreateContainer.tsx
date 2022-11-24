@@ -2,6 +2,7 @@ import { css } from '@emotion/react';
 import Image from 'next/image';
 import React from 'react';
 
+import { useMagazineCheckTitle } from '@/application/hooks/api/magazine';
 import useModal from '@/application/hooks/common/useModal';
 import useToast from '@/application/hooks/common/useToast';
 import { useMagazineInfo, useSetMagazineInfo } from '@/application/store/magazine/hook';
@@ -18,6 +19,7 @@ const MagazineCreateContainer = ({ thumbnails }: Props) => {
   const magazineInfo = useMagazineInfo();
   const setMagazineInfo = useSetMagazineInfo();
   const { close } = useToast();
+  const mutation = useMagazineCheckTitle();
 
   const handleTitle = () => {
     modal(
@@ -25,9 +27,15 @@ const MagazineCreateContainer = ({ thumbnails }: Props) => {
         title={'제목 수정'}
         errMsg={ERR_MESSAGE.DUPLICATED_TITLE}
         onSubmit={(value, errorFn) => {
-          // TODO useMutation
-          setMagazineInfo({ title: value });
-          close();
+          mutation.mutate(value, {
+            onSuccess: ({ data }) => {
+              if (data.data) errorFn(true);
+              else {
+                setMagazineInfo({ title: value });
+                close();
+              }
+            },
+          });
         }}
       />,
     );
