@@ -20,6 +20,7 @@ export const useGetMagazineDetail = ({ id }: Parameters<typeof api.magazine.getM
   const { data, ...rest } = useQuery({
     queryKey: ['getMagazineDetail', id],
     queryFn: () => api.magazine.getMagazineDetail({ id }),
+    enabled: !!id,
   });
   return { magazine: data?.data.data, ...rest };
 };

@@ -12,7 +12,7 @@ const NoMagazine = () => {
         align-items: center;
         height: 155px;
         gap: 20px;
-        ${theme.font.R_BODY_14};
+        ${theme.font.M_POINT_14};
         color: ${theme.color.gray06};
       `}
     >
@@ -23,7 +23,7 @@ const NoMagazine = () => {
       >
         <Image src={'/picture/warn.svg'} width={63} height={85} />
       </span>
-      <span>저장된 매거진이 없습니다.</span>
+      <span>저장된 매거진이 없습니다</span>
     </div>
   );
 };

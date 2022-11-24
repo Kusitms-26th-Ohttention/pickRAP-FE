@@ -29,7 +29,6 @@ const PageEditContainer = ({ pages, startPage }: Props) => {
   const [currentPage, setCurrentPage] = useState(0);
 
   const { show, close } = useToast();
-  // const [_, setPageInfo] = usePage(currentPage);
 
   const [setEditPage] = useEditPageSet();
   const editPageInfo = useEditPageValue();

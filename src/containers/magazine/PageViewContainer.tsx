@@ -23,8 +23,8 @@ const PageViewContainer = ({ pages = PAGES }: Props) => {
         <ol css={CSSCarouselContainer}>
           {pages.map((page, idx) => (
             <li key={page.page_id} id={`${idx}`} css={CSSCarouselItem}>
-              <Photo src={page.file_url} height={'45vh'} />
-              <p css={CSSPageContent}>{page.contents}</p>
+              <Photo src={page.file_url || page.contents} height={'45vh'} />
+              <p css={CSSPageContent}>{page.text}</p>
               <div css={CSSSnapper} />
               <div css={CSSCarouselHandle}>
                 <Link href={{ hash: `#${idx === 0 ? pages.length - 1 : idx - 1}` }}>Prev Item</Link>

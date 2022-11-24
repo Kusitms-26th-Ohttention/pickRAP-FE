@@ -20,7 +20,7 @@ interface Category {
 interface Scrap {
   category: string;
   content: string;
-  create_time: string;
+  created_time: string;
   file_url: string;
   hashtags: string[];
   id: number;
@@ -44,7 +44,7 @@ interface MagazineThumbnail {
 }
 
 interface Magazine {
-  create_date: string;
+  created_date: string;
   magazine_id: number;
   open_status: boolean;
   title: string;
