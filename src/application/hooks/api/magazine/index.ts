@@ -4,7 +4,8 @@ import { api } from '@/infra/api';
 
 export const useGetMagazines = () => {
   const { data, ...rest } = useQuery({ queryKey: ['getMagazines'], queryFn: api.magazine.getMagazines });
-  return { magazines: data?.data.data || [], ...rest };
+  const magazines = data?.data.data.map((thumb) => ({ ...thumb, type: 'thumbnail' as const }));
+  return { magazines: magazines || [], ...rest };
 };
 
 export const useSaveMagazine = () => {

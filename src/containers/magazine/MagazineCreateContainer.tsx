@@ -11,9 +11,9 @@ import Switch from '@/components/common/Switch';
 import PageList from '@/components/magazine/PageList';
 
 interface Props {
-  pages: Page[];
+  thumbnails: MagazineThumbnail[];
 }
-const MagazineCreateContainer = ({ pages }: Props) => {
+const MagazineCreateContainer = ({ thumbnails }: Props) => {
   const { show: modal } = useModal();
   const magazineInfo = useMagazineInfo();
   const setMagazineInfo = useSetMagazineInfo();
@@ -83,7 +83,7 @@ const MagazineCreateContainer = ({ pages }: Props) => {
           <Switch defaultChecked={!magazineInfo.open_status} onClick={(p) => setMagazineInfo({ open_status: !p })} />
         </span>
       </div>
-      <PageList pages={pages} />
+      <PageList pages={thumbnails} />
     </>
   );
 };

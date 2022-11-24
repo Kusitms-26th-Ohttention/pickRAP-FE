@@ -5,6 +5,7 @@ import type { UseScrollDetectOption } from '@/application/hooks/utils/useScrollD
 import useScrollDetect from '@/application/hooks/utils/useScrollDetect';
 import Photo from '@/components/common/Photo';
 import PhotoSelect from '@/components/common/Photo/PhotoSelect';
+import NoMagazine from '@/components/magazine/NoMagazine';
 
 interface TabMagazineProps {
   magazines: MagazineThumbnail[];
@@ -78,6 +79,12 @@ const TabMagazine = ({ magazines, selectItem, onScrollDown }: TabMagazineProps) 
               </span>
             </article>
           ))}
+          {magazines.length === 0 && (
+            <>
+              <span />
+              <NoMagazine />
+            </>
+          )}
         </div>
       </div>
     </div>

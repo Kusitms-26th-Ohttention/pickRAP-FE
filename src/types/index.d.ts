@@ -35,14 +35,12 @@ interface Page {
   file_url: string;
   page_id: number;
   text: string;
-  type: 'page';
 }
 
 interface MagazineThumbnail {
   cover_url: string;
   title: string;
   magazine_id: number;
-  type: 'thumbnail';
 }
 
 interface Magazine {

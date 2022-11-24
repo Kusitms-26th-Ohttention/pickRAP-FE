@@ -5,7 +5,7 @@ import Link from 'next/link';
 import React, { useState } from 'react';
 
 import useToast from '@/application/hooks/common/useToast';
-import { usePage } from '@/application/store/magazine/hook';
+import { useEditPageSet, useEditPageValue } from '@/application/store/edit/hook';
 import Photo from '@/components/common/Photo';
 import ToastInput from '@/components/common/Toast/ui/Input';
 
@@ -13,18 +13,33 @@ interface Props {
   pages: EditPage[];
   startPage: number;
 }
-const PageEditContainer = ({ pages, startPage = 0 }: Props) => {
-  const [currentPage, setCurrentPage] = useState(startPage);
+
+/**
+ * 버그
+ *  1. 페이지 추가 시 표지 페이지가 덮어 씌워진다
+ *  2. 이전에 추가 했던 페이지도 덮어 씌워진다
+ *
+ * 추가 구현 사항
+ *  1. 네비게이션 뒤로가기 클릭 시 현재 페이지의 수정 사항을 버린다
+ *    - 다중 선택 시 페이지 1개만 버리기 까다로우므로 일단 다 버린다
+ *  2. recoil의 페이지 상태를 분리한다 (commit, editing)
+ *  3. 표지 페이지의 상태도 분리한다
+ */
+const PageEditContainer = ({ pages, startPage }: Props) => {
+  const [currentPage, setCurrentPage] = useState(0);
 
   const { show, close } = useToast();
-  const [_, setPageInfo] = usePage(currentPage);
+  // const [_, setPageInfo] = usePage(currentPage);
 
-  const getPrevPage = (num: number) => (num > startPage ? num - 1 : num);
-  const getNextPage = (num: number) => (num < startPage + pages.length - 1 ? num + 1 : num);
+  const [setEditPage] = useEditPageSet();
+  const editPageInfo = useEditPageValue();
+
+  const getPrevPage = (num: number) => (num > 0 ? num - 1 : num);
+  const getNextPage = (num: number) => (num < pages.length - 1 ? num + 1 : num);
 
   const toastProps = {
     onSubmit: (value: string) => {
-      setPageInfo({ text: value });
+      setEditPage(currentPage, { text: value });
       close();
     },
     label: '텍스트 입력',
@@ -46,7 +61,7 @@ const PageEditContainer = ({ pages, startPage = 0 }: Props) => {
           `
         }
       >
-        {currentPage + 1} 페이지
+        {currentPage + startPage} 페이지
       </span>
       <article
         css={css`
@@ -74,7 +89,7 @@ const PageEditContainer = ({ pages, startPage = 0 }: Props) => {
                     })
                   }
                 >
-                  {page.text || '클릭하여 텍스트를 남겨보세요.'}
+                  {editPageInfo[idx].text || '클릭하여 텍스트를 남겨보세요.'}
                 </p>
               </div>
             </li>
@@ -90,7 +105,7 @@ const PageEditContainer = ({ pages, startPage = 0 }: Props) => {
               display: flex;
             `}
           >
-            <Link href={{ hash: `${getPrevPage(currentPage)}` }}>
+            <Link href={{ hash: `${getPrevPage(currentPage) + startPage}` }}>
               <Image
                 onClick={() => setCurrentPage(getPrevPage(currentPage))}
                 src={'/icon/magazine/prevPage.svg'}
@@ -98,7 +113,7 @@ const PageEditContainer = ({ pages, startPage = 0 }: Props) => {
                 height={48}
               />
             </Link>
-            <Link href={{ hash: `${getNextPage(currentPage)}` }}>
+            <Link href={{ hash: `${getNextPage(currentPage) + startPage}` }}>
               <Image
                 onClick={() => setCurrentPage(getNextPage(currentPage))}
                 src={'/icon/magazine/nextPage.svg'}

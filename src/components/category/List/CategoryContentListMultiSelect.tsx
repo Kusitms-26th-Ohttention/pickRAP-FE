@@ -25,7 +25,6 @@ const CategoryContentListMultiSelect = ({ name, id = 0, onSubmit }: Props) => {
     <form
       onSubmit={(e) => {
         e.preventDefault();
-        // TODO recoil dispatch, 페이지 추가 redirect
         pickSet.current.size && onSubmit?.(Array.from(pickSet.current));
       }}
     >

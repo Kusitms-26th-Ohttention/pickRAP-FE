@@ -4,8 +4,10 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import React, { useMemo, useState } from 'react';
 
+import { useSaveMagazine } from '@/application/hooks/api/magazine';
 import useToast from '@/application/hooks/common/useToast';
-import { useSetMagazineInfo } from '@/application/store/magazine/hook';
+import { useEditPageReset, useEditPageSet } from '@/application/store/edit/hook';
+import { useMagazineInfo, useResetMagazineInfo, useSetMagazineInfo } from '@/application/store/magazine/hook';
 import SelectCategoryWithContent from '@/components/category/Select/SelectCategoryWithContent';
 import { ActiveButton } from '@/components/common/Button';
 import MagazineCreateContainer from '@/containers/magazine/MagazineCreateContainer';
@@ -26,56 +28,69 @@ const UploadMagazine: NextPage = () => {
   const { show, close } = useToast();
   const setMagazineInfo = useSetMagazineInfo();
   const [coverUrl, setCoverUrl] = useState('');
+  const magazineInfo = useMagazineInfo();
+  const [_, setEditPage] = useEditPageSet();
+  const mutation = useSaveMagazine();
+  const resetMagazineInfo = useResetMagazineInfo();
+  const resetEditPage = useEditPageReset();
 
-  // TODO [] replace Get Magazine/{id} query
+  const handleComplete = () => {
+    mutation.mutate(magazineInfo, {
+      onSuccess: () => {
+        router.replace('/magazine');
+        resetMagazineInfo();
+        resetEditPage();
+      },
+    });
+    console.debug('complete :::', magazineInfo);
+  };
+
   const pages = useMemo(() => {
-    const ret: (Page & { onClick?: () => void })[] =
-      [].length === 0
-        ? [
-            {
-              file_url: coverUrl,
-              contents: '1 페이지',
-              page_id: 0,
-              text: '',
-              type: 'page' as const,
-            },
-          ]
-        : [];
+    const ret: (MagazineThumbnail & { onClick?: () => void })[] = [
+      {
+        cover_url: coverUrl,
+        title: '1 페이지',
+        magazine_id: 0,
+        onClick: () =>
+          show({
+            content: (
+              <SelectCategoryWithContent
+                onSubmit={(pages) => {
+                  setCoverUrl(pages.src);
+                  setMagazineInfo({ cover_scrap_id: pages.scrap_id });
+                  close();
+                }}
+              />
+            ),
+          }),
+      },
+      ...magazineInfo.page_list.map((page, idx) => ({
+        cover_url: page.src,
+        title: `${idx + 2} 페이지`,
+        magazine_id: idx,
+      })),
+    ];
 
     ret.push({
-      file_url: '/icon/magazine/addPage.svg',
-      contents: '페이지 추가',
-      page_id: 0,
-      text: '',
-      type: 'page' as const,
+      cover_url: '/icon/magazine/addPage.svg',
+      title: '페이지 추가',
+      magazine_id: 0,
       onClick: () =>
         show({
           content: (
             <SelectCategoryWithContent
               multiSelect
               onSubmit={(pages) => {
-                setMagazineInfo({ page_list: pages });
+                setEditPage(pages);
                 router.push('/magazine/upload/page').then(close);
               }}
             />
           ),
         }),
     });
-    ret[0].onClick = () =>
-      show({
-        content: (
-          <SelectCategoryWithContent
-            onSubmit={(pages) => {
-              setCoverUrl(pages.src);
-              setMagazineInfo({ cover_scrap_id: pages.scrap_id });
-              close();
-            }}
-          />
-        ),
-      });
 
     return ret;
-  }, [close, coverUrl, router, setMagazineInfo, show]);
+  }, [close, coverUrl, magazineInfo.page_list, router, setEditPage, setMagazineInfo, show]);
 
   return (
     <>
@@ -116,9 +131,10 @@ const UploadMagazine: NextPage = () => {
           <Image src={'/icon/multiSelect.svg'} width={18} height={18} />
         </span>
       </div>
-      <MagazineCreateContainer pages={pages} />
+      <MagazineCreateContainer thumbnails={pages} />
       <ActiveButton
-        active
+        active={!!coverUrl}
+        onClick={handleComplete}
         custom={css`
           margin-top: auto;
         `}
