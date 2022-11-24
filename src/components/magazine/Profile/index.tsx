@@ -12,7 +12,11 @@ interface ProfileProps {
 }
 const Profile = ({ src, name, description, hashtags }: ProfileProps) => {
   return (
-    <section>
+    <section
+      css={css`
+        margin-bottom: 24px;
+      `}
+    >
       <div
         css={css`
           display: grid;

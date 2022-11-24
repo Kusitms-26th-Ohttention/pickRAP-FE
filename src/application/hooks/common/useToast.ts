@@ -1,10 +1,10 @@
 import { useCallback } from 'react';
 
 import type { ToastContentProps } from '@/components/common/Toast';
-import { useToastContext } from '@/components/common/Toast';
+import { useToastSetContext } from '@/components/common/Toast/context';
 
 const useToast = () => {
-  const setToast = useToastContext()[1];
+  const setToast = useToastSetContext();
   const show = useCallback(
     ({ id = Date.now(), ...rest }: Optional<ToastContentProps, 'id'>) => setToast((prev) => [...prev, { id, ...rest }]),
     [setToast],

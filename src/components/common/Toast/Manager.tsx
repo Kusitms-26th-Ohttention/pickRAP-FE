@@ -10,7 +10,7 @@ import ToastTemplate, { BackDrop } from '@/components/common/Toast/Template';
 import SSRSafeSuspense from '@/containers/Suspense';
 
 const Manager = () => {
-  const toasts = useToastContext()[0];
+  const toasts = useToastContext();
   return (
     <section
       css={css`

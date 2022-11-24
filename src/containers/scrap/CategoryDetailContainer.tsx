@@ -7,7 +7,7 @@ import { useGetContentByCategory, useUpdateCategory } from '@/application/hooks/
 import useModal from '@/application/hooks/common/useModal';
 import usePopup from '@/application/hooks/common/usePopup';
 import { ERR_CODE } from '@/application/utils/constant';
-import CreateCategory from '@/components/scrap/Popup/CreateCategory';
+import CreateCategory from '@/components/category/Modal/CreateCategory';
 import PhotoListContainer from '@/containers/scrap/PhotoListContainer';
 
 interface CategoryDetailContainerProps {
@@ -16,7 +16,7 @@ interface CategoryDetailContainerProps {
 }
 
 const CategoryDetailContainer = ({ select, info }: CategoryDetailContainerProps) => {
-  const { categories } = useGetContentByCategory({ id: info.id });
+  const { categories, fetchNextPage } = useGetContentByCategory({ id: info.id });
   const [categoryName, setCategoryName] = useState(info.name);
   const mutation = useUpdateCategory();
   const { show } = useModal();
@@ -29,8 +29,8 @@ const CategoryDetailContainer = ({ select, info }: CategoryDetailContainerProps)
             ${theme.font.B_POINT_20};
             line-height: 160%;
             color: ${theme.color.black02};
-            margin-top: 26px;
-            margin-bottom: 12px;
+            margin-top: 3.2vh;
+            margin-bottom: 1.5vh;
             display: flex;
             align-items: center;
           `
@@ -51,7 +51,7 @@ const CategoryDetailContainer = ({ select, info }: CategoryDetailContainerProps)
                       },
                       onError: (err) => {
                         if (axios.isAxiosError(err)) {
-                          err.response?.data.code === ERR_CODE.DUPLICATED_CATEGORY && setError(true);
+                          err.response?.data.code === ERR_CODE.MODIFY_DUPLICATED_CATEGORY && setError(true);
                         }
                       },
                     },
@@ -70,7 +70,7 @@ const CategoryDetailContainer = ({ select, info }: CategoryDetailContainerProps)
           <Image src={'/icon/edit.svg'} layout={'fill'} objectFit={'cover'} />
         </button>
       </span>
-      <PhotoListContainer data={categories} select={select} />
+      <PhotoListContainer data={categories} select={select} onEndReached={fetchNextPage} />
     </>
   );
 };

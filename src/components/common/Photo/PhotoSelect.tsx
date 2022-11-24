@@ -1,14 +1,22 @@
 import { css } from '@emotion/react';
 import Image from 'next/image';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 interface PhotoSelectProps {
   enabled?: boolean;
   onSelect?: () => void;
   onUnselect?: () => void;
+  value?: boolean;
 }
-const PhotoSelect = ({ enabled, onSelect, onUnselect }: PhotoSelectProps) => {
+const PhotoSelect = ({ enabled, onSelect, onUnselect, value }: PhotoSelectProps) => {
   const [drop, setDrop] = useState(false);
+  useEffect(() => {
+    setDrop(false);
+  }, [enabled]);
+
+  useEffect(() => {
+    value !== undefined && setDrop(value);
+  }, [value]);
 
   return enabled ? (
     <>

@@ -56,10 +56,7 @@ const Scrap: NextPage = () => {
       return ret;
     });
 
-  const handleSearch = (search: string) => {
-    // TODO search api & setState
-    setSearchString(search);
-  };
+  const handleSearch = (search: string) => setSearchString(search);
 
   const handleUploadToast = () => show({ content: <CreateScrapToast /> });
 
@@ -76,7 +73,8 @@ const Scrap: NextPage = () => {
           justify-content: flex-end;
           width: 100%;
           gap: 10px;
-          margin-bottom: 4px;
+          height: 28px;
+          margin-bottom: 10px;
           align-items: center;
         `}
       >
@@ -133,7 +131,7 @@ const Scrap: NextPage = () => {
             <Tab.Label onClick={() => handleTabClick('category')}>카테고리 별</Tab.Label>
             <Tab.Label onClick={() => handleTabClick('content')}>콘텐츠 별</Tab.Label>
           </Tab.Group>
-          <SSRSafeSuspense fallback={null}>
+          <SSRSafeSuspense fallback={<ThreeDotsSpinner />}>
             <Tab.Panel>
               <Tab.Content>
                 {!categoryInfo.name ? (

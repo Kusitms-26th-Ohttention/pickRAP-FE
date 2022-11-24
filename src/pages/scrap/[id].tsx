@@ -27,7 +27,7 @@ const ShowScrap: NextPage = () => {
     setRequest(mutation.mutate);
   }, [mutation.mutate, setRequest]);
 
-  const scrapType = scrap?.scrap_type.toLowerCase() as 'image' | 'text' | 'link';
+  const scrapType = scrap?.scrap_type as 'image' | 'text' | 'link';
 
   const swipeBackgroundProps =
     scrapType === 'text'

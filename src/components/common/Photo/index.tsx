@@ -21,11 +21,12 @@ const Photo = ({ src, width, height, blur, custom, onClick, text }: PhotoProps) 
     <div
       onClick={onClick}
       css={[
-        css`
+        (theme) => css`
           width: ${width ? width : '100%'};
           height: ${height ? height : '100%'};
           border-radius: 4px;
           position: relative;
+          background: ${theme.color.gray10};
           overflow: hidden;
         `,
         custom,
@@ -44,10 +45,10 @@ const Photo = ({ src, width, height, blur, custom, onClick, text }: PhotoProps) 
       ) : (
         // TODO 다른 컴포넌트로 책임 분리
         <div
-          css={css`
+          css={(theme) => css`
             width: 100%;
             height: 100%;
-            background: #dbdbdb;
+            background: ${theme.color.gray10};
             display: flex;
             justify-content: center;
             align-items: center;

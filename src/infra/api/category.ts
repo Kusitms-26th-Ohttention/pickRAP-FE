@@ -15,7 +15,7 @@ class CategoryApi {
   getCategories = () => this.api.get<GetCategoriesResponse>('/category');
 
   getContentByCategory = ({ id, pageParam }: GetContentByCategoryRequest) =>
-    this.api.get<GetContentByCategoryResponse>(`/category/${id}?order_keyword=desc&pageParam=${pageParam || ''}`);
+    this.api.get<GetContentByCategoryResponse>(`/category/${id}?order_keyword=desc&page=${pageParam || ''}`);
 
   saveCategory = (data: SaveCategoryRequest) => this.api.post<SaveCategoryResponse>('/category', data);
 

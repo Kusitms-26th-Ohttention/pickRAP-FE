@@ -5,6 +5,8 @@ import React from 'react';
 
 import useToast from '@/application/hooks/common/useToast';
 import useClickOutside from '@/application/hooks/utils/useClickOutside';
+import { ThreeDotsSpinner } from '@/components/common/Spinner';
+import SSRSafeSuspense from '@/containers/Suspense';
 
 export const BackDrop = () => (
   <motion.div
@@ -50,7 +52,7 @@ const ToastTemplate = ({ children }: PropsWithChildren) => {
         pointer-events: auto;
       `}
     >
-      {children}
+      <SSRSafeSuspense fallback={<ThreeDotsSpinner />}>{children}</SSRSafeSuspense>
     </motion.div>
   );
 };

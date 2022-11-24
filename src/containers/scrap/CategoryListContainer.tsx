@@ -2,7 +2,7 @@ import { css } from '@emotion/react';
 import React from 'react';
 
 import { useGetCategories } from '@/application/hooks/api/category';
-import CategoryListItem from '@/components/scrap/CategoryListItem';
+import CategoryListItem from '@/components/category/List/CategoryListItem';
 interface CategoryListContainerProps {
   select: boolean;
   onClickItem: (info: { id: number; name: string }) => void;

@@ -47,7 +47,6 @@ const CSSAppLayout = (isBlack: boolean) => (theme: Theme) =>
     display: flex;
     width: 100%;
     box-shadow: rgb(0 0 0 / 16%) 0 0 8px;
-    overflow: hidden;
     position: relative;
   `;
 

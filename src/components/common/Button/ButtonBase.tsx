@@ -19,7 +19,7 @@ const CSSButtonBase = (theme: Theme) => css`
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 12px 20px;
+  padding: 14px 20px;
   width: 100%;
   border-width: 1px;
   border-style: solid;

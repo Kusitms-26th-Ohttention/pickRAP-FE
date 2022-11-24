@@ -8,11 +8,11 @@ interface SearchListContainerProps {
   params?: string;
 }
 const SearchListContainer = ({ params }: SearchListContainerProps) => {
-  const { scraps } = useGetScrapBySearch({ search: params || '' });
+  const { scraps, fetchNextPage } = useGetScrapBySearch({ search: params || '' });
   return scraps.length ? (
     <>
       <span style={{ height: 26 }} />
-      <PhotoListContainer data={scraps} />
+      <PhotoListContainer data={scraps} onEndReached={fetchNextPage} />
     </>
   ) : (
     <div
