@@ -1,25 +1,37 @@
 import { css } from '@emotion/react';
 import Image from 'next/image';
-import React, { useRef, useState } from 'react';
+import React from 'react';
 
 import useModal from '@/application/hooks/common/useModal';
 import useToast from '@/application/hooks/common/useToast';
+import { useMagazineInfo, useSetMagazineInfo } from '@/application/store/magazine/hook';
 import { ERR_MESSAGE } from '@/application/utils/constant';
-import { MAGAZINE_THUMBNAILS } from '@/application/utils/mock';
-import SelectCategoryWithContent from '@/components/category/Select/SelectCategoryWithContent';
 import InputModal from '@/components/common/Modal/Input';
 import Switch from '@/components/common/Switch';
 import PageList from '@/components/magazine/PageList';
 
 interface Props {
-  name?: string;
-  privated?: boolean;
+  pages: Page[];
 }
-const MagazineCreateContainer = ({ name, privated }: Props) => {
-  const [magazineName, setMagazineName] = useState(name || '제목');
-  const isPrivate = useRef(privated ?? true);
-  const { show } = useToast();
+const MagazineCreateContainer = ({ pages }: Props) => {
   const { show: modal } = useModal();
+  const magazineInfo = useMagazineInfo();
+  const setMagazineInfo = useSetMagazineInfo();
+  const { close } = useToast();
+
+  const handleTitle = () => {
+    modal(
+      <InputModal
+        title={'제목 수정'}
+        errMsg={ERR_MESSAGE.DUPLICATED_TITLE}
+        onSubmit={(value, errorFn) => {
+          // TODO useMutation
+          setMagazineInfo({ title: value });
+          close();
+        }}
+      />,
+    );
+  };
 
   return (
     <>
@@ -43,20 +55,9 @@ const MagazineCreateContainer = ({ name, privated }: Props) => {
             `
           }
         >
-          {magazineName}
+          {magazineInfo.title}
           <button
-            onClick={() =>
-              modal(
-                <InputModal
-                  title={'제목 수정'}
-                  errMsg={ERR_MESSAGE.DUPLICATED_TITLE}
-                  onSubmit={(value, errorFn) => {
-                    // TODO useMutation
-                    console.log(value);
-                  }}
-                />,
-              )
-            }
+            onClick={handleTitle}
             css={css`
               margin-left: 6px;
               width: 22px;
@@ -79,10 +80,10 @@ const MagazineCreateContainer = ({ name, privated }: Props) => {
           }
         >
           비공개
-          <Switch defaultChecked={isPrivate.current} onClick={(p) => (isPrivate.current = p)} />
+          <Switch defaultChecked={!magazineInfo.open_status} onClick={(p) => setMagazineInfo({ open_status: !p })} />
         </span>
       </div>
-      <PageList pages={MAGAZINE_THUMBNAILS} onSetThumbnail={() => show({ content: <SelectCategoryWithContent /> })} />
+      <PageList pages={pages} />
     </>
   );
 };

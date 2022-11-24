@@ -3,10 +3,9 @@ import { css } from '@emotion/react';
 import PageListItem from '@/components/magazine/PhotoListItem';
 
 interface Props {
-  pages: MagazineThumbnail[];
-  onSetThumbnail?: () => void;
+  pages: ((MagazineThumbnail | Page) & { onClick?: () => void })[];
 }
-const PageList = ({ pages, onSetThumbnail }: Props) => {
+const PageList = ({ pages }: Props) => {
   return (
     <div
       css={css`
@@ -17,17 +16,8 @@ const PageList = ({ pages, onSetThumbnail }: Props) => {
       `}
     >
       {pages.map((page, idx) => (
-        <PageListItem
-          key={page.magazine_id}
-          item={page}
-          ratio={'100/134'}
-          onClick={idx === 0 ? onSetThumbnail : undefined}
-        />
+        <PageListItem key={idx} item={page} ratio={'100/134'} onClick={page.onClick} />
       ))}
-      <PageListItem
-        item={{ cover_url: '/icon/magazine/addPage.svg', title: '페이지 추가', magazine_id: 0 }}
-        ratio={'100/134'}
-      />
     </div>
   );
 };

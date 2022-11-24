@@ -2,8 +2,11 @@ import { css } from '@emotion/react';
 import type { NextPage } from 'next';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import React from 'react';
+import React, { useMemo } from 'react';
 
+import useToast from '@/application/hooks/common/useToast';
+import { useSetMagazineInfo } from '@/application/store/magazine/hook';
+import SelectCategoryWithContent from '@/components/category/Select/SelectCategoryWithContent';
 import { ActiveButton } from '@/components/common/Button';
 import MagazineCreateContainer from '@/containers/magazine/MagazineCreateContainer';
 
@@ -20,7 +23,60 @@ import MagazineCreateContainer from '@/containers/magazine/MagazineCreateContain
  */
 const UploadMagazine: NextPage = () => {
   const router = useRouter();
-  // TODO upload magazine context recoil
+  const { show, close } = useToast();
+  const setMagazineInfo = useSetMagazineInfo();
+
+  // TODO [] replace Get Magazine/{id} query
+  const pages = useMemo(() => {
+    const ret: (Page & { onClick?: () => void })[] =
+      [].length === 0
+        ? [
+            {
+              file_url: '',
+              contents: '1 페이지',
+              page_id: 0,
+              text: '',
+              type: 'page' as const,
+            },
+          ]
+        : [];
+
+    ret.push({
+      file_url: '/icon/magazine/addPage.svg',
+      contents: '페이지 추가',
+      page_id: 0,
+      text: '',
+      type: 'page' as const,
+      onClick: () =>
+        show({
+          content: (
+            <SelectCategoryWithContent
+              multiSelect
+              onSubmit={(pages) => {
+                console.log(pages);
+                setMagazineInfo({ page_list: pages });
+                router.push('/magazine/upload/page').then(close);
+              }}
+            />
+          ),
+        }),
+    });
+    ret[0].onClick = () =>
+      show({
+        content: (
+          <SelectCategoryWithContent
+            onSubmit={(pages) => {
+              console.log(pages);
+              setMagazineInfo({ cover_scrap_id: pages.scrap_id });
+              close();
+            }}
+          />
+        ),
+      });
+
+    return ret;
+  }, [close, router, setMagazineInfo, show]);
+
   return (
     <>
       <div
@@ -60,7 +116,7 @@ const UploadMagazine: NextPage = () => {
           <Image src={'/icon/multiSelect.svg'} width={18} height={18} />
         </span>
       </div>
-      <MagazineCreateContainer />
+      <MagazineCreateContainer pages={pages} />
       <ActiveButton
         active
         custom={css`

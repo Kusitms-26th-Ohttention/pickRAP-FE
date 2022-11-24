@@ -5,17 +5,18 @@ import React, { useState } from 'react';
 import { useGetContentByCategory } from '@/application/hooks/api/category';
 import useToast from '@/application/hooks/common/useToast';
 import useIntersectionObserver from '@/application/hooks/utils/useIntersectionObserver';
+import { getSrcByType } from '@/application/utils/helper';
 import SelectCategoryWithContent from '@/components/category/Select/SelectCategoryWithContent';
 import { ActiveButton } from '@/components/common/Button';
 import Photo from '@/components/common/Photo';
 import PhotoSelect from '@/components/common/Photo/PhotoSelect';
 
 interface Props extends Partial<Category> {
-  onSubmit: (scrapId: number) => void;
+  onSubmit: (pickContents: EditPage) => void;
 }
 const CategoryContentList = ({ name, id = 0, onSubmit }: Props) => {
   const { categories: scraps, fetchNextPage } = useGetContentByCategory({ id });
-  const [pickId, setPickId] = useState<number | null>(null);
+  const [pickContent, setPickContent] = useState<EditPage | null>(null);
   const ref = useIntersectionObserver({ callback: fetchNextPage });
   const { replace } = useToast();
 
@@ -23,11 +24,11 @@ const CategoryContentList = ({ name, id = 0, onSubmit }: Props) => {
     <form
       onSubmit={(e) => {
         e.preventDefault();
-        pickId && onSubmit?.(pickId);
+        pickContent && onSubmit?.(pickContent);
       }}
     >
       <span
-        onClick={() => replace({ content: <SelectCategoryWithContent /> })}
+        onClick={() => replace({ content: <SelectCategoryWithContent onSubmit={onSubmit} /> })}
         css={(theme) =>
           css`
             display: flex;
@@ -65,10 +66,10 @@ const CategoryContentList = ({ name, id = 0, onSubmit }: Props) => {
               custom={css`
                 aspect-ratio: 1/1;
               `}
-              onClick={() => setPickId(scrap.id)}
+              onClick={() => setPickContent({ scrap_id: scrap.id, src: scrap.file_url, text: '' })}
               key={scrap.id}
-              blur={<PhotoSelect enabled value={scrap.id === pickId} />}
-              src={scrap.scrap_type === 'image' ? scrap.file_url : scrap.url_preview}
+              blur={<PhotoSelect enabled value={scrap.id === pickContent?.scrap_id} />}
+              src={getSrcByType(scrap)}
               text={scrap.content}
             />
           ))}

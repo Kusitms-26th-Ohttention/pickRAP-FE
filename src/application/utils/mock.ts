@@ -2,6 +2,7 @@ export const MAGAZINE_THUMBNAILS = [0, 0, 0, 0].map(() => ({
   cover_url: '/picture/mock.png',
   title: '나의 진로 계획',
   magazine_id: 0,
+  type: 'thumbnail' as const,
 }));
 
 export const PROFILE = {
@@ -21,6 +22,7 @@ export const PAGES = [0, 0, 0, 0].map(() => ({
   file_url: '/picture/mock.png',
   page_id: 0,
   text: MEMO,
+  type: 'page' as const,
 }));
 
 export const MAGAZINE = {

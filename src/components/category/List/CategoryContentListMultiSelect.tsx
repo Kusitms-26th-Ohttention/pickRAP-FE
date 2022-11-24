@@ -1,22 +1,23 @@
 import { css } from '@emotion/react';
 import Image from 'next/image';
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 
 import { useGetContentByCategory } from '@/application/hooks/api/category';
 import useToast from '@/application/hooks/common/useToast';
 import useIntersectionObserver from '@/application/hooks/utils/useIntersectionObserver';
+import { getSrcByType } from '@/application/utils/helper';
 import SelectCategoryWithContent from '@/components/category/Select/SelectCategoryWithContent';
 import { ActiveButton } from '@/components/common/Button';
 import Photo from '@/components/common/Photo';
 import PhotoSelect from '@/components/common/Photo/PhotoSelect';
 
 interface Props extends Partial<Category> {
-  onSubmit: (scrapId: number[]) => void;
+  onSubmit: (pickContents: EditPage[]) => void;
 }
 const CategoryContentListMultiSelect = ({ name, id = 0, onSubmit }: Props) => {
   const { categories: scraps, fetchNextPage } = useGetContentByCategory({ id });
 
-  const pickSet = useRef(new Set<number>());
+  const pickSet = useRef(new Set<EditPage>());
   const ref = useIntersectionObserver({ callback: fetchNextPage });
   const { replace } = useToast();
 
@@ -29,7 +30,7 @@ const CategoryContentListMultiSelect = ({ name, id = 0, onSubmit }: Props) => {
       }}
     >
       <span
-        onClick={() => replace({ content: <SelectCategoryWithContent /> })}
+        onClick={() => replace({ content: <SelectCategoryWithContent multiSelect onSubmit={onSubmit} /> })}
         css={(theme) =>
           css`
             display: flex;
@@ -67,10 +68,10 @@ const CategoryContentListMultiSelect = ({ name, id = 0, onSubmit }: Props) => {
               custom={css`
                 aspect-ratio: 1/1;
               `}
-              onClick={() => pickSet.current.add(scrap.id)}
+              onClick={() => pickSet.current.add({ scrap_id: scrap.id, src: getSrcByType(scrap), text: '' })}
               key={scrap.id}
               blur={<PhotoSelect enabled />}
-              src={scrap.scrap_type === 'image' ? scrap.file_url : scrap.url_preview}
+              src={getSrcByType(scrap)}
               text={scrap.content}
             />
           ))}

@@ -2,12 +2,6 @@ import { atom, DefaultValue, selector, selectorFamily } from 'recoil';
 
 import { EDIT_PAGE } from '@/application/utils/mock';
 
-export interface EditPage {
-  scrap_id: number;
-  text: string;
-  src: string;
-}
-
 export interface MagazineState {
   cover_scrap_id: number;
   open_status: boolean;
@@ -23,12 +17,12 @@ export const magazineState = atom<MagazineState>({
     open_status: false,
     start_number: 0,
     page_list: EDIT_PAGE,
-    title: '',
+    title: '제목',
   },
   effects: [
     ({ onSet }) => {
       onSet((newState) => {
-        console.debug('pages::', newState.page_list);
+        console.debug('magazine state ::', newState);
       });
     },
   ],
@@ -58,7 +52,7 @@ export const pageSelector = selectorFamily<Partial<EditPage>, number>({
     },
 });
 
-export const magazineInfoSelector = selector<MagazineState>({
+export const magazineInfoSelector = selector<Partial<MagazineState>>({
   key: 'MagazineInfoSelector',
   get: ({ get }) => get(magazineState),
   set: ({ set }, newValue) =>

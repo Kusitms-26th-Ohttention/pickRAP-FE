@@ -1,6 +1,8 @@
 import type { NextPage } from 'next';
+import React from 'react';
 
 import { useMagazineInfo } from '@/application/store/magazine/hook';
+import { ActiveButton } from '@/components/common/Button';
 import withNavigation from '@/containers/HOC/withNavigation';
 import PageEditContainer from '@/containers/magazine/PageEditContainer';
 
@@ -16,10 +18,23 @@ import PageEditContainer from '@/containers/magazine/PageEditContainer';
  * 8. 저장 버튼 누를 시 mutation
  */
 const UploadPage: NextPage = () => {
-  const [magazineInfo] = useMagazineInfo();
+  const magazineInfo = useMagazineInfo();
+  const editContainerProps = {
+    pages: magazineInfo.page_list,
+    startPage: magazineInfo.start_number,
+  };
   return (
     <>
-      <PageEditContainer pages={magazineInfo.page_list} startPage={magazineInfo.start_number} />
+      <PageEditContainer {...editContainerProps} />
+      <ActiveButton
+        active
+        onClick={() => {
+          console.debug('final upload state :::', magazineInfo);
+          // TODO Mutation, GET /magazine/{id} invalidate, redirect
+        }}
+      >
+        저장
+      </ActiveButton>
     </>
   );
 };
