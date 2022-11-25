@@ -19,9 +19,6 @@ const BottomNavigationBase = ({ children }: BottomNavigationBaseProps) => {
         max-width: 440px;
         padding-top: 12px;
         box-shadow: 0px -10px 20px rgba(0, 0, 0, 0.03);
-        @supports (padding-bottom: env(safe-area-inset-bottom)) {
-          padding-bottom: env(safe-area-inset-bottom);
-        }
       `}
     >
       {children(({ ...rest }: ButtonHTMLAttributes<HTMLButtonElement>) => (

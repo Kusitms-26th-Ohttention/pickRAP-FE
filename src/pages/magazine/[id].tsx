@@ -22,8 +22,7 @@ const ShowMagazine: NextPage = () => {
       setMagazineInfo({
         ...magazine,
         start_number: (magazine?.page_list.length || 0) + 2,
-        page_list:
-          magazine?.page_list.map((m) => ({ src: m.file_url || m.contents, text: m.text, scrap_id: m.page_id })) || [],
+        page_list: magazine?.page_list.map((m) => ({ src: m.file_url, text: m.text, scrap_id: m.page_id })) || [],
       });
       router.push(`/magazine/edit/${id}`);
     },
