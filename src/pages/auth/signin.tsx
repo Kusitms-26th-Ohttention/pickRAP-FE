@@ -66,8 +66,13 @@ const SignIn: NextPage = () => {
             value={password}
             handleChange={handlePassword}
           />
+          <span
+            css={css`
+              height: 8px;
+            `}
+          />
           <CheckBox checked>자동 로그인</CheckBox>
-          <div
+          <span
             css={css`
               height: 32px;
             `}

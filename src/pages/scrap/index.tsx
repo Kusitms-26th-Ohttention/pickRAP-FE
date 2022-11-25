@@ -13,6 +13,7 @@ import DeleteNavigation from '@/components/scrap/DeleteNavigation';
 import { CreateScrapToast, DeleteScrapToast } from '@/components/scrap/Toast';
 import UploadButton from '@/components/scrap/UploadButton';
 import { useBottomNavigationContext } from '@/containers/HOC/NavigationContext';
+import withAuth from '@/containers/HOC/withAuth';
 import withNavigation from '@/containers/HOC/withNavigation';
 import CategoryDetailContainer from '@/containers/scrap/CategoryDetailContainer';
 import CategoryListContainer from '@/containers/scrap/CategoryListContainer';
@@ -56,10 +57,7 @@ const Scrap: NextPage = () => {
       return ret;
     });
 
-  const handleSearch = (search: string) => {
-    // TODO search api & setState
-    setSearchString(search);
-  };
+  const handleSearch = (search: string) => setSearchString(search);
 
   const handleUploadToast = () => show({ content: <CreateScrapToast /> });
 
@@ -76,7 +74,8 @@ const Scrap: NextPage = () => {
           justify-content: flex-end;
           width: 100%;
           gap: 10px;
-          margin-bottom: 4px;
+          height: 28px;
+          margin-bottom: 10px;
           align-items: center;
         `}
       >
@@ -133,7 +132,7 @@ const Scrap: NextPage = () => {
             <Tab.Label onClick={() => handleTabClick('category')}>카테고리 별</Tab.Label>
             <Tab.Label onClick={() => handleTabClick('content')}>콘텐츠 별</Tab.Label>
           </Tab.Group>
-          <SSRSafeSuspense fallback={null}>
+          <SSRSafeSuspense fallback={<ThreeDotsSpinner />}>
             <Tab.Panel>
               <Tab.Content>
                 {!categoryInfo.name ? (
@@ -153,4 +152,4 @@ const Scrap: NextPage = () => {
   );
 };
 
-export default withNavigation(Scrap);
+export default withAuth(withNavigation(Scrap));

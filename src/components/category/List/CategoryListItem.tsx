@@ -49,7 +49,7 @@ const CategoryListItem = ({ src, title, onClick, select }: CategoryListItemProps
           onClick={onClick}
           css={css`
             position: absolute;
-            padding: 30px 0 14px 30px;
+            padding: 60px 0 14px 60px;
             right: 0;
             bottom: 0;
           `}

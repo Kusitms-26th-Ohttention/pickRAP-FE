@@ -2,7 +2,8 @@ import { css } from '@emotion/react';
 import React from 'react';
 
 import { useGetCategories } from '@/application/hooks/api/category';
-import CategoryListItem from '@/components/scrap/CategoryListItem';
+import { getSrcByType } from '@/application/utils/helper';
+import CategoryListItem from '@/components/category/List/CategoryListItem';
 interface CategoryListContainerProps {
   select: boolean;
   onClickItem: (info: { id: number; name: string }) => void;
@@ -34,7 +35,7 @@ const CategoryListContainer = ({ select, onClickItem }: CategoryListContainerPro
             <CategoryListItem
               onClick={() => onClickItem({ id: category.id, name: category.name })}
               select={select}
-              src={category.file_url ?? '/icon/scrap/defaultCategory.svg'}
+              src={getSrcByType(category) ?? '/icon/scrap/defaultCategory.svg'}
               title={category.name}
               key={category.id}
             />

@@ -2,13 +2,12 @@ import { css } from '@emotion/react';
 import type { ButtonHTMLAttributes } from 'react';
 import React, { useState } from 'react';
 
-interface SwitchProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+interface SwitchProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'onClick'> {
   defaultChecked?: boolean;
-  onActive?: () => any;
-  onInactive?: () => any;
+  onClick?: (on: boolean) => void;
 }
 
-const Switch = ({ onActive, onInactive, defaultChecked, ...rest }: SwitchProps) => {
+const Switch = ({ onClick, defaultChecked, ...rest }: SwitchProps) => {
   const [on, setOn] = useState(defaultChecked);
   return (
     <button
@@ -24,9 +23,7 @@ const Switch = ({ onActive, onInactive, defaultChecked, ...rest }: SwitchProps) 
         cursor: pointer;
       `}
       onClick={() => {
-        if (on) onInactive?.();
-        else onActive?.();
-
+        onClick?.(!on);
         setOn((p) => !p);
       }}
     >

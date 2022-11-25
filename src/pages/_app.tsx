@@ -10,6 +10,8 @@ import QueryClientProvider from '@/application/queryClient';
 import { userAuthState } from '@/application/store/user/userAuth';
 import { ToastPortal, ToastProvider } from '@/components/common/Toast';
 import AppLayout from '@/containers/AppLayout';
+import ErrorBoundary from '@/containers/ErrorBoundary/ErrorBoundary';
+import ErrorPage from '@/containers/ErrorBoundary/ErrorPage';
 import { getAccessToken } from '@/infra/api';
 import { GlobalStyle, theme } from '@/styles';
 
@@ -36,9 +38,11 @@ const App = ({ Component, pageProps }: AppProps<PageProps>) => {
           <ToastProvider>
             <ThemeProvider theme={theme}>
               <GlobalStyle />
-              <AppLayout blackBackground={['/']}>
-                <Component {...pageProps} />
-              </AppLayout>
+              <ErrorBoundary fallback={ErrorPage}>
+                <AppLayout blackBackground={['/']}>
+                  <Component {...pageProps} />
+                </AppLayout>
+              </ErrorBoundary>
               <ToastPortal />
             </ThemeProvider>
           </ToastProvider>

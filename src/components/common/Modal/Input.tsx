@@ -7,14 +7,13 @@ import useToast from '@/application/hooks/common/useToast';
 import { ActiveButton } from '@/components/common/Button';
 import { InputBase, InputLabel } from '@/components/common/Input';
 
-interface CreateCategoryProps {
-  onSubmit?: (category: string, errorFn: Dispatch<SetStateAction<boolean>>) => void;
+interface Props {
+  onSubmit?: (value: string, errorFn: Dispatch<SetStateAction<boolean>>) => void;
+  title: string;
+  errMsg?: string;
 }
 
-// TODO (refactor) 에러 메세지 constant 파일 분리
-const CREATE_CATEGORY_ERROR = '이미 있는 제목입니다.';
-
-const CreateCategory = ({ onSubmit }: CreateCategoryProps) => {
+const InputModal = ({ onSubmit, title, errMsg }: Props) => {
   const [category, setCategory] = useInput({ maxLength: 15 });
   const [isError, setIsError] = useState(false);
   const { close } = useToast();
@@ -34,7 +33,7 @@ const CreateCategory = ({ onSubmit }: CreateCategoryProps) => {
       `}
     >
       <div>
-        <InputLabel htmlFor={'category'}>카테고리명</InputLabel>
+        <InputLabel htmlFor={'category'}>{title}</InputLabel>
         <InputBase
           rightPlaceholder={`${category.length}/15`}
           value={category}
@@ -52,7 +51,7 @@ const CreateCategory = ({ onSubmit }: CreateCategoryProps) => {
               `
             }
           >
-            {CREATE_CATEGORY_ERROR}
+            {errMsg}
           </span>
         ) : null}
       </div>
@@ -89,4 +88,4 @@ const CreateCategory = ({ onSubmit }: CreateCategoryProps) => {
   );
 };
 
-export default CreateCategory;
+export default InputModal;

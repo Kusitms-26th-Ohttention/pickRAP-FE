@@ -5,17 +5,20 @@ import { GlobalStyle, theme } from '../src/styles';
 import { ThemeProvider } from '@emotion/react';
 import AppLayout from '../src/containers/AppLayout';
 import { RecoilRoot } from 'recoil';
+import QueryClientProvider from '../src/application/queryClient';
 
 export const decorators = [
   (Story) => (
-    <RecoilRoot>
-      <GlobalStyle />
-      <ThemeProvider theme={theme}>
-        <AppLayout>
-          <Story />
-        </AppLayout>
-      </ThemeProvider>
-    </RecoilRoot>
+    <QueryClientProvider>
+      <RecoilRoot>
+        <GlobalStyle />
+        <ThemeProvider theme={theme}>
+          <AppLayout>
+            <Story />
+          </AppLayout>
+        </ThemeProvider>
+      </RecoilRoot>
+    </QueryClientProvider>
   ),
 ];
 

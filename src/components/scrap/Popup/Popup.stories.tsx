@@ -1,7 +1,7 @@
 import type { ComponentStory } from '@storybook/react';
 import React from 'react';
 
-import _CreateCategory from '@/components/scrap/Popup/CreateCategory';
+import _CreateCategory from '@/components/category/Modal/CreateCategory';
 
 export default {
   title: 'Components/scrap/Popup',

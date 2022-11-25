@@ -10,9 +10,10 @@ import usePopup from '@/application/hooks/common/usePopup';
 import useToast from '@/application/hooks/common/useToast';
 import useScrapForm from '@/application/store/scrap/useScrapForm';
 import { ERR_CODE } from '@/application/utils/constant';
+import CreateCategory from '@/components/category/Modal/CreateCategory';
+import SelectCategoryWithCreate from '@/components/category/Select/SelectCategoryWithCreate';
 import { ActiveButton } from '@/components/common/Button';
-import CreateCategory from '@/components/scrap/Popup/CreateCategory';
-import { SelectCategoryToast, TypedDetailToast } from '@/components/scrap/Toast/index';
+import { TypedDetailToast } from '@/components/scrap/Toast/index';
 
 const CreateScrap = () => {
   const { close, replace } = useToast();
@@ -32,7 +33,7 @@ const CreateScrap = () => {
     if (!file) return;
 
     handleScrap({ type: 'file', data: file });
-    replace({ content: <SelectCategoryToast /> });
+    replace({ content: <SelectCategoryWithCreate /> });
   };
   const handleLinkInput = () => replace({ content: <TypedDetailToast type={'link'} /> });
   const handleTextInput = () => replace({ content: <TypedDetailToast type={'text'} /> });
@@ -48,7 +49,7 @@ const CreateScrap = () => {
               },
               onError: (err) => {
                 if (axios.isAxiosError(err)) {
-                  err.response?.data.code === ERR_CODE.DUPLICATED_CATEGORY && setError(true);
+                  err.response?.data.code === ERR_CODE.CREATE_DUPLICATED_CATEGORY && setError(true);
                 }
               },
             },

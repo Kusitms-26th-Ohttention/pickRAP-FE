@@ -1,23 +1,25 @@
 import { css } from '@emotion/react';
 
+import useToast from '@/application/hooks/common/useToast';
 import { ActiveButton } from '@/components/common/Button';
 
 interface ConfirmProps {
   title: string;
   onReject?: () => void;
   onSuccess?: () => void;
+  description?: string;
 }
-const Confirm = ({ title, onReject, onSuccess }: ConfirmProps) => {
+const Confirm = ({ title, onReject, onSuccess, description }: ConfirmProps) => {
+  const { close } = useToast();
+
   return (
     <div
       css={css`
-        width: 86vw;
         padding: 32px 38px;
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        gap: 38px;
       `}
     >
       <span
@@ -31,8 +33,23 @@ const Confirm = ({ title, onReject, onSuccess }: ConfirmProps) => {
       >
         {title}
       </span>
+      {description ? (
+        <span
+          css={(theme) =>
+            css`
+              margin-top: 4px;
+              ${theme.font.R_BODY_13};
+              line-height: 160%;
+              color: ${theme.color.gray07};
+            `
+          }
+        >
+          {description}
+        </span>
+      ) : null}
       <div
         css={css`
+          margin-top: 36px;
           width: 100%;
           display: flex;
           justify-content: center;
@@ -44,16 +61,23 @@ const Confirm = ({ title, onReject, onSuccess }: ConfirmProps) => {
           custom={css`
             width: 88px;
             display: inline-block;
+            height: 40px;
+            padding: 0;
           `}
         >
           아니오
         </ActiveButton>
         <ActiveButton
           active
-          onClick={onSuccess}
+          onClick={() => {
+            onSuccess?.();
+            close();
+          }}
           custom={css`
             width: 88px;
             display: inline-block;
+            height: 40px;
+            padding: 0;
           `}
         >
           예
