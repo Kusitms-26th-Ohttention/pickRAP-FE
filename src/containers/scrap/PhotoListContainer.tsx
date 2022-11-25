@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import React from 'react';
 
 import useIntersectionObserver from '@/application/hooks/utils/useIntersectionObserver';
+import { getSrcByType } from '@/application/utils/helper';
 import Photo from '@/components/common/Photo';
 import PhotoSelect from '@/components/common/Photo/PhotoSelect';
 
@@ -42,7 +43,7 @@ const PhotoListContainer = ({ data, select, onEndReached }: PhotoListContainerPr
               onClick={() => !select && router.push(`/scrap/${photo.id}`)}
               key={photo.id}
               blur={<PhotoSelect enabled={select} />}
-              src={photo.scrap_type === 'image' ? photo.file_url : photo.url_preview}
+              src={getSrcByType(photo)}
               text={photo.content}
             />
           ))}

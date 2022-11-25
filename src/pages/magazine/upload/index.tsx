@@ -26,10 +26,11 @@ import MagazineCreateContainer from '@/containers/magazine/MagazineCreateContain
 const UploadMagazine: NextPage = () => {
   const router = useRouter();
   const { show, close } = useToast();
-  const setMagazineInfo = useSetMagazineInfo();
-  const [coverUrl, setCoverUrl] = useState('');
+
   const magazineInfo = useMagazineInfo();
+  const setMagazineInfo = useSetMagazineInfo();
   const [_, setEditPage] = useEditPageSet();
+
   const mutation = useSaveMagazine();
   const resetMagazineInfo = useResetMagazineInfo();
   const resetEditPage = useEditPageReset();
@@ -50,7 +51,8 @@ const UploadMagazine: NextPage = () => {
   const pages = useMemo(() => {
     const ret: (MagazineThumbnail & { onClick?: () => void })[] = [
       {
-        cover_url: coverUrl,
+        cover_url: magazineInfo.cover_scrap_src,
+        placeholder: magazineInfo.cover_scrap_placeholder,
         title: '1 페이지',
         magazine_id: 0,
         onClick: () =>
@@ -58,8 +60,11 @@ const UploadMagazine: NextPage = () => {
             content: (
               <SelectCategoryWithContent
                 onSubmit={(pages) => {
-                  setCoverUrl(pages.src);
-                  setMagazineInfo({ cover_scrap_id: pages.scrap_id });
+                  setMagazineInfo({
+                    cover_scrap_id: pages.scrap_id,
+                    cover_scrap_src: pages.src,
+                    cover_scrap_placeholder: pages.placeholder,
+                  });
                   close();
                 }}
               />
@@ -68,6 +73,7 @@ const UploadMagazine: NextPage = () => {
       },
       ...magazineInfo.page_list.map((page, idx) => ({
         cover_url: page.src,
+        placeholder: page.placeholder,
         title: `${idx + 2} 페이지`,
         magazine_id: idx,
       })),
@@ -92,7 +98,7 @@ const UploadMagazine: NextPage = () => {
     });
 
     return ret;
-  }, [close, coverUrl, magazineInfo.page_list, router, setEditPage, setMagazineInfo, show]);
+  }, [magazineInfo, show, setMagazineInfo, close, setEditPage, router]);
 
   return (
     <>
@@ -135,7 +141,7 @@ const UploadMagazine: NextPage = () => {
       </div>
       <MagazineCreateContainer thumbnails={pages} />
       <ActiveButton
-        active={!!coverUrl}
+        active={!!magazineInfo.cover_scrap_id}
         onClick={handleComplete}
         custom={css`
           margin-top: auto;

@@ -22,8 +22,6 @@ interface Props {
  * 추가 구현 사항
  *  1. 네비게이션 뒤로가기 클릭 시 현재 페이지의 수정 사항을 버린다
  *    - 다중 선택 시 페이지 1개만 버리기 까다로우므로 일단 다 버린다
- *  2. recoil의 페이지 상태를 분리한다 (commit, editing)
- *  3. 표지 페이지의 상태도 분리한다
  */
 const PageEditContainer = ({ pages, startPage }: Props) => {
   const [currentPage, setCurrentPage] = useState(0);
@@ -79,7 +77,7 @@ const PageEditContainer = ({ pages, startPage }: Props) => {
                   padding: min(40px, 4.8vh);
                 `}
               >
-                <Photo src={page.src} height={'33vh'} />
+                <Photo src={page.src} placeholder={page.placeholder} height={'33vh'} />
                 <p
                   css={CSSPageContent}
                   onClick={() =>

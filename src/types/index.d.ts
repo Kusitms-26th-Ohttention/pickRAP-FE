@@ -41,6 +41,7 @@ interface MagazineThumbnail {
   cover_url: string;
   title: string;
   magazine_id: number;
+  placeholder?: string;
 }
 
 interface Magazine {
@@ -55,4 +56,5 @@ interface EditPage {
   scrap_id: number;
   text: string;
   src: string;
+  placeholder?: string;
 }

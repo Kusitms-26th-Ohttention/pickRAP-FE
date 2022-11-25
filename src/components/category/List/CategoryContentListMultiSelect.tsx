@@ -67,7 +67,14 @@ const CategoryContentListMultiSelect = ({ name, id = 0, onSubmit }: Props) => {
               custom={css`
                 aspect-ratio: 1/1;
               `}
-              onClick={() => pickSet.current.add({ scrap_id: scrap.id, src: getSrcByType(scrap), text: '' })}
+              onClick={() =>
+                pickSet.current.add({
+                  scrap_id: scrap.id,
+                  src: getSrcByType(scrap),
+                  text: '',
+                  placeholder: scrap.content,
+                })
+              }
               key={scrap.id}
               blur={<PhotoSelect enabled />}
               src={getSrcByType(scrap)}
