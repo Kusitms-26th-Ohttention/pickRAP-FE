@@ -6,7 +6,7 @@ import React, { useState } from 'react';
 import { useGetContentByCategory, useUpdateCategory } from '@/application/hooks/api/category';
 import useModal from '@/application/hooks/common/useModal';
 import usePopup from '@/application/hooks/common/usePopup';
-import { ERR_CODE } from '@/application/utils/constant';
+import { ERR_CODE, ERR_MESSAGE } from '@/application/utils/constant';
 import CreateCategory from '@/components/category/Modal/CreateCategory';
 import PhotoListContainer from '@/containers/scrap/PhotoListContainer';
 
@@ -41,6 +41,7 @@ const CategoryDetailContainer = ({ select, info }: CategoryDetailContainerProps)
           onClick={() =>
             show(
               <CreateCategory
+                errMsg={ERR_MESSAGE.NOT_MODIFY_DEFAULT_CATEGORY}
                 onSubmit={(category, setError) => {
                   mutation.mutate(
                     { id: info.id, name: category },
@@ -52,6 +53,7 @@ const CategoryDetailContainer = ({ select, info }: CategoryDetailContainerProps)
                       onError: (err) => {
                         if (axios.isAxiosError(err)) {
                           err.response?.data.code === ERR_CODE.MODIFY_DUPLICATED_CATEGORY && setError(true);
+                          err.response?.data.code === ERR_CODE.NOT_MODIFY_DEFAULT_CATEGORY && setError(true);
                         }
                       },
                     },
