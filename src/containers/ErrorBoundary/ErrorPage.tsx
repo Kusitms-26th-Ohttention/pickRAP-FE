@@ -15,8 +15,7 @@ const StyledWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 24px 16px;
-  height: 100vh;
+  height: 100%;
 `;
 
 const StyledTitle = styled.b`

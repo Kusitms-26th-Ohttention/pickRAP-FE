@@ -2,7 +2,7 @@ import { css } from '@emotion/react';
 import type { NextPage } from 'next';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import React, { useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 
 import { useSaveMagazine } from '@/application/hooks/api/magazine';
 import useToast from '@/application/hooks/common/useToast';
@@ -36,9 +36,10 @@ const UploadMagazine: NextPage = () => {
   const resetEditPage = useEditPageReset();
 
   const handleBack = () => {
-    router.replace('/magazine');
-    resetMagazineInfo();
-    resetEditPage();
+    router.replace('/magazine').then(() => {
+      resetMagazineInfo();
+      resetEditPage();
+    });
   };
 
   const handleComplete = () => {

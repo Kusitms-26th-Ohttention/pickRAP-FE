@@ -17,7 +17,7 @@ interface Props extends Partial<Category> {
 const CategoryContentListMultiSelect = ({ name, id = 0, onSubmit }: Props) => {
   const { categories: scraps, fetchNextPage } = useGetContentByCategory({ id });
 
-  const pickSet = useRef(new Set<EditPage>());
+  const pickSet = useRef(new Set<number>());
   const ref = useIntersectionObserver({ callback: fetchNextPage });
   const { replace } = useToast();
 
@@ -25,7 +25,15 @@ const CategoryContentListMultiSelect = ({ name, id = 0, onSubmit }: Props) => {
     <form
       onSubmit={(e) => {
         e.preventDefault();
-        pickSet.current.size && onSubmit?.(Array.from(pickSet.current));
+        pickSet.current.size &&
+          onSubmit?.(
+            Array.from(pickSet.current).map((id) => ({
+              scrap_id: scraps[id].id,
+              text: '',
+              src: getSrcByType(scraps[id]),
+              placeholder: scraps[id].content,
+            })),
+          );
       }}
     >
       <span
@@ -62,30 +70,26 @@ const CategoryContentListMultiSelect = ({ name, id = 0, onSubmit }: Props) => {
             padding-bottom: 10px;
           `}
         >
-          {scraps.map((scrap) => (
+          {scraps.map((scrap, idx) => (
             <Photo
               custom={css`
                 aspect-ratio: 1/1;
               `}
-              onClick={() =>
-                pickSet.current.add({
-                  scrap_id: scrap.id,
-                  src: getSrcByType(scrap),
-                  text: '',
-                  placeholder: scrap.content,
-                })
-              }
+              onClick={() => {
+                pickSet.current.has(idx) ? pickSet.current.delete(idx) : pickSet.current.add(idx);
+              }}
               key={scrap.id}
               blur={<PhotoSelect enabled />}
               src={getSrcByType(scrap)}
               text={scrap.content}
             />
           ))}
+          중
           <span ref={ref} />
         </div>
       </div>
 
-      <ActiveButton active>다음 </ActiveButton>
+      <ActiveButton active>다음</ActiveButton>
     </form>
   );
 };

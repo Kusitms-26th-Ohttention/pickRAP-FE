@@ -46,21 +46,23 @@ const SignUp: NextPage = () => {
     }
   };
   return (
-    <>
+    <div
+      css={css`
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        justify-content: center;
+      `}
+    >
       <div
         css={css`
-          height: 55%;
           width: 100%;
           display: flex;
           flex-direction: column;
           position: relative;
+          padding-bottom: 10vh;
         `}
       >
-        <div
-          css={css`
-            margin-top: 63px;
-          `}
-        ></div>
         <div>
           <AuthForm errInput={errInput} onSubmit={handleSubmit} errFormMsg={errForm}>
             <AuthForm.Input
@@ -108,7 +110,6 @@ const SignUp: NextPage = () => {
       <div
         css={css`
           width: 100%;
-          height: 30%;
           display: flex;
           flex-direction: column-reverse;
           position: relative;
@@ -118,7 +119,7 @@ const SignUp: NextPage = () => {
         <NaverButton />
         <KakaoButton />
       </div>
-    </>
+    </div>
   );
 };
 
