@@ -11,8 +11,10 @@ export const PASSWORD_REGEXP = /^.*(?=^.{8,15}$)(?=.*[a-zA-Z])(?=.*[!@#$%^&+=]).
 export const ERR_CODE = {
   CREATE_DUPLICATED_CATEGORY: 4004,
   MODIFY_DUPLICATED_CATEGORY: 4005,
+  NOT_MODIFY_DEFAULT_CATEGORY: 4015,
 } as const;
 
 export const ERR_MESSAGE = {
   DUPLICATED_TITLE: '이미 있는 제목입니다.',
+  NOT_MODIFY_DEFAULT_CATEGORY: '기본 카테고리는 수정할 수 없습니다.',
 } as const;

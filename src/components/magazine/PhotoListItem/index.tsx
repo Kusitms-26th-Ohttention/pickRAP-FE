@@ -23,6 +23,7 @@ const PhotoListItem = ({ item, selectItem, ratio, ...rest }: Props) => {
         custom={css`
           border-radius: 2px;
         `}
+        {...item}
         src={item.cover_url}
         {...rest}
       />

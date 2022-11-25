@@ -10,13 +10,14 @@ interface PhotoProps {
   blur?: ReactElement;
   custom?: CustomStyle;
   text?: string;
+  placeholder?: string;
   onClick?: () => void;
 }
 
 const base64Blur =
   'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAQAAAAnOwc2AAAAEUlEQVR42mO8/Z8BAzAOZUEAQ+ESj6kXXm0AAAAASUVORK5CYII=';
 
-const Photo = ({ src, width, height, blur, custom, onClick, text }: PhotoProps) => {
+const Photo = ({ src, width, height, blur, custom, onClick, text, placeholder }: PhotoProps) => {
   return (
     <div
       onClick={onClick}
@@ -63,7 +64,7 @@ const Photo = ({ src, width, height, blur, custom, onClick, text }: PhotoProps) 
               -webkit-box-orient: vertical;
             `}
           >
-            {text}
+            {text || placeholder}
           </span>
         </div>
       )}

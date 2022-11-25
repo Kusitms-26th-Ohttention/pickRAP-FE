@@ -2,6 +2,8 @@ import { atom, DefaultValue, selector, selectorFamily } from 'recoil';
 
 export interface MagazineState {
   cover_scrap_id: number;
+  cover_scrap_placeholder?: string;
+  cover_scrap_src: string;
   open_status: boolean;
   start_number: number;
   page_list: EditPage[];
@@ -12,6 +14,8 @@ export const magazineState = atom<MagazineState>({
   key: 'MagzineState',
   default: {
     cover_scrap_id: 0,
+    cover_scrap_placeholder: '',
+    cover_scrap_src: '',
     open_status: false,
     start_number: 2,
     page_list: [],

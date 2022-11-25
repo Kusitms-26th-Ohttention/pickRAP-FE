@@ -59,7 +59,10 @@ export const useSaveScrap = () => {
   return useMutation({
     mutationKey: ['saveScrap'],
     mutationFn: (args: Parameters<typeof api.scrap.saveScrap>[0]) => api.scrap.saveScrap(args),
-    onSuccess: () => queryClient.clear(),
+    onSuccess: (d, v) => {
+      queryClient.invalidateQueries(['getCategories', v.category_id]);
+      queryClient.invalidateQueries(['getContentByCategory', v.category_id]);
+    },
   });
 };
 
@@ -68,8 +71,6 @@ export const useUpdateScrap = (id: number) => {
   return useMutation({
     mutationKey: ['updateScrap'],
     mutationFn: (args: Parameters<typeof api.scrap.updateScrap>[0]) => api.scrap.updateScrap({ ...args, id }),
-    onSuccess: () => {
-      queryClient.invalidateQueries(['getScrapById', id]);
-    },
+    onSuccess: () => queryClient.invalidateQueries(['getScrapById', id]),
   });
 };

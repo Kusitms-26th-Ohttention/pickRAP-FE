@@ -7,8 +7,8 @@ export const MAGAZINE_THUMBNAILS = [0, 0, 0, 0].map(() => ({
 
 export const PROFILE = {
   src: '/picture/mock.png',
-  name: '홍길동',
-  date: '2022.11.17',
+  name: '익명',
+  date: '2022.11.26',
   description: '진정한 나의 모습을 담은 나만의 바이블',
   hashtags: ['#포폴용도', '#자료모음', '#패션피플'],
 };

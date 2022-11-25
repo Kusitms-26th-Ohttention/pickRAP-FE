@@ -53,15 +53,15 @@ instance.interceptors.response.use(
       const status = err.response?.status;
       const origin = err.config as AxiosRequestConfig;
 
-      if (status == 401 && origin.url !== '/auth/reissue' && !origin.headers?.retry) {
+      if (status == 401 && !origin.headers?.retry) {
         return auth.reissue().then((res) => {
-          origin.headers!.retry = true;
-          if (res.headers.authorization) {
+          if (res.headers.authorization && res.status === 200) {
             const token = res.headers.authorization.slice(7);
-            origin.headers!.Authorization = `Bearer ${token}`;
-
             setAccessToken(token);
-            return axios.request(origin);
+            return instance({
+              ...origin,
+              headers: { ...origin.headers, authorization: `Bearer ${token}`, retry: true },
+            });
           }
         });
       }

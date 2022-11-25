@@ -12,9 +12,10 @@ type ScrapType = 'image' | 'text' | 'link' | 'video' | 'pdf';
 interface Category {
   content: string;
   file_url: string;
+  url_preview: string;
   id: number;
   name: string;
-  scrapType: ScrapType;
+  scrap_type: ScrapType;
 }
 
 interface Scrap {
@@ -41,6 +42,7 @@ interface MagazineThumbnail {
   cover_url: string;
   title: string;
   magazine_id: number;
+  placeholder?: string;
 }
 
 interface Magazine {
@@ -55,4 +57,5 @@ interface EditPage {
   scrap_id: number;
   text: string;
   src: string;
+  placeholder?: string;
 }
