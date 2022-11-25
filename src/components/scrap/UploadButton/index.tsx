@@ -9,6 +9,7 @@ const UploadButton = () => {
         border: 1px solid ${theme.color.gray08};
         box-shadow: 2px 4px 7px rgba(0, 0, 0, 0.1);
         border-radius: 23px;
+        color: ${theme.color.black02};
         width: 91px;
         display: flex;
         padding: 12px 18px;
