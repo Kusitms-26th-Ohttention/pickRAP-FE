@@ -31,18 +31,21 @@ const App = ({ Component, pageProps }: AppProps<PageProps>) => {
     <>
       <Head>
         <title>피크랩 | pickRAP</title>
-        <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+        <meta
+          name="viewport"
+          content="width=device-width,initial-scale=1,maximum-scale=1.0, user-scalable=0,viewport-fit=cover"
+        />
       </Head>
       <QueryClientProvider hydrateState={pageProps.hydrateState}>
         <RecoilRoot initializeState={recoilInitializer}>
           <ToastProvider>
             <ThemeProvider theme={theme}>
               <GlobalStyle />
-              <ErrorBoundary fallback={ErrorPage}>
-                <AppLayout blackBackground={['/']}>
+              <AppLayout blackBackground={['/']}>
+                <ErrorBoundary fallback={ErrorPage}>
                   <Component {...pageProps} />
-                </AppLayout>
-              </ErrorBoundary>
+                </ErrorBoundary>
+              </AppLayout>
               <ToastPortal />
             </ThemeProvider>
           </ToastProvider>

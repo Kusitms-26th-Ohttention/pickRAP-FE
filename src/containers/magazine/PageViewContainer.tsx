@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 
+import { getValidURL } from '@/application/utils/helper';
 import { PAGES } from '@/application/utils/mock';
 import Photo from '@/components/common/Photo';
 
@@ -23,7 +24,11 @@ const PageViewContainer = ({ pages = PAGES }: Props) => {
         <ol css={CSSCarouselContainer}>
           {pages.map((page, idx) => (
             <li key={page.page_id} id={`${idx}`} css={CSSCarouselItem}>
-              <Photo src={page.file_url || page.contents} height={'45vh'} />
+              <Photo
+                src={page.file_url || getValidURL(page.contents).toString()}
+                text={page.contents}
+                height={'45vh'}
+              />
               <p css={CSSPageContent}>{page.text}</p>
               <div css={CSSSnapper} />
               <div css={CSSCarouselHandle}>

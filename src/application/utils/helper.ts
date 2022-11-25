@@ -7,3 +7,11 @@ export const getSrcByType = (content: Scrap | Category) => {
       return content.file_url;
   }
 };
+
+export const getValidURL = (url: string) => {
+  try {
+    return new URL(url);
+  } catch (err) {
+    return '';
+  }
+};

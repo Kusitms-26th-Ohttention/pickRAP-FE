@@ -35,27 +35,31 @@ const SignIn: NextPage = () => {
     }
   };
   return (
-    <>
+    <div
+      css={css`
+        display: flex;
+        height: 100%;
+        flex-direction: column;
+        justify-content: center;
+      `}
+    >
       <div
         css={css`
           width: 100%;
           display: flex;
           flex-direction: column;
           position: relative;
-          height: 60%;
+          //padding-top: 6vh;
         `}
       >
-        <div
+        <span
           css={css`
-            height: 119px;
+            text-align: center;
+            margin-bottom: 40px;
           `}
-        />
-        <Image src={'/logo/black_pickrap.svg'} width={164} height={39} priority />
-        <div
-          css={css`
-            height: 50px;
-          `}
-        />
+        >
+          <Image src={'/logo/black_pickrap.svg'} width={164} height={39} priority />
+        </span>
 
         <AuthForm onSubmit={handleSubmit} errFormMsg={errMsg}>
           <AuthForm.Input name={'email'} placeholder={'아이디 또는 이메일'} value={email} handleChange={handleEmail} />
@@ -66,11 +70,7 @@ const SignIn: NextPage = () => {
             value={password}
             handleChange={handlePassword}
           />
-          <span
-            css={css`
-              height: 8px;
-            `}
-          />
+
           <CheckBox checked>자동 로그인</CheckBox>
           <span
             css={css`
@@ -112,16 +112,16 @@ const SignIn: NextPage = () => {
         css={css`
           width: 100%;
           display: flex;
-          height: 33%;
           flex-direction: column-reverse;
           position: relative;
           gap: 12px;
+          margin-top: 8vh;
         `}
       >
         <NaverButton />
         <KakaoButton />
       </div>
-    </>
+    </div>
   );
 };
 

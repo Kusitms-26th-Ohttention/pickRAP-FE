@@ -15,6 +15,7 @@ const UploadButton = () => {
         padding: 12px 18px;
         justify-content: space-between;
         align-items: center;
+        color: ${theme.color.black02};
         ${theme.font.R_BODY_13};
         line-height: 1;
       `}

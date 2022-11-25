@@ -35,6 +35,11 @@ const CSSWrapper = css`
   min-height: 100vh;
   display: flex;
   justify-content: center;
+
+  @supports (-webkit-touch-callout: none) {
+    //noinspection CssInvalidPropertyValue
+    min-height: -webkit-fill-available;
+  }
 `;
 
 const CSSAppLayout = (isBlack: boolean) => (theme: Theme) =>
@@ -62,10 +67,10 @@ const CSSSideBanner = css`
     left: 5%;
   }
   @media screen and (max-width: 1150px) {
-    left: 0%;
+    left: 0;
   }
   @media screen and (max-width: 1000px) {
-    width: 0%;
+    width: 0;
   }
 
   position: fixed;

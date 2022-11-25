@@ -10,7 +10,6 @@ const globalCss = css`
     height: 100%;
     margin: 0 auto;
   }
-
   html {
     font-size: 62.5%;
   }
@@ -41,6 +40,8 @@ const globalCss = css`
   a,
   a:hover,
   a:focus,
+  a:link,
+  a:visited,
   a:active {
     text-decoration: none;
     display: inline-block;

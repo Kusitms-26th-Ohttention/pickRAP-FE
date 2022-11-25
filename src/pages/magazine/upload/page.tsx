@@ -61,7 +61,7 @@ const UploadPage: NextPage = () => {
             page_list: [...(prev?.page_list || []), ...editPages],
             start_number: prev.start_number! + editPages.length,
           }));
-          router.replace('/magazine/upload');
+          router.replace('/magazine/upload').then(resetEditPages);
         }}
       >
         저장

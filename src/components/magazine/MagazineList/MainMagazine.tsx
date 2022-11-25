@@ -16,7 +16,7 @@ const MainMagazine = ({ magazines }: MainMagazineProps) => {
         overflow-x: scroll;
         width: 100%;
         gap: 10px;
-        margin-bottom: 48px;
+        margin-bottom: 5vh;
       `}
     >
       {magazines.map((magazine) => (
