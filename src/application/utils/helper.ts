@@ -1,5 +1,5 @@
 export const getSrcByType = (content: Scrap | Category) => {
-  switch (content.scrap_type.toLowerCase()) {
+  switch (content.scrap_type) {
     case 'link':
       return content.url_preview;
     case 'image':
