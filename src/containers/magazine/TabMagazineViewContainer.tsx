@@ -66,7 +66,11 @@ const MyMagazineWithTab = ({ onScrollDown }: MagazineTabProps) => {
               font-size: 15px;
             `}
           >
-            {selected[ref.current] ? '취소' : <Image src={'/icon/multiSelect.svg'} width={18} height={18} />}
+            {selected[ref.current] ? (
+              '취소'
+            ) : (
+              <Image src={'/icon/multiSelect.svg'} width={18} height={18} alt="삭제아이콘" />
+            )}
           </span>
         }
       >
