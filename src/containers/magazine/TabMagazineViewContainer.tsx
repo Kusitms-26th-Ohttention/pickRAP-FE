@@ -1,11 +1,13 @@
 import { css } from '@emotion/react';
 import Image from 'next/image';
 import React, { useRef, useState } from 'react';
+import { useRecoilState } from 'recoil';
 
 import { useGetMagazines } from '@/application/hooks/api/magazine';
 import usePopup from '@/application/hooks/common/usePopup';
 import useToast from '@/application/hooks/common/useToast';
 import type { UseScrollDetectOption } from '@/application/hooks/utils/useScrollDetect';
+import { deleteOption, magazineIdsArray } from '@/application/store/magazine/state';
 import { DeletePopup } from '@/components/common/Popup/Sentence';
 import Tab from '@/components/common/Tab';
 import { TabMagazine } from '@/components/magazine/MagazineList';
@@ -27,7 +29,8 @@ const MyMagazineWithTab = ({ onScrollDown }: MagazineTabProps) => {
   const { magazines } = useGetMagazines();
 
   const [selected, setSelected] = useState(initSelectedContext);
-  const [deleteOption, isDeleteOption] = useState(false);
+  const [option, isOption] = useRecoilState(deleteOption);
+  const [, setMagazineItems] = useRecoilState(magazineIdsArray);
   const ref = useRef<SelectContext>('myMagazine');
   const setNavigation = useBottomNavigationContext()[1];
   const { show } = useToast();
@@ -42,7 +45,7 @@ const MyMagazineWithTab = ({ onScrollDown }: MagazineTabProps) => {
   const showDeleteMagazineToast = () => show({ content: <DeleteScrapToast onDelete={handleDeleteMagazine} /> });
 
   const handleMultiSelect = () => {
-    isDeleteOption(!deleteOption);
+    isOption(!option);
     setSelected((prev) => {
       const ret = { ...prev };
       const deleted = ret[ref.current];
@@ -67,7 +70,7 @@ const MyMagazineWithTab = ({ onScrollDown }: MagazineTabProps) => {
             `}
           >
             {selected[ref.current] ? (
-              '취소'
+              <p onClick={() => setMagazineItems([])}>취소</p>
             ) : (
               <Image src={'/icon/multiSelect.svg'} width={18} height={18} alt="삭제아이콘" />
             )}
@@ -83,16 +86,11 @@ const MyMagazineWithTab = ({ onScrollDown }: MagazineTabProps) => {
             magazines={magazines}
             onScrollDown={onScrollDown}
             selectItem={selected.myMagazine}
-            deleteOption={deleteOption}
+            option={option}
           />
         </Tab.Content>
         <Tab.Content>
-          <TabMagazine
-            magazines={[]}
-            onScrollDown={onScrollDown}
-            selectItem={selected.saveMagazine}
-            deleteOption={deleteOption}
-          />
+          <TabMagazine magazines={[]} onScrollDown={onScrollDown} selectItem={selected.saveMagazine} option={option} />
         </Tab.Content>
       </Tab.Panel>
     </Tab>

@@ -1,9 +1,11 @@
 import { css } from '@emotion/react';
 import Link from 'next/link';
-import { useCallback, useRef, useState } from 'react';
+import { useCallback } from 'react';
+import { useRecoilState } from 'recoil';
 
 import type { UseScrollDetectOption } from '@/application/hooks/utils/useScrollDetect';
 import useScrollDetect from '@/application/hooks/utils/useScrollDetect';
+import { magazineIdsArray } from '@/application/store/magazine/state';
 import Photo from '@/components/common/Photo';
 import PhotoSelect from '@/components/common/Photo/PhotoSelect';
 import NoMagazine from '@/components/magazine/NoMagazine';
@@ -11,30 +13,27 @@ import NoMagazine from '@/components/magazine/NoMagazine';
 interface TabMagazineProps {
   magazines: MagazineThumbnail[];
   selectItem?: boolean;
-  deleteOption?: boolean;
+  option?: boolean;
   onScrollDown?: UseScrollDetectOption['onScroll'];
 }
 
-const TabMagazine = ({ magazines, selectItem, deleteOption, onScrollDown }: TabMagazineProps) => {
+const TabMagazine = ({ magazines, selectItem, option, onScrollDown }: TabMagazineProps) => {
   const ref = useScrollDetect<HTMLDivElement>({ onScroll: onScrollDown });
-  const boolOption = deleteOption;
+  const boolOption = option;
 
-  // TODO 테스트 후 recoil로 수정 => 취소 눌렀을 때 빈 배열이 될 수 있도록 만들어야 함 (현재는 취소후에도 그대로 id값이 남아있음)
   // 썸네일 클릭 시 각 썸네일 별 true일 때만 ids 담기, false일 시 filter를 이용해 다시 제외
   // selected 조건문 제대로 동작안함. 수정하기
-  const [magazineItems, setMagazineItems] = useState<Array<number>>([]);
-  const magazineRef = useRef<HTMLDivElement | null>(null);
+  const [magazineItems, setMagazineItems] = useRecoilState(magazineIdsArray);
+  // const magazineRef = useRef<HTMLDivElement | null>(null);
+
   const selectMagazineItems = useCallback(
-    (selected: boolean, id: number) => {
+    (selected: any, id: number) => {
       selected ? setMagazineItems((prev) => [...prev, id]) : setMagazineItems(magazineItems.filter((el) => el !== id));
     },
     [magazineItems],
   );
 
-  const test = [...magazines];
-
   console.log(magazineItems);
-  console.log(test);
 
   return (
     <div
@@ -79,14 +78,11 @@ const TabMagazine = ({ magazines, selectItem, deleteOption, onScrollDown }: TabM
               {boolOption ? (
                 <div>
                   <Photo
-                    ref={magazineRef}
                     blur={<PhotoSelect enabled={selectItem} />}
                     src={magazine.cover_url}
                     width={'196px'}
                     height={'255px'}
-                    onClick={() => {
-                      // selectMagazineItems(ref, magazine.magazine_id);
-                    }}
+                    onClick={() => selectMagazineItems(ref, magazine.magazine_id)}
                   />
                 </div>
               ) : (

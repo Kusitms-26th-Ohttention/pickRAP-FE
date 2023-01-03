@@ -55,3 +55,24 @@ export const magazineInfoSelector = selector<Partial<MagazineState>>({
   set: ({ set }, newValue) =>
     !(newValue instanceof DefaultValue) && set(magazineState, (prevValue) => ({ ...prevValue, ...newValue })),
 });
+
+export const deleteOption = atom({
+  key: 'deleteOption',
+  default: false,
+});
+
+export const magazineIdsArray = atom<Array<number>>({
+  key: 'magazineIdsArray',
+  default: [],
+});
+
+// 다중선택 -> 취소 클릭 시 ids 배열 초기화
+// export const initMagazineArray = selector({
+//   key: 'initMagazineArray',
+//   get: ({ get }) => {
+//     const isOption = get(deleteOption);
+//     if (isOption === false) {
+//       return [];
+//     }
+//   },
+// });
