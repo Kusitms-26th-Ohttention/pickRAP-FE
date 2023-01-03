@@ -10,11 +10,13 @@ import NoMagazine from '@/components/magazine/NoMagazine';
 interface TabMagazineProps {
   magazines: MagazineThumbnail[];
   selectItem?: boolean;
+  deleteOption?: boolean;
   onScrollDown?: UseScrollDetectOption['onScroll'];
 }
 
-const TabMagazine = ({ magazines, selectItem, onScrollDown }: TabMagazineProps) => {
+const TabMagazine = ({ magazines, selectItem, deleteOption, onScrollDown }: TabMagazineProps) => {
   const ref = useScrollDetect<HTMLDivElement>({ onScroll: onScrollDown });
+  const boolOption = deleteOption;
 
   return (
     <div
@@ -56,14 +58,26 @@ const TabMagazine = ({ magazines, selectItem, onScrollDown }: TabMagazineProps) 
                 `
               }
             >
-              <Link href={`/magazine/${magazine.magazine_id}`}>
-                <Photo
-                  blur={<PhotoSelect enabled={selectItem} />}
-                  src={magazine.cover_url}
-                  width={'196px'}
-                  height={'255px'}
-                />
-              </Link>
+              {boolOption ? (
+                <div>
+                  {' '}
+                  <Photo
+                    blur={<PhotoSelect enabled={selectItem} />}
+                    src={magazine.cover_url}
+                    width={'196px'}
+                    height={'255px'}
+                  />
+                </div>
+              ) : (
+                <Link href={`/magazine/${magazine.magazine_id}`}>
+                  <Photo
+                    blur={<PhotoSelect enabled={selectItem} />}
+                    src={magazine.cover_url}
+                    width={'196px'}
+                    height={'255px'}
+                  />
+                </Link>
+              )}
               <span
                 css={(theme) =>
                   css`
