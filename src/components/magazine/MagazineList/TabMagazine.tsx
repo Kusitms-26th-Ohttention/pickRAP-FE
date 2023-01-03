@@ -21,19 +21,19 @@ const TabMagazine = ({ magazines, selectItem, option, onScrollDown }: TabMagazin
   const ref = useScrollDetect<HTMLDivElement>({ onScroll: onScrollDown });
   const boolOption = option;
 
-  // 썸네일 클릭 시 각 썸네일 별 true일 때만 ids 담기, false일 시 filter를 이용해 다시 제외
-  // selected 조건문 제대로 동작안함. 수정하기
+  // 썸네일 클릭 시 해당 id 추가, 선택 취소 시 id 확인 후 제거
   const [magazineItems, setMagazineItems] = useRecoilState(magazineIdsArray);
-  // const magazineRef = useRef<HTMLDivElement | null>(null);
 
   const selectMagazineItems = useCallback(
-    (selected: any, id: number) => {
-      selected ? setMagazineItems((prev) => [...prev, id]) : setMagazineItems(magazineItems.filter((el) => el !== id));
+    (id: number) => {
+      magazineItems.includes(id)
+        ? setMagazineItems(magazineItems.filter((el) => el !== id))
+        : setMagazineItems((prev) => [...prev, id]);
     },
+    // TODO 해당 경고 고민해보고 수정하기
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [magazineItems],
   );
-
-  console.log(magazineItems);
 
   return (
     <div
@@ -82,7 +82,7 @@ const TabMagazine = ({ magazines, selectItem, option, onScrollDown }: TabMagazin
                     src={magazine.cover_url}
                     width={'196px'}
                     height={'255px'}
-                    onClick={() => selectMagazineItems(ref, magazine.magazine_id)}
+                    onClick={() => selectMagazineItems(magazine.magazine_id)}
                   />
                 </div>
               ) : (
