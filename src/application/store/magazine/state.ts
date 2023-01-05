@@ -66,6 +66,12 @@ export const magazineIdsArray = atom<Array<number>>({
   default: [],
 });
 
+export const deleteMagazineList = selector({
+  key: 'deleteMagazineList',
+  get: ({ get }) => get(magazineIdsArray),
+  set: ({ set }, newValue) => set(magazineIdsArray, (prevValue) => ({ ...prevValue, ...newValue })),
+});
+
 // 다중선택 -> 취소 클릭 시 ids 배열 초기화
 // export const initMagazineArray = selector({
 //   key: 'initMagazineArray',
