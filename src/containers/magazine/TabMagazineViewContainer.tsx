@@ -3,10 +3,11 @@ import Image from 'next/image';
 import React, { useRef, useState } from 'react';
 import { useRecoilState } from 'recoil';
 
-import { useGetMagazines } from '@/application/hooks/api/magazine';
+import { useDeleteMagazines, useGetMagazines } from '@/application/hooks/api/magazine';
 import usePopup from '@/application/hooks/common/usePopup';
 import useToast from '@/application/hooks/common/useToast';
 import type { UseScrollDetectOption } from '@/application/hooks/utils/useScrollDetect';
+import { useMagazineDeleteList } from '@/application/store/magazine/hook';
 import { deleteOption, magazineIdsArray } from '@/application/store/magazine/state';
 import { DeletePopup } from '@/components/common/Popup/Sentence';
 import Tab from '@/components/common/Tab';
@@ -31,13 +32,19 @@ const MyMagazineWithTab = ({ onScrollDown }: MagazineTabProps) => {
   const [selected, setSelected] = useState(initSelectedContext);
   const [option, isOption] = useRecoilState(deleteOption);
   const [, setMagazineItems] = useRecoilState(magazineIdsArray);
+  const magazineItems = useMagazineDeleteList();
   const ref = useRef<SelectContext>('myMagazine');
   const setNavigation = useBottomNavigationContext()[1];
   const { show } = useToast();
   const popup = usePopup();
 
+  console.log(magazineItems);
+
   // TODO 멀티삭제 삭제 토스트 뜬 후에도 네비게이션 바 그대로인 버그 수정해야함(스크랩, 매거진)
+  // DeleteNavigation onClick에 바로 적용될 수 있도록 해당 함수에 delete mutate?
   const handleDeleteMagazine = () => {
+    console.log(magazineItems);
+    handleDeleteIds();
     setSelected({ ...selected, [ref.current]: false });
     popup(DeletePopup, 'success');
   };
@@ -53,6 +60,15 @@ const MyMagazineWithTab = ({ onScrollDown }: MagazineTabProps) => {
       ret[ref.current] = !ret[ref.current];
       return ret;
     });
+  };
+
+  // 매거진 삭제
+  const mutation = useDeleteMagazines();
+  const handleDeleteIds = () => {
+    mutation.mutate(magazineItems, {
+      onSuccess: setMagazineItems([]),
+    });
+    console.log('삭제 성공!');
   };
 
   return (
