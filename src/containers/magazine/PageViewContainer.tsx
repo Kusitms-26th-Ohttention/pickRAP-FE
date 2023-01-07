@@ -22,30 +22,34 @@ const PageViewContainer = ({ pages = PAGES }: Props) => {
           height: 100%;
         `}
       >
-        <ol css={CSSCarouselContainer}>
-          {pages.map((page, idx) => (
-            <li key={page.page_id} id={`${idx}`} css={CSSCarouselItem}>
-              {idx === 0 ? (
-                <MagazinePageProfile {...PROFILE} />
-              ) : (
-                <>
-                  {' '}
-                  <Photo
-                    src={page.file_url || getValidURL(page.contents).toString()}
-                    text={page.contents}
-                    height={'45vh'}
-                  />
-                  <p css={CSSPageContent}>{page.text}</p>
-                </>
-              )}
-              <div css={CSSSnapper} />
-              <div css={CSSCarouselHandle}>
-                <Link href={{ hash: `#${idx === 0 ? pages.length - 1 : idx - 1}` }}>Prev Item</Link>
-                <Link href={{ hash: `#${idx === pages.length - 1 ? 0 : idx + 1}` }}>Next Item</Link>
-              </div>
-            </li>
-          ))}
-        </ol>
+        {pages.length === 0 ? (
+          <MagazinePageProfile {...PROFILE} />
+        ) : (
+          <ol css={CSSCarouselContainer}>
+            {pages.map((page, idx) => (
+              <li key={page.page_id} id={`${idx}`} css={CSSCarouselItem}>
+                {idx === 0 ? (
+                  <MagazinePageProfile {...PROFILE} />
+                ) : (
+                  <>
+                    {' '}
+                    <Photo
+                      src={page.file_url || getValidURL(page.contents).toString()}
+                      text={page.contents}
+                      height={'45vh'}
+                    />
+                    <p css={CSSPageContent}>{page.text}</p>
+                  </>
+                )}
+                <div css={CSSSnapper} />
+                <div css={CSSCarouselHandle}>
+                  <Link href={{ hash: `#${idx === 0 ? pages.length - 1 : idx - 1}` }}>Prev Item</Link>
+                  <Link href={{ hash: `#${idx === pages.length - 1 ? 0 : idx + 1}` }}>Next Item</Link>
+                </div>
+              </li>
+            ))}
+          </ol>
+        )}
       </article>
       <div
         css={css`
@@ -53,8 +57,8 @@ const PageViewContainer = ({ pages = PAGES }: Props) => {
           pointer-events: none;
         `}
       >
-        <Image src={'/icon/magazine/prevPage.svg'} width={48} height={48} />
-        <Image src={'/icon/magazine/nextPage.svg'} width={48} height={48} />
+        <Image src={'/icon/magazine/prevPage.svg'} width={48} height={48} alt="prevPageBtn" />
+        <Image src={'/icon/magazine/nextPage.svg'} width={48} height={48} alt="nextPageBtn" />
       </div>
     </>
   );
