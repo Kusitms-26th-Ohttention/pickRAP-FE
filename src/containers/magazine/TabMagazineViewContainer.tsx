@@ -38,15 +38,11 @@ const MyMagazineWithTab = ({ onScrollDown }: MagazineTabProps) => {
   const { show } = useToast();
   const popup = usePopup();
 
-  console.log(magazineItems);
-
-  // TODO 멀티삭제 삭제 토스트 뜬 후에도 네비게이션 바 그대로인 버그 수정해야함(스크랩, 매거진)
-  // DeleteNavigation onClick에 바로 적용될 수 있도록 해당 함수에 delete mutate?
   const handleDeleteMagazine = () => {
-    console.log(magazineItems);
     handleDeleteIds();
     setSelected({ ...selected, [ref.current]: false });
     popup(DeletePopup, 'success');
+    setNavigation('default');
   };
 
   const showDeleteMagazineToast = () => show({ content: <DeleteScrapToast onDelete={handleDeleteMagazine} /> });
@@ -65,10 +61,17 @@ const MyMagazineWithTab = ({ onScrollDown }: MagazineTabProps) => {
   // 매거진 삭제
   const mutation = useDeleteMagazines();
   const handleDeleteIds = () => {
-    mutation.mutate(magazineItems, {
-      onSuccess: setMagazineItems([]),
-    });
-    console.log('삭제 성공!');
+    console.log('매거진 아이템 확인해보기', magazineItems);
+    mutation.mutate(
+      { ids: magazineItems },
+      {
+        onSuccess: () => {
+          setMagazineItems([]);
+          console.log('삭제 성공!');
+        },
+      },
+    );
+    setMagazineItems([]);
   };
 
   return (

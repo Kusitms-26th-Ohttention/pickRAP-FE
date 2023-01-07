@@ -19,6 +19,7 @@ class MagazineApi {
   };
   deleteMagazines = ({ ids }: DeleteMagazineRequest) => {
     //TODO flat ids array
+    console.log('삭제확인용', `/magazine?ids=${ids}`);
     return this.api.delete(`/magazine?ids=${ids}`);
   };
   getMagazineDetail = ({ id }: GetMagazineDetailRequest) => {
