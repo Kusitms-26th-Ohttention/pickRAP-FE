@@ -23,3 +23,7 @@ export interface SNSLoginResponse {
   data: Record<string, unknown>;
   message: string;
 }
+
+export interface ReIssueRequest {
+  retry?: boolean;
+}

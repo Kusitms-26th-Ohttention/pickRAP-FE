@@ -1,7 +1,7 @@
 import { instance } from '@/infra/api/instance';
-import type { LoginRequest, Logout, SignUpRequest, SNSLoginRequest } from '@/infra/api/types/auth';
+import type { LoginRequest, Logout, ReIssueRequest, SignUpRequest, SNSLoginRequest } from '@/infra/api/types/auth';
 
-class AuthApi {
+export class AuthApi {
   constructor(private api: typeof instance) {}
   logout = () => {
     return this.api.post<Logout>('/log-out');
@@ -12,8 +12,8 @@ class AuthApi {
   signup = (args: SignUpRequest) => {
     return this.api.post('/auth/sign-up', args);
   };
-  reissue = () => {
-    return this.api.post('/auth/reissue');
+  reissue = ({ retry }: ReIssueRequest) => {
+    return this.api.post('/auth/reissue', null, { headers: { retry } });
   };
   snsLogin = (arg: SNSLoginRequest) => {
     const parameter = (Object.keys(arg) as (keyof SNSLoginRequest)[]).reduce(
