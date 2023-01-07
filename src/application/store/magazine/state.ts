@@ -71,14 +71,3 @@ export const deleteMagazineList = selector({
   get: ({ get }) => get(magazineIdsArray),
   set: ({ set }, newValue) => set(magazineIdsArray, (prevValue) => ({ ...prevValue, ...newValue })),
 });
-
-// 다중선택 -> 취소 클릭 시 ids 배열 초기화
-// export const initMagazineArray = selector({
-//   key: 'initMagazineArray',
-//   get: ({ get }) => {
-//     const isOption = get(deleteOption);
-//     if (isOption === false) {
-//       return [];
-//     }
-//   },
-// });

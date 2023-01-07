@@ -32,7 +32,7 @@ const MyMagazineWithTab = ({ onScrollDown }: MagazineTabProps) => {
   const [selected, setSelected] = useState(initSelectedContext);
   const [option, isOption] = useRecoilState(deleteOption);
   const [, setMagazineItems] = useRecoilState(magazineIdsArray);
-  const magazineItems = useMagazineDeleteList();
+  const magazineDeleteList = useMagazineDeleteList();
   const ref = useRef<SelectContext>('myMagazine');
   const setNavigation = useBottomNavigationContext()[1];
   const { show } = useToast();
@@ -40,9 +40,9 @@ const MyMagazineWithTab = ({ onScrollDown }: MagazineTabProps) => {
 
   const handleDeleteMagazine = () => {
     handleDeleteIds();
+    resetMagazineStates();
     setSelected({ ...selected, [ref.current]: false });
     popup(DeletePopup, 'success');
-    setNavigation('default');
   };
 
   const showDeleteMagazineToast = () => show({ content: <DeleteScrapToast onDelete={handleDeleteMagazine} /> });
@@ -61,17 +61,13 @@ const MyMagazineWithTab = ({ onScrollDown }: MagazineTabProps) => {
   // 매거진 삭제
   const mutation = useDeleteMagazines();
   const handleDeleteIds = () => {
-    console.log('매거진 아이템 확인해보기', magazineItems);
-    mutation.mutate(
-      { ids: magazineItems },
-      {
-        onSuccess: () => {
-          setMagazineItems([]);
-          console.log('삭제 성공!');
-        },
-      },
-    );
+    mutation.mutate({ ids: magazineDeleteList });
+  };
+
+  const resetMagazineStates = () => {
+    isOption(false);
     setMagazineItems([]);
+    setNavigation('default');
   };
 
   return (
