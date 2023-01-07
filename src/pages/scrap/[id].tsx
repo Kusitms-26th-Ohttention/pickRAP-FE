@@ -34,7 +34,7 @@ const ShowScrap: NextPage = () => {
       ? { text: scrap?.content, type: scrapType }
       : scrapType === 'image'
       ? { src: scrap?.file_url, type: scrapType }
-      : { src: scrap?.url_preview, type: scrapType };
+      : { src: scrap?.url_preview, type: scrapType, href: scrap?.content || '' };
 
   return (
     <>
