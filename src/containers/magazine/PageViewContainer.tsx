@@ -5,8 +5,9 @@ import Link from 'next/link';
 import React from 'react';
 
 import { getValidURL } from '@/application/utils/helper';
-import { PAGES } from '@/application/utils/mock';
+import { PAGES, PROFILE } from '@/application/utils/mock';
 import Photo from '@/components/common/Photo';
+import MagazinePageProfile from '@/components/magazine/MagazinePageProfile';
 
 interface Props {
   pages: Page[];
@@ -24,6 +25,8 @@ const PageViewContainer = ({ pages = PAGES }: Props) => {
         <ol css={CSSCarouselContainer}>
           {pages.map((page, idx) => (
             <li key={page.page_id} id={`${idx}`} css={CSSCarouselItem}>
+              {/* 캐러셀 사진, 콘텐츠 자리 */}
+              {/* <MagazinePageProfile {...PROFILE} /> */}
               <Photo
                 src={page.file_url || getValidURL(page.contents).toString()}
                 text={page.contents}
