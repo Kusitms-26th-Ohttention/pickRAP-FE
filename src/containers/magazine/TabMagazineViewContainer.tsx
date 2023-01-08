@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 import Image from 'next/image';
-import React, { useRef, useState } from 'react';
-import { useRecoilState } from 'recoil';
+import React, { useEffect, useRef, useState } from 'react';
+import { useRecoilState, useResetRecoilState } from 'recoil';
 
 import { useDeleteMagazines, useGetMagazines } from '@/application/hooks/api/magazine';
 import usePopup from '@/application/hooks/common/usePopup';
@@ -31,15 +31,15 @@ const MyMagazineWithTab = ({ onScrollDown }: MagazineTabProps) => {
 
   const [selected, setSelected] = useState(initSelectedContext);
   const [option, isOption] = useRecoilState(deleteOption);
-  const [, setMagazineItems] = useRecoilState(magazineIdsArray);
+  const [deleteState, setDeleteState] = useState(false);
   const magazineDeleteList = useMagazineDeleteList();
+  const resetDeleteItem = useResetRecoilState(magazineIdsArray);
   const ref = useRef<SelectContext>('myMagazine');
   const setNavigation = useBottomNavigationContext()[1];
   const { show } = useToast();
   const popup = usePopup();
 
   const handleDeleteMagazine = () => {
-    handleDeleteIds();
     resetMagazineStates();
     setSelected({ ...selected, [ref.current]: false });
     popup(DeletePopup, 'success');
@@ -61,14 +61,26 @@ const MyMagazineWithTab = ({ onScrollDown }: MagazineTabProps) => {
   // 매거진 삭제
   const mutation = useDeleteMagazines();
   const handleDeleteIds = () => {
-    mutation.mutate({ ids: magazineDeleteList });
+    mutation.mutate(
+      { ids: magazineDeleteList },
+      {
+        onSuccess: () => resetDeleteItem(),
+      },
+    );
   };
 
   const resetMagazineStates = () => {
     isOption(false);
-    setMagazineItems([]);
     setNavigation('default');
+    setDeleteState(!deleteState);
   };
+
+  useEffect(() => {
+    if (deleteState === true) {
+      handleDeleteIds();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [deleteState]);
 
   return (
     <Tab>
@@ -85,7 +97,7 @@ const MyMagazineWithTab = ({ onScrollDown }: MagazineTabProps) => {
             `}
           >
             {selected[ref.current] ? (
-              <p onClick={() => setMagazineItems([])}>취소</p>
+              <p onClick={() => resetDeleteItem()}>취소</p>
             ) : (
               <Image src={'/icon/multiSelect.svg'} width={18} height={18} alt="삭제아이콘" />
             )}
