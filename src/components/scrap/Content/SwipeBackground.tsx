@@ -1,8 +1,12 @@
 import { css } from '@emotion/react';
 import Image from 'next/image';
+import Link from 'next/link';
 import React from 'react';
 
-type SwipeBackgroundProps = { type: 'image' | 'link'; src?: string } | { type: 'text'; text?: string };
+type SwipeBackgroundProps =
+  | { type: 'image'; src?: string }
+  | { type: 'text'; text?: string }
+  | { type: 'link'; src?: string; href: string };
 
 const SwipeBackground = (props: SwipeBackgroundProps) => {
   return (
@@ -17,7 +21,7 @@ const SwipeBackground = (props: SwipeBackgroundProps) => {
         margin: auto;
       `}
     >
-      {props.type === 'image' || props.type === 'link' ? (
+      {props.type === 'image' ? (
         <Image priority src={props.src || '/icon/scrap/defaultCategory.svg'} layout="fill" objectFit={'cover'} />
       ) : props.type === 'text' ? (
         <span
@@ -37,8 +41,13 @@ const SwipeBackground = (props: SwipeBackgroundProps) => {
         >
           {props.text}
         </span>
-      ) : // TODO link preview
-      null}
+      ) : (
+        <Link href={props.href}>
+          <a rel="noopener noreferrer" target="_blank">
+            <Image priority src={props.src || '/icon/scrap/defaultCategory.svg'} layout="fill" objectFit={'cover'} />
+          </a>
+        </Link>
+      )}
     </div>
   );
 };
