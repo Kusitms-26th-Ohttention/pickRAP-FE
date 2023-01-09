@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 import Link from 'next/link';
-import { useCallback } from 'react';
+import { useCallback, useRef } from 'react';
 import { useRecoilState } from 'recoil';
 
 import type { UseScrollDetectOption } from '@/application/hooks/utils/useScrollDetect';
@@ -22,17 +22,15 @@ const TabMagazine = ({ magazines, selectItem, selectDeleteOption, onScrollDown }
   const multiSelectOn = selectDeleteOption;
 
   // 썸네일 클릭 시 해당 id 추가, 선택 취소 시 id 확인 후 제거
-  const [magazineItems, setMagazineItems] = useRecoilState(magazineIdsArray);
+  const [, setMagazineItems] = useRecoilState(magazineIdsArray);
+  const pickSet = useRef(new Set<number>());
 
   const selectMagazineItems = useCallback(
     (id: number) => {
-      magazineItems.includes(id)
-        ? setMagazineItems(magazineItems.filter((el) => el !== id))
-        : setMagazineItems((prev) => [...prev, id]);
+      pickSet.current.has(id) ? pickSet.current.delete(id) : pickSet.current.add(id);
+      setMagazineItems(Array.from(pickSet.current));
     },
-    // TODO 해당 경고 고민해보고 수정하기
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [magazineItems],
+    [pickSet, setMagazineItems],
   );
 
   return (
