@@ -11,9 +11,12 @@ import MagazinePageProfile from '@/components/magazine/MagazinePageProfile';
 
 interface Props {
   pages: Page[];
+  magazineId: number | undefined;
 }
 
-const PageViewContainer = ({ pages = PAGES }: Props) => {
+const PageViewContainer = ({ pages = PAGES, magazineId }: Props) => {
+  console.log(magazineId);
+
   return (
     <>
       <article
@@ -22,34 +25,31 @@ const PageViewContainer = ({ pages = PAGES }: Props) => {
           height: 100%;
         `}
       >
-        {pages.length === 0 ? (
-          <MagazinePageProfile {...PROFILE} />
-        ) : (
-          <ol css={CSSCarouselContainer}>
-            {pages.map((page, idx) => (
-              <li key={page.page_id} id={`${idx}`} css={CSSCarouselItem}>
-                {idx === 0 ? (
-                  <MagazinePageProfile {...PROFILE} />
-                ) : (
-                  <>
-                    {' '}
-                    <Photo
-                      src={page.file_url || getValidURL(page.contents).toString()}
-                      text={page.contents}
-                      height={'45vh'}
-                    />
-                    <p css={CSSPageContent}>{page.text}</p>
-                  </>
-                )}
-                <div css={CSSSnapper} />
-                <div css={CSSCarouselHandle}>
-                  <Link href={{ hash: `#${idx === 0 ? pages.length - 1 : idx - 1}` }}>Prev Item</Link>
-                  <Link href={{ hash: `#${idx === pages.length - 1 ? 0 : idx + 1}` }}>Next Item</Link>
-                </div>
-              </li>
-            ))}
-          </ol>
-        )}
+        <ol css={CSSCarouselContainer}>
+          <li css={CSSCarouselItem}>
+            <MagazinePageProfile {...PROFILE} />
+            <div css={CSSSnapper} />
+            <div css={CSSCarouselHandle}>
+              <Link href={{ hash: `#${pages.length}` }}>Prev Item</Link>
+              <Link href={{ hash: `#1` }}>Next Item</Link>
+            </div>
+          </li>
+          {pages.map((page, idx) => (
+            <li key={page.page_id} id={`${idx + 1}`} css={CSSCarouselItem}>
+              <Photo
+                src={page.file_url || getValidURL(page.contents).toString()}
+                text={page.contents}
+                height={'45vh'}
+              />
+              <p css={CSSPageContent}>{page.text}</p>
+              <div css={CSSSnapper} />
+              <div css={CSSCarouselHandle}>
+                <Link href={{ hash: `#${idx === 0 ? pages.length : idx}` }}>Prev Item</Link>
+                <Link href={{ hash: `#${idx === pages.length - 1 ? 1 : idx + 2}` }}>Next Item</Link>
+              </div>
+            </li>
+          ))}
+        </ol>
       </article>
       <div
         css={css`
@@ -116,4 +116,5 @@ const CSSSnapper = css`
   height: 100%;
   scroll-snap-align: center;
 `;
+
 export default PageViewContainer;
