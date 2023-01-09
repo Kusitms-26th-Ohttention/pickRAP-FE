@@ -5,14 +5,18 @@ import Link from 'next/link';
 import React from 'react';
 
 import { getValidURL } from '@/application/utils/helper';
-import { PAGES } from '@/application/utils/mock';
+import { PAGES, PROFILE } from '@/application/utils/mock';
 import Photo from '@/components/common/Photo';
+import MagazinePageProfile from '@/components/magazine/MagazinePageProfile';
 
 interface Props {
   pages: Page[];
+  magazineId: number | undefined;
 }
 
-const PageViewContainer = ({ pages = PAGES }: Props) => {
+const PageViewContainer = ({ pages = PAGES, magazineId }: Props) => {
+  console.log(magazineId);
+
   return (
     <>
       <article
@@ -22,8 +26,16 @@ const PageViewContainer = ({ pages = PAGES }: Props) => {
         `}
       >
         <ol css={CSSCarouselContainer}>
+          <li css={CSSCarouselItem}>
+            <MagazinePageProfile {...PROFILE} />
+            <div css={CSSSnapper} />
+            <div css={CSSCarouselHandle}>
+              <Link href={{ hash: `#${pages.length}` }}>Prev Item</Link>
+              <Link href={{ hash: `#1` }}>Next Item</Link>
+            </div>
+          </li>
           {pages.map((page, idx) => (
-            <li key={page.page_id} id={`${idx}`} css={CSSCarouselItem}>
+            <li key={page.page_id} id={`${idx + 1}`} css={CSSCarouselItem}>
               <Photo
                 src={page.file_url || getValidURL(page.contents).toString()}
                 text={page.contents}
@@ -32,8 +44,8 @@ const PageViewContainer = ({ pages = PAGES }: Props) => {
               <p css={CSSPageContent}>{page.text}</p>
               <div css={CSSSnapper} />
               <div css={CSSCarouselHandle}>
-                <Link href={{ hash: `#${idx === 0 ? pages.length - 1 : idx - 1}` }}>Prev Item</Link>
-                <Link href={{ hash: `#${idx === pages.length - 1 ? 0 : idx + 1}` }}>Next Item</Link>
+                <Link href={{ hash: `#${idx === 0 ? pages.length : idx}` }}>Prev Item</Link>
+                <Link href={{ hash: `#${idx === pages.length - 1 ? 1 : idx + 2}` }}>Next Item</Link>
               </div>
             </li>
           ))}
@@ -45,8 +57,8 @@ const PageViewContainer = ({ pages = PAGES }: Props) => {
           pointer-events: none;
         `}
       >
-        <Image src={'/icon/magazine/prevPage.svg'} width={48} height={48} />
-        <Image src={'/icon/magazine/nextPage.svg'} width={48} height={48} />
+        <Image src={'/icon/magazine/prevPage.svg'} width={48} height={48} alt="prevPageBtn" />
+        <Image src={'/icon/magazine/nextPage.svg'} width={48} height={48} alt="nextPageBtn" />
       </div>
     </>
   );
@@ -104,4 +116,5 @@ const CSSSnapper = css`
   height: 100%;
   scroll-snap-align: center;
 `;
+
 export default PageViewContainer;

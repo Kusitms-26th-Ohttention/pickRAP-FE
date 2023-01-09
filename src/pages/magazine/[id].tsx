@@ -56,7 +56,7 @@ const ShowMagazine: NextPage = () => {
           {magazine && `${magazine.created_date[0]}. ${magazine.created_date[1]}. ${magazine.created_date[2]}`}
         </span>
       </div>
-      <PageViewContainer pages={magazine?.page_list || []} />
+      <PageViewContainer pages={magazine?.page_list || []} magazineId={magazine?.magazine_id} />
     </>
   );
 };
