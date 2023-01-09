@@ -13,13 +13,13 @@ import NoMagazine from '@/components/magazine/NoMagazine';
 interface TabMagazineProps {
   magazines: MagazineThumbnail[];
   selectItem?: boolean;
-  option?: boolean;
+  selectDeleteOption?: boolean;
   onScrollDown?: UseScrollDetectOption['onScroll'];
 }
 
-const TabMagazine = ({ magazines, selectItem, option, onScrollDown }: TabMagazineProps) => {
+const TabMagazine = ({ magazines, selectItem, selectDeleteOption, onScrollDown }: TabMagazineProps) => {
   const ref = useScrollDetect<HTMLDivElement>({ onScroll: onScrollDown });
-  const boolOption = option;
+  const multiSelectOn = selectDeleteOption;
 
   // 썸네일 클릭 시 해당 id 추가, 선택 취소 시 id 확인 후 제거
   const [magazineItems, setMagazineItems] = useRecoilState(magazineIdsArray);
@@ -75,7 +75,7 @@ const TabMagazine = ({ magazines, selectItem, option, onScrollDown }: TabMagazin
                 `
               }
             >
-              {boolOption ? (
+              {multiSelectOn ? (
                 <div>
                   <Photo
                     blur={<PhotoSelect enabled={selectItem} />}
