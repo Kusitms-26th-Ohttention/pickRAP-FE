@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 import Image from 'next/image';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useRecoilState, useResetRecoilState } from 'recoil';
 
 import { useDeleteMagazines, useGetMagazines } from '@/application/hooks/api/magazine';
@@ -59,14 +59,16 @@ const MyMagazineWithTab = ({ onScrollDown }: MagazineTabProps) => {
 
   // 매거진 삭제
   const mutation = useDeleteMagazines();
-  const handleDeleteIds = () => {
+  const handleDeleteIds = useCallback(() => {
     mutation.mutate(
-      { ids: magazineDeleteList },
+      {
+        ids: magazineDeleteList,
+      },
       {
         onSuccess: () => resetDeleteItem(),
       },
     );
-  };
+  }, [mutation, magazineDeleteList, resetDeleteItem]);
 
   const resetMagazineStates = () => {
     isSelectDeleteBtn(false);
@@ -77,9 +79,9 @@ const MyMagazineWithTab = ({ onScrollDown }: MagazineTabProps) => {
   useEffect(() => {
     if (deleteState === true) {
       handleDeleteIds();
+      setDeleteState(false);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [deleteState]);
+  }, [deleteState, handleDeleteIds]);
 
   return (
     <Tab>
