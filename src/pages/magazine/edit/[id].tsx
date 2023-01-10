@@ -5,11 +5,16 @@ import { useRouter } from 'next/router';
 import React, { useMemo, useState } from 'react';
 
 import { useUpdateMagazine } from '@/application/hooks/api/magazine';
+import usePopup from '@/application/hooks/common/usePopup';
 import useToast from '@/application/hooks/common/useToast';
 import { useEditPageReset, useEditPageSet } from '@/application/store/edit/hook';
 import { useMagazineInfo, useResetMagazineInfo, useSetMagazineInfo } from '@/application/store/magazine/hook';
 import SelectCategoryWithContent from '@/components/category/Select/SelectCategoryWithContent';
 import { ActiveButton } from '@/components/common/Button';
+import { DeletePopup } from '@/components/common/Popup/Sentence';
+import DeleteNavigation from '@/components/scrap/DeleteNavigation';
+import { DeleteScrapToast } from '@/components/scrap/Toast';
+import { useBottomNavigationContext } from '@/containers/HOC/NavigationContext';
 import MagazineCreateContainer from '@/containers/magazine/MagazineCreateContainer';
 
 /**
@@ -27,6 +32,23 @@ const EditMagazine: NextPage = () => {
   const mutation = useUpdateMagazine();
   const resetMagazineInfo = useResetMagazineInfo();
   const resetEditPage = useEditPageReset();
+
+  // 스크랩, 매거진 페이지같이 옵션선택이 없으므로 바로 boolean 설정
+  const [selected, setSelected] = useState(false);
+  const setNavigation = useBottomNavigationContext()[1];
+  const popup = usePopup();
+
+  const handleDeletePages = () => {
+    setSelected(false);
+    popup(DeletePopup, 'success');
+  };
+
+  const showDeletePagesToast = () => show({ content: <DeleteScrapToast onDelete={handleDeletePages} /> });
+
+  const handleMultiSelect = () => {
+    setSelected(true);
+    selected ? setNavigation('default') : setNavigation(<DeleteNavigation onClick={showDeletePagesToast} />);
+  };
 
   const handleBack = () => {
     router.replace(`/magazine/${id}`).then(() => {
@@ -118,6 +140,7 @@ const EditMagazine: NextPage = () => {
           <Image src={'/icon/backArrow.svg'} layout={'fill'} objectFit={'cover'} />
         </span>
         <span
+          onClick={handleMultiSelect}
           css={(theme) =>
             css`
               ${theme.font.R_BODY_15};
@@ -128,7 +151,7 @@ const EditMagazine: NextPage = () => {
             `
           }
         >
-          <Image src={'/icon/multiSelect.svg'} width={18} height={18} />
+          {selected ? '취소' : <Image src={'/icon/multiSelect.svg'} width={18} height={18} alt="삭제아이콘" />}
         </span>
       </div>
       <MagazineCreateContainer thumbnails={pages} />
