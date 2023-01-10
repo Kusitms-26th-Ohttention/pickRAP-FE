@@ -18,7 +18,6 @@ class MagazineApi {
     return this.api.post(`/magazine`, args);
   };
   deleteMagazines = ({ ids }: DeleteMagazineRequest) => {
-    //TODO flat ids array
     return this.api.delete(`/magazine?ids=${ids}`);
   };
   getMagazineDetail = ({ id }: GetMagazineDetailRequest) => {
