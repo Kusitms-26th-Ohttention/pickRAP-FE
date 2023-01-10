@@ -8,7 +8,7 @@ import usePopup from '@/application/hooks/common/usePopup';
 import useToast from '@/application/hooks/common/useToast';
 import type { UseScrollDetectOption } from '@/application/hooks/utils/useScrollDetect';
 import { useMagazineDeleteList } from '@/application/store/magazine/hook';
-import { deleteOption, magazineIdsArray } from '@/application/store/magazine/state';
+import { magazineIdsArray, multiDelete } from '@/application/store/magazine/state';
 import { DeletePopup } from '@/components/common/Popup/Sentence';
 import Tab from '@/components/common/Tab';
 import { TabMagazine } from '@/components/magazine/MagazineList';
@@ -18,7 +18,6 @@ import { DeleteScrapToast } from '@/components/scrap/Toast';
 import { useBottomNavigationContext } from '../HOC/NavigationContext';
 
 interface MagazineTabProps {
-  deleteOption?: boolean;
   onScrollDown?: UseScrollDetectOption['onScroll'];
 }
 
@@ -30,7 +29,7 @@ const MyMagazineWithTab = ({ onScrollDown }: MagazineTabProps) => {
   const { magazines } = useGetMagazines();
 
   const [selected, setSelected] = useState(initSelectedContext);
-  const [selectDeleteOption, isSelectDeleteOption] = useRecoilState(deleteOption);
+  const [selectDeleteBtn, isSelectDeleteBtn] = useRecoilState(multiDelete);
   const [deleteState, setDeleteState] = useState(false);
   const magazineDeleteList = useMagazineDeleteList();
   const resetDeleteItem = useResetRecoilState(magazineIdsArray);
@@ -48,7 +47,7 @@ const MyMagazineWithTab = ({ onScrollDown }: MagazineTabProps) => {
   const showDeleteMagazineToast = () => show({ content: <DeleteScrapToast onDelete={handleDeleteMagazine} /> });
 
   const handleMultiSelect = () => {
-    isSelectDeleteOption(!selectDeleteOption);
+    isSelectDeleteBtn(!selectDeleteBtn);
     setSelected((prev) => {
       const ret = { ...prev };
       const deleted = ret[ref.current];
@@ -70,7 +69,7 @@ const MyMagazineWithTab = ({ onScrollDown }: MagazineTabProps) => {
   };
 
   const resetMagazineStates = () => {
-    isSelectDeleteOption(false);
+    isSelectDeleteBtn(false);
     setNavigation('default');
     setDeleteState(!deleteState);
   };
@@ -113,7 +112,7 @@ const MyMagazineWithTab = ({ onScrollDown }: MagazineTabProps) => {
             magazines={magazines}
             onScrollDown={onScrollDown}
             selectItem={selected.myMagazine}
-            selectDeleteOption={selectDeleteOption}
+            selectDeleteBtn={selectDeleteBtn}
           />
         </Tab.Content>
         <Tab.Content>
@@ -121,7 +120,7 @@ const MyMagazineWithTab = ({ onScrollDown }: MagazineTabProps) => {
             magazines={[]}
             onScrollDown={onScrollDown}
             selectItem={selected.saveMagazine}
-            selectDeleteOption={selectDeleteOption}
+            selectDeleteBtn={selectDeleteBtn}
           />
         </Tab.Content>
       </Tab.Panel>

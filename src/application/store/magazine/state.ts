@@ -56,7 +56,7 @@ export const magazineInfoSelector = selector<Partial<MagazineState>>({
     !(newValue instanceof DefaultValue) && set(magazineState, (prevValue) => ({ ...prevValue, ...newValue })),
 });
 
-export const deleteOption = atom({
+export const multiDelete = atom({
   key: 'deleteOption',
   default: false,
 });

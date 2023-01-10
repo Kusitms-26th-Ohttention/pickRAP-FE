@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 import Link from 'next/link';
 import { useCallback, useRef } from 'react';
-import { useRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 
 import type { UseScrollDetectOption } from '@/application/hooks/utils/useScrollDetect';
 import useScrollDetect from '@/application/hooks/utils/useScrollDetect';
@@ -13,16 +13,16 @@ import NoMagazine from '@/components/magazine/NoMagazine';
 interface TabMagazineProps {
   magazines: MagazineThumbnail[];
   selectItem?: boolean;
-  selectDeleteOption?: boolean;
+  selectDeleteBtn?: boolean;
   onScrollDown?: UseScrollDetectOption['onScroll'];
 }
 
-const TabMagazine = ({ magazines, selectItem, selectDeleteOption, onScrollDown }: TabMagazineProps) => {
+const TabMagazine = ({ magazines, selectItem, selectDeleteBtn, onScrollDown }: TabMagazineProps) => {
   const ref = useScrollDetect<HTMLDivElement>({ onScroll: onScrollDown });
-  const multiSelectOn = selectDeleteOption;
+  const multiSelectOn = selectDeleteBtn;
 
   // 썸네일 클릭 시 해당 id 추가, 선택 취소 시 id 확인 후 제거
-  const [, setMagazineItems] = useRecoilState(magazineIdsArray);
+  const setMagazineItems = useSetRecoilState(magazineIdsArray);
   const pickSet = useRef(new Set<number>());
 
   const selectMagazineItems = useCallback(
