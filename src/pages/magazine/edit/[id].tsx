@@ -74,6 +74,7 @@ const EditMagazine: NextPage = () => {
         cover_url: coverUrl,
         title: '표지 변경',
         magazine_id: 0,
+        scrap_id: 0,
         onClick: () =>
           show({
             content: (
@@ -99,6 +100,7 @@ const EditMagazine: NextPage = () => {
       cover_url: '/icon/magazine/addPage.svg',
       title: '페이지 추가',
       magazine_id: 0,
+      scrap_id: 0,
       onClick: () =>
         show({
           content: (

@@ -74,7 +74,7 @@ const MagazineCreateContainer = ({ thumbnails, selectItem }: Props) => {
               position: relative;
             `}
           >
-            <Image src={'/icon/edit.svg'} layout={'fill'} objectFit={'cover'} />
+            <Image src={'/icon/edit.svg'} layout={'fill'} objectFit={'cover'} alt="편집아이콘" />
           </button>
         </span>
         <span
