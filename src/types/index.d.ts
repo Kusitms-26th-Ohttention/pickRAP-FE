@@ -42,6 +42,7 @@ interface MagazineThumbnail {
   cover_url: string;
   title: string;
   magazine_id: number;
+  scrap_id?: number;
   placeholder?: string;
 }
 

@@ -8,7 +8,12 @@ import { useUpdateMagazine } from '@/application/hooks/api/magazine';
 import usePopup from '@/application/hooks/common/usePopup';
 import useToast from '@/application/hooks/common/useToast';
 import { useEditPageReset, useEditPageSet } from '@/application/store/edit/hook';
-import { useMagazineInfo, useResetMagazineInfo, useSetMagazineInfo } from '@/application/store/magazine/hook';
+import {
+  useMagazineInfo,
+  usePageDeleteList,
+  useResetMagazineInfo,
+  useSetMagazineInfo,
+} from '@/application/store/magazine/hook';
 import SelectCategoryWithContent from '@/components/category/Select/SelectCategoryWithContent';
 import { ActiveButton } from '@/components/common/Button';
 import { DeletePopup } from '@/components/common/Popup/Sentence';
@@ -27,6 +32,9 @@ const EditMagazine: NextPage = () => {
   const mutation = useUpdateMagazine();
   const resetMagazineInfo = useResetMagazineInfo();
   const resetEditPage = useEditPageReset();
+
+  const pageDeleteItem = usePageDeleteList();
+  console.log(pageDeleteItem);
 
   // 스크랩, 매거진 페이지같이 옵션선택이 없으므로 바로 boolean 설정
   const [selected, setSelected] = useState(false);
@@ -64,7 +72,7 @@ const EditMagazine: NextPage = () => {
     const ret: (MagazineThumbnail & { onClick?: () => void })[] = [
       {
         cover_url: coverUrl,
-        title: '1 페이지',
+        title: '표지 변경',
         magazine_id: 0,
         onClick: () =>
           show({
@@ -81,8 +89,9 @@ const EditMagazine: NextPage = () => {
       },
       ...magazineInfo.page_list.map((page, idx) => ({
         cover_url: page.src,
-        title: `${idx + 2} 페이지`,
+        title: `${idx + 1} 페이지`,
         magazine_id: idx,
+        scrap_id: page.scrap_id,
       })),
     ];
 
@@ -148,18 +157,20 @@ const EditMagazine: NextPage = () => {
         </span>
       </div>
       <MagazineCreateContainer thumbnails={pages} selectItem={selected} />
-      <ActiveButton
-        active={!!coverUrl}
-        onClick={handleComplete}
-        custom={css`
-          margin-top: auto;
-        `}
-      >
-        완료
-      </ActiveButton>
-      {selected && <DeleteNavigation onClick={showDeletePagesToast} />}
+      {selected === true ? (
+        <DeleteNavigation onClick={showDeletePagesToast} />
+      ) : (
+        <ActiveButton
+          active={!!coverUrl}
+          onClick={handleComplete}
+          custom={css`
+            margin-top: auto;
+          `}
+        >
+          완료
+        </ActiveButton>
+      )}
     </>
   );
 };
-
 export default EditMagazine;
