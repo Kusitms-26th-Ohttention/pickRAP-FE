@@ -14,13 +14,8 @@ import { ActiveButton } from '@/components/common/Button';
 import { DeletePopup } from '@/components/common/Popup/Sentence';
 import DeleteNavigation from '@/components/scrap/DeleteNavigation';
 import { DeleteScrapToast } from '@/components/scrap/Toast';
-import { useBottomNavigationContext } from '@/containers/HOC/NavigationContext';
 import MagazineCreateContainer from '@/containers/magazine/MagazineCreateContainer';
 
-/**
- * @todo
- * 수정 페이지 완성
- */
 const EditMagazine: NextPage = () => {
   const router = useRouter();
   const id = router.query.id ? Number(router.query.id) : 0;
@@ -35,7 +30,6 @@ const EditMagazine: NextPage = () => {
 
   // 스크랩, 매거진 페이지같이 옵션선택이 없으므로 바로 boolean 설정
   const [selected, setSelected] = useState(false);
-  const setNavigation = useBottomNavigationContext()[1];
   const popup = usePopup();
 
   const handleDeletePages = () => {
@@ -46,8 +40,7 @@ const EditMagazine: NextPage = () => {
   const showDeletePagesToast = () => show({ content: <DeleteScrapToast onDelete={handleDeletePages} /> });
 
   const handleMultiSelect = () => {
-    setSelected(true);
-    selected ? setNavigation('default') : setNavigation(<DeleteNavigation onClick={showDeletePagesToast} />);
+    setSelected(!selected);
   };
 
   const handleBack = () => {
@@ -137,7 +130,7 @@ const EditMagazine: NextPage = () => {
             left: 0;
           `}
         >
-          <Image src={'/icon/backArrow.svg'} layout={'fill'} objectFit={'cover'} />
+          <Image src={'/icon/backArrow.svg'} layout={'fill'} objectFit={'cover'} alt="뒤로가기" />
         </span>
         <span
           onClick={handleMultiSelect}
@@ -154,7 +147,7 @@ const EditMagazine: NextPage = () => {
           {selected ? '취소' : <Image src={'/icon/multiSelect.svg'} width={18} height={18} alt="삭제아이콘" />}
         </span>
       </div>
-      <MagazineCreateContainer thumbnails={pages} />
+      <MagazineCreateContainer thumbnails={pages} selectItem={selected} />
       <ActiveButton
         active={!!coverUrl}
         onClick={handleComplete}
@@ -164,6 +157,7 @@ const EditMagazine: NextPage = () => {
       >
         완료
       </ActiveButton>
+      {selected && <DeleteNavigation onClick={showDeletePagesToast} />}
     </>
   );
 };

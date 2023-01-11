@@ -4,8 +4,9 @@ import PageListItem from '@/components/magazine/PhotoListItem';
 
 interface Props {
   pages: (MagazineThumbnail & { onClick?: () => void })[];
+  selectItem?: boolean;
 }
-const PageList = ({ pages }: Props) => {
+const PageList = ({ pages, selectItem }: Props) => {
   return (
     <div
       css={css`
@@ -16,7 +17,7 @@ const PageList = ({ pages }: Props) => {
       `}
     >
       {pages.map((page, idx) => (
-        <PageListItem key={idx} item={page} ratio={'100/134'} onClick={page.onClick} />
+        <PageListItem key={idx} item={page} ratio={'100/134'} onClick={page.onClick} selectItem={selectItem} />
       ))}
     </div>
   );

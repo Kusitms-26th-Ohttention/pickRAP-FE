@@ -11,12 +11,9 @@ import MagazinePageProfile from '@/components/magazine/MagazinePageProfile';
 
 interface Props {
   pages: Page[];
-  magazineId: number | undefined;
 }
 
-const PageViewContainer = ({ pages = PAGES, magazineId }: Props) => {
-  console.log(magazineId);
-
+const PageViewContainer = ({ pages = PAGES }: Props) => {
   return (
     <>
       <article
