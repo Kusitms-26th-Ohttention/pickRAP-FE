@@ -11,8 +11,6 @@ interface Props {
 }
 
 const PageList = ({ pages, selectItem }: Props) => {
-  console.log('페이지 정보들', pages);
-
   // 썸네일 클릭 시 해당 id 추가, 선택 취소 시 id 확인 후 제거
   const setPageItems = useSetRecoilState(pageIdsArray);
   const pickSet = useRef(new Set<number>());
@@ -35,7 +33,7 @@ const PageList = ({ pages, selectItem }: Props) => {
       `}
     >
       {pages.map((page, idx) => (
-        <div key={idx} onClick={() => selectItem && selectPageItems(page.scrap_id)}>
+        <div key={idx} onClick={() => selectItem && selectPageItems(page.scrap_id!)}>
           <PageListItem item={page} ratio={'100/134'} onClick={page.onClick} selectItem={selectItem} />
         </div>
       ))}

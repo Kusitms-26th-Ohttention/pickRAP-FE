@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import React, { useMemo, useState } from 'react';
 
-import { useUpdateMagazine } from '@/application/hooks/api/magazine';
+import { useDeletePages, useUpdateMagazine } from '@/application/hooks/api/magazine';
 import usePopup from '@/application/hooks/common/usePopup';
 import useToast from '@/application/hooks/common/useToast';
 import { useEditPageReset, useEditPageSet } from '@/application/store/edit/hook';
@@ -34,13 +34,13 @@ const EditMagazine: NextPage = () => {
   const resetEditPage = useEditPageReset();
 
   const pageDeleteItem = usePageDeleteList();
-  console.log(pageDeleteItem);
 
   // 스크랩, 매거진 페이지같이 옵션선택이 없으므로 바로 boolean 설정
   const [selected, setSelected] = useState(false);
   const popup = usePopup();
 
   const handleDeletePages = () => {
+    requestDeletePage();
     setSelected(false);
     popup(DeletePopup, 'success');
   };
@@ -49,6 +49,17 @@ const EditMagazine: NextPage = () => {
 
   const handleMultiSelect = () => {
     setSelected(!selected);
+  };
+
+  // 매거진 페이지 삭제
+  const pageMutation = useDeletePages();
+  const requestDeletePage = () => {
+    pageMutation.mutate(
+      { ids: pageDeleteItem },
+      {
+        onSuccess: handleBack,
+      },
+    );
   };
 
   const handleBack = () => {
