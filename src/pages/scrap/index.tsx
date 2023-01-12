@@ -1,12 +1,12 @@
 import { css } from '@emotion/react';
 import type { NextPage } from 'next';
 import Image from 'next/image';
-import { useRouter } from 'next/router';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 
 import { useDeleteCategory } from '@/application/hooks/api/category';
 import usePopup from '@/application/hooks/common/usePopup';
 import useToast from '@/application/hooks/common/useToast';
+import { magazineIdsArray } from '@/application/store/magazine/state';
 import { useCategoryDeleteList, useResetCategoryDeleteList } from '@/application/store/scrap/categoryHook';
 import { DeletePopup } from '@/components/common/Popup/Sentence';
 import Search from '@/components/common/Search';
@@ -28,10 +28,7 @@ const initSelectedContext = { category: false, content: false, categoryInfo: fal
 type SelectContextKey = keyof typeof initSelectedContext;
 
 const Scrap: NextPage = () => {
-  const router = useRouter();
   const [selected, setSelected] = useState(initSelectedContext);
-  const [selectDeleteBtn, isSelectDeleteBtn] = useState(false);
-  const [deleteState, isDeleteState] = useState(false);
   const [searchString, setSearchString] = useState('');
 
   const categoryDeleteItem = useCategoryDeleteList();
@@ -46,12 +43,12 @@ const Scrap: NextPage = () => {
   const popup = usePopup();
 
   const handleDeleteScrap = () => {
-    // TODO select 된 사진들 삭제 요청 mutation
-    // TODO select 된 category id / content id 관리
-    resetCategoryStates();
+    // requestDeleteCategory();
     setSelected({ ...selected, [ref.current]: false });
     popup(DeletePopup, 'success');
   };
+
+  // 현재는 뒤로가기, 삭제하기 네비게이션에서 삭제하기 클릭 시 값이 업데이트되면서 이벤트가 한 박자씩 느림
   const showDeleteScrapToast = () => show({ content: <DeleteScrapToast onDelete={handleDeleteScrap} /> });
 
   const handleTabClick = (key: SelectContextKey) => {
@@ -60,10 +57,10 @@ const Scrap: NextPage = () => {
   };
 
   const handleMultiSelect = () => {
-    isSelectDeleteBtn(!selectDeleteBtn);
     setSelected((prev) => {
       const ret = { ...prev };
       const deleted = ret[ref.current];
+      // TODO 삭제 네비게이션 onClick시 값이 넘어갈 수 있도록 구현?
       deleted ? setNavigation('default') : setNavigation(<DeleteNavigation onClick={showDeleteScrapToast} />);
       ret[ref.current] = !ret[ref.current];
       return ret;
@@ -81,29 +78,11 @@ const Scrap: NextPage = () => {
 
   // 카테고리 삭제
   const categoryMutation = useDeleteCategory();
-  const requestDeleteCategory = useCallback(() => {
-    categoryMutation.mutate(
-      {
-        ids: categoryDeleteItem,
-      },
-      {
-        onSuccess: () => resetCategoryList(),
-      },
-    );
-    console.debug('success?', categoryDeleteItem);
-  }, [categoryMutation, categoryDeleteItem, resetCategoryList]);
-
-  const resetCategoryStates = () => {
-    setNavigation('default');
-    isDeleteState(!deleteState);
+  const requestDeleteCategory = () => {
+    categoryMutation.mutate({
+      ids: categoryDeleteItem,
+    });
   };
-
-  useEffect(() => {
-    if (deleteState === true) {
-      requestDeleteCategory();
-      isDeleteState(false);
-    }
-  }, [deleteState, requestDeleteCategory]);
 
   return (
     <>
@@ -129,7 +108,7 @@ const Scrap: NextPage = () => {
               left: 0;
             `}
           >
-            <Image src={'/icon/backArrow.svg'} layout={'fill'} objectFit={'cover'} />
+            <Image src={'/icon/backArrow.svg'} layout={'fill'} objectFit={'cover'} alt="뒤로가기" />
           </span>
         ) : null}
         <Search onSubmit={handleSearch} onClosed={() => setSearchString('')} />
@@ -149,7 +128,7 @@ const Scrap: NextPage = () => {
             {selected[ref.current] ? (
               <p onClick={() => resetCategoryList()}>취소</p>
             ) : (
-              <Image src={'/icon/multiSelect.svg'} width={18} height={18} />
+              <Image src={'/icon/multiSelect.svg'} width={18} height={18} alt="삭제아이콘" />
             )}
           </span>
         ) : null}
@@ -182,7 +161,7 @@ const Scrap: NextPage = () => {
                   <CategoryListContainer
                     select={selected.category}
                     onClickItem={handleClickCategoryList}
-                    selectItem={selectDeleteBtn}
+                    selectItem={selected[ref.current]}
                   />
                 ) : (
                   <CategoryDetailContainer info={categoryInfo} select={selected.categoryInfo} />
