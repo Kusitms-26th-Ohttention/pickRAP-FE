@@ -82,5 +82,5 @@ export const deletePageList = selector({
   key: 'deletePageList',
   get: ({ get }) => get(pageIdsArray),
   set: ({ set }, newValue) =>
-    !(newValue instanceof DefaultValue) && set(magazineIdsArray, (prevValue) => [...prevValue, ...newValue]),
+    !(newValue instanceof DefaultValue) && set(pageIdsArray, (prevValue) => [...prevValue, ...newValue]),
 });
