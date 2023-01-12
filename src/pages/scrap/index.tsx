@@ -1,10 +1,13 @@
 import { css } from '@emotion/react';
 import type { NextPage } from 'next';
 import Image from 'next/image';
-import React, { useRef, useState } from 'react';
+import { useRouter } from 'next/router';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 
+import { useDeleteCategory } from '@/application/hooks/api/category';
 import usePopup from '@/application/hooks/common/usePopup';
 import useToast from '@/application/hooks/common/useToast';
+import { useCategoryDeleteList, useResetCategoryDeleteList } from '@/application/store/scrap/categoryHook';
 import { DeletePopup } from '@/components/common/Popup/Sentence';
 import Search from '@/components/common/Search';
 import { ThreeDotsSpinner } from '@/components/common/Spinner';
@@ -25,8 +28,15 @@ const initSelectedContext = { category: false, content: false, categoryInfo: fal
 type SelectContextKey = keyof typeof initSelectedContext;
 
 const Scrap: NextPage = () => {
+  const router = useRouter();
   const [selected, setSelected] = useState(initSelectedContext);
+  const [selectDeleteBtn, isSelectDeleteBtn] = useState(false);
+  const [deleteState, isDeleteState] = useState(false);
   const [searchString, setSearchString] = useState('');
+
+  const categoryDeleteItem = useCategoryDeleteList();
+  const resetCategoryList = useResetCategoryDeleteList();
+  console.log(categoryDeleteItem);
 
   // TODO 카테고리 상세 페이지 분리
   const [categoryInfo, setCategoryInfo] = useState<{ id: number; name: string }>({ id: 0, name: '' });
@@ -38,6 +48,7 @@ const Scrap: NextPage = () => {
   const handleDeleteScrap = () => {
     // TODO select 된 사진들 삭제 요청 mutation
     // TODO select 된 category id / content id 관리
+    resetCategoryStates();
     setSelected({ ...selected, [ref.current]: false });
     popup(DeletePopup, 'success');
   };
@@ -48,7 +59,8 @@ const Scrap: NextPage = () => {
     ref.current = key;
   };
 
-  const handleMultiSelect = () =>
+  const handleMultiSelect = () => {
+    isSelectDeleteBtn(!selectDeleteBtn);
     setSelected((prev) => {
       const ret = { ...prev };
       const deleted = ret[ref.current];
@@ -56,6 +68,7 @@ const Scrap: NextPage = () => {
       ret[ref.current] = !ret[ref.current];
       return ret;
     });
+  };
 
   const handleSearch = (search: string) => setSearchString(search);
 
@@ -65,6 +78,32 @@ const Scrap: NextPage = () => {
     ref.current = 'categoryInfo';
     setCategoryInfo(info);
   };
+
+  // 카테고리 삭제
+  const categoryMutation = useDeleteCategory();
+  const requestDeleteCategory = useCallback(() => {
+    categoryMutation.mutate(
+      {
+        ids: categoryDeleteItem,
+      },
+      {
+        onSuccess: () => resetCategoryList(),
+      },
+    );
+    console.debug('success?', categoryDeleteItem);
+  }, [categoryMutation, categoryDeleteItem, resetCategoryList]);
+
+  const resetCategoryStates = () => {
+    setNavigation('default');
+    isDeleteState(!deleteState);
+  };
+
+  useEffect(() => {
+    if (deleteState === true) {
+      requestDeleteCategory();
+      isDeleteState(false);
+    }
+  }, [deleteState, requestDeleteCategory]);
 
   return (
     <>
@@ -107,7 +146,11 @@ const Scrap: NextPage = () => {
               `
             }
           >
-            {selected[ref.current] ? '취소' : <Image src={'/icon/multiSelect.svg'} width={18} height={18} />}
+            {selected[ref.current] ? (
+              <p onClick={() => resetCategoryList()}>취소</p>
+            ) : (
+              <Image src={'/icon/multiSelect.svg'} width={18} height={18} />
+            )}
           </span>
         ) : null}
       </div>
@@ -136,7 +179,11 @@ const Scrap: NextPage = () => {
             <Tab.Panel>
               <Tab.Content>
                 {!categoryInfo.name ? (
-                  <CategoryListContainer select={selected.category} onClickItem={handleClickCategoryList} />
+                  <CategoryListContainer
+                    select={selected.category}
+                    onClickItem={handleClickCategoryList}
+                    selectItem={selectDeleteBtn}
+                  />
                 ) : (
                   <CategoryDetailContainer info={categoryInfo} select={selected.categoryInfo} />
                 )}
