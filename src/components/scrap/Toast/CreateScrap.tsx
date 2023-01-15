@@ -9,7 +9,7 @@ import useModal from '@/application/hooks/common/useModal';
 import usePopup from '@/application/hooks/common/usePopup';
 import useToast from '@/application/hooks/common/useToast';
 import useScrapForm from '@/application/store/scrap/useScrapForm';
-import { ERR_CODE } from '@/application/utils/constant';
+import { ERR_CODE, ERR_MESSAGE } from '@/application/utils/constant';
 import CreateCategory from '@/components/category/Modal/CreateCategory';
 import SelectCategoryWithCreate from '@/components/category/Select/SelectCategoryWithCreate';
 import { ActiveButton } from '@/components/common/Button';
@@ -32,7 +32,14 @@ const CreateScrap = () => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    handleScrap({ type: 'file', data: file });
+    const type = file.name.split('.').pop();
+    if (!type) throw Error(ERR_MESSAGE.NOT_SUPPORTED_FILE);
+
+    if (/(png|jpg|jpeg)/.test(type)) handleScrap({ type: 'image', data: file });
+    else if (/pdf/.test(type)) handleScrap({ type: 'pdf', data: file });
+    else if (/mp4/.test(type)) handleScrap({ type: 'video', data: file });
+    else throw Error(ERR_MESSAGE.NOT_SUPPORTED_FILE);
+
     replace({ content: <SelectCategoryWithCreate /> });
   };
   const handleLinkInput = () => replace({ content: <TypedDetailToast type={'link'} /> });

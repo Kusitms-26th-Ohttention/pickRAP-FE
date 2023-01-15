@@ -60,13 +60,13 @@ const SwipeBackground = (props: SwipeBackgroundProps) => {
         >
           {props.text}
         </span>
-      ) : (
+      ) : props.type === 'link' ? (
         <Link href={props.href}>
           <a rel="noopener noreferrer" target="_blank">
             <Image priority src={props.src || '/icon/scrap/defaultCategory.svg'} layout="fill" objectFit={'cover'} />
           </a>
         </Link>
-      )}
+      ) : props.type === 'video' ? null : props.type === 'pdf' ? null : null}
     </div>
   );
 };

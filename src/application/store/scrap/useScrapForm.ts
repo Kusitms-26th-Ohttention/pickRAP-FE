@@ -10,29 +10,26 @@ type HandleScrapArgs =
       data: Pick<ScarpForm, 'category_id'>['category_id'];
     }
   | { type: 'information'; data: Pick<ScarpForm, 'title' | 'hashtags' | 'memo'> }
-  | { type: 'file'; data: Pick<ScarpForm, 'file'>['file'] }
-  | { type: 'link'; data: string }
-  | { type: 'text'; data: string };
+  | { type: 'image' | 'video' | 'pdf'; data: Pick<ScarpForm, 'file'>['file'] }
+  | { type: 'link' | 'text'; data: string };
 
 const useScrapForm = () => {
   const [scrap, setScrap] = useRecoilState(scarpForm);
 
-  // TODO reducer 비슷한데 더 좋은 방법 없을지?
   const handleScrap = useCallback(
     ({ type, data }: HandleScrapArgs) => {
-      console.log('👀 UploadScrapState :::', type, data);
       switch (type) {
         case 'category':
           setScrap((prev) => ({ ...prev, category_id: data }));
           break;
-        case 'file':
-          setScrap((prev) => ({ ...prev, file: data, scrap_type: 'image' }));
+        case 'image':
+        case 'video':
+        case 'pdf':
+          setScrap((prev) => ({ ...prev, file: data, scrap_type: type }));
           break;
         case 'text':
-          setScrap((prev) => ({ ...prev, content: data, scrap_type: 'text' }));
-          break;
         case 'link':
-          setScrap((prev) => ({ ...prev, content: data, scrap_type: 'link' }));
+          setScrap((prev) => ({ ...prev, content: data, scrap_type: type }));
           break;
         case 'information':
           setScrap((prev) => ({ ...prev, ...data }));
