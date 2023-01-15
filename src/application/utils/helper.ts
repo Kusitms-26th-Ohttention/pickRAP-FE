@@ -3,6 +3,8 @@ export const getSrcByType = (content: Scrap | Category) => {
     case 'link':
       return content.url_preview;
     case 'image':
+    case 'video':
+    case 'pdf':
       return content.file_url;
     default:
       return content.url_preview;

@@ -1,14 +1,16 @@
 import { css } from '@emotion/react';
+import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
+const PdfViewer = dynamic(() => import('./PdfViewer').then((m) => m.PdfViewer));
 
 type SwipeBackgroundProps = (
   | { type: 'image'; src?: string }
   | { type: 'text'; text?: string }
   | { type: 'link'; src?: string; href: string }
-  | { type: 'video'; src?: string; href: string }
-  | { type: 'pdf'; src?: string; href: string }
+  | { type: 'video'; src?: string }
+  | { type: 'pdf'; src?: string }
 ) & { onClick?: () => void; isFull?: boolean };
 
 const SwipeBackground = (props: SwipeBackgroundProps) => {
@@ -16,7 +18,6 @@ const SwipeBackground = (props: SwipeBackgroundProps) => {
     <div
       css={[
         css`
-          user-select: none;
           position: fixed;
           left: 0;
           top: 0;
@@ -24,6 +25,7 @@ const SwipeBackground = (props: SwipeBackgroundProps) => {
           height: 58vh;
           max-width: 440px;
           margin: auto;
+          overflow-y: auto;
         `,
         (theme) =>
           props.isFull &&
@@ -66,7 +68,23 @@ const SwipeBackground = (props: SwipeBackgroundProps) => {
             <Image priority src={props.src || '/icon/scrap/defaultCategory.svg'} layout="fill" objectFit={'cover'} />
           </a>
         </Link>
-      ) : props.type === 'video' ? null : props.type === 'pdf' ? null : null}
+      ) : props.type === 'video' ? (
+        <video
+          autoPlay
+          loop
+          onClick={props.onClick}
+          css={css`
+            max-width: 100%;
+            transform: translateY(-50%);
+            position: relative;
+            top: 50%;
+          `}
+        >
+          <source src={props.src} />
+        </video>
+      ) : props.type === 'pdf' && props.src ? (
+        <PdfViewer src={props.src} onClick={props.onClick} />
+      ) : null}
     </div>
   );
 };
