@@ -3,28 +3,47 @@ import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 
-type SwipeBackgroundProps =
+type SwipeBackgroundProps = (
   | { type: 'image'; src?: string }
   | { type: 'text'; text?: string }
-  | { type: 'link'; src?: string; href: string };
+  | { type: 'link'; src?: string; href: string }
+  | { type: 'video'; src?: string; href: string }
+  | { type: 'pdf'; src?: string; href: string }
+) & { onClick?: () => void; isFull?: boolean };
 
 const SwipeBackground = (props: SwipeBackgroundProps) => {
   return (
     <div
-      css={css`
-        position: fixed;
-        left: 0;
-        top: 0;
-        right: 0;
-        height: 58vh;
-        max-width: 440px;
-        margin: auto;
-      `}
+      css={[
+        css`
+          user-select: none;
+          position: fixed;
+          left: 0;
+          top: 0;
+          right: 0;
+          height: 58vh;
+          max-width: 440px;
+          margin: auto;
+        `,
+        (theme) =>
+          props.isFull &&
+          css`
+            height: 100vh;
+            background-color: ${theme.color.black02};
+          `,
+      ]}
     >
       {props.type === 'image' ? (
-        <Image priority src={props.src || '/icon/scrap/defaultCategory.svg'} layout="fill" objectFit={'cover'} />
+        <Image
+          onClick={props.onClick}
+          priority
+          src={props.src || '/icon/scrap/defaultCategory.svg'}
+          layout="fill"
+          objectFit={props.isFull ? 'contain' : 'cover'}
+        />
       ) : props.type === 'text' ? (
         <span
+          onClick={props.onClick}
           css={(theme) => css`
             background: ${theme.color.gray02};
             word-wrap: break-word;
