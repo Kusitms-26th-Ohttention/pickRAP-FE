@@ -33,7 +33,7 @@ const EditMagazine: NextPage = () => {
   const resetMagazineInfo = useResetMagazineInfo();
   const resetEditPage = useEditPageReset();
 
-  const pageDeleteItem = usePageDeleteList();
+  const pageDeleteList = usePageDeleteList();
 
   // 스크랩, 매거진 페이지같이 옵션선택이 없으므로 바로 boolean 설정
   const [selected, setSelected] = useState(false);
@@ -55,7 +55,7 @@ const EditMagazine: NextPage = () => {
   const pageMutation = useDeletePages();
   const requestDeletePage = () => {
     pageMutation.mutate(
-      { ids: pageDeleteItem },
+      { ids: pageDeleteList },
       {
         onSuccess: handleBack,
       },
@@ -170,7 +170,7 @@ const EditMagazine: NextPage = () => {
         </span>
       </div>
       <MagazineCreateContainer thumbnails={pages} selectItem={selected} />
-      {selected === true ? (
+      {selected ? (
         <DeleteNavigation onClick={showDeletePagesToast} />
       ) : (
         <ActiveButton

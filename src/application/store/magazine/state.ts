@@ -78,8 +78,8 @@ export const pageIdsArray = atom<Array<number>>({
   default: [],
 });
 
-export const deletePageList = selector({
-  key: 'deletePageList',
+export const pageDeleteList = selector({
+  key: 'pageDeleteList',
   get: ({ get }) => get(pageIdsArray),
   set: ({ set }, newValue) =>
     !(newValue instanceof DefaultValue) && set(pageIdsArray, (prevValue) => [...prevValue, ...newValue]),

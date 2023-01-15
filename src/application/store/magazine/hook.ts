@@ -2,9 +2,9 @@ import { useRecoilState, useRecoilValue, useResetRecoilState, useSetRecoilState 
 
 import {
   deleteMagazineList,
-  deletePageList,
   magazineInfoSelector,
   magazineState,
+  pageDeleteList,
   pageSelector,
 } from '@/application/store/magazine/state';
 
@@ -14,4 +14,4 @@ export const useMagazineInfo = () => useRecoilValue(magazineState);
 export const useResetMagazineInfo = () => useResetRecoilState(magazineState);
 
 export const useMagazineDeleteList = () => useRecoilValue(deleteMagazineList);
-export const usePageDeleteList = () => useRecoilValue(deletePageList);
+export const usePageDeleteList = () => useRecoilValue(pageDeleteList);
