@@ -38,9 +38,9 @@ const PageList = ({ pages, selectItem }: Props) => {
           onClick={() => selectItem && idx !== 0 && idx !== pages.length - 1 && selectPageItems(page.scrap_id!)}
         >
           {idx === 0 || idx === pages.length - 1 ? (
-            <PageListItem item={page} ratio={'100/134'} pages={pages} />
+            <PageListItem item={page} ratio={'100/134'} />
           ) : (
-            <PageListItem item={page} ratio={'100/134'} onClick={page.onClick} selectItem={selectItem} pages={pages} />
+            <PageListItem item={page} ratio={'100/134'} onClick={page.onClick} selectItem={selectItem} />
           )}
         </div>
       ))}
