@@ -33,8 +33,15 @@ const PageList = ({ pages, selectItem }: Props) => {
       `}
     >
       {pages.map((page, idx) => (
-        <div key={idx} onClick={() => selectItem && selectPageItems(page.scrap_id!)}>
-          <PageListItem item={page} ratio={'100/134'} onClick={page.onClick} selectItem={selectItem} />
+        <div
+          key={idx}
+          onClick={() => selectItem && idx !== 0 && idx !== pages.length - 1 && selectPageItems(page.scrap_id!)}
+        >
+          {idx === 0 || idx === pages.length - 1 ? (
+            <PageListItem item={page} ratio={'100/134'} pages={pages} />
+          ) : (
+            <PageListItem item={page} ratio={'100/134'} onClick={page.onClick} selectItem={selectItem} pages={pages} />
+          )}
         </div>
       ))}
     </div>

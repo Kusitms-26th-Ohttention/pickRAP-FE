@@ -86,18 +86,21 @@ const EditMagazine: NextPage = () => {
         title: '표지 변경',
         magazine_id: 0,
         scrap_id: 0,
-        onClick: () =>
-          show({
-            content: (
-              <SelectCategoryWithContent
-                onSubmit={(pages) => {
-                  setCoverUrl(pages.src);
-                  setMagazineInfo({ cover_scrap_id: pages.scrap_id });
-                  close();
-                }}
-              />
-            ),
-          }),
+        onClick: () => {
+          selected
+            ? ''
+            : show({
+                content: (
+                  <SelectCategoryWithContent
+                    onSubmit={(pages) => {
+                      setCoverUrl(pages.src);
+                      setMagazineInfo({ cover_scrap_id: pages.scrap_id });
+                      close();
+                    }}
+                  />
+                ),
+              });
+        },
       },
       ...magazineInfo.page_list.map((page, idx) => ({
         cover_url: page.src,
@@ -112,22 +115,25 @@ const EditMagazine: NextPage = () => {
       title: '페이지 추가',
       magazine_id: 0,
       scrap_id: 0,
-      onClick: () =>
-        show({
-          content: (
-            <SelectCategoryWithContent
-              multiSelect
-              onSubmit={(pages) => {
-                setEditPage(pages);
-                router.push('/magazine/upload/page').then(close);
-              }}
-            />
-          ),
-        }),
+      onClick: () => {
+        selected
+          ? ''
+          : show({
+              content: (
+                <SelectCategoryWithContent
+                  multiSelect
+                  onSubmit={(pages) => {
+                    setEditPage(pages);
+                    router.push('/magazine/upload/page').then(close);
+                  }}
+                />
+              ),
+            });
+      },
     });
 
     return ret;
-  }, [close, coverUrl, magazineInfo.page_list, router, setEditPage, setMagazineInfo, show]);
+  }, [close, coverUrl, magazineInfo.page_list, router, selected, setEditPage, setMagazineInfo, show]);
 
   return (
     <>

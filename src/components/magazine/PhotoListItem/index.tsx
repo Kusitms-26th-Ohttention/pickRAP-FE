@@ -9,6 +9,7 @@ interface Props {
   width?: string;
   height?: string;
   ratio?: string;
+  pages?: MagazineThumbnail[];
   onClick?: () => void;
 }
 const PhotoListItem = ({ item, selectItem, ratio, ...rest }: Props) => {
