@@ -4,7 +4,6 @@ import { useSetRecoilState } from 'recoil';
 
 import { useGetCategories } from '@/application/hooks/api/category';
 import { categoryIdsArray } from '@/application/store/scrap/categoryState';
-// import { getSrcByType } from '@/application/utils/helper';
 import CategoryListItem from '@/components/category/List/CategoryListItem';
 
 interface CategoryListContainerProps {
@@ -15,7 +14,6 @@ interface CategoryListContainerProps {
 
 const CategoryListContainer = ({ select, selectItem, onClickItem }: CategoryListContainerProps) => {
   const { categories } = useGetCategories();
-
   const setCategoryItems = useSetRecoilState(categoryIdsArray);
   const pickSet = useRef(new Set<number>());
 
@@ -52,6 +50,7 @@ const CategoryListContainer = ({ select, selectItem, onClickItem }: CategoryList
               <CategoryListItem
                 onClick={() => onClickItem({ id: category.id, name: category.name })}
                 select={select}
+                // helper.ts 에러로 인해 잠시 주석화
                 // src={getSrcByType(category) ?? '/icon/scrap/defaultCategory.svg'}
                 src={'/icon/scrap/defaultCategory.svg'}
                 title={category.name}
