@@ -22,10 +22,6 @@ function SwipeSectionRoot({ children, background }: PropsWithChildren<{ backgrou
     setIsFull((prev) => !prev);
   };
 
-  /**
-   * @todo (refactor)
-   *   Background 컴포넌트 props로 받지 말고 children 에서 get 하기
-   */
   return (
     <SwipeSectionContext.Provider value={open}>
       {background && cloneElement(background, { isFull, onClick: handleBackgroundClick })}
@@ -35,22 +31,18 @@ function SwipeSectionRoot({ children, background }: PropsWithChildren<{ backgrou
           css={css`
             position: fixed;
             bottom: 0;
-            left: 0;
-            right: 0;
+            transform: translateX(-16px);
             width: 100%;
-            max-width: 440px; // TODO max width constant
-            margin: auto;
-            max-height: ${open ? '90vh' : '44vh'};
-            height: 100%;
+            max-width: 440px;
+            min-height: ${open ? '90vh' : '44vh'};
             background: #ffffff;
             box-shadow: 0 1px 20px rgba(0, 0, 0, 0.1);
             border-radius: 10px 10px 0 0;
             padding: 10px 16px;
             display: flex;
             flex-direction: column;
-            align-items: flex-start;
             justify-content: space-between;
-            transition: max-height ${OPEN_DELAY}ms ease-in-out;
+            transition: min-height ${OPEN_DELAY}ms ease-in-out;
           `}
         >
           {children}
