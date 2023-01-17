@@ -7,6 +7,7 @@ import PhotoListContainer from '@/containers/scrap/PhotoListContainer';
 
 interface ContentListContainerProps {
   select?: boolean;
+  selectItem?: boolean;
 }
 
 const getTypeFromFilter = (filter: string) => {
@@ -26,7 +27,7 @@ const getTypeFromFilter = (filter: string) => {
   }
 };
 
-const ContentListContainer = ({ select }: ContentListContainerProps) => {
+const ContentListContainer = ({ select, selectItem }: ContentListContainerProps) => {
   const [filter, setFilter] = useState('사진');
 
   const { scraps, fetchNextPage } = useGetScrapByType({ filter: getTypeFromFilter(filter) });
@@ -51,7 +52,7 @@ const ContentListContainer = ({ select }: ContentListContainerProps) => {
         </Select>
       </span>
 
-      <PhotoListContainer data={scraps || []} select={select} onEndReached={fetchNextPage} />
+      <PhotoListContainer data={scraps || []} select={select} onEndReached={fetchNextPage} selectItem={selectItem} />
     </>
   );
 };

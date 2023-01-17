@@ -1,12 +1,18 @@
 import { css } from '@emotion/react';
 import type { NextPage } from 'next';
 import Image from 'next/image';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 
 import { useDeleteCategory } from '@/application/hooks/api/category';
+import { useDeleteScrap } from '@/application/hooks/api/scrap';
 import usePopup from '@/application/hooks/common/usePopup';
 import useToast from '@/application/hooks/common/useToast';
-import { useCategoryDeleteList, useResetCategoryDeleteList } from '@/application/store/scrap/categoryHook';
+import {
+  useCategoryDeleteList,
+  useResetCategoryDeleteList,
+  useResetScrapDeleteList,
+  useScrapDeleteList,
+} from '@/application/store/scrap/categoryHook';
 import { DeletePopup } from '@/components/common/Popup/Sentence';
 import Search from '@/components/common/Search';
 import { ThreeDotsSpinner } from '@/components/common/Spinner';
@@ -33,6 +39,9 @@ const Scrap: NextPage = () => {
 
   const categoryDeleteItem = useCategoryDeleteList();
   const resetCategoryList = useResetCategoryDeleteList();
+  const scrapDeleteItem = useScrapDeleteList();
+  const resetScrapList = useResetScrapDeleteList();
+  console.log(scrapDeleteItem);
 
   // TODO 카테고리 상세 페이지 분리
   const [categoryInfo, setCategoryInfo] = useState<{ id: number; name: string }>({ id: 0, name: '' });
@@ -44,7 +53,6 @@ const Scrap: NextPage = () => {
   const handleDeleteScrap = () => {
     resetCategoryStates();
     setSelected({ ...selected, [ref.current]: false });
-    console.log('렌더링 확인용', selected);
     popup(DeletePopup, 'success');
   };
 
@@ -92,12 +100,20 @@ const Scrap: NextPage = () => {
     isDeleteState(!deleteState);
   };
 
-  useEffect(() => {
-    if (deleteState === true) {
-      requestDeleteCategory();
-      isDeleteState(false);
-    }
-  }, [deleteState, requestDeleteCategory]);
+  // 스크랩 삭제 (카테고리 별 아이템/콘텐츠 타입 별 아이템)
+  const scrapMutation = useDeleteScrap();
+  const requestDeleteScrap = () => {
+    scrapMutation.mutate(
+      {
+        ids: scrapDeleteItem,
+      },
+      {
+        onSuccess: () => resetScrapList(),
+      },
+    );
+  };
+
+  // !!!!삭제하기 렌더링 에러 수정 필요!!!!
 
   return (
     <>
@@ -179,11 +195,15 @@ const Scrap: NextPage = () => {
                     selectItem={selected[ref.current]}
                   />
                 ) : (
-                  <CategoryDetailContainer info={categoryInfo} select={selected.categoryInfo} />
+                  <CategoryDetailContainer
+                    info={categoryInfo}
+                    select={selected.categoryInfo}
+                    selectItem={selected[ref.current]}
+                  />
                 )}
               </Tab.Content>
               <Tab.Content>
-                <ContentListContainer select={selected.content} />
+                <ContentListContainer select={selected.content} selectItem={selected[ref.current]} />
               </Tab.Content>
             </Tab.Panel>
           </SSRSafeSuspense>
