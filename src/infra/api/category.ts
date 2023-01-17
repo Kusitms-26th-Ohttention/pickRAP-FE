@@ -24,7 +24,6 @@ class CategoryApi {
   };
   deleteCategory = ({ ids }: DeleteCategoryRequest) => {
     const param = ids.reduce((acc, cur) => `${acc}${cur},`, '').slice(0, -1);
-    console.log('삭제확인용', `/category/?ids=${param}`);
     return this.api.delete(`/category/?ids=${param}`);
   };
 }
