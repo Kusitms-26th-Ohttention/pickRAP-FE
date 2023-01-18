@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 import type { NextPage } from 'next';
 import Image from 'next/image';
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import { useDeleteCategory } from '@/application/hooks/api/category';
 import { useDeleteScrap } from '@/application/hooks/api/scrap';
@@ -41,7 +41,10 @@ const Scrap: NextPage = () => {
   const resetCategoryList = useResetCategoryDeleteList();
   const scrapDeleteItem = useScrapDeleteList();
   const resetScrapList = useResetScrapDeleteList();
-  console.log(scrapDeleteItem);
+  // console.log('카테고리', categoryDeleteItem);
+  // console.log('스크랩', scrapDeleteItem);
+  // console.log('옵션선택', selected);
+  // console.log('카테고리 옵션 선택', selected.category);
 
   // TODO 카테고리 상세 페이지 분리
   const [categoryInfo, setCategoryInfo] = useState<{ id: number; name: string }>({ id: 0, name: '' });
@@ -102,7 +105,7 @@ const Scrap: NextPage = () => {
 
   // 스크랩 삭제 (카테고리 별 아이템/콘텐츠 타입 별 아이템)
   const scrapMutation = useDeleteScrap();
-  const requestDeleteScrap = () => {
+  const requestDeleteScrap = useCallback(() => {
     scrapMutation.mutate(
       {
         ids: scrapDeleteItem,
@@ -111,9 +114,17 @@ const Scrap: NextPage = () => {
         onSuccess: () => resetScrapList(),
       },
     );
-  };
+  }, [scrapMutation, scrapDeleteItem, resetScrapList]);
 
-  // !!!!삭제하기 렌더링 에러 수정 필요!!!!
+  // !!!!삭제하기 렌더링 에러 수정 필요!!!
+  useEffect(() => {
+    if (deleteState) {
+      // selected.category ? requestDeleteCategory() : requestDeleteScrap();
+      // requestDeleteCategory();
+      requestDeleteScrap();
+    }
+    isDeleteState(false);
+  }, [deleteState, isDeleteState, selected, requestDeleteCategory, requestDeleteScrap]);
 
   return (
     <>

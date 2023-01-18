@@ -31,7 +31,7 @@ class ScrapApi {
     return this.api.put('/scrap', data);
   };
   deleteScrap = ({ ids }: DeleteScrapRequest) => {
-    return this.api.delete(`/scrap/?id=${ids}`);
+    return this.api.delete(`/scrap?ids=${ids}`);
   };
 }
 

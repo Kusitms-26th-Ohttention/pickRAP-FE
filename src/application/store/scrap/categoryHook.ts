@@ -6,5 +6,4 @@ export const useCategoryDeleteList = () => useRecoilValue(categoryDeleteList);
 export const useResetCategoryDeleteList = () => useResetRecoilState(categoryIdsArray);
 
 export const useScrapDeleteList = () => useRecoilValue(scrapDeleteList);
-
 export const useResetScrapDeleteList = () => useResetRecoilState(scrapIdsArray);
