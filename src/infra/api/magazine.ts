@@ -27,7 +27,6 @@ class MagazineApi {
     return this.api.put(`/magazine/${id}`, rest);
   };
   deletePages = ({ ids }: DeletePageRequest) => {
-    //TODO flat ids array
     return this.api.delete(`/magazine/page?ids=${ids}`);
   };
   checkTitle = (title: string) => {

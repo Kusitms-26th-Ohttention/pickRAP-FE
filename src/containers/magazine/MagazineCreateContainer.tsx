@@ -13,8 +13,9 @@ import PageList from '@/components/magazine/PageList';
 
 interface Props {
   thumbnails: MagazineThumbnail[];
+  selectItem?: boolean;
 }
-const MagazineCreateContainer = ({ thumbnails }: Props) => {
+const MagazineCreateContainer = ({ thumbnails, selectItem }: Props) => {
   const { show: modal } = useModal();
   const magazineInfo = useMagazineInfo();
   const setMagazineInfo = useSetMagazineInfo();
@@ -73,7 +74,7 @@ const MagazineCreateContainer = ({ thumbnails }: Props) => {
               position: relative;
             `}
           >
-            <Image src={'/icon/edit.svg'} layout={'fill'} objectFit={'cover'} />
+            <Image src={'/icon/edit.svg'} layout={'fill'} objectFit={'cover'} alt="편집아이콘" />
           </button>
         </span>
         <span
@@ -91,7 +92,7 @@ const MagazineCreateContainer = ({ thumbnails }: Props) => {
           <Switch defaultChecked={!magazineInfo.open_status} onClick={(p) => setMagazineInfo({ open_status: !p })} />
         </span>
       </div>
-      <PageList pages={thumbnails} />
+      <PageList pages={thumbnails} selectItem={selectItem} />
     </>
   );
 };

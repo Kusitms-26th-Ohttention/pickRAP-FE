@@ -57,7 +57,7 @@ export const magazineInfoSelector = selector<Partial<MagazineState>>({
 });
 
 export const multiDelete = atom({
-  key: 'deleteOption',
+  key: 'multiDelete',
   default: false,
 });
 
@@ -69,5 +69,18 @@ export const magazineIdsArray = atom<Array<number>>({
 export const deleteMagazineList = selector({
   key: 'deleteMagazineList',
   get: ({ get }) => get(magazineIdsArray),
-  set: ({ set }, newValue) => set(magazineIdsArray, (prevValue) => ({ ...prevValue, ...newValue })),
+  set: ({ set }, newValue) =>
+    !(newValue instanceof DefaultValue) && set(magazineIdsArray, (prevValue) => [...prevValue, ...newValue]),
+});
+
+export const pageIdsArray = atom<Array<number>>({
+  key: 'pageIdsArray',
+  default: [],
+});
+
+export const pageDeleteList = selector({
+  key: 'pageDeleteList',
+  get: ({ get }) => get(pageIdsArray),
+  set: ({ set }, newValue) =>
+    !(newValue instanceof DefaultValue) && set(pageIdsArray, (prevValue) => [...prevValue, ...newValue]),
 });

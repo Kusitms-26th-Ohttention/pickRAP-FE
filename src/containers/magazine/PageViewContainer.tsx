@@ -14,9 +14,7 @@ interface Props {
   magazineId: number | undefined;
 }
 
-const PageViewContainer = ({ pages = PAGES, magazineId }: Props) => {
-  console.log(magazineId);
-
+const PageViewContainer = ({ pages = PAGES }: Props) => {
   return (
     <>
       <article
