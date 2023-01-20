@@ -17,4 +17,5 @@ export const ERR_CODE = {
 export const ERR_MESSAGE = {
   DUPLICATED_TITLE: '이미 있는 제목입니다.',
   NOT_MODIFY_DEFAULT_CATEGORY: '기본 카테고리는 수정할 수 없습니다.',
+  NOT_SUPPORTED_FILE: '지원되지 않는 파일입니다.',
 } as const;

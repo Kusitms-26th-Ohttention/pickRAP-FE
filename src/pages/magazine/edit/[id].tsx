@@ -4,18 +4,23 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import React, { useMemo, useState } from 'react';
 
-import { useUpdateMagazine } from '@/application/hooks/api/magazine';
+import { useDeletePages, useUpdateMagazine } from '@/application/hooks/api/magazine';
+import usePopup from '@/application/hooks/common/usePopup';
 import useToast from '@/application/hooks/common/useToast';
 import { useEditPageReset, useEditPageSet } from '@/application/store/edit/hook';
-import { useMagazineInfo, useResetMagazineInfo, useSetMagazineInfo } from '@/application/store/magazine/hook';
+import {
+  useMagazineInfo,
+  usePageDeleteList,
+  useResetMagazineInfo,
+  useSetMagazineInfo,
+} from '@/application/store/magazine/hook';
 import SelectCategoryWithContent from '@/components/category/Select/SelectCategoryWithContent';
 import { ActiveButton } from '@/components/common/Button';
+import { DeletePopup } from '@/components/common/Popup/Sentence';
+import DeleteNavigation from '@/components/scrap/DeleteNavigation';
+import { DeleteScrapToast } from '@/components/scrap/Toast';
 import MagazineCreateContainer from '@/containers/magazine/MagazineCreateContainer';
 
-/**
- * @todo
- * 수정 페이지 완성
- */
 const EditMagazine: NextPage = () => {
   const router = useRouter();
   const id = router.query.id ? Number(router.query.id) : 0;
@@ -27,6 +32,35 @@ const EditMagazine: NextPage = () => {
   const mutation = useUpdateMagazine();
   const resetMagazineInfo = useResetMagazineInfo();
   const resetEditPage = useEditPageReset();
+
+  const pageDeleteList = usePageDeleteList();
+
+  // 스크랩, 매거진 페이지같이 옵션선택이 없으므로 바로 boolean 설정
+  const [selected, setSelected] = useState(false);
+  const popup = usePopup();
+
+  const handleDeletePages = () => {
+    requestDeletePage();
+    setSelected(false);
+    popup(DeletePopup, 'success');
+  };
+
+  const showDeletePagesToast = () => show({ content: <DeleteScrapToast onDelete={handleDeletePages} /> });
+
+  const handleMultiSelect = () => {
+    setSelected(!selected);
+  };
+
+  // 매거진 페이지 삭제
+  const pageMutation = useDeletePages();
+  const requestDeletePage = () => {
+    pageMutation.mutate(
+      { ids: pageDeleteList },
+      {
+        onSuccess: handleBack,
+      },
+    );
+  };
 
   const handleBack = () => {
     router.replace(`/magazine/${id}`).then(() => {
@@ -49,25 +83,30 @@ const EditMagazine: NextPage = () => {
     const ret: (MagazineThumbnail & { onClick?: () => void })[] = [
       {
         cover_url: coverUrl,
-        title: '1 페이지',
+        title: '표지 변경',
         magazine_id: 0,
-        onClick: () =>
-          show({
-            content: (
-              <SelectCategoryWithContent
-                onSubmit={(pages) => {
-                  setCoverUrl(pages.src);
-                  setMagazineInfo({ cover_scrap_id: pages.scrap_id });
-                  close();
-                }}
-              />
-            ),
-          }),
+        scrap_id: 0,
+        onClick: () => {
+          selected
+            ? ''
+            : show({
+                content: (
+                  <SelectCategoryWithContent
+                    onSubmit={(pages) => {
+                      setCoverUrl(pages.src);
+                      setMagazineInfo({ cover_scrap_id: pages.scrap_id });
+                      close();
+                    }}
+                  />
+                ),
+              });
+        },
       },
       ...magazineInfo.page_list.map((page, idx) => ({
         cover_url: page.src,
-        title: `${idx + 2} 페이지`,
+        title: `${idx + 1} 페이지`,
         magazine_id: idx,
+        scrap_id: page.scrap_id,
       })),
     ];
 
@@ -75,22 +114,26 @@ const EditMagazine: NextPage = () => {
       cover_url: '/icon/magazine/addPage.svg',
       title: '페이지 추가',
       magazine_id: 0,
-      onClick: () =>
-        show({
-          content: (
-            <SelectCategoryWithContent
-              multiSelect
-              onSubmit={(pages) => {
-                setEditPage(pages);
-                router.push('/magazine/upload/page').then(close);
-              }}
-            />
-          ),
-        }),
+      scrap_id: 0,
+      onClick: () => {
+        selected
+          ? ''
+          : show({
+              content: (
+                <SelectCategoryWithContent
+                  multiSelect
+                  onSubmit={(pages) => {
+                    setEditPage(pages);
+                    router.push('/magazine/upload/page').then(close);
+                  }}
+                />
+              ),
+            });
+      },
     });
 
     return ret;
-  }, [close, coverUrl, magazineInfo.page_list, router, setEditPage, setMagazineInfo, show]);
+  }, [close, coverUrl, magazineInfo.page_list, router, selected, setEditPage, setMagazineInfo, show]);
 
   return (
     <>
@@ -115,9 +158,10 @@ const EditMagazine: NextPage = () => {
             left: 0;
           `}
         >
-          <Image src={'/icon/backArrow.svg'} layout={'fill'} objectFit={'cover'} />
+          <Image src={'/icon/backArrow.svg'} layout={'fill'} objectFit={'cover'} alt="뒤로가기" />
         </span>
         <span
+          onClick={handleMultiSelect}
           css={(theme) =>
             css`
               ${theme.font.R_BODY_15};
@@ -128,21 +172,24 @@ const EditMagazine: NextPage = () => {
             `
           }
         >
-          <Image src={'/icon/multiSelect.svg'} width={18} height={18} />
+          {selected ? '취소' : <Image src={'/icon/multiSelect.svg'} width={18} height={18} alt="삭제아이콘" />}
         </span>
       </div>
-      <MagazineCreateContainer thumbnails={pages} />
-      <ActiveButton
-        active={!!coverUrl}
-        onClick={handleComplete}
-        custom={css`
-          margin-top: auto;
-        `}
-      >
-        완료
-      </ActiveButton>
+      <MagazineCreateContainer thumbnails={pages} selectItem={selected} />
+      {selected ? (
+        <DeleteNavigation onClick={showDeletePagesToast} />
+      ) : (
+        <ActiveButton
+          active={!!coverUrl}
+          onClick={handleComplete}
+          custom={css`
+            margin-top: auto;
+          `}
+        >
+          완료
+        </ActiveButton>
+      )}
     </>
   );
 };
-
 export default EditMagazine;

@@ -27,14 +27,14 @@ const ShowScrap: NextPage = () => {
     setRequest(mutation.mutate);
   }, [mutation.mutate, setRequest]);
 
-  const scrapType = scrap?.scrap_type as 'image' | 'text' | 'link';
+  const scrapType = scrap?.scrap_type as Scrap['scrap_type'];
 
   const swipeBackgroundProps =
     scrapType === 'text'
       ? { text: scrap?.content, type: scrapType }
-      : scrapType === 'image'
-      ? { src: scrap?.file_url, type: scrapType }
-      : { src: scrap?.url_preview, type: scrapType, href: scrap?.content || '' };
+      : scrapType === 'link'
+      ? { src: scrap?.url_preview, type: scrapType, href: scrap?.content || '' }
+      : { src: scrap?.file_url, type: scrapType };
 
   return (
     <>
