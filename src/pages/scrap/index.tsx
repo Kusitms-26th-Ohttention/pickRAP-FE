@@ -81,6 +81,11 @@ const Scrap: NextPage = () => {
   };
 
   // 카테고리 삭제
+  const resetCategoryMutation = useCallback(() => {
+    setSelected({ ...selected, [ref.current]: false });
+    resetCategoryList();
+  }, [selected, setSelected, resetCategoryList]);
+
   const categoryMutation = useDeleteCategory();
   const requestDeleteCategory = useCallback(() => {
     categoryMutation.mutate(
@@ -88,19 +93,17 @@ const Scrap: NextPage = () => {
         ids: categoryDeleteItem,
       },
       {
-        onSuccess: () => {
-          setSelected({ ...selected, [ref.current]: false }), resetCategoryList();
-        },
+        onSuccess: () => resetCategoryMutation(),
       },
     );
-  }, [categoryMutation, categoryDeleteItem, selected, resetCategoryList, setSelected]);
-
-  const resetCategoryStates = () => {
-    setNavigation('default');
-    isDeleteState(!deleteState);
-  };
+  }, [categoryMutation, categoryDeleteItem, resetCategoryMutation]);
 
   // 스크랩 삭제 (카테고리 별 아이템/콘텐츠 타입 별 아이템)
+  const resetScrapMutation = useCallback(() => {
+    setSelected({ ...selected, [ref.current]: false });
+    resetScrapList();
+  }, [selected, setSelected, resetScrapList]);
+
   const scrapMutation = useDeleteScrap();
   const requestDeleteScrap = useCallback(() => {
     scrapMutation.mutate(
@@ -108,12 +111,15 @@ const Scrap: NextPage = () => {
         ids: scrapDeleteItem,
       },
       {
-        onSuccess: () => {
-          setSelected({ ...selected, [ref.current]: false }), resetScrapList();
-        },
+        onSuccess: () => resetScrapMutation(),
       },
     );
-  }, [scrapMutation, scrapDeleteItem, selected, resetScrapList, setSelected]);
+  }, [scrapMutation, scrapDeleteItem, resetScrapMutation]);
+
+  const resetCategoryStates = () => {
+    setNavigation('default');
+    isDeleteState(!deleteState);
+  };
 
   useEffect(() => {
     if (deleteState && selected.category) {
