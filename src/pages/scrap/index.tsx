@@ -41,10 +41,6 @@ const Scrap: NextPage = () => {
   const resetCategoryList = useResetCategoryDeleteList();
   const scrapDeleteItem = useScrapDeleteList();
   const resetScrapList = useResetScrapDeleteList();
-  // console.log('카테고리', categoryDeleteItem);
-  // console.log('스크랩', scrapDeleteItem);
-  // console.log('옵션선택', selected);
-  // console.log('카테고리 옵션 선택', selected.category);
 
   // TODO 카테고리 상세 페이지 분리
   const [categoryInfo, setCategoryInfo] = useState<{ id: number; name: string }>({ id: 0, name: '' });
@@ -55,7 +51,6 @@ const Scrap: NextPage = () => {
 
   const handleDeleteScrap = () => {
     resetCategoryStates();
-    setSelected({ ...selected, [ref.current]: false });
     popup(DeletePopup, 'success');
   };
 
@@ -93,10 +88,12 @@ const Scrap: NextPage = () => {
         ids: categoryDeleteItem,
       },
       {
-        onSuccess: () => resetCategoryList(),
+        onSuccess: () => {
+          setSelected({ ...selected, [ref.current]: false }), resetCategoryList();
+        },
       },
     );
-  }, [categoryMutation, categoryDeleteItem, resetCategoryList]);
+  }, [categoryMutation, categoryDeleteItem, selected, resetCategoryList, setSelected]);
 
   const resetCategoryStates = () => {
     setNavigation('default');
@@ -111,16 +108,18 @@ const Scrap: NextPage = () => {
         ids: scrapDeleteItem,
       },
       {
-        onSuccess: () => resetScrapList(),
+        onSuccess: () => {
+          setSelected({ ...selected, [ref.current]: false }), resetScrapList();
+        },
       },
     );
-  }, [scrapMutation, scrapDeleteItem, resetScrapList]);
+  }, [scrapMutation, scrapDeleteItem, selected, resetScrapList, setSelected]);
 
-  // !!!!삭제하기 렌더링 에러 수정 필요!!!
   useEffect(() => {
-    if (deleteState) {
-      // selected.category ? requestDeleteCategory() : requestDeleteScrap();
-      // requestDeleteCategory();
+    if (deleteState && selected.category) {
+      requestDeleteCategory();
+    }
+    if (deleteState && (selected.categoryInfo || selected.content)) {
       requestDeleteScrap();
     }
     isDeleteState(false);

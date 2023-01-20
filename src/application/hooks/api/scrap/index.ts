@@ -79,6 +79,9 @@ export const useDeleteScrap = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: api.scrap.deleteScrap,
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['getScrapByType', 'getScrapById'] }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['getScrapByType'] });
+      queryClient.invalidateQueries({ queryKey: ['getContentByCategory'] });
+    },
   });
 };
