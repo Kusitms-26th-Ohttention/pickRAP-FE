@@ -4,7 +4,7 @@ import React, { useCallback, useRef } from 'react';
 import { useSetRecoilState } from 'recoil';
 
 import useIntersectionObserver from '@/application/hooks/utils/useIntersectionObserver';
-import { scrapIdsArray } from '@/application/store/scrap/categoryState';
+import { scrapIdsArray } from '@/application/store/scrap/scrapState';
 import { getSrcByType } from '@/application/utils/helper';
 import Photo from '@/components/common/Photo';
 import PhotoSelect from '@/components/common/Photo/PhotoSelect';
@@ -14,6 +14,7 @@ interface PhotoListContainerProps {
   select?: boolean;
   selectItem?: boolean;
   onEndReached?: () => void;
+  onClick?: () => void;
 }
 const PhotoListContainer = ({ data, select, selectItem, onEndReached }: PhotoListContainerProps) => {
   const router = useRouter();
@@ -29,6 +30,10 @@ const PhotoListContainer = ({ data, select, selectItem, onEndReached }: PhotoLis
     },
     [pickSet, setCategoryDetail],
   );
+
+  const handleClickPhoto = (photoId: number) => {
+    selectItem ? selectCategoryDetail(photoId) : router.push(`/scrap/${photoId}`);
+  };
 
   return (
     <div
@@ -51,17 +56,16 @@ const PhotoListContainer = ({ data, select, selectItem, onEndReached }: PhotoLis
       >
         <div css={CSSPhotoListContainer}>
           {data.map((photo) => (
-            <div key={photo.id} onClick={() => selectItem && selectCategoryDetail(photo.id)}>
-              <Photo
-                custom={css`
-                  aspect-ratio: 1/1;
-                `}
-                onClick={() => !select && router.push(`/scrap/${photo.id}`)}
-                blur={<PhotoSelect enabled={select} />}
-                src={getSrcByType(photo)}
-                text={photo.content}
-              />
-            </div>
+            <Photo
+              key={photo.id}
+              custom={css`
+                aspect-ratio: 1/1;
+              `}
+              onClick={() => handleClickPhoto(photo.id)}
+              blur={<PhotoSelect enabled={select} />}
+              src={getSrcByType(photo)}
+              text={photo.content}
+            />
           ))}
         </div>
         <span ref={ref} />

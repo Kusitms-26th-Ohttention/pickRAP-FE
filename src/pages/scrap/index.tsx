@@ -7,12 +7,8 @@ import { useDeleteCategory } from '@/application/hooks/api/category';
 import { useDeleteScrap } from '@/application/hooks/api/scrap';
 import usePopup from '@/application/hooks/common/usePopup';
 import useToast from '@/application/hooks/common/useToast';
-import {
-  useCategoryDeleteList,
-  useResetCategoryDeleteList,
-  useResetScrapDeleteList,
-  useScrapDeleteList,
-} from '@/application/store/scrap/categoryHook';
+import { useCategoryDeleteList, useResetCategoryDeleteList } from '@/application/store/category/categoryHook';
+import { useResetScrapDeleteList, useScrapDeleteList } from '@/application/store/scrap/scrapHook';
 import { DeletePopup } from '@/components/common/Popup/Sentence';
 import Search from '@/components/common/Search';
 import { ThreeDotsSpinner } from '@/components/common/Spinner';
@@ -173,7 +169,7 @@ const Scrap: NextPage = () => {
             }
           >
             {selected[ref.current] ? (
-              <p onClick={() => resetCategoryList()}>취소</p>
+              <p onClick={resetCategoryList}>취소</p>
             ) : (
               <Image src={'/icon/multiSelect.svg'} width={18} height={18} alt="삭제아이콘" />
             )}

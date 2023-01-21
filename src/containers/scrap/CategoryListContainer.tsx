@@ -3,7 +3,7 @@ import React, { useCallback, useRef } from 'react';
 import { useSetRecoilState } from 'recoil';
 
 import { useGetCategories } from '@/application/hooks/api/category';
-import { categoryIdsArray } from '@/application/store/scrap/categoryState';
+import { categoryIdsArray } from '@/application/store/category/categoryState';
 import CategoryListItem from '@/components/category/List/CategoryListItem';
 
 interface CategoryListContainerProps {
