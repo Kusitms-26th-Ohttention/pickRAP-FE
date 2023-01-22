@@ -9,7 +9,6 @@ import { ThreeDotsSpinner } from '@/components/common/Spinner';
 import { MainMagazine } from '@/components/magazine/MagazineList';
 import Profile from '@/components/magazine/Profile';
 import UploadButton from '@/components/scrap/UploadButton';
-import withNavigation from '@/containers/HOC/withNavigation';
 import MyMagazineWithTab from '@/containers/magazine/TabMagazineViewContainer';
 import SSRSafeSuspense from '@/containers/Suspense';
 
@@ -76,4 +75,4 @@ const Magazine: NextPage = () => {
   );
 };
 
-export default withNavigation(Magazine);
+export default Magazine;

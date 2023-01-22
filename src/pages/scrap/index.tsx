@@ -3,8 +3,13 @@ import type { NextPage } from 'next';
 import Image from 'next/image';
 import React, { useRef, useState } from 'react';
 
+import { useDeleteCategory } from '@/application/hooks/api/category';
+import { useDeleteScrap } from '@/application/hooks/api/scrap';
 import usePopup from '@/application/hooks/common/usePopup';
 import useToast from '@/application/hooks/common/useToast';
+import { useCategoryDeleteList, useResetCategoryDeleteList } from '@/application/store/category/categoryHook';
+import { useResetScrapDeleteList, useScrapDeleteList } from '@/application/store/scrap/scrapHook';
+import { BottomNavigation } from '@/components/common/Navigation';
 import { DeletePopup } from '@/components/common/Popup/Sentence';
 import Search from '@/components/common/Search';
 import { ThreeDotsSpinner } from '@/components/common/Spinner';
@@ -12,9 +17,7 @@ import Tab from '@/components/common/Tab';
 import DeleteNavigation from '@/components/scrap/DeleteNavigation';
 import { CreateScrapToast, DeleteScrapToast } from '@/components/scrap/Toast';
 import UploadButton from '@/components/scrap/UploadButton';
-import { useBottomNavigationContext } from '@/containers/HOC/NavigationContext';
 import withAuth from '@/containers/HOC/withAuth';
-import withNavigation from '@/containers/HOC/withNavigation';
 import CategoryDetailContainer from '@/containers/scrap/CategoryDetailContainer';
 import CategoryListContainer from '@/containers/scrap/CategoryListContainer';
 import ContentListContainer from '@/containers/scrap/ContentListContainer';
@@ -28,34 +31,44 @@ const Scrap: NextPage = () => {
   const [selected, setSelected] = useState(initSelectedContext);
   const [searchString, setSearchString] = useState('');
 
+  const categoryDeleteItem = useCategoryDeleteList();
+  const resetCategoryList = useResetCategoryDeleteList();
+  const scrapDeleteItem = useScrapDeleteList();
+  const resetScrapList = useResetScrapDeleteList();
+
+  const categoryMutation = useDeleteCategory();
+  const scrapMutation = useDeleteScrap();
+
   // TODO 카테고리 상세 페이지 분리
   const [categoryInfo, setCategoryInfo] = useState<{ id: number; name: string }>({ id: 0, name: '' });
   const ref = useRef<SelectContextKey>('category');
-  const setNavigation = useBottomNavigationContext()[1];
   const { show } = useToast();
   const popup = usePopup();
 
   const handleDeleteScrap = () => {
-    // TODO select 된 사진들 삭제 요청 mutation
-    // TODO select 된 category id / content id 관리
+    if (selected.category) {
+      categoryMutation.mutate({ ids: categoryDeleteItem }, { onSuccess: resetCategoryList });
+    }
+    if (selected.categoryInfo || selected.content) {
+      scrapMutation.mutate({ ids: scrapDeleteItem }, { onSuccess: resetScrapList });
+    }
     setSelected({ ...selected, [ref.current]: false });
     popup(DeletePopup, 'success');
   };
+
   const showDeleteScrapToast = () => show({ content: <DeleteScrapToast onDelete={handleDeleteScrap} /> });
 
   const handleTabClick = (key: SelectContextKey) => {
-    setNavigation(selected[key] ? <DeleteNavigation onClick={showDeleteScrapToast} /> : 'default');
     ref.current = key;
   };
 
-  const handleMultiSelect = () =>
+  const handleMultiSelect = () => {
     setSelected((prev) => {
       const ret = { ...prev };
-      const deleted = ret[ref.current];
-      deleted ? setNavigation('default') : setNavigation(<DeleteNavigation onClick={showDeleteScrapToast} />);
       ret[ref.current] = !ret[ref.current];
       return ret;
     });
+  };
 
   const handleSearch = (search: string) => setSearchString(search);
 
@@ -90,7 +103,7 @@ const Scrap: NextPage = () => {
               left: 0;
             `}
           >
-            <Image src={'/icon/backArrow.svg'} layout={'fill'} objectFit={'cover'} />
+            <Image src={'/icon/backArrow.svg'} layout={'fill'} objectFit={'cover'} alt="뒤로가기" />
           </span>
         ) : null}
         <Search onSubmit={handleSearch} onClosed={() => setSearchString('')} />
@@ -107,7 +120,11 @@ const Scrap: NextPage = () => {
               `
             }
           >
-            {selected[ref.current] ? '취소' : <Image src={'/icon/multiSelect.svg'} width={18} height={18} />}
+            {selected[ref.current] ? (
+              <p onClick={resetCategoryList}>취소</p>
+            ) : (
+              <Image src={'/icon/multiSelect.svg'} width={18} height={18} alt="삭제아이콘" />
+            )}
           </span>
         ) : null}
       </div>
@@ -122,6 +139,7 @@ const Scrap: NextPage = () => {
       >
         <UploadButton />
       </span>
+      {selected[ref.current] ? <DeleteNavigation onClick={showDeleteScrapToast} /> : <BottomNavigation />}
       {searchString ? (
         <SSRSafeSuspense fallback={<ThreeDotsSpinner />}>
           <SearchListContainer params={searchString} />
@@ -136,13 +154,21 @@ const Scrap: NextPage = () => {
             <Tab.Panel>
               <Tab.Content>
                 {!categoryInfo.name ? (
-                  <CategoryListContainer select={selected.category} onClickItem={handleClickCategoryList} />
+                  <CategoryListContainer
+                    select={selected.category}
+                    onClickItem={handleClickCategoryList}
+                    selectItem={selected[ref.current]}
+                  />
                 ) : (
-                  <CategoryDetailContainer info={categoryInfo} select={selected.categoryInfo} />
+                  <CategoryDetailContainer
+                    info={categoryInfo}
+                    select={selected.categoryInfo}
+                    selectItem={selected[ref.current]}
+                  />
                 )}
               </Tab.Content>
               <Tab.Content>
-                <ContentListContainer select={selected.content} />
+                <ContentListContainer select={selected.content} selectItem={selected[ref.current]} />
               </Tab.Content>
             </Tab.Panel>
           </SSRSafeSuspense>
@@ -152,4 +178,4 @@ const Scrap: NextPage = () => {
   );
 };
 
-export default withAuth(withNavigation(Scrap));
+export default withAuth(Scrap);

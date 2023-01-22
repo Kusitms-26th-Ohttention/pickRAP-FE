@@ -1,4 +1,5 @@
 export const getSrcByType = (content: Scrap | Category) => {
+  if (content.scrap_type === null) return '';
   switch (content.scrap_type.toLowerCase()) {
     case 'link':
       return content.url_preview;

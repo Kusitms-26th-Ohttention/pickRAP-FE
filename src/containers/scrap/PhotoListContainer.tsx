@@ -1,8 +1,10 @@
 import { css } from '@emotion/react';
 import { useRouter } from 'next/router';
-import React from 'react';
+import React, { useCallback, useRef } from 'react';
+import { useSetRecoilState } from 'recoil';
 
 import useIntersectionObserver from '@/application/hooks/utils/useIntersectionObserver';
+import { scrapIdsArray } from '@/application/store/scrap/scrapState';
 import { getSrcByType } from '@/application/utils/helper';
 import Photo from '@/components/common/Photo';
 import PhotoSelect from '@/components/common/Photo/PhotoSelect';
@@ -10,11 +12,29 @@ import PhotoSelect from '@/components/common/Photo/PhotoSelect';
 interface PhotoListContainerProps {
   data: Scrap[];
   select?: boolean;
+  selectItem?: boolean;
   onEndReached?: () => void;
+  onClick?: () => void;
 }
-const PhotoListContainer = ({ data, select, onEndReached }: PhotoListContainerProps) => {
+const PhotoListContainer = ({ data, select, selectItem, onEndReached }: PhotoListContainerProps) => {
   const router = useRouter();
   const ref = useIntersectionObserver({ callback: onEndReached });
+
+  const setCategoryDetail = useSetRecoilState(scrapIdsArray);
+  const pickSet = useRef(new Set<number>());
+
+  const selectCategoryDetail = useCallback(
+    (id: number) => {
+      pickSet.current.has(id) ? pickSet.current.delete(id) : pickSet.current.add(id);
+      setCategoryDetail(Array.from(pickSet.current));
+    },
+    [pickSet, setCategoryDetail],
+  );
+
+  const handleClickPhoto = (photoId: number) => {
+    selectItem ? selectCategoryDetail(photoId) : router.push(`/scrap/${photoId}`);
+  };
+
   return (
     <div
       css={css`
@@ -37,11 +57,11 @@ const PhotoListContainer = ({ data, select, onEndReached }: PhotoListContainerPr
         <div css={CSSPhotoListContainer}>
           {data.map((photo) => (
             <Photo
+              key={photo.id}
               custom={css`
                 aspect-ratio: 1/1;
               `}
-              onClick={() => !select && router.push(`/scrap/${photo.id}`)}
-              key={photo.id}
+              onClick={() => handleClickPhoto(photo.id)}
               blur={<PhotoSelect enabled={select} />}
               src={getSrcByType(photo)}
               text={photo.content}

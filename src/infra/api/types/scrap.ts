@@ -58,6 +58,8 @@ export interface UpdateScrapReqeust {
 }
 
 export interface DeleteScrapRequest {
+  ids: number[];
+}
+export interface GetScrapDetailRequest {
   id: number;
 }
-export type GetScrapDetailRequest = DeleteScrapRequest;

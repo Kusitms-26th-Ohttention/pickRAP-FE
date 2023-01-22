@@ -13,14 +13,16 @@ import PhotoListContainer from '@/containers/scrap/PhotoListContainer';
 interface CategoryDetailContainerProps {
   info: { id: number; name: string };
   select?: boolean;
+  selectItem?: boolean;
 }
 
-const CategoryDetailContainer = ({ select, info }: CategoryDetailContainerProps) => {
+const CategoryDetailContainer = ({ select, info, selectItem }: CategoryDetailContainerProps) => {
   const { categories, fetchNextPage } = useGetContentByCategory({ id: info.id });
   const [categoryName, setCategoryName] = useState(info.name);
   const mutation = useUpdateCategory();
   const { show } = useModal();
   const popup = usePopup();
+
   return (
     <>
       <span
@@ -69,10 +71,10 @@ const CategoryDetailContainer = ({ select, info }: CategoryDetailContainerProps)
             position: relative;
           `}
         >
-          <Image src={'/icon/edit.svg'} layout={'fill'} objectFit={'cover'} />
+          <Image src={'/icon/edit.svg'} layout={'fill'} objectFit={'cover'} alt="편집버튼" />
         </button>
       </span>
-      <PhotoListContainer data={categories} select={select} onEndReached={fetchNextPage} />
+      <PhotoListContainer data={categories} select={select} onEndReached={fetchNextPage} selectItem={selectItem} />
     </>
   );
 };

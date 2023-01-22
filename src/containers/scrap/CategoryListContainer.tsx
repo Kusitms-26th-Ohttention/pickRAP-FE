@@ -1,16 +1,31 @@
 import { css } from '@emotion/react';
-import React from 'react';
+import React, { useCallback, useRef } from 'react';
+import { useSetRecoilState } from 'recoil';
 
 import { useGetCategories } from '@/application/hooks/api/category';
+import { categoryIdsArray } from '@/application/store/category/categoryState';
 import { getSrcByType } from '@/application/utils/helper';
 import CategoryListItem from '@/components/category/List/CategoryListItem';
+
 interface CategoryListContainerProps {
   select: boolean;
+  selectItem?: boolean;
   onClickItem: (info: { id: number; name: string }) => void;
 }
 
-const CategoryListContainer = ({ select, onClickItem }: CategoryListContainerProps) => {
+const CategoryListContainer = ({ select, selectItem, onClickItem }: CategoryListContainerProps) => {
   const { categories } = useGetCategories();
+  const setCategoryItems = useSetRecoilState(categoryIdsArray);
+  const pickSet = useRef(new Set<number>());
+
+  const selectCategoryItems = useCallback(
+    (id: number) => {
+      pickSet.current.has(id) ? pickSet.current.delete(id) : pickSet.current.add(id);
+      setCategoryItems(Array.from(pickSet.current));
+    },
+    [pickSet, setCategoryItems],
+  );
+
   return (
     <div
       css={css`
@@ -32,13 +47,14 @@ const CategoryListContainer = ({ select, onClickItem }: CategoryListContainerPro
       >
         <div css={CSSCategoryListContainer}>
           {categories?.map((category) => (
-            <CategoryListItem
-              onClick={() => onClickItem({ id: category.id, name: category.name })}
-              select={select}
-              src={getSrcByType(category) ?? '/icon/scrap/defaultCategory.svg'}
-              title={category.name}
-              key={category.id}
-            />
+            <div key={category.id} onClick={() => selectItem && selectCategoryItems(category.id)}>
+              <CategoryListItem
+                onClick={() => onClickItem({ id: category.id, name: category.name })}
+                select={select}
+                src={getSrcByType(category) ?? '/icon/scrap/defaultCategory.svg'}
+                title={category.name}
+              />
+            </div>
           ))}
         </div>
       </div>

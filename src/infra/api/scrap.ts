@@ -30,8 +30,8 @@ class ScrapApi {
   updateScrap = (data: UpdateScrapReqeust) => {
     return this.api.put('/scrap', data);
   };
-  deleteScrap = ({ id }: DeleteScrapRequest) => {
-    return this.api.delete(`/scrap/?id=${id}`);
+  deleteScrap = ({ ids }: DeleteScrapRequest) => {
+    return this.api.delete(`/scrap?ids=${ids}`);
   };
 }
 

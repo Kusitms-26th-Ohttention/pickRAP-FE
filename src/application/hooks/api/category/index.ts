@@ -8,7 +8,7 @@ export const useGetCategories = () => {
     queryKey: ['getCategories'],
     queryFn: api.category.getCategories,
   });
-  return { ...rest, categories: data?.data.data || [] };
+  return { categories: data?.data.data || [], ...rest };
 };
 
 export const useGetContentByCategory = ({ id }: Parameters<typeof api.category.getContentByCategory>[0]) => {
@@ -45,4 +45,11 @@ export const useUpdateCategory = () => {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['getCategories'] }),
   });
 };
-export const useDeleteCategory = () => useMutation({ mutationFn: api.category.deleteCategory });
+
+export const useDeleteCategory = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: api.category.deleteCategory,
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['getCategories'] }),
+  });
+};
