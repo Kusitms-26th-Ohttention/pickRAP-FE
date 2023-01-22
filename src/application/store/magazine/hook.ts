@@ -14,4 +14,5 @@ export const useMagazineInfo = () => useRecoilValue(magazineState);
 export const useResetMagazineInfo = () => useResetRecoilState(magazineState);
 
 export const useMagazineDeleteList = () => useRecoilValue(magazineIdsArray);
+export const useResetMagazineDeleteList = () => useResetRecoilState(magazineIdsArray);
 export const usePageDeleteList = () => useRecoilValue(pageIdsArray);

@@ -1,14 +1,14 @@
 import { css } from '@emotion/react';
 import Image from 'next/image';
 import React, { useRef, useState } from 'react';
-import { useRecoilState, useResetRecoilState } from 'recoil';
+import { useRecoilState } from 'recoil';
 
 import { useDeleteMagazines, useGetMagazines } from '@/application/hooks/api/magazine';
 import usePopup from '@/application/hooks/common/usePopup';
 import useToast from '@/application/hooks/common/useToast';
 import type { UseScrollDetectOption } from '@/application/hooks/utils/useScrollDetect';
-import { useMagazineDeleteList } from '@/application/store/magazine/hook';
-import { magazineIdsArray, multiDelete } from '@/application/store/magazine/state';
+import { useMagazineDeleteList, useResetMagazineDeleteList } from '@/application/store/magazine/hook';
+import { multiDelete } from '@/application/store/magazine/state';
 import { BottomNavigation } from '@/components/common/Navigation';
 import { DeletePopup } from '@/components/common/Popup/Sentence';
 import Tab from '@/components/common/Tab';
@@ -30,7 +30,7 @@ const MyMagazineWithTab = ({ onScrollDown }: MagazineTabProps) => {
   const [selected, setSelected] = useState(initSelectedContext);
   const [selectDeleteBtn, isSelectDeleteBtn] = useRecoilState(multiDelete);
   const magazineDeleteList = useMagazineDeleteList();
-  const resetDeleteItem = useResetRecoilState(magazineIdsArray);
+  const resetMagazineList = useResetMagazineDeleteList();
   const ref = useRef<SelectContext>('myMagazine');
   const { show } = useToast();
   const popup = usePopup();
@@ -38,7 +38,7 @@ const MyMagazineWithTab = ({ onScrollDown }: MagazineTabProps) => {
   const mutation = useDeleteMagazines();
 
   const handleDeleteMagazine = () => {
-    mutation.mutate({ ids: magazineDeleteList }, { onSuccess: () => resetDeleteItem });
+    mutation.mutate({ ids: magazineDeleteList }, { onSuccess: () => resetMagazineList });
     setSelected({ ...selected, [ref.current]: false });
     popup(DeletePopup, 'success');
   };
@@ -74,7 +74,7 @@ const MyMagazineWithTab = ({ onScrollDown }: MagazineTabProps) => {
               `}
             >
               {selected[ref.current] ? (
-                <p onClick={resetDeleteItem}>취소</p>
+                <p onClick={resetMagazineList}>취소</p>
               ) : (
                 <Image src={'/icon/multiSelect.svg'} width={18} height={18} alt="삭제아이콘" />
               )}
