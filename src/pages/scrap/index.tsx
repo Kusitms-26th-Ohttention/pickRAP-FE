@@ -47,10 +47,10 @@ const Scrap: NextPage = () => {
 
   const handleDeleteScrap = () => {
     if (selected.category) {
-      categoryMutation.mutate({ ids: categoryDeleteItem }, { onSuccess: () => resetCategoryList });
+      categoryMutation.mutate({ ids: categoryDeleteItem }, { onSuccess: resetCategoryList });
     }
     if (selected.categoryInfo || selected.content) {
-      scrapMutation.mutate({ ids: scrapDeleteItem }, { onSuccess: () => resetScrapList });
+      scrapMutation.mutate({ ids: scrapDeleteItem }, { onSuccess: resetScrapList });
     }
     setSelected({ ...selected, [ref.current]: false });
     popup(DeletePopup, 'success');

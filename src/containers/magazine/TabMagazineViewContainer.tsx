@@ -38,7 +38,7 @@ const MyMagazineWithTab = ({ onScrollDown }: MagazineTabProps) => {
   const mutation = useDeleteMagazines();
 
   const handleDeleteMagazine = () => {
-    mutation.mutate({ ids: magazineDeleteList }, { onSuccess: () => resetMagazineList });
+    mutation.mutate({ ids: magazineDeleteList }, { onSuccess: resetMagazineList });
     setSelected({ ...selected, [ref.current]: false });
     popup(DeletePopup, 'success');
   };
