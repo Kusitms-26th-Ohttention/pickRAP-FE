@@ -1,4 +1,4 @@
-import { css } from '@emotion/react';
+import { css, Theme } from '@emotion/react';
 
 import PersonalMoodContent from '@/components/analysis/PersonalMoodContent';
 import RevisitContent from '@/components/analysis/RevisitContent';
@@ -12,7 +12,6 @@ const AnalysisListContainer = () => {
         height: 100%;
         overflow: hidden;
         position: relative;
-        background-color: ${theme.color.gray10};
       `}
     >
       <div
@@ -27,8 +26,11 @@ const AnalysisListContainer = () => {
       >
         <div css={CSSAnalysisListContainer}>
           <TagAnalysisContent />
+          <div css={CSSBottomLine} />
           <PersonalMoodContent />
+          <div css={CSSBottomLine} />
           <TextAnalysisContent />
+          <div css={CSSBottomLine} />
           <RevisitContent />
         </div>
       </div>
@@ -41,6 +43,12 @@ const CSSAnalysisListContainer = css`
   flex-direction: column;
   gap: 8px;
   overflow-y: scroll;
+`;
+
+const CSSBottomLine = (theme: Theme) => css`
+  width: 100%;
+  height: 8px;
+  background-color: ${theme.color.gray10};
 `;
 
 export default AnalysisListContainer;
