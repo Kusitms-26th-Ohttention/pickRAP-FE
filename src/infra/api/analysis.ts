@@ -1,5 +1,5 @@
 import { instance } from './instance';
-import { GetAnalysisDetailResponse } from './types/analysis';
+import type { GetAnalysisDetailResponse } from './types/analysis';
 
 class AnalysisApi {
   constructor(private api: typeof instance) {}

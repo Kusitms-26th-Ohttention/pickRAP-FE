@@ -1,4 +1,5 @@
-import { css, Theme } from '@emotion/react';
+import type { Theme } from '@emotion/react';
+import { css } from '@emotion/react';
 
 import PersonalMoodContent from '@/components/analysis/PersonalMoodContent';
 import RevisitContent from '@/components/analysis/RevisitContent';

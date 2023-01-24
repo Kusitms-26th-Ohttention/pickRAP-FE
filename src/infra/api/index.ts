@@ -1,8 +1,8 @@
+import analysisApi from './analysis';
 import authApi from './auth';
 import categoryApi from './category';
 import magazineApi from './magazine';
 import scrapApi from './scrap';
-import analysisApi from './analysis';
 
 export const api = {
   auth: authApi,

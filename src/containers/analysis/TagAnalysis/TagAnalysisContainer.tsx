@@ -1,4 +1,5 @@
-import { css, Theme } from '@emotion/react';
+import type { Theme } from '@emotion/react';
+import { css } from '@emotion/react';
 import { ArcElement, Chart as ChartJS, Legend, Tooltip } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
 

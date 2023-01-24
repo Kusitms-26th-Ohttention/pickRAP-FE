@@ -5,8 +5,7 @@ import SubAnaNavigation from './\bAnaNavigation/SubAnaNavigation';
 const TextAnalysisContent = () => {
   return (
     <div
-      css={(theme) => css`
-        background-color: ${theme.color.white01};
+      css={css`
         height: 100%;
       `}
     >
