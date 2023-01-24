@@ -1,6 +1,6 @@
 import type { NextPage } from 'next';
 
-import AnalysisNavigation from '@/components/analysis/AnaNavigation/AnalysisNavigation';
+import AnalysisNavigation from '@/components/analysis/\bAnaNavigation/AnalysisNavigation';
 import AnalysisListContainer from '@/containers/analysis/AnalysisListContainer';
 import withNavigation from '@/containers/HOC/withNavigation';
 

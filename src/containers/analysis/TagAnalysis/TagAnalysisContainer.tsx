@@ -1,4 +1,4 @@
-import { css } from '@emotion/react';
+import { css, Theme } from '@emotion/react';
 import { ArcElement, Chart as ChartJS, Legend, Tooltip } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
 
@@ -6,14 +6,7 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 
 // TODO 타입 지정 위치 변경
 interface AnalysisDataProps {
-  testData: {
-    labels: string[];
-    datasets: {
-      data: number[];
-      backgroundColor: string[];
-      borderWidth: number;
-    }[];
-  };
+  hashTags: HashTagAnalysis[];
   chartOption: {
     plugins: {
       legend: {
@@ -23,7 +16,23 @@ interface AnalysisDataProps {
   };
 }
 
-const TagAnalysisContainer = ({ testData, chartOption }: AnalysisDataProps) => {
+const TagAnalysisContainer = ({ hashTags, chartOption }: AnalysisDataProps) => {
+  const chartColor = ['#F6D936', '#2A2E34', '#ABA9A6', '#EAE9E4'];
+  const dataSetsName: string[] = [];
+  const dataSetsRate: number[] = [];
+  hashTags.forEach((item) => (dataSetsName.push(item.hashtag_name), dataSetsRate.push(item.hashtag_rate)));
+
+  const DefaultTagData = {
+    labels: dataSetsName,
+    datasets: [
+      {
+        data: dataSetsRate,
+        backgroundColor: chartColor,
+        borderWidth: 0,
+      },
+    ],
+  };
+
   return (
     <>
       <div
@@ -47,10 +56,10 @@ const TagAnalysisContainer = ({ testData, chartOption }: AnalysisDataProps) => {
             position: relative;
             ${theme.font.B_POINT_18};
             color: ${theme.color.black01};
-            margin: 0 10px 0 4px;
+            margin: 0 10px 0 5px;
           `}
         >
-          #IT
+          {hashTags[0].hashtag_name}
         </p>
         <p
           css={(theme) => css`
@@ -76,43 +85,57 @@ const TagAnalysisContainer = ({ testData, chartOption }: AnalysisDataProps) => {
             height: 182px;
           `}
         >
-          <Doughnut data={testData} options={chartOption} />
+          <Doughnut data={DefaultTagData} options={chartOption} />
         </div>
-        {/* <div
+        <div
           css={css`
+            width: 100%;
             display: flex;
-            justify-content: space-between;
+            justify-content: space-evenly;
             margin-top: 25px;
           `}
         >
-          <div
-            css={css`
-              display: flex;
-              flex-direction: column;
-              align-items: center;
-            `}
-          >
+          {hashTags.map((tag, idx) => (
             <div
+              key={tag.hashtag_name}
               css={css`
-                width: 10px;
-                height: 10px;
-                border-radius: 100%;
-                background-color: #f6d936;
-              `}
-            />
-            <p
-              css={(theme) => css`
-                ${theme.font.R_BODY_12};
-                color: ${theme.color.gray04};
+                display: flex;
+                flex-direction: column;
+                align-items: center;
               `}
             >
-              #
-            </p>
-          </div>
-        </div> */}
+              <div css={CSSChartball(idx)} />
+              <p
+                css={(theme) => css`
+                  ${theme.font.R_BODY_12};
+                  color: ${theme.color.gray04};
+                  margin-top: 10px;
+                `}
+              >
+                {tag.hashtag_name}
+              </p>
+            </div>
+          ))}
+        </div>
       </div>
     </>
   );
 };
+
+const CSSChartball = (idx: number) => (theme: Theme) =>
+  css`
+    width: 10px;
+    height: 10px;
+    border-radius: 100%;
+    background-color: ${idx === 0
+      ? theme.color.chartYellow
+      : idx === 1
+      ? theme.color.chartBlack
+      : idx === 2
+      ? theme.color.chartGray
+      : idx === 3
+      ? theme.color.chartWhite
+      : ''};
+  `;
 
 export default TagAnalysisContainer;

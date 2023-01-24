@@ -8,7 +8,7 @@ import TextAnalysisContent from '@/components/analysis/TextAnalysisContent';
 const AnalysisListContainer = () => {
   return (
     <div
-      css={(theme) => css`
+      css={css`
         height: 100%;
         overflow: hidden;
         position: relative;
