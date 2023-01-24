@@ -26,6 +26,11 @@ export const theme = {
 
     red01: '#d53828',
     blue01: '#6484f8',
+
+    chartYellow: '#F6D936',
+    chartBlack: '#2A2E34',
+    chartGray: '#ABA9A6',
+    chartWhite: '#EAE9E4',
   },
   borderRadius: {
     default: '4px',
