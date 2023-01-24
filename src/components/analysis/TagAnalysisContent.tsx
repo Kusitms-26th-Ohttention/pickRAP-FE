@@ -27,7 +27,7 @@ const TagAnalysisContent = () => {
       <SubAnaNavigation moreState={true}>내 스크랩 분석</SubAnaNavigation>
       <div
         css={css`
-          height: 362px;
+          height: 342px;
         `}
       >
         <div
