@@ -60,3 +60,20 @@ interface EditPage {
   src: string;
   placeholder?: string;
 }
+
+interface HashTagAnalysis {
+  hashtag_name: string;
+  hashtag_rate: number;
+  hashtag_count: number;
+}
+
+interface TextAnalysis {
+  text_word: string;
+  text_rate: number;
+  text_count: number;
+}
+
+interface Analysis {
+  hashtags: HashTagAnalysis[];
+  texts: TextAnalysis[];
+}

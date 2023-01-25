@@ -1,3 +1,4 @@
+import analysisApi from './analysis';
 import authApi from './auth';
 import categoryApi from './category';
 import magazineApi from './magazine';
@@ -8,6 +9,7 @@ export const api = {
   scrap: scrapApi,
   category: categoryApi,
   magazine: magazineApi,
+  analysis: analysisApi,
 };
 
 export * from './token';
