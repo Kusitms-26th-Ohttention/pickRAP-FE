@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 
-const TagAnalysisDetail = () => {
+const RevisitAnalysisDetail = () => {
   return (
     <>
       <div
@@ -9,10 +9,10 @@ const TagAnalysisDetail = () => {
           margin-top: 24px;
         `}
       >
-        내 스크랩 분석 디테일 페이지
+        재방문 콘텐츠 디테일 페이지
       </div>
     </>
   );
 };
 
-export default TagAnalysisDetail;
+export default RevisitAnalysisDetail;

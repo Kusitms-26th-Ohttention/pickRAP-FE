@@ -1,16 +1,41 @@
 import { css } from '@emotion/react';
+import Image from 'next/image';
+import type { ReactNode } from 'react';
 
-const AnalysisNavigation = () => {
+interface AnaNavigationProps {
+  children: ReactNode;
+  backArrowState?: boolean;
+  onClick?: () => void;
+}
+
+const AnalysisNavigation = ({ children, backArrowState, onClick }: AnaNavigationProps) => {
   return (
     <>
       <nav
         css={(theme) => css`
+          position: absolute;
           width: 100%;
-          height: 64px;
           ${theme.font.M_POINT_16};
           color: ${theme.color.black02};
         `}
       >
+        {backArrowState ? (
+          <span
+            onClick={onClick}
+            css={css`
+              width: 10px;
+              height: 17px;
+              position: absolute;
+              z-index: 1;
+              top: 27px;
+              left: 0;
+            `}
+          >
+            <Image src={'/icon/backArrow.svg'} layout={'fill'} objectFit={'cover'} alt="뒤로가기" />
+          </span>
+        ) : (
+          ''
+        )}
         <p
           css={css`
             display: flex;
@@ -18,16 +43,16 @@ const AnalysisNavigation = () => {
             margin: 28px 0 18px 0;
           `}
         >
-          분석
+          {children}
         </p>
+        <div
+          css={(theme) =>
+            css`
+              border: 1px solid ${theme.color.gray09};
+            `
+          }
+        />
       </nav>
-      <div
-        css={(theme) =>
-          css`
-            border: 1px solid ${theme.color.gray09};
-          `
-        }
-      />
     </>
   );
 };
