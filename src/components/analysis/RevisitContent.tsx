@@ -12,8 +12,6 @@ const RevisitContent = () => {
     setRevisitState(!revisitState);
   };
 
-  console.log('클릭 재방문콘텐츠 더보기', revisitState);
-
   return (
     <div
       css={css`
