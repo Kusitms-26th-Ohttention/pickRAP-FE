@@ -2,7 +2,7 @@ import type { NextPage } from 'next';
 import { useRecoilState } from 'recoil';
 
 import { revisitDetailState, tagDetailState } from '@/application/store/analysis/analysisState';
-import AnalysisNavigation from '@/components/analysis/\bAnaNavigation/AnalysisNavigation';
+import AnalysisNavigation from '@/components/analysis/AnaNavigation/AnalysisNavigation';
 import { ThreeDotsSpinner } from '@/components/common/Spinner';
 import Tab from '@/components/common/Tab';
 import AnalysisListContainer from '@/containers/analysis/AnalysisListContainer';

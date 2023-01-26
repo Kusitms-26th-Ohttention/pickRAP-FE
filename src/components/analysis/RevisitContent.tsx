@@ -3,7 +3,7 @@ import { useRecoilState } from 'recoil';
 
 import { revisitDetailState } from '@/application/store/analysis/analysisState';
 
-import SubAnaNavigation from './\bAnaNavigation/SubAnaNavigation';
+import SubAnaNavigation from './AnaNavigation/SubAnaNavigation';
 
 const RevisitContent = () => {
   const [revisitState, setRevisitState] = useRecoilState(revisitDetailState);

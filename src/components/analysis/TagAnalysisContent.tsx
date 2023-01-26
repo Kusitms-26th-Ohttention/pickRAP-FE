@@ -5,7 +5,7 @@ import { useGetAnalysis } from '@/application/hooks/api/analysis';
 import { tagDetailState } from '@/application/store/analysis/analysisState';
 import TagAnalysisContainer from '@/containers/analysis/TagAnalysis/TagAnalysisContainer';
 
-import SubAnaNavigation from './\bAnaNavigation/SubAnaNavigation';
+import SubAnaNavigation from './AnaNavigation/SubAnaNavigation';
 import NoAnalysis from './NoAnalysis';
 
 const TagAnalysisContent = () => {
