@@ -1,8 +1,8 @@
 import { css } from '@emotion/react';
-import Image from 'next/image';
 import { useState } from 'react';
 
 import SelectPeriod from '@/components/analysis/SelectPeriod';
+import YearMonthSelector from '@/components/analysis/SelectPeriod/YearMonthSelector';
 import TagDetailContainer from '@/containers/analysis/TagAnalysis/TagDetailContainer';
 
 const TagAnalysisDetail = () => {
@@ -33,97 +33,22 @@ const TagAnalysisDetail = () => {
             <SelectPeriod.Option value={'연별'} />
           </SelectPeriod.OptionList>
         </SelectPeriod>
-        {/* TODO 코드 정리해보기 ..... 어떻게 정리하지 */}
         {period === '연별' ? (
-          <div
-            css={css`
-              display: flex;
-              position: relative;
+          <YearMonthSelector
+            custom={css`
               width: 20%;
-              margin: 12px 0 16px 0;
             `}
           >
-            <span
-              css={css`
-                width: 7px;
-                height: 12px;
-                position: absolute;
-                z-index: 1;
-                top: 2px;
-                left: 0;
-                transform: rotate(180deg);
-              `}
-            >
-              <Image src={'/icon/nextMiniArrow.svg'} layout={'fill'} objectFit={'cover'} alt="더보기버튼" />
-            </span>
-            <p
-              css={(theme) => css`
-                position: absolute;
-                ${theme.font.R_BODY_15};
-                font-weight: 700;
-                left: 23px;
-              `}
-            >
-              {tagYear}
-            </p>
-            <span
-              css={css`
-                width: 7px;
-                height: 12px;
-                position: absolute;
-                z-index: 1;
-                top: 2px;
-                right: 0;
-              `}
-            >
-              <Image src={'/icon/nextMiniArrow.svg'} layout={'fill'} objectFit={'cover'} alt="더보기버튼" />
-            </span>
-          </div>
+            {tagYear}
+          </YearMonthSelector>
         ) : period === '월별' ? (
-          <div
-            css={css`
-              display: flex;
-              position: relative;
+          <YearMonthSelector
+            custom={css`
               width: 25%;
-              margin: 12px 0 16px 0;
             `}
           >
-            <span
-              css={css`
-                width: 7px;
-                height: 12px;
-                position: absolute;
-                z-index: 1;
-                top: 2px;
-                left: 0;
-                transform: rotate(180deg);
-              `}
-            >
-              <Image src={'/icon/nextMiniArrow.svg'} layout={'fill'} objectFit={'cover'} alt="더보기버튼" />
-            </span>
-            <p
-              css={(theme) => css`
-                position: absolute;
-                ${theme.font.R_BODY_15};
-                font-weight: 700;
-                left: 23px;
-              `}
-            >
-              {tagYear}.{tagMonth}
-            </p>
-            <span
-              css={css`
-                width: 7px;
-                height: 12px;
-                position: absolute;
-                z-index: 1;
-                top: 2px;
-                right: 0;
-              `}
-            >
-              <Image src={'/icon/nextMiniArrow.svg'} layout={'fill'} objectFit={'cover'} alt="더보기버튼" />
-            </span>
-          </div>
+            {tagYear}.{tagMonth}
+          </YearMonthSelector>
         ) : null}
         <TagDetailContainer />
       </div>

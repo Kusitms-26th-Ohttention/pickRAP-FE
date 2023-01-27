@@ -64,19 +64,6 @@ const TagDetailContainer = () => {
             margin-bottom: 13px;
           `}
         >
-          <div
-            css={css`
-              position: absolute;
-              width: 18px;
-              height: 18px;
-              border-radius: 100%;
-              background-color: #f6d936;
-              z-index: 0;
-              top: 80px;
-              /* 월별 연별 선택시top: 108px; */
-              left: 1px;
-            `}
-          />
           <p
             css={(theme) => css`
               position: relative;
@@ -84,8 +71,21 @@ const TagDetailContainer = () => {
               color: ${theme.color.black01};
               margin: 0 8px 0 5px;
               top: 3px;
+              z-index: 1;
             `}
           >
+            <div
+              css={css`
+                position: absolute;
+                width: 18px;
+                height: 18px;
+                border-radius: 100%;
+                background-color: #f6d936;
+                z-index: -1;
+                top: -6px;
+                left: -3px;
+              `}
+            />
             {hashTags[0].hashtag_name}
           </p>
           <p
@@ -123,6 +123,7 @@ const TagDetailContainer = () => {
           >
             <Doughnut data={DefaultTagData} options={chartOption} />
           </div>
+          {/* 아래부터 비율 표시 부분 */}
           <div
             css={(theme) => css`
               width: 100%;
@@ -174,7 +175,7 @@ const TagDetailContainer = () => {
               </p>
             </div>
           ))}
-          <ActiveButton
+          {/* <ActiveButton
             custom={(theme) => css`
               margin-top: 20px;
               border-radius: 33px;
@@ -182,7 +183,7 @@ const TagDetailContainer = () => {
             `}
           >
             콘텐츠 모아보기
-          </ActiveButton>
+          </ActiveButton> */}
         </div>
       </div>
     </>
