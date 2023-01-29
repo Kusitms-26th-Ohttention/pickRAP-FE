@@ -1,17 +1,33 @@
 import { css } from '@emotion/react';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 
+import { useGetCurrentMonth, useGetCurrentYear } from '@/application/store/analysis/analysisHook';
 import SelectPeriod from '@/components/analysis/SelectPeriod';
 import YearMonthSelector from '@/components/analysis/SelectPeriod/YearMonthSelector';
 import TagDetailContainer from '@/containers/analysis/TagAnalysis/TagDetailContainer';
 
-const TagAnalysisDetail = () => {
-  const [period, setPeriod] = useState('전체');
+const initSelectedContext = { yearSelect: false, monthSelect: false };
+type SelectContextKey = keyof typeof initSelectedContext;
 
-  // TODO atom으로 관리?
-  const date = new Date();
-  const tagYear = date.getFullYear();
-  const tagMonth = '0' + String(date.getMonth() + 1).slice(-2);
+const TagAnalysisDetail = () => {
+  const [selected, setSelected] = useState(initSelectedContext);
+  const [period, setPeriod] = useState('전체');
+  const tagYear = useGetCurrentYear();
+  const tagMonth = useGetCurrentMonth();
+
+  const ref = useRef<SelectContextKey>('yearSelect');
+
+  const handleTabClick = (key: SelectContextKey) => {
+    ref.current = key;
+  };
+
+  const handleClickYearMonth = () => {
+    setSelected((prev) => {
+      const ret = { ...prev };
+      ret[ref.current] = !ret[ref.current];
+      return ret;
+    });
+  };
 
   return (
     <>
@@ -29,12 +45,18 @@ const TagAnalysisDetail = () => {
           <SelectPeriod.OptionList>
             <SelectPeriod.Option value={'전체'} />
             <SelectPeriod.Option value={'3개월'} />
-            <SelectPeriod.Option value={'월별'} />
-            <SelectPeriod.Option value={'연별'} />
+            <div onClick={() => handleTabClick('yearSelect')}>
+              <SelectPeriod.Option value={'월별'} />
+            </div>
+            <div onClick={() => handleTabClick('monthSelect')}>
+              <SelectPeriod.Option value={'연별'} />
+            </div>
           </SelectPeriod.OptionList>
         </SelectPeriod>
         {period === '연별' ? (
           <YearMonthSelector
+            onClick={handleClickYearMonth}
+            selectItem={selected[ref.current]}
             custom={css`
               width: 20%;
             `}
@@ -43,14 +65,17 @@ const TagAnalysisDetail = () => {
           </YearMonthSelector>
         ) : period === '월별' ? (
           <YearMonthSelector
+            onClick={handleClickYearMonth}
+            selectItem={selected[ref.current]}
+            period={period}
             custom={css`
               width: 25%;
             `}
           >
-            {tagYear}.{tagMonth}
+            {tagMonth > 0 && tagMonth < 10 ? `${tagYear}.0${tagMonth}` : `${tagYear}.${tagMonth}`}
           </YearMonthSelector>
         ) : null}
-        <TagDetailContainer />
+        <TagDetailContainer tagYear={tagYear} />
       </div>
     </>
   );

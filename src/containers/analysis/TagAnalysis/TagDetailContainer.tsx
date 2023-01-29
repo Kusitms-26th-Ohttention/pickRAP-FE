@@ -4,18 +4,29 @@ import { ArcElement, Chart as ChartJS, Legend, scales, Tooltip } from 'chart.js'
 import { useState } from 'react';
 import { Doughnut } from 'react-chartjs-2';
 
-import { useGetAnalysis } from '@/application/hooks/api/analysis';
+import {
+  useGetAnalysis,
+  useGetTagAnalysisForYear,
+  useGetTagAnalysisForYearMonth,
+} from '@/application/hooks/api/analysis';
 import { ActiveButton } from '@/components/common/Button';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-const TagDetailContainer = () => {
-  // getAnalysis로 예시 UI
-  // filter year month 쿼리문으로 변경해야함
+interface TagDetailProps {
+  tagYear?: number | any;
+  tagMonth?: number;
+}
+
+const TagDetailContainer = ({ tagYear }: TagDetailProps) => {
   const [clickChart, setClickChart] = useState(false);
-  console.log(clickChart);
-  const { allAnalysis } = useGetAnalysis();
-  const hashTags: HashTagAnalysis[] = allAnalysis.hashtags;
+  // const { allAnalysis } = useGetAnalysis();
+
+  // const { yearAnalysis } = useGetTagAnalysisForYear(2022);
+
+  // const { monthAnalysis } = useGetTagAnalysisForYearMonth(tagYear, 1);
+
+  // const hashTags: HashTagAnalysis[] = allAnalysis.hashtags;
 
   const handleClickChart = () => {
     setClickChart(!clickChart);
@@ -35,7 +46,7 @@ const TagDetailContainer = () => {
   const chartColor = ['#F6D936', '#2A2E34', '#ABA9A6', '#EAE9E4'];
   const dataSetsName: string[] = [];
   const dataSetsRate: number[] = [];
-  hashTags.forEach((item) => (dataSetsName.push(item.hashtag_name), dataSetsRate.push(item.hashtag_rate)));
+  // hashTags.forEach((item) => (dataSetsName.push(item.hashtag_name), dataSetsRate.push(item.hashtag_rate)));
 
   const DefaultTagData = {
     labels: dataSetsName,
@@ -86,7 +97,7 @@ const TagDetailContainer = () => {
                 left: -3px;
               `}
             />
-            {hashTags[0].hashtag_name}
+            {/* {hashTags[0].hashtag_name} */}
           </p>
           <p
             css={(theme) => css`
@@ -121,7 +132,7 @@ const TagDetailContainer = () => {
               height: 182px;
             `}
           >
-            <Doughnut data={DefaultTagData} options={chartOption} />
+            {/* <Doughnut data={DefaultTagData} options={chartOption} /> */}
           </div>
           {/* 아래부터 비율 표시 부분 */}
           <div
@@ -145,7 +156,7 @@ const TagDetailContainer = () => {
               margin: 8px 0 16px 0;
             `}
           />
-          {hashTags.map((tag, idx) => (
+          {/* {hashTags.map((tag, idx) => (
             <div
               key={idx}
               css={css`
@@ -174,7 +185,7 @@ const TagDetailContainer = () => {
                 {tag.hashtag_rate}%
               </p>
             </div>
-          ))}
+          ))} */}
           {/* <ActiveButton
             custom={(theme) => css`
               margin-top: 20px;
