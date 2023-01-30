@@ -50,8 +50,9 @@ const YearMonthSelector = ({ custom, children, selectItem, period, tagYear, tagM
       <div
         css={[
           css`
-            display: flex;
-            position: relative;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            place-items: center;
             margin: 12px 0 16px 0;
           `,
           custom,
@@ -62,10 +63,6 @@ const YearMonthSelector = ({ custom, children, selectItem, period, tagYear, tagM
           css={css`
             width: 7px;
             height: 12px;
-            position: absolute;
-            z-index: 1;
-            top: 2px;
-            left: 0;
             transform: rotate(180deg);
             cursor: pointer;
           `}
@@ -74,10 +71,8 @@ const YearMonthSelector = ({ custom, children, selectItem, period, tagYear, tagM
         </span>
         <p
           css={(theme) => css`
-            position: absolute;
             ${theme.font.R_BODY_15};
             font-weight: 700;
-            left: 23px;
             cursor: pointer;
           `}
           onClick={onClick}
@@ -89,14 +84,11 @@ const YearMonthSelector = ({ custom, children, selectItem, period, tagYear, tagM
           css={css`
             width: 7px;
             height: 12px;
-            position: absolute;
-            z-index: 1;
-            top: 2px;
-            right: 0;
+            transform: rotate(360deg);
             cursor: pointer;
           `}
         >
-          <Image src={'/icon/nextMiniArrow.svg'} layout={'fill'} objectFit={'cover'} alt="nextBtn" />
+          <Image src={'/icon/nextMiniArrow.svg'} layout={'fill'} objectFit={'cover'} alt="prevBtn" />
         </span>
       </div>
       {selectItem && <YearMonthList year={tagYear} month={tagMonth} period={period} selectItem={selectItem} />}

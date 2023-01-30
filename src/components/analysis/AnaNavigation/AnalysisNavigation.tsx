@@ -17,6 +17,8 @@ const AnalysisNavigation = ({ children, backArrowState, onClick }: AnaNavigation
           width: 100%;
           ${theme.font.M_POINT_16};
           color: ${theme.color.black02};
+          background-color: white;
+          z-index: 5;
         `}
       >
         {backArrowState ? (
@@ -28,7 +30,6 @@ const AnalysisNavigation = ({ children, backArrowState, onClick }: AnaNavigation
               position: absolute;
               z-index: 1;
               top: 27px;
-              left: 0;
             `}
           >
             <Image src={'/icon/backArrow.svg'} layout={'fill'} objectFit={'cover'} alt="뒤로가기" />

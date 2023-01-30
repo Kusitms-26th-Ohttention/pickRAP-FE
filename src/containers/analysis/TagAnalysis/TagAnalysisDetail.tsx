@@ -42,61 +42,78 @@ const TagAnalysisDetail = () => {
   };
 
   return (
-    <>
+    <div
+      css={css`
+        height: 100%;
+        overflow: hidden;
+        position: relative;
+      `}
+    >
       <div
         css={css`
-          height: 100%;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          margin-top: 35px;
+          position: absolute;
+          overflow: auto;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
         `}
       >
-        <SelectPeriod value={'전체'} onChange={setPeriod}>
-          <SelectPeriod.Trigger />
-          <SelectPeriod.OptionList>
-            <div onClick={handleClickResetEntire}>
-              <SelectPeriod.Option value={'전체'} />
-            </div>
-            <SelectPeriod.Option value={'3개월'} />
-            <div onClick={() => handleTabClick('yearSelect')}>
-              <SelectPeriod.Option value={'월별'} />
-            </div>
-            <div onClick={() => handleTabClick('monthSelect')}>
-              <SelectPeriod.Option value={'연별'} />
-            </div>
-          </SelectPeriod.OptionList>
-        </SelectPeriod>
-        {period === '연별' ? (
-          <YearMonthSelector
-            onClick={handleClickYearMonth}
-            selectItem={selected[ref.current]}
-            period={period}
-            tagYear={tagYear}
-            tagMonth={tagMonth}
-            custom={css`
-              width: 20%;
-            `}
-          >
-            {tagYear}
-          </YearMonthSelector>
-        ) : period === '월별' ? (
-          <YearMonthSelector
-            onClick={handleClickYearMonth}
-            selectItem={selected[ref.current]}
-            period={period}
-            tagYear={tagYear}
-            tagMonth={tagMonth}
-            custom={css`
-              width: 25%;
-            `}
-          >
-            {tagMonth > 0 && tagMonth < 10 ? `${tagYear}.0${tagMonth}` : `${tagYear}.${tagMonth}`}
-          </YearMonthSelector>
-        ) : null}
-        <TagDetailContainer tagYear={tagYear} tagMonth={tagMonth} />
+        <div
+          css={css`
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 35px;
+          `}
+        >
+          <SelectPeriod value={'전체'} onChange={setPeriod}>
+            <SelectPeriod.Trigger />
+            <SelectPeriod.OptionList>
+              <div onClick={handleClickResetEntire}>
+                <SelectPeriod.Option value={'전체'} />
+              </div>
+              <SelectPeriod.Option value={'3개월'} />
+              <div onClick={() => handleTabClick('yearSelect')}>
+                <SelectPeriod.Option value={'월별'} />
+              </div>
+              <div onClick={() => handleTabClick('monthSelect')}>
+                <SelectPeriod.Option value={'연별'} />
+              </div>
+            </SelectPeriod.OptionList>
+          </SelectPeriod>
+          {period === '연별' ? (
+            <YearMonthSelector
+              onClick={handleClickYearMonth}
+              selectItem={selected[ref.current]}
+              period={period}
+              tagYear={tagYear}
+              tagMonth={tagMonth}
+              custom={css`
+                width: 30%;
+              `}
+            >
+              {tagYear}
+            </YearMonthSelector>
+          ) : period === '월별' ? (
+            <YearMonthSelector
+              onClick={handleClickYearMonth}
+              selectItem={selected[ref.current]}
+              period={period}
+              tagYear={tagYear}
+              tagMonth={tagMonth}
+              custom={css`
+                width: 35%;
+              `}
+            >
+              {tagMonth > 0 && tagMonth < 10 ? `${tagYear}.0${tagMonth}` : `${tagYear}.${tagMonth}`}
+            </YearMonthSelector>
+          ) : null}
+          <TagDetailContainer tagYear={tagYear} tagMonth={tagMonth} />
+        </div>
       </div>
-    </>
+    </div>
   );
 };
 export default TagAnalysisDetail;

@@ -61,7 +61,7 @@ const TagDetailContainer = ({ tagYear, tagMonth }: TagDetailProps) => {
           css={css`
             width: 100%;
             height: 100%;
-            margin-top: 20px;
+            margin-top: 10px;
           `}
         >
           <div

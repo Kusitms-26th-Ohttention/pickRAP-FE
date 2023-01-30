@@ -20,7 +20,7 @@ const NoAnalysis = () => {
         css={css`
           position: relative;
           transform: translateX(-4px);
-          height: 14vh;
+          height: 15vh;
           width: 155px;
         `}
       >
