@@ -2,9 +2,8 @@ import type { CustomStyle } from '@emotion/react';
 import { css } from '@emotion/react';
 import Image from 'next/image';
 import type { ReactNode } from 'react';
-import { useRecoilState } from 'recoil';
 
-import { currentMonth, currentYear } from '@/application/store/analysis/analysisState';
+import { useSetCurrentMonth, useSetCurrentYear } from '@/application/store/analysis/analysisHook';
 
 import YearMonthList from './YearMonthList';
 
@@ -13,36 +12,36 @@ interface YearMonthProps {
   children?: ReactNode;
   selectItem?: boolean;
   period?: string;
+  tagYear: number;
+  tagMonth: number;
   onClick?: () => void;
 }
 
-const YearMonthSelector = ({ custom, children, selectItem, period, onClick }: YearMonthProps) => {
-  const [year, setYear] = useRecoilState(currentYear);
-  const [month, setMonth] = useRecoilState(currentMonth);
-
-  console.log('선택', selectItem);
+const YearMonthSelector = ({ custom, children, selectItem, period, tagYear, tagMonth, onClick }: YearMonthProps) => {
+  const handleNewYear = useSetCurrentYear();
+  const handleNewMonth = useSetCurrentMonth();
 
   const handleClickPrevBtn = () => {
     if (period === '월별') {
-      setMonth(month - 1);
-      if (month < 1) {
-        setYear(year - 1);
-        setMonth(11);
+      handleNewMonth(tagMonth - 2);
+      if (tagMonth <= 1) {
+        handleNewMonth(11);
+        handleNewYear(tagYear - 1);
       }
     } else {
-      setYear(year - 1);
+      handleNewYear(tagYear - 1);
     }
   };
 
   const handleClickNextBtn = () => {
     if (period === '월별') {
-      setMonth(month + 1);
-      if (month > 10) {
-        setYear(year + 1);
-        setMonth(0);
+      handleNewMonth(tagMonth);
+      if (tagMonth >= 12) {
+        handleNewMonth(0);
+        handleNewYear(tagYear + 1);
       }
     } else {
-      setYear(year + 1);
+      handleNewYear(tagYear + 1);
     }
   };
 
@@ -99,9 +98,8 @@ const YearMonthSelector = ({ custom, children, selectItem, period, onClick }: Ye
         >
           <Image src={'/icon/nextMiniArrow.svg'} layout={'fill'} objectFit={'cover'} alt="nextBtn" />
         </span>
-        {/* 날짜 선택 박스 */}
       </div>
-      {selectItem && <YearMonthList />}
+      {selectItem && <YearMonthList year={tagYear} month={tagMonth} period={period} selectItem={selectItem} />}
     </>
   );
 };

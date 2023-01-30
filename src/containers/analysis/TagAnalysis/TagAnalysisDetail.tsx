@@ -57,6 +57,9 @@ const TagAnalysisDetail = () => {
           <YearMonthSelector
             onClick={handleClickYearMonth}
             selectItem={selected[ref.current]}
+            period={period}
+            tagYear={tagYear}
+            tagMonth={tagMonth}
             custom={css`
               width: 20%;
             `}
@@ -68,6 +71,8 @@ const TagAnalysisDetail = () => {
             onClick={handleClickYearMonth}
             selectItem={selected[ref.current]}
             period={period}
+            tagYear={tagYear}
+            tagMonth={tagMonth}
             custom={css`
               width: 25%;
             `}
@@ -75,7 +80,7 @@ const TagAnalysisDetail = () => {
             {tagMonth > 0 && tagMonth < 10 ? `${tagYear}.0${tagMonth}` : `${tagYear}.${tagMonth}`}
           </YearMonthSelector>
         ) : null}
-        <TagDetailContainer tagYear={tagYear} />
+        <TagDetailContainer tagYear={tagYear} tagMonth={tagMonth} />
       </div>
     </>
   );
