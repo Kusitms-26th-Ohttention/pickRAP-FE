@@ -1,7 +1,12 @@
 import { css } from '@emotion/react';
 import { useRef, useState } from 'react';
 
-import { useGetCurrentMonth, useGetCurrentYear } from '@/application/store/analysis/analysisHook';
+import {
+  useGetCurrentMonth,
+  useGetCurrentYear,
+  useResetCurrentMonth,
+  useResetCurrentYear,
+} from '@/application/store/analysis/analysisHook';
 import SelectPeriod from '@/components/analysis/SelectPeriod';
 import YearMonthSelector from '@/components/analysis/SelectPeriod/YearMonthSelector';
 import TagDetailContainer from '@/containers/analysis/TagAnalysis/TagDetailContainer';
@@ -14,6 +19,8 @@ const TagAnalysisDetail = () => {
   const [period, setPeriod] = useState('전체');
   const tagYear = useGetCurrentYear();
   const tagMonth = useGetCurrentMonth();
+  const resetYear = useResetCurrentYear();
+  const resetMonth = useResetCurrentMonth();
 
   const ref = useRef<SelectContextKey>('yearSelect');
 
@@ -27,6 +34,11 @@ const TagAnalysisDetail = () => {
       ret[ref.current] = !ret[ref.current];
       return ret;
     });
+  };
+
+  const handleClickResetEntire = () => {
+    resetYear();
+    resetMonth();
   };
 
   return (
@@ -43,7 +55,9 @@ const TagAnalysisDetail = () => {
         <SelectPeriod value={'전체'} onChange={setPeriod}>
           <SelectPeriod.Trigger />
           <SelectPeriod.OptionList>
-            <SelectPeriod.Option value={'전체'} />
+            <div onClick={handleClickResetEntire}>
+              <SelectPeriod.Option value={'전체'} />
+            </div>
             <SelectPeriod.Option value={'3개월'} />
             <div onClick={() => handleTabClick('yearSelect')}>
               <SelectPeriod.Option value={'월별'} />

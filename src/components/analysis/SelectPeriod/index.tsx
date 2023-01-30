@@ -7,6 +7,10 @@ import Chip from '@/components/common/Chip';
 import type { SelectProps } from '@/components/common/Select/context';
 import { SelectContext, useSelectContext } from '@/components/common/Select/context';
 
+interface SelectPeriod {
+  onClick?: () => void;
+}
+
 function SelectRoot({ children, open, ...rest }: PropsWithChildren<SelectProps>) {
   const [context, setContext] = useState<SelectProps>({ ...rest, open: open ?? false });
   const ref = useClickOutside<HTMLUListElement>(() =>

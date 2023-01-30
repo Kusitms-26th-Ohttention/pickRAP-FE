@@ -5,8 +5,8 @@ import { useState } from 'react';
 import { Doughnut } from 'react-chartjs-2';
 
 import { useGetTagAnalysisForYearMonth } from '@/application/hooks/api/analysis';
-import { ActiveButton } from '@/components/common/Button';
 import NoAnalysis from '@/components/analysis/NoAnalysis';
+import { ActiveButton } from '@/components/common/Button';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
