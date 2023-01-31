@@ -13,6 +13,7 @@ const AnalysisListContainer = () => {
         height: 100%;
         overflow: hidden;
         position: relative;
+        margin-top: 24px;
       `}
     >
       <div

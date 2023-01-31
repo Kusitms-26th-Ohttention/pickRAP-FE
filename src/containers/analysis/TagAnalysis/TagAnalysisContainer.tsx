@@ -5,7 +5,6 @@ import { Doughnut } from 'react-chartjs-2';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-// TODO 타입 지정 위치 변경
 interface AnalysisDataProps {
   hashTags: HashTagAnalysis[];
   chartOption: {

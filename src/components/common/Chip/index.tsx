@@ -39,8 +39,8 @@ const CSSChipLarge = (theme: Theme) => css`
 
 const CSSChipActive = (theme: Theme) => css`
   color: ${theme.color.white01};
-  background: ${theme.color.black01};
-  border-color: ${theme.color.black01};
+  background: ${theme.color.black03};
+  border-color: ${theme.color.black03};
 `;
 
 export default Chip;

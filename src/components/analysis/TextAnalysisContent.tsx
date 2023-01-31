@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 
-import SubAnaNavigation from './\bAnaNavigation/SubAnaNavigation';
+import SubAnaNavigation from './AnaNavigation/SubAnaNavigation';
 
 const TextAnalysisContent = () => {
   return (

@@ -9,3 +9,11 @@ export const useGetAnalysis = () => {
   });
   return { allAnalysis: data?.data.data || [], ...rest };
 };
+
+export const useGetTagAnalysisForYearMonth = (year: number, month: number) => {
+  const { data, ...rest } = useQuery({
+    queryKey: ['getTagAnalysisForYearMonth', year, month],
+    queryFn: () => api.analysis.getTagAnalysisForYearMonth({ year, month }),
+  });
+  return { detailAnalysis: data?.data.data || [], ...rest };
+};

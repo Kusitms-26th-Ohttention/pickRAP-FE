@@ -1,12 +1,15 @@
 import { css } from '@emotion/react';
+import { useRecoilState } from 'recoil';
 
 import { useGetAnalysis } from '@/application/hooks/api/analysis';
+import { tagDetailState } from '@/application/store/analysis/analysisState';
 import TagAnalysisContainer from '@/containers/analysis/TagAnalysis/TagAnalysisContainer';
 
-import SubAnaNavigation from './\bAnaNavigation/SubAnaNavigation';
+import SubAnaNavigation from './AnaNavigation/SubAnaNavigation';
+import NoAnalysis from './NoAnalysis';
 
 const TagAnalysisContent = () => {
-  // TODO 더보기 클릭 시 변경되는 화면 스타일링
+  const [tagState, setTagState] = useRecoilState(tagDetailState);
   const { allAnalysis } = useGetAnalysis();
   const hashTags = allAnalysis.hashtags;
 
@@ -18,13 +21,19 @@ const TagAnalysisContent = () => {
     },
   };
 
+  const handleClickMoreBtn = () => {
+    setTagState(!tagState);
+  };
+
   return (
     <div
       css={css`
         height: 100%;
       `}
     >
-      <SubAnaNavigation moreState={true}>내 스크랩 분석</SubAnaNavigation>
+      <SubAnaNavigation moreState={true} onClick={handleClickMoreBtn}>
+        내 스크랩 분석
+      </SubAnaNavigation>
       <div
         css={css`
           height: 342px;
@@ -36,7 +45,11 @@ const TagAnalysisContent = () => {
             padding: 12px 0 32px;
           `}
         >
-          <TagAnalysisContainer hashTags={hashTags} chartOption={chartOption} />
+          {hashTags.length === 0 ? (
+            <NoAnalysis />
+          ) : (
+            <TagAnalysisContainer hashTags={hashTags} chartOption={chartOption} />
+          )}
         </div>
       </div>
     </div>
