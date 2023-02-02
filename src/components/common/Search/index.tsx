@@ -14,7 +14,9 @@ const Search = ({ onSubmit, onClosed, tagScrap }: SearchProps) => {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    setOpen(true);
+    if (tagScrap) {
+      setOpen(true);
+    }
   }, [tagScrap]);
 
   return (
