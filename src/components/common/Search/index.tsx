@@ -1,16 +1,21 @@
 import { css } from '@emotion/react';
 import { motion } from 'framer-motion';
 import type { FormHTMLAttributes } from 'react';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 interface SearchProps extends Omit<FormHTMLAttributes<HTMLFormElement>, 'onSubmit'> {
   onSubmit: (query: string) => void;
   onClosed?: () => void;
+  tagScrap?: string | string[] | undefined;
 }
 
-const Search = ({ onSubmit, onClosed }: SearchProps) => {
+const Search = ({ onSubmit, onClosed, tagScrap }: SearchProps) => {
   const ref = useRef<HTMLInputElement>(null);
   const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    setOpen(true);
+  }, [tagScrap]);
 
   return (
     <form
@@ -94,6 +99,7 @@ const Search = ({ onSubmit, onClosed }: SearchProps) => {
             ${theme.font.R_BODY_14};
             color: ${theme.color.gray02};
           `}
+          defaultValue={tagScrap && tagScrap}
         />
       </motion.div>
       <button

@@ -1,7 +1,7 @@
 export type GetScrapDetailResponse = Scrap;
 
 export interface GetScrapBySearchRequest {
-  search: string;
+  search: string | string[] | undefined;
   pageParam?: number;
 }
 

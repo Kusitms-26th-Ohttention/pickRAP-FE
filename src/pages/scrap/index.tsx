@@ -1,7 +1,8 @@
 import { css } from '@emotion/react';
 import type { NextPage } from 'next';
 import Image from 'next/image';
-import React, { useRef, useState } from 'react';
+import { useRouter } from 'next/router';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import { useDeleteCategory } from '@/application/hooks/api/category';
 import { useDeleteScrap } from '@/application/hooks/api/scrap';
@@ -28,8 +29,10 @@ const initSelectedContext = { category: false, content: false, categoryInfo: fal
 type SelectContextKey = keyof typeof initSelectedContext;
 
 const Scrap: NextPage = () => {
+  const router = useRouter();
+  const tagScrap = router.query.params;
   const [selected, setSelected] = useState(initSelectedContext);
-  const [searchString, setSearchString] = useState('');
+  const [searchString, setSearchString] = useState<string | string[] | undefined>('');
 
   const categoryDeleteItem = useCategoryDeleteList();
   const resetCategoryList = useResetCategoryDeleteList();
@@ -70,7 +73,10 @@ const Scrap: NextPage = () => {
     });
   };
 
-  const handleSearch = (search: string) => setSearchString(search);
+  const handleSearch = useCallback(
+    (search?: string) => (tagScrap ? setSearchString(tagScrap) : setSearchString(search)),
+    [tagScrap],
+  );
 
   const handleUploadToast = () => show({ content: <CreateScrapToast /> });
 
@@ -78,6 +84,8 @@ const Scrap: NextPage = () => {
     ref.current = 'categoryInfo';
     setCategoryInfo(info);
   };
+
+  useEffect(() => handleSearch(), [tagScrap, handleSearch]);
 
   return (
     <>
@@ -106,7 +114,7 @@ const Scrap: NextPage = () => {
             <Image src={'/icon/backArrow.svg'} layout={'fill'} objectFit={'cover'} alt="뒤로가기" />
           </span>
         ) : null}
-        <Search onSubmit={handleSearch} onClosed={() => setSearchString('')} />
+        <Search onSubmit={handleSearch} onClosed={() => setSearchString('')} tagScrap={tagScrap} />
         {!searchString ? (
           <span
             onClick={handleMultiSelect}

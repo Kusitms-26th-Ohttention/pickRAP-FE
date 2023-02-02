@@ -1,11 +1,13 @@
 import type { Theme } from '@emotion/react';
 import { css } from '@emotion/react';
-import { ArcElement, Chart as ChartJS, Legend, scales, Tooltip } from 'chart.js';
+import { ArcElement, Chart as ChartJS, Legend, Tooltip } from 'chart.js';
+import Link from 'next/link';
 import { useState } from 'react';
 import { Doughnut } from 'react-chartjs-2';
 
 import { useGetTagAnalysisForYearMonth } from '@/application/hooks/api/analysis';
 import NoAnalysis from '@/components/analysis/NoAnalysis';
+import TotalRatioBar from '@/components/analysis/TotalRatioBar';
 import { ActiveButton } from '@/components/common/Button';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
@@ -17,22 +19,23 @@ interface TagDetailProps {
 
 const TagDetailContainer = ({ tagYear, tagMonth }: TagDetailProps) => {
   const [clickChart, setClickChart] = useState(false);
-
+  const [clickTag, setClickTag] = useState('');
   const { detailAnalysis } = useGetTagAnalysisForYearMonth(tagYear, tagMonth);
   const hashTags: HashTagAnalysis[] = detailAnalysis.hashtags;
 
-  const handleClickChart = () => {
-    setClickChart(!clickChart);
-  };
-
   const chartOption = {
+    // responsive: false,
     plugins: {
       legend: {
         display: false,
       },
     },
-    onClick: ({ chart }: any) => {
-      handleClickChart;
+    onClick: (e: any, activeEl: any) => {
+      if (activeEl[0] != undefined) {
+        // activeEl[0].element.options.offset += 20;
+        setClickChart(!clickChart);
+        setClickTag(e.chart.data.labels[activeEl[0]?.index]);
+      }
     },
   };
 
@@ -47,7 +50,8 @@ const TagDetailContainer = ({ tagYear, tagMonth }: TagDetailProps) => {
       {
         data: dataSetsRate,
         backgroundColor: chartColor,
-        borderWidth: 0,
+        borderColor: chartColor,
+        padding: 10,
       },
     ],
   };
@@ -130,20 +134,9 @@ const TagDetailContainer = ({ tagYear, tagMonth }: TagDetailProps) => {
             >
               <Doughnut data={DefaultTagData} options={chartOption} />
             </div>
+            {/* <Doughnut data={DefaultTagData} options={chartOption} /> */}
             {/* 아래부터 비율 표시 부분 */}
-            <div
-              css={(theme) => css`
-                width: 100%;
-                display: flex;
-                justify-content: space-between;
-                color: ${theme.color.gray08};
-                ${theme.font.R_BODY_13};
-                margin-top: 35px;
-              `}
-            >
-              <p>전체</p>
-              <p>100%</p>
-            </div>
+            <TotalRatioBar />
             <span
               css={(theme) => css`
                 background-color: ${theme.color.gray10};
@@ -183,23 +176,28 @@ const TagDetailContainer = ({ tagYear, tagMonth }: TagDetailProps) => {
               </div>
             ))}
           </div>
+          {clickChart && (
+            <Link href={{ pathname: '/scrap', query: { params: clickTag } }} as={'/scrap'}>
+              <ActiveButton
+                custom={(theme) => css`
+                  margin: 20px 0;
+                  border-radius: 33px;
+                  color: ${theme.color.gray03};
+                  :hover {
+                    background-color: ${theme.color.black02};
+                    color: white;
+                  }
+                `}
+              >
+                콘텐츠 모아보기
+              </ActiveButton>
+            </Link>
+          )}
         </div>
       )}
     </>
   );
 };
-
-{
-  /* <ActiveButton
-  custom={(theme) => css`
-    margin-top: 20px;
-    border-radius: 33px;
-    color: ${theme.color.gray03};
-  `}
->
-  콘텐츠 모아보기
-</ActiveButton> */
-}
 
 const CSSChartball = (idx: number) => (theme: Theme) =>
   css`

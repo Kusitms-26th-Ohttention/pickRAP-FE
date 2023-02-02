@@ -5,7 +5,7 @@ import { useGetScrapBySearch } from '@/application/hooks/api/scrap';
 import PhotoListContainer from '@/containers/scrap/PhotoListContainer';
 
 interface SearchListContainerProps {
-  params?: string;
+  params?: string | string[] | undefined;
 }
 const SearchListContainer = ({ params }: SearchListContainerProps) => {
   const { scraps, fetchNextPage } = useGetScrapBySearch({ search: params || '' });
