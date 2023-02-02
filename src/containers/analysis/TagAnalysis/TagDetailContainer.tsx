@@ -24,7 +24,6 @@ const TagDetailContainer = ({ tagYear, tagMonth }: TagDetailProps) => {
   const hashTags: HashTagAnalysis[] = detailAnalysis.hashtags;
 
   const chartOption = {
-    // responsive: false,
     plugins: {
       legend: {
         display: false,
@@ -32,9 +31,12 @@ const TagDetailContainer = ({ tagYear, tagMonth }: TagDetailProps) => {
     },
     onClick: (e: any, activeEl: any) => {
       if (activeEl[0] != undefined) {
-        // activeEl[0].element.options.offset += 20;
-        setClickChart(!clickChart);
+        setClickChart(true);
         setClickTag(e.chart.data.labels[activeEl[0]?.index]);
+        activeEl[0].element.options.offset += 20;
+      }
+      if (activeEl[0] === undefined) {
+        setClickChart(false);
       }
     },
   };
@@ -67,6 +69,7 @@ const TagDetailContainer = ({ tagYear, tagMonth }: TagDetailProps) => {
             height: 100%;
             margin-top: 10px;
           `}
+          onClick={() => setClickChart(false)}
         >
           <div
             css={css`
@@ -134,7 +137,6 @@ const TagDetailContainer = ({ tagYear, tagMonth }: TagDetailProps) => {
             >
               <Doughnut data={DefaultTagData} options={chartOption} />
             </div>
-            {/* <Doughnut data={DefaultTagData} options={chartOption} /> */}
             {/* 아래부터 비율 표시 부분 */}
             <TotalRatioBar />
             <span
