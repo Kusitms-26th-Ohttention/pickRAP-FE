@@ -77,3 +77,8 @@ interface Analysis {
   hashtags: HashTagAnalysis[];
   texts: TextAnalysis[];
 }
+
+interface RevisitAnalysis {
+  scrap_id: number;
+  title: string;
+}

@@ -1,12 +1,16 @@
 import { css } from '@emotion/react';
 import { useRecoilState } from 'recoil';
 
+import { useGetRevisitAnalysis } from '@/application/hooks/api/analysis';
 import { revisitDetailState } from '@/application/store/analysis/analysisState';
 
 import SubAnaNavigation from './AnaNavigation/SubAnaNavigation';
+import RevisitTitle from './Revisit/RevisitTitle';
 
 const RevisitContent = () => {
   const [revisitState, setRevisitState] = useRecoilState(revisitDetailState);
+  const { revisitAnalysis } = useGetRevisitAnalysis();
+  console.log(revisitAnalysis);
 
   const handleClickMoreBtn = () => {
     setRevisitState(!revisitState);
@@ -32,7 +36,7 @@ const RevisitContent = () => {
             padding: 12px 0 32px;
           `}
         >
-          재방문 콘텐츠
+          <RevisitTitle active={false} />
         </div>
       </div>
     </div>

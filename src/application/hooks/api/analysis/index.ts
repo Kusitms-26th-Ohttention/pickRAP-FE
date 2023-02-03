@@ -17,3 +17,11 @@ export const useGetTagAnalysisForYearMonth = (year: number, month: number) => {
   });
   return { detailAnalysis: data?.data.data || [], ...rest };
 };
+
+export const useGetRevisitAnalysis = () => {
+  const { data, ...rest } = useQuery({
+    queryKey: ['getRevisitAnalysis'],
+    queryFn: api.analysis.getRevisitAnalysis,
+  });
+  return { revisitAnalysis: data?.data.data || [], ...rest };
+};
