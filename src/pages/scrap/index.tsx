@@ -42,7 +42,6 @@ const Scrap: NextPage = () => {
   const categoryMutation = useDeleteCategory();
   const scrapMutation = useDeleteScrap();
 
-  // TODO 카테고리 상세 페이지 분리
   const [categoryInfo, setCategoryInfo] = useState<{ id: number; name: string }>({ id: 0, name: '' });
   const ref = useRef<SelectContextKey>('category');
   const { show } = useToast();
@@ -74,7 +73,13 @@ const Scrap: NextPage = () => {
   };
 
   const handleSearch = useCallback(
-    (search?: string) => (tagScrap ? setSearchString(tagScrap) : setSearchString(search)),
+    (search?: string) =>
+      tagScrap
+        ? // TODO 태그이름에 기본적으로 #이 붙어있느냐 안 붙어있느냐에 따라서 없어질 코드
+          tagScrap[0] === '#'
+          ? setSearchString(tagScrap.slice(1))
+          : setSearchString(tagScrap)
+        : setSearchString(search),
     [tagScrap],
   );
 

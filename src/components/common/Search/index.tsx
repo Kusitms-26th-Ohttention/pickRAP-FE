@@ -101,7 +101,9 @@ const Search = ({ onSubmit, onClosed, tagScrap }: SearchProps) => {
             ${theme.font.R_BODY_14};
             color: ${theme.color.gray02};
           `}
-          defaultValue={tagScrap && tagScrap}
+          // TODO 태그이름에 기본적으로 #이 붙어있느냐 안 붙어있느냐에 따라서 없어질 코드
+          // TODO defaultValue에 값을 넣어서 그런지 콘텐츠 모아보기 후 같은 페이지에서 검색하려고 하면 검색이 안돼요 ...
+          defaultValue={tagScrap ? (tagScrap[0] === '#' ? tagScrap.slice(1) : tagScrap) : tagScrap}
         />
       </motion.div>
       <button

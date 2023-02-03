@@ -31,9 +31,10 @@ const TagDetailContainer = ({ tagYear, tagMonth }: TagDetailProps) => {
     },
     onClick: (e: any, activeEl: any) => {
       if (activeEl[0] != undefined) {
+        // TODO 크기 증가랑 state변환이 동시에 안됨
+        // activeEl[0].element.outerRadius *= 1.1;
         setClickChart(true);
         setClickTag(e.chart.data.labels[activeEl[0]?.index]);
-        activeEl[0].element.options.offset += 20;
       }
       if (activeEl[0] === undefined) {
         setClickChart(false);
