@@ -24,15 +24,23 @@ const TagDetailContainer = ({ tagYear, tagMonth }: TagDetailProps) => {
   const hashTags: HashTagAnalysis[] = detailAnalysis.hashtags;
 
   const chartOption = {
+    responsive: false,
     plugins: {
       legend: {
         display: false,
       },
     },
+    layout: {
+      padding: 10,
+    },
     onClick: (e: any, activeEl: any) => {
       if (activeEl[0] != undefined) {
         // TODO 크기 증가랑 state변환이 동시에 안됨
-        // activeEl[0].element.outerRadius *= 1.1;
+        // {
+        //   activeEl[0].element.outerRadius < 97.9
+        //     ? (activeEl[0].element.outerRadius *= 1.1)
+        //     : (activeEl[0].element.outerRadius /= 1.1);
+        // }
         setClickChart(true);
         setClickTag(e.chart.data.labels[activeEl[0]?.index]);
       }
@@ -70,7 +78,6 @@ const TagDetailContainer = ({ tagYear, tagMonth }: TagDetailProps) => {
             height: 100%;
             margin-top: 10px;
           `}
-          onClick={() => setClickChart(false)}
         >
           <div
             css={css`
@@ -127,17 +134,10 @@ const TagDetailContainer = ({ tagYear, tagMonth }: TagDetailProps) => {
               flex-direction: column;
               justify-content: center;
               align-items: center;
-              margin-top: 40px;
+              margin-top: 30px;
             `}
           >
-            <div
-              css={css`
-                width: 182px;
-                height: 182px;
-              `}
-            >
-              <Doughnut data={DefaultTagData} options={chartOption} />
-            </div>
+            <Doughnut data={DefaultTagData} options={chartOption} width="200" height="200" />
             {/* 아래부터 비율 표시 부분 */}
             <TotalRatioBar />
             <span
