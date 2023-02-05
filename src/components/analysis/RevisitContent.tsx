@@ -1,14 +1,17 @@
 import { css } from '@emotion/react';
+import { useRouter } from 'next/router';
 import { useRecoilState } from 'recoil';
 
 import { useGetRevisitAnalysis } from '@/application/hooks/api/analysis';
 import { revisitDetailState } from '@/application/store/analysis/analysisState';
+import { getSrcByType } from '@/application/utils/helper';
 
 import Photo from '../common/Photo';
 import SubAnaNavigation from './AnaNavigation/SubAnaNavigation';
 import RevisitTitle from './Revisit/RevisitTitle';
 
 const RevisitContent = () => {
+  const router = useRouter();
   const [revisitState, setRevisitState] = useRecoilState(revisitDetailState);
   const { revisitAnalysis } = useGetRevisitAnalysis();
   const revisitContentThum = revisitAnalysis.slice(0, 2);
@@ -16,6 +19,10 @@ const RevisitContent = () => {
 
   const handleClickMoreBtn = () => {
     setRevisitState(!revisitState);
+  };
+
+  const handleClickPhoto = (thumId: number) => {
+    router.push(`/scrap/${thumId}`);
   };
 
   return (
@@ -41,6 +48,8 @@ const RevisitContent = () => {
               custom={css`
                 aspect-ratio: 1/1;
               `}
+              onClick={() => handleClickPhoto(thum.scrap_id)}
+              src={getSrcByType(thum)}
             />
           ))}
         </div>
