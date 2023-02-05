@@ -57,7 +57,7 @@ interface Magazine {
 interface EditPage {
   scrap_id: number;
   text: string;
-  src: string;
+  src: string | undefined | null;
   placeholder?: string;
 }
 
