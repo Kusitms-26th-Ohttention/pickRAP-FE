@@ -7,28 +7,46 @@ import RevisitTitle from '@/components/analysis/Revisit/RevisitTitle';
 
 const RevisitAnalysisDetail = () => {
   const { revisitAnalysis } = useGetRevisitAnalysis();
-  console.log(revisitAnalysis);
 
   return (
     <>
       <div
         css={css`
           height: 100%;
-          margin-top: 50px;
+          overflow: hidden;
+          position: relative;
+          margin-top: 45px;
         `}
       >
-        {revisitAnalysis.length === 0 ? (
-          <NoRevisit />
-        ) : (
-          <>
-            <RevisitTitle active={true} />
-            <div css={CSSPhotoListContainer}>
-              {revisitAnalysis.map((thum) => (
-                <RevisitPhotoList key={thum.scrap_id} thumId={thum.scrap_id} thum={thum} title={thum.title} />
-              ))}
-            </div>
-          </>
-        )}
+        <div
+          css={css`
+            position: absolute;
+            overflow: auto;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+          `}
+        >
+          {revisitAnalysis.length === 0 ? (
+            <NoRevisit />
+          ) : (
+            <>
+              <div
+                css={css`
+                  margin: 10px 0;
+                `}
+              >
+                <RevisitTitle active={true} />
+              </div>
+              <div css={CSSPhotoListContainer}>
+                {revisitAnalysis.map((thum) => (
+                  <RevisitPhotoList key={thum.scrap_id} thumId={thum.scrap_id} thum={thum} title={thum.title} />
+                ))}
+              </div>
+            </>
+          )}
+        </div>
       </div>
     </>
   );

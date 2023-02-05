@@ -36,6 +36,7 @@ const RevisitPhotoList = ({ thumId, thum, title }: RevisitPhotoListProps) => {
         css={(theme) => css`
           color: ${theme.color.black03};
           ${theme.font.R_BODY_13};
+          margin: 6px 0;
         `}
       >
         {title}
