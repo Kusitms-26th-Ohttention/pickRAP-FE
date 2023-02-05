@@ -9,7 +9,11 @@ import { useDeleteScrap } from '@/application/hooks/api/scrap';
 import usePopup from '@/application/hooks/common/usePopup';
 import useToast from '@/application/hooks/common/useToast';
 import { useCategoryDeleteList, useResetCategoryDeleteList } from '@/application/store/category/categoryHook';
-import { useResetScrapDeleteList, useScrapDeleteList } from '@/application/store/scrap/scrapHook';
+import {
+  useGetScrapReSearching,
+  useResetScrapDeleteList,
+  useScrapDeleteList,
+} from '@/application/store/scrap/scrapHook';
 import { BottomNavigation } from '@/components/common/Navigation';
 import { DeletePopup } from '@/components/common/Popup/Sentence';
 import Search from '@/components/common/Search';
@@ -38,6 +42,7 @@ const Scrap: NextPage = () => {
   const resetCategoryList = useResetCategoryDeleteList();
   const scrapDeleteItem = useScrapDeleteList();
   const resetScrapList = useResetScrapDeleteList();
+  const researchValue = useGetScrapReSearching();
 
   const categoryMutation = useDeleteCategory();
   const scrapMutation = useDeleteScrap();
@@ -73,14 +78,22 @@ const Scrap: NextPage = () => {
   };
 
   const handleSearch = useCallback(
-    (search?: string) =>
-      tagScrap
-        ? // TODO 태그이름에 기본적으로 #이 붙어있느냐 안 붙어있느냐에 따라서 없어질 코드
-          tagScrap[0] === '#'
-          ? setSearchString(tagScrap.slice(1))
-          : setSearchString(tagScrap)
-        : setSearchString(search),
-    [tagScrap],
+    (search?: string) => {
+      if (tagScrap) {
+        // TODO 태그이름에 기본적으로 #이 붙어있느냐 안 붙어있느냐에 따라서 없어질 코드
+        if (tagScrap[0] === '#') {
+          setSearchString(tagScrap.slice(1));
+        } else {
+          setSearchString(tagScrap);
+        }
+      } else {
+        setSearchString(search);
+      }
+      if (researchValue !== '') {
+        setSearchString(researchValue);
+      }
+    },
+    [tagScrap, researchValue],
   );
 
   const handleUploadToast = () => show({ content: <CreateScrapToast /> });

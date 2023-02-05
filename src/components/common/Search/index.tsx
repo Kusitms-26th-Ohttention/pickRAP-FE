@@ -1,7 +1,11 @@
 import { css } from '@emotion/react';
 import { motion } from 'framer-motion';
+import { useRouter } from 'next/router';
 import type { FormHTMLAttributes } from 'react';
 import { useEffect, useRef, useState } from 'react';
+import { useRecoilState } from 'recoil';
+
+import { scrapReSearching } from '@/application/store/scrap/scrapState';
 
 interface SearchProps extends Omit<FormHTMLAttributes<HTMLFormElement>, 'onSubmit'> {
   onSubmit: (query: string) => void;
@@ -10,8 +14,15 @@ interface SearchProps extends Omit<FormHTMLAttributes<HTMLFormElement>, 'onSubmi
 }
 
 const Search = ({ onSubmit, onClosed, tagScrap }: SearchProps) => {
+  const router = useRouter();
   const ref = useRef<HTMLInputElement>(null);
   const [open, setOpen] = useState(false);
+  const [search, setSearch] = useState('');
+  const [reValue, setReValue] = useRecoilState(scrapReSearching);
+
+  const handleChangeValue = (newValue: string) => {
+    setSearch(newValue);
+  };
 
   useEffect(() => {
     if (tagScrap) {
@@ -23,7 +34,13 @@ const Search = ({ onSubmit, onClosed, tagScrap }: SearchProps) => {
     <form
       onSubmit={(e) => {
         e.preventDefault();
-        ref.current && ref.current.value && onSubmit?.(ref.current.value);
+        if (ref.current) {
+          ref.current.value && onSubmit?.(ref.current.value);
+        }
+        if (search) {
+          setReValue(search);
+          onSubmit?.(reValue);
+        }
       }}
       css={css`
         position: relative;
@@ -44,6 +61,10 @@ const Search = ({ onSubmit, onClosed, tagScrap }: SearchProps) => {
         onClick={() => {
           setOpen(false);
           if (ref.current) ref.current.value = '';
+          if (search) {
+            router.push('/scrap');
+            setReValue('');
+          }
           onClosed?.();
         }}
         css={css`
@@ -86,6 +107,7 @@ const Search = ({ onSubmit, onClosed, tagScrap }: SearchProps) => {
           #
         </span>
         <motion.input
+          onChange={(e) => tagScrap && handleChangeValue(e.target.value)}
           animate={open ? 'open' : 'close'}
           variants={{
             open: { opacity: 1 },
@@ -102,8 +124,7 @@ const Search = ({ onSubmit, onClosed, tagScrap }: SearchProps) => {
             color: ${theme.color.gray02};
           `}
           // TODO 태그이름에 기본적으로 #이 붙어있느냐 안 붙어있느냐에 따라서 없어질 코드
-          // TODO defaultValue에 값을 넣어서 그런지 콘텐츠 모아보기 후 같은 페이지에서 검색하려고 하면 검색이 안돼요 ...
-          defaultValue={tagScrap ? (tagScrap[0] === '#' ? tagScrap.slice(1) : tagScrap) : tagScrap}
+          defaultValue={tagScrap ? (tagScrap[0] === '#' ? tagScrap.slice(1) : tagScrap) : ''}
         />
       </motion.div>
       <button
