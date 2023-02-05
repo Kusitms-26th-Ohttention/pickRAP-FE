@@ -5,17 +5,16 @@ import { useRecoilState } from 'recoil';
 import { useGetRevisitAnalysis } from '@/application/hooks/api/analysis';
 import { revisitDetailState } from '@/application/store/analysis/analysisState';
 import { getSrcByType } from '@/application/utils/helper';
-
-import Photo from '../common/Photo';
-import SubAnaNavigation from './AnaNavigation/SubAnaNavigation';
-import RevisitTitle from './Revisit/RevisitTitle';
+import SubAnaNavigation from '@/components/analysis/AnaNavigation/SubAnaNavigation';
+import NoRevisit from '@/components/analysis/Revisit/NoRevisit';
+import RevisitTitle from '@/components/analysis/Revisit/RevisitTitle';
+import Photo from '@/components/common/Photo';
 
 const RevisitContent = () => {
   const router = useRouter();
   const [revisitState, setRevisitState] = useRecoilState(revisitDetailState);
   const { revisitAnalysis } = useGetRevisitAnalysis();
   const revisitContentThum = revisitAnalysis.slice(0, 2);
-  console.log(revisitContentThum);
 
   const handleClickMoreBtn = () => {
     setRevisitState(!revisitState);
@@ -40,19 +39,25 @@ const RevisitContent = () => {
           padding: 12px 0 32px;
         `}
       >
-        <RevisitTitle active={false} />
-        <div css={CSSPhotoListContainer}>
-          {revisitContentThum.map((thum) => (
-            <Photo
-              key={thum.scrap_id}
-              custom={css`
-                aspect-ratio: 1/1;
-              `}
-              onClick={() => handleClickPhoto(thum.scrap_id)}
-              src={getSrcByType(thum)}
-            />
-          ))}
-        </div>
+        {revisitAnalysis.length === 0 ? (
+          <NoRevisit />
+        ) : (
+          <>
+            <RevisitTitle active={false} />
+            <div css={CSSPhotoListContainer}>
+              {revisitContentThum.map((thum) => (
+                <Photo
+                  key={thum.scrap_id}
+                  custom={css`
+                    aspect-ratio: 1/1;
+                  `}
+                  onClick={() => handleClickPhoto(thum.scrap_id)}
+                  src={getSrcByType(thum)}
+                />
+              ))}
+            </div>
+          </>
+        )}
       </div>
     </div>
   );
