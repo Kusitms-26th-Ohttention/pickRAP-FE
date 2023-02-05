@@ -18,6 +18,9 @@ const TagAnalysisContent = () => {
       legend: {
         display: false,
       },
+      tooltip: {
+        enabled: false,
+      },
     },
   };
 
