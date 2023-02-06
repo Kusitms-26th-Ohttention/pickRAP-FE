@@ -22,7 +22,7 @@ const TypedDetail = ({ onSubmit, type }: TypedDetailProps) => {
       replace({ content: <SelectCategoryWithCreate /> });
     },
     onBack: () => replace({ content: <CreateScrap /> }),
-    label: '링크 입력',
+    label: `${type === 'link' ? '링크 입력' : '텍스트 입력'}`,
     submit: '다음',
     title: '세부사항 입력',
   };
