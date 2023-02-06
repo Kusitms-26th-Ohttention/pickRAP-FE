@@ -7,12 +7,6 @@ import TagAnalysisContent from '@/components/analysis/TagAnalysisContent';
 import TextAnalysisContent from '@/components/analysis/TextAnalysisContent';
 
 const AnalysisListContainer = () => {
-  const mock = Array(5)
-    .fill(0)
-    .map((_, idx) => ({ text_count: idx, text_rate: idx, text_word: `단어_${idx}` }));
-
-  mock.sort((l, r) => r.text_count - l.text_count);
-
   return (
     <div
       css={css`
@@ -37,7 +31,7 @@ const AnalysisListContainer = () => {
           <div css={CSSBottomLine} />
           <PersonalMoodContent />
           <div css={CSSBottomLine} />
-          <TextAnalysisContent texts={mock} />
+          <TextAnalysisContent />
           <div css={CSSBottomLine} />
           <RevisitContent />
         </div>
