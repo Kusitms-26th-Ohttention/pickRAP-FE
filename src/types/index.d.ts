@@ -73,7 +73,13 @@ interface TextAnalysis {
   text_count: number;
 }
 
+interface PersonalMoodAnalysis {
+  color_style: string;
+  rate: number;
+}
+
 interface Analysis {
   hashtags: HashTagAnalysis[];
   texts: TextAnalysis[];
+  personal_mood_results: PersonalMoodAnalysis[];
 }
