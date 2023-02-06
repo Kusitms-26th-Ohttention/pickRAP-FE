@@ -4,15 +4,16 @@ import { WordCloudController, WordElement } from 'chartjs-chart-wordcloud';
 import Image from 'next/image';
 import { Chart } from 'react-chartjs-2';
 
+import { useGetAnalysis } from '@/application/hooks/api/analysis';
+
 import SubAnaNavigation from './AnaNavigation/SubAnaNavigation';
 
 ChartJS.register(WordCloudController, WordElement, LinearScale);
 
-interface Props {
-  texts: Analysis['texts'];
-}
+const TextAnalysisContent = () => {
+  const { allAnalysis } = useGetAnalysis();
+  const texts = allAnalysis.texts;
 
-const TextAnalysisContent = ({ texts }: Props) => {
   if (!texts.length)
     return (
       <article>
@@ -59,16 +60,33 @@ const TextAnalysisContent = ({ texts }: Props) => {
               position: absolute;
               z-index: 0;
               transform: translateY(-50%);
-              width: 19px;
-              height: 19px;
+              width: 12px;
+              height: 12px;
               border-radius: 50%;
               background: ${theme.color.yellow01};
             }
           `
         }
       >
-        <span css={{ zIndex: 1, position: 'relative' }}>
-          &nbsp;<b css={{ fontWeight: 700 }}>{`'${texts[0].text_word}'`}</b> 를 가장 많이 사용했어요
+        <span
+          css={(theme) => css`
+            ${theme.font.M_POINT_16};
+            color: ${theme.color.gray03};
+            z-index: 1;
+            position: relative;
+            display: flex;
+          `}
+        >
+          &nbsp;
+          <b
+            css={(theme) => css`
+              ${theme.font.B_POINT_18};
+              color: ${theme.color.black01};
+            `}
+          >
+            #{texts[0].text_word}
+          </b>
+          <span> &nbsp; 를 가장 많이 사용했어요</span>
         </span>
       </div>
       <div
@@ -84,7 +102,7 @@ const TextAnalysisContent = ({ texts }: Props) => {
           }}
           data={{
             labels: texts.map((text) => text.text_word),
-            datasets: [{ data: texts.map((text) => text.text_count * 10) }],
+            datasets: [{ data: texts.map((text) => (Math.floor(text.text_rate / 10) + 1) * 10) }],
           }}
         />
       </div>

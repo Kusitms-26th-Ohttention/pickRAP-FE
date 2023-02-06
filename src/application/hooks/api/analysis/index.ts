@@ -7,7 +7,10 @@ export const useGetAnalysis = () => {
     queryKey: ['getAnalysis'],
     queryFn: api.analysis.getAnalysis,
   });
-  return { allAnalysis: data?.data.data || [], ...rest };
+
+  const allAnalysis: Analysis = data?.data.data || { hashtags: [], texts: [] };
+
+  return { allAnalysis, ...rest };
 };
 
 export const useGetTagAnalysisForYearMonth = (year: number, month: number) => {
