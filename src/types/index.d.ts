@@ -57,7 +57,7 @@ interface Magazine {
 interface EditPage {
   scrap_id: number;
   text: string;
-  src: string | undefined | null;
+  src: string;
   placeholder?: string;
 }
 
@@ -83,6 +83,6 @@ interface RevisitAnalysis {
   scrap_id: number;
   scrap_type: string;
   title: string;
-  preview_url?: null;
+  preview_url: string;
   file_url: string;
 }
