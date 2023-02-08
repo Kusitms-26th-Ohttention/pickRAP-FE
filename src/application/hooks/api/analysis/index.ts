@@ -8,7 +8,7 @@ export const useGetAnalysis = () => {
     queryFn: api.analysis.getAnalysis,
   });
 
-  const allAnalysis: Analysis = data?.data.data || { hashtags: [], texts: [] };
+  const allAnalysis: Analysis = data?.data.data || { hashtags: [], texts: [], personal_mood_results: [] };
 
   return { allAnalysis, ...rest };
 };
@@ -19,7 +19,7 @@ export const useGetTagAnalysisForYearMonth = (year: number, month: number) => {
     queryFn: () => api.analysis.getTagAnalysisForYearMonth({ year, month }),
   });
 
-  const detailAnalysis: Analysis = data?.data.data || { hashtags: [], texts: [] };
+  const detailAnalysis: Analysis = data?.data.data || { hashtags: [], texts: [], personal_mood_results: [] };
 
   return { detailAnalysis, ...rest };
 };
