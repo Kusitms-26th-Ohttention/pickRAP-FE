@@ -14,11 +14,7 @@ const RevisitTitle = ({ active }: RevisitTitleProps) => {
       `}
     >
       <div css={CSSYellowBall(active)} />
-      {active ? (
-        <p css={CSSRevisitTitleDetailBold}>&lsquo;방문하지 않은&rsquo;</p>
-      ) : (
-        <p css={CSSRevisitTitleBold}>&lsquo;방문하지 않은&rsquo;</p>
-      )}
+      <p css={CSSRevisitTitleDetail(active)}>&lsquo;방문하지 않은&rsquo;</p>
       <p css={CSSRevisitTitle(active)}>콘텐츠가 있어요</p>
     </div>
   );
@@ -35,20 +31,13 @@ const CSSYellowBall = (active: boolean) =>
     height: ${active ? '19px' : '12px'};
   `;
 
-const CSSRevisitTitleBold = (theme: Theme) =>
+const CSSRevisitTitleDetail = (active: boolean) => (theme: Theme) =>
   css`
     position: relative;
     color: ${theme.color.black01};
     margin: 0 10px 0 5px;
-    ${theme.font.B_POINT_18};
+    ${active ? theme.font.B_POINT_22 : theme.font.B_POINT_18};
   `;
-
-const CSSRevisitTitleDetailBold = (theme: Theme) => css`
-  position: relative;
-  color: ${theme.color.black01};
-  margin: 0 10px 0 5px;
-  ${theme.font.B_POINT_22};
-`;
 
 const CSSRevisitTitle = (active: boolean) => (theme: Theme) =>
   css`
