@@ -13,7 +13,6 @@ ChartJS.register(LinearScale, PointElement, ChartDataLabels);
 const PersonalMoodContent = () => {
   const { allAnalysis } = useGetAnalysis();
 
-  // const moods = MOCK.slice(0, 4).sort((a, b) => b.rate - a.rate);
   const moods = allAnalysis.personal_mood_results.slice(0, 4);
 
   if (!moods.length)
@@ -190,14 +189,6 @@ const PersonalMoodContent = () => {
     </div>
   );
 };
-
-// const MOCK = [
-//   { color_style: 'a', rate: 1 },
-//   { color_style: 'b', rate: 2 },
-//   { color_style: 'c', rate: 4 },
-//   { color_style: 'd', rate: 6 },
-//   { color_style: 'e', rate: 1 },
-// ];
 
 const BUBBLE_META = [
   {
