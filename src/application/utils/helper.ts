@@ -1,14 +1,14 @@
-export const getSrcByType = (content: Scrap | Category) => {
+export const getSrcByType = (content: Scrap | Category | RevisitAnalysis) => {
   if (content.scrap_type === null) return '';
   switch (content.scrap_type.toLowerCase()) {
     case 'link':
-      return content.url_preview;
+      return content.preview_url;
     case 'image':
     case 'video':
     case 'pdf':
       return content.file_url;
     default:
-      return content.url_preview;
+      return content.preview_url;
   }
 };
 

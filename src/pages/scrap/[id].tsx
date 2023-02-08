@@ -33,7 +33,7 @@ const ShowScrap: NextPage = () => {
     scrapType === 'text'
       ? { text: scrap?.content, type: scrapType }
       : scrapType === 'link'
-      ? { src: scrap?.url_preview, type: scrapType, href: scrap?.content || '' }
+      ? { src: scrap?.preview_url, type: scrapType, href: scrap?.content || '' }
       : { src: scrap?.file_url, type: scrapType };
 
   return (

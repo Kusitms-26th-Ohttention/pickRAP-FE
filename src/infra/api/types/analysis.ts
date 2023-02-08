@@ -7,3 +7,5 @@ export interface GetTagAnalysisForYear {
 export interface GetTagAnalysisForYearMonth extends GetTagAnalysisForYear {
   month: number;
 }
+
+export type GetRevisitAnalysisResponse = RevisitAnalysis[];

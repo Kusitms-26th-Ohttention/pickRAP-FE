@@ -12,7 +12,7 @@ type ScrapType = 'image' | 'text' | 'link' | 'video' | 'pdf';
 interface Category {
   content: string;
   file_url: string;
-  url_preview: string;
+  preview_url: string;
   id: number;
   name: string;
   scrap_type: ScrapType;
@@ -28,7 +28,7 @@ interface Scrap {
   memo: string;
   scrap_type: ScrapType;
   title: string;
-  url_preview: string;
+  preview_url: string;
 }
 
 interface Page {
@@ -82,4 +82,13 @@ interface Analysis {
   hashtags: HashTagAnalysis[];
   texts: TextAnalysis[];
   personal_mood_results: PersonalMoodAnalysis[];
+}
+
+interface RevisitAnalysis {
+  content: string;
+  scrap_id: number;
+  scrap_type: string;
+  title: string;
+  preview_url: string;
+  file_url: string;
 }
