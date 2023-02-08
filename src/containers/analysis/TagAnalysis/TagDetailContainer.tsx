@@ -1,12 +1,11 @@
 import type { Theme } from '@emotion/react';
 import { css } from '@emotion/react';
-import { ArcElement, Chart as ChartJS, Legend, scales, Tooltip } from 'chart.js';
+import { ArcElement, Chart as ChartJS, Legend, Tooltip } from 'chart.js';
 import { useState } from 'react';
 import { Doughnut } from 'react-chartjs-2';
 
 import { useGetTagAnalysisForYearMonth } from '@/application/hooks/api/analysis';
 import NoAnalysis from '@/components/analysis/NoAnalysis';
-import { ActiveButton } from '@/components/common/Button';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 

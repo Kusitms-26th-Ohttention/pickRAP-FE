@@ -1,4 +1,4 @@
-export type GetAnalysisDetailResponse = Analysis | any;
+export type GetAnalysisDetailResponse = Analysis;
 
 export interface GetTagAnalysisForYear {
   year: number;

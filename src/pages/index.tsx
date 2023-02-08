@@ -4,10 +4,21 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 
 import { ActiveButton } from '@/components/common/Button';
+import { getAccessToken } from '@/infra/api';
 
 const Home: NextPage = () => {
   const router = useRouter();
-  // TODO 세션 인증 시 search 로 리다이렉트
+
+  // NOTE: 토큰 존재 유무만 체크
+  const handleSignup = () => {
+    if (getAccessToken()) router.push('/scrap');
+    else router.push('/auth/signup');
+  };
+  const handleSignin = () => {
+    if (getAccessToken()) router.push('/scrap');
+    else router.push('/auth/signin');
+  };
+
   return (
     <>
       <div css={CSSHome}>
@@ -37,13 +48,13 @@ const Home: NextPage = () => {
               height: 52px;
             `
           }
-          onClick={() => router.push('/auth/signup')}
+          onClick={handleSignup}
         >
           새 계정 만들기
         </ActiveButton>
         <ActiveButton
           active
-          onClick={() => router.push('/auth/signin')}
+          onClick={handleSignin}
           custom={(theme) =>
             css`
               border-color: ${theme.color.white01};
