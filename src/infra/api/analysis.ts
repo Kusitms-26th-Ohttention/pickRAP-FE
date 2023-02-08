@@ -1,6 +1,7 @@
 import { instance } from '@/infra/api/instance';
 import type {
   GetAnalysisDetailResponse,
+  GetRevisitAnalysisResponse,
   GetTagAnalysisForYear,
   GetTagAnalysisForYearMonth,
 } from '@/infra/api/types/analysis';
@@ -16,6 +17,9 @@ class AnalysisApi {
   };
   getTagAnalysisForYearMonth = ({ year, month }: GetTagAnalysisForYearMonth) => {
     return this.api.get<GetAnalysisDetailResponse>(`/analysis?filter=month&year=${year}&month=${month}`);
+  };
+  getRevisitAnalysis = () => {
+    return this.api.get<GetRevisitAnalysisResponse>('/analysis/revisit?filter=all');
   };
 }
 
