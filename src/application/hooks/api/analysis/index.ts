@@ -18,5 +18,8 @@ export const useGetTagAnalysisForYearMonth = (year: number, month: number) => {
     queryKey: ['getTagAnalysisForYearMonth', year, month],
     queryFn: () => api.analysis.getTagAnalysisForYearMonth({ year, month }),
   });
-  return { detailAnalysis: data?.data.data || [], ...rest };
+
+  const detailAnalysis: Analysis = data?.data.data || { hashtags: [], texts: [], personal_mood_results: [] };
+
+  return { detailAnalysis, ...rest };
 };
