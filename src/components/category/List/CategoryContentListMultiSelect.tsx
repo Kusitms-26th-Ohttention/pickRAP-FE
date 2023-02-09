@@ -84,7 +84,6 @@ const CategoryContentListMultiSelect = ({ name, id = 0, onSubmit }: Props) => {
               text={scrap.content}
             />
           ))}
-          중
           <span ref={ref} />
         </div>
       </div>
