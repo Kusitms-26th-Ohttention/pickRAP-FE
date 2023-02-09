@@ -70,3 +70,8 @@ export const pageIdsArray = atom<Array<number>>({
   key: 'pageIdsArray',
   default: [],
 });
+
+export const magazineCoverId = atom({
+  key: 'magazineCoverId',
+  default: '',
+});

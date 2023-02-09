@@ -5,7 +5,7 @@ import { useSetRecoilState } from 'recoil';
 
 import type { UseScrollDetectOption } from '@/application/hooks/utils/useScrollDetect';
 import useScrollDetect from '@/application/hooks/utils/useScrollDetect';
-import { magazineIdsArray } from '@/application/store/magazine/state';
+import { magazineCoverId, magazineIdsArray } from '@/application/store/magazine/state';
 import Photo from '@/components/common/Photo';
 import PhotoSelect from '@/components/common/Photo/PhotoSelect';
 import NoMagazine from '@/components/magazine/NoMagazine';
@@ -20,6 +20,8 @@ interface TabMagazineProps {
 const TabMagazine = ({ magazines, selectItem, selectDeleteBtn, onScrollDown }: TabMagazineProps) => {
   const ref = useScrollDetect<HTMLDivElement>({ onScroll: onScrollDown });
   const multiSelectOn = selectDeleteBtn;
+
+  const magazineCover = useSetRecoilState(magazineCoverId);
 
   // 썸네일 클릭 시 해당 id 추가, 선택 취소 시 id 확인 후 제거
   const setMagazineItems = useSetRecoilState(magazineIdsArray);
@@ -84,14 +86,16 @@ const TabMagazine = ({ magazines, selectItem, selectDeleteBtn, onScrollDown }: T
                   />
                 </div>
               ) : (
-                <Link href={`/magazine/${magazine.magazine_id}`}>
-                  <Photo
-                    blur={<PhotoSelect enabled={selectItem} />}
-                    src={magazine.cover_url}
-                    width={'196px'}
-                    height={'255px'}
-                  />
-                </Link>
+                <div onClick={() => magazineCover(magazine.cover_url)}>
+                  <Link href={`/magazine/${magazine.magazine_id}`}>
+                    <Photo
+                      blur={<PhotoSelect enabled={selectItem} />}
+                      src={magazine.cover_url}
+                      width={'196px'}
+                      height={'255px'}
+                    />
+                  </Link>
+                </div>
               )}
               <span
                 css={(theme) =>

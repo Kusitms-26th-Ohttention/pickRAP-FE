@@ -3,6 +3,7 @@ import type { NextPage } from 'next';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import React, { useMemo, useState } from 'react';
+import { useRecoilState } from 'recoil';
 
 import { useDeletePages, useUpdateMagazine } from '@/application/hooks/api/magazine';
 import usePopup from '@/application/hooks/common/usePopup';
@@ -14,6 +15,7 @@ import {
   useResetMagazineInfo,
   useSetMagazineInfo,
 } from '@/application/store/magazine/hook';
+import { magazineCoverId } from '@/application/store/magazine/state';
 import SelectCategoryWithContent from '@/components/category/Select/SelectCategoryWithContent';
 import { ActiveButton } from '@/components/common/Button';
 import { DeletePopup } from '@/components/common/Popup/Sentence';
@@ -26,12 +28,13 @@ const EditMagazine: NextPage = () => {
   const id = router.query.id ? Number(router.query.id) : 0;
   const { show, close } = useToast();
   const setMagazineInfo = useSetMagazineInfo();
-  const [coverUrl, setCoverUrl] = useState('');
+  const [coverUrl, setCoverUrl] = useRecoilState(magazineCoverId);
   const magazineInfo = useMagazineInfo();
   const [_, setEditPage] = useEditPageSet();
   const mutation = useUpdateMagazine();
   const resetMagazineInfo = useResetMagazineInfo();
   const resetEditPage = useEditPageReset();
+  // const getMagazineCover = useRecoilValue(magazineCoverId);
 
   const pageDeleteList = usePageDeleteList();
 
@@ -133,7 +136,7 @@ const EditMagazine: NextPage = () => {
     });
 
     return ret;
-  }, [close, coverUrl, magazineInfo.page_list, router, selected, setEditPage, setMagazineInfo, show]);
+  }, [close, coverUrl, magazineInfo.page_list, router, selected, setCoverUrl, setEditPage, setMagazineInfo, show]);
 
   return (
     <>

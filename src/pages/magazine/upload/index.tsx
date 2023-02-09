@@ -54,7 +54,7 @@ const UploadMagazine: NextPage = () => {
       {
         cover_url: magazineInfo.cover_scrap_src,
         placeholder: magazineInfo.cover_scrap_placeholder,
-        title: '1 페이지',
+        title: '표지 설정',
         magazine_id: 0,
         onClick: () =>
           show({
@@ -75,7 +75,7 @@ const UploadMagazine: NextPage = () => {
       ...magazineInfo.page_list.map((page, idx) => ({
         cover_url: page.src,
         placeholder: page.placeholder,
-        title: `${idx + 2} 페이지`,
+        title: `${idx + 1} 페이지`,
         magazine_id: idx,
       })),
     ];
