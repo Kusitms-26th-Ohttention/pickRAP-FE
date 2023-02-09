@@ -10,6 +10,7 @@ const TotalRatioBar = () => {
         color: ${theme.color.gray08};
         ${theme.font.R_BODY_13};
         margin-top: 35px;
+        user-select: none;
       `}
     >
       <p>전체</p>
