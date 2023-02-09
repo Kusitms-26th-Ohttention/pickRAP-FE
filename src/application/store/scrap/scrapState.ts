@@ -5,3 +5,8 @@ export const scrapIdsArray = atom<Array<number>>({
   key: 'categoryDetailIdsArray',
   default: [],
 });
+
+export const scrapReSearching = atom({
+  key: 'scrapReSearching',
+  default: '',
+});

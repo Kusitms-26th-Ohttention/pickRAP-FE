@@ -18,6 +18,12 @@ const TagAnalysisContent = () => {
       legend: {
         display: false,
       },
+      datalabels: {
+        display: false,
+      },
+      tooltip: {
+        enabled: false,
+      },
     },
   };
 
