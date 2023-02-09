@@ -132,7 +132,7 @@ const CSSCarouselContainer = css`
   bottom: 0;
   left: 0;
   display: flex;
-  overflow-x: auto;
+  overflow-x: hidden;
   counter-reset: item;
   scroll-behavior: smooth;
   scroll-snap-type: x mandatory;
