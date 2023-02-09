@@ -34,7 +34,6 @@ const EditMagazine: NextPage = () => {
   const mutation = useUpdateMagazine();
   const resetMagazineInfo = useResetMagazineInfo();
   const resetEditPage = useEditPageReset();
-  // const getMagazineCover = useRecoilValue(magazineCoverId);
 
   const pageDeleteList = usePageDeleteList();
 
@@ -48,7 +47,8 @@ const EditMagazine: NextPage = () => {
     popup(DeletePopup, 'success');
   };
 
-  const showDeletePagesToast = () => show({ content: <DeleteScrapToast onDelete={handleDeletePages} /> });
+  const showDeletePagesToast = () =>
+    show({ content: <DeleteScrapToast onBack={close} onDelete={handleDeletePages} /> });
 
   const handleMultiSelect = () => {
     setSelected(!selected);

@@ -32,7 +32,7 @@ const MyMagazineWithTab = ({ onScrollDown }: MagazineTabProps) => {
   const magazineDeleteList = useMagazineDeleteList();
   const resetMagazineList = useResetMagazineDeleteList();
   const ref = useRef<SelectContext>('myMagazine');
-  const { show } = useToast();
+  const { show, close } = useToast();
   const popup = usePopup();
 
   const mutation = useDeleteMagazines();
@@ -47,7 +47,8 @@ const MyMagazineWithTab = ({ onScrollDown }: MagazineTabProps) => {
     ref.current = key;
   };
 
-  const showDeleteMagazineToast = () => show({ content: <DeleteScrapToast onDelete={handleDeleteMagazine} /> });
+  const showDeleteMagazineToast = () =>
+    show({ content: <DeleteScrapToast onBack={close} onDelete={handleDeleteMagazine} /> });
 
   const handleMultiSelect = () => {
     isSelectDeleteBtn(!selectDeleteBtn);
