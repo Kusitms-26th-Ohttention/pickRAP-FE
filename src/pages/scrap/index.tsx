@@ -34,9 +34,9 @@ type SelectContextKey = keyof typeof initSelectedContext;
 
 const Scrap: NextPage = () => {
   const router = useRouter();
-  const tagScrap = router.query.params;
+  const tagScrap = router.query.params as string;
   const [selected, setSelected] = useState(initSelectedContext);
-  const [searchString, setSearchString] = useState<string | string[] | undefined>('');
+  const [searchString, setSearchString] = useState<string | undefined>('');
 
   const categoryDeleteItem = useCategoryDeleteList();
   const resetCategoryList = useResetCategoryDeleteList();
