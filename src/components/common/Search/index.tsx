@@ -1,6 +1,5 @@
 import { css } from '@emotion/react';
 import { motion } from 'framer-motion';
-import { useRouter } from 'next/router';
 import type { FormHTMLAttributes } from 'react';
 import { useEffect, useRef, useState } from 'react';
 import { useRecoilState } from 'recoil';
@@ -10,11 +9,11 @@ import { scrapReSearching } from '@/application/store/scrap/scrapState';
 interface SearchProps extends Omit<FormHTMLAttributes<HTMLFormElement>, 'onSubmit'> {
   onSubmit: (query: string) => void;
   onClosed?: () => void;
-  tagScrap?: string | string[] | undefined;
+  onClosedRoute?: () => void;
+  defaultValue?: string;
 }
 
-const Search = ({ onSubmit, onClosed, tagScrap }: SearchProps) => {
-  const router = useRouter();
+const Search = ({ onSubmit, onClosed, onClosedRoute, defaultValue }: SearchProps) => {
   const ref = useRef<HTMLInputElement>(null);
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState('');
@@ -25,10 +24,10 @@ const Search = ({ onSubmit, onClosed, tagScrap }: SearchProps) => {
   };
 
   useEffect(() => {
-    if (tagScrap) {
+    if (defaultValue) {
       setOpen(true);
     }
-  }, [tagScrap]);
+  }, [defaultValue]);
 
   return (
     <form
@@ -62,8 +61,8 @@ const Search = ({ onSubmit, onClosed, tagScrap }: SearchProps) => {
           setOpen(false);
           if (ref.current) ref.current.value = '';
           if (search) {
-            router.push('/scrap');
             setReValue('');
+            onClosedRoute?.();
           }
           onClosed?.();
         }}
@@ -107,7 +106,7 @@ const Search = ({ onSubmit, onClosed, tagScrap }: SearchProps) => {
           #
         </span>
         <motion.input
-          onChange={(e) => tagScrap && handleChangeValue(e.target.value)}
+          onChange={(e) => defaultValue && handleChangeValue(e.target.value)}
           animate={open ? 'open' : 'close'}
           variants={{
             open: { opacity: 1 },
@@ -123,8 +122,7 @@ const Search = ({ onSubmit, onClosed, tagScrap }: SearchProps) => {
             ${theme.font.R_BODY_14};
             color: ${theme.color.gray02};
           `}
-          // TODO 태그이름에 기본적으로 #이 붙어있느냐 안 붙어있느냐에 따라서 없어질 코드
-          defaultValue={tagScrap ? (tagScrap[0] === '#' ? tagScrap.slice(1) : tagScrap) : ''}
+          defaultValue={defaultValue}
         />
       </motion.div>
       <button

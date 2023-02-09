@@ -35,6 +35,7 @@ type SelectContextKey = keyof typeof initSelectedContext;
 const Scrap: NextPage = () => {
   const router = useRouter();
   const tagScrap = router.query.params as string;
+  const tagScrapValue = tagScrap ? (tagScrap[0] === '#' ? tagScrap.slice(1) : tagScrap) : '';
   const [selected, setSelected] = useState(initSelectedContext);
   const [searchString, setSearchString] = useState<string | undefined>('');
 
@@ -96,6 +97,10 @@ const Scrap: NextPage = () => {
     [tagScrap, researchValue],
   );
 
+  const handleBack = () => {
+    router.push('/scrap');
+  };
+
   const handleUploadToast = () => show({ content: <CreateScrapToast /> });
 
   const handleClickCategoryList = (info: typeof categoryInfo) => {
@@ -132,7 +137,12 @@ const Scrap: NextPage = () => {
             <Image src={'/icon/backArrow.svg'} layout={'fill'} objectFit={'cover'} alt="뒤로가기" />
           </span>
         ) : null}
-        <Search onSubmit={handleSearch} onClosed={() => setSearchString('')} tagScrap={tagScrap} />
+        <Search
+          onSubmit={handleSearch}
+          onClosed={() => setSearchString('')}
+          defaultValue={tagScrapValue}
+          onClosedRoute={handleBack}
+        />
         {!searchString ? (
           <span
             onClick={handleMultiSelect}
