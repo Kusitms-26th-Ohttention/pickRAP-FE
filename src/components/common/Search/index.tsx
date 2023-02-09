@@ -1,22 +1,45 @@
 import { css } from '@emotion/react';
 import { motion } from 'framer-motion';
 import type { FormHTMLAttributes } from 'react';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { useRecoilState } from 'recoil';
+
+import { scrapReSearching } from '@/application/store/scrap/scrapState';
 
 interface SearchProps extends Omit<FormHTMLAttributes<HTMLFormElement>, 'onSubmit'> {
   onSubmit: (query: string) => void;
   onClosed?: () => void;
+  onClosedRoute?: () => void;
+  defaultValue?: string;
 }
 
-const Search = ({ onSubmit, onClosed }: SearchProps) => {
+const Search = ({ onSubmit, onClosed, onClosedRoute, defaultValue }: SearchProps) => {
   const ref = useRef<HTMLInputElement>(null);
   const [open, setOpen] = useState(false);
+  const [search, setSearch] = useState('');
+  const [reValue, setReValue] = useRecoilState(scrapReSearching);
+
+  const handleChangeValue = (newValue: string) => {
+    setSearch(newValue);
+  };
+
+  useEffect(() => {
+    if (defaultValue) {
+      setOpen(true);
+    }
+  }, [defaultValue]);
 
   return (
     <form
       onSubmit={(e) => {
         e.preventDefault();
-        ref.current && ref.current.value && onSubmit?.(ref.current.value);
+        if (ref.current) {
+          ref.current.value && onSubmit?.(ref.current.value);
+        }
+        if (search) {
+          setReValue(search);
+          onSubmit?.(reValue);
+        }
       }}
       css={css`
         position: relative;
@@ -37,6 +60,10 @@ const Search = ({ onSubmit, onClosed }: SearchProps) => {
         onClick={() => {
           setOpen(false);
           if (ref.current) ref.current.value = '';
+          if (search) {
+            setReValue('');
+            onClosedRoute?.();
+          }
           onClosed?.();
         }}
         css={css`
@@ -79,6 +106,7 @@ const Search = ({ onSubmit, onClosed }: SearchProps) => {
           #
         </span>
         <motion.input
+          onChange={(e) => defaultValue && handleChangeValue(e.target.value)}
           animate={open ? 'open' : 'close'}
           variants={{
             open: { opacity: 1 },
@@ -94,6 +122,7 @@ const Search = ({ onSubmit, onClosed }: SearchProps) => {
             ${theme.font.R_BODY_14};
             color: ${theme.color.gray02};
           `}
+          defaultValue={defaultValue}
         />
       </motion.div>
       <button

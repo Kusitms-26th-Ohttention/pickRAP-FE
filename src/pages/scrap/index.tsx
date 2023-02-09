@@ -1,14 +1,19 @@
 import { css } from '@emotion/react';
 import type { NextPage } from 'next';
 import Image from 'next/image';
-import React, { useRef, useState } from 'react';
+import { useRouter } from 'next/router';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import { useDeleteCategory } from '@/application/hooks/api/category';
 import { useDeleteScrap } from '@/application/hooks/api/scrap';
 import usePopup from '@/application/hooks/common/usePopup';
 import useToast from '@/application/hooks/common/useToast';
 import { useCategoryDeleteList, useResetCategoryDeleteList } from '@/application/store/category/categoryHook';
-import { useResetScrapDeleteList, useScrapDeleteList } from '@/application/store/scrap/scrapHook';
+import {
+  useGetScrapReSearching,
+  useResetScrapDeleteList,
+  useScrapDeleteList,
+} from '@/application/store/scrap/scrapHook';
 import { BottomNavigation } from '@/components/common/Navigation';
 import { DeletePopup } from '@/components/common/Popup/Sentence';
 import Search from '@/components/common/Search';
@@ -28,18 +33,21 @@ const initSelectedContext = { category: false, content: false, categoryInfo: fal
 type SelectContextKey = keyof typeof initSelectedContext;
 
 const Scrap: NextPage = () => {
+  const router = useRouter();
+  const tagScrap = router.query.params as string;
+  const tagScrapValue = tagScrap ? (tagScrap[0] === '#' ? tagScrap.slice(1) : tagScrap) : '';
   const [selected, setSelected] = useState(initSelectedContext);
-  const [searchString, setSearchString] = useState('');
+  const [searchString, setSearchString] = useState<string | undefined>('');
 
   const categoryDeleteItem = useCategoryDeleteList();
   const resetCategoryList = useResetCategoryDeleteList();
   const scrapDeleteItem = useScrapDeleteList();
   const resetScrapList = useResetScrapDeleteList();
+  const researchValue = useGetScrapReSearching();
 
   const categoryMutation = useDeleteCategory();
   const scrapMutation = useDeleteScrap();
 
-  // TODO 카테고리 상세 페이지 분리
   const [categoryInfo, setCategoryInfo] = useState<{ id: number; name: string }>({ id: 0, name: '' });
   const ref = useRef<SelectContextKey>('category');
   const { show } = useToast();
@@ -70,7 +78,28 @@ const Scrap: NextPage = () => {
     });
   };
 
-  const handleSearch = (search: string) => setSearchString(search);
+  const handleSearch = useCallback(
+    (search?: string) => {
+      if (tagScrap) {
+        // TODO 태그이름에 기본적으로 #이 붙어있느냐 안 붙어있느냐에 따라서 없어질 코드
+        if (tagScrap[0] === '#') {
+          setSearchString(tagScrap.slice(1));
+        } else {
+          setSearchString(tagScrap);
+        }
+      } else {
+        setSearchString(search);
+      }
+      if (researchValue !== '') {
+        setSearchString(researchValue);
+      }
+    },
+    [tagScrap, researchValue],
+  );
+
+  const handleBack = () => {
+    router.push('/scrap');
+  };
 
   const handleUploadToast = () => show({ content: <CreateScrapToast /> });
 
@@ -78,6 +107,8 @@ const Scrap: NextPage = () => {
     ref.current = 'categoryInfo';
     setCategoryInfo(info);
   };
+
+  useEffect(() => handleSearch(), [tagScrap, handleSearch]);
 
   return (
     <>
@@ -106,7 +137,12 @@ const Scrap: NextPage = () => {
             <Image src={'/icon/backArrow.svg'} layout={'fill'} objectFit={'cover'} alt="뒤로가기" />
           </span>
         ) : null}
-        <Search onSubmit={handleSearch} onClosed={() => setSearchString('')} />
+        <Search
+          onSubmit={handleSearch}
+          onClosed={() => setSearchString('')}
+          defaultValue={tagScrapValue}
+          onClosedRoute={handleBack}
+        />
         {!searchString ? (
           <span
             onClick={handleMultiSelect}

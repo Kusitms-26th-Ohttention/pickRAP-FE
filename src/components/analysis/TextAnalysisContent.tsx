@@ -97,7 +97,7 @@ const TextAnalysisContent = () => {
         <Chart
           type={'wordCloud'}
           options={{
-            plugins: { legend: { display: false }, tooltip: { enabled: false } },
+            plugins: { legend: { display: false }, datalabels: { display: false }, tooltip: { enabled: false } },
             elements: { word: { minRotation: 0, maxRotation: 0 } },
           }}
           data={{
