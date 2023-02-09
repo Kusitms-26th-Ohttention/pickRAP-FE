@@ -29,6 +29,9 @@ const TagDetailContainer = ({ tagYear, tagMonth }: TagDetailProps) => {
       legend: {
         display: false,
       },
+      datalabels: {
+        display: false,
+      },
       tooltip: {
         callbacks: {
           title: (item: any) => {
