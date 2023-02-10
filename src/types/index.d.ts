@@ -35,6 +35,7 @@ interface Page {
   contents: string;
   file_url: string;
   page_id: number;
+  preview_url: string;
   text: string;
 }
 

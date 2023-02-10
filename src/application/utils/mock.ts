@@ -20,6 +20,7 @@ export const MEMO = `사람에게는 저마다의 바다가  있고 사람에게
 export const PAGES = [0, 0, 0, 0].map(() => ({
   contents: MEMO,
   file_url: '/picture/mock.png',
+  preview_url: '/preview/mock.png',
   page_id: 0,
   text: MEMO,
   type: 'page' as const,
