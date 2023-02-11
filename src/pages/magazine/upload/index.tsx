@@ -2,7 +2,7 @@ import { css } from '@emotion/react';
 import type { NextPage } from 'next';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 
 import { useSaveMagazine } from '@/application/hooks/api/magazine';
 import useToast from '@/application/hooks/common/useToast';
@@ -10,6 +10,8 @@ import { useEditPageReset, useEditPageSet } from '@/application/store/edit/hook'
 import { useMagazineInfo, useResetMagazineInfo, useSetMagazineInfo } from '@/application/store/magazine/hook';
 import SelectCategoryWithContent from '@/components/category/Select/SelectCategoryWithContent';
 import { ActiveButton } from '@/components/common/Button';
+import DeleteNavigation from '@/components/scrap/DeleteNavigation';
+import { DeleteScrapToast } from '@/components/scrap/Toast';
 import MagazineCreateContainer from '@/containers/magazine/MagazineCreateContainer';
 
 /**
@@ -26,6 +28,20 @@ import MagazineCreateContainer from '@/containers/magazine/MagazineCreateContain
 const UploadMagazine: NextPage = () => {
   const router = useRouter();
   const { show, close } = useToast();
+  const [selected, setSelected] = useState(false);
+
+  const handleClickReset = () => {
+    setSelected(false);
+  };
+
+  const handleMultiSelect = () => {
+    setSelected(!selected);
+  };
+
+  const showDeletePagesToast = () =>
+    show({
+      content: <DeleteScrapToast onBack={close} />,
+    });
 
   const magazineInfo = useMagazineInfo();
   const setMagazineInfo = useSetMagazineInfo();
@@ -127,6 +143,7 @@ const UploadMagazine: NextPage = () => {
           <Image src={'/icon/backArrow.svg'} layout={'fill'} objectFit={'cover'} />
         </span>
         <span
+          onClick={handleMultiSelect}
           css={(theme) =>
             css`
               ${theme.font.R_BODY_15};
@@ -137,19 +154,27 @@ const UploadMagazine: NextPage = () => {
             `
           }
         >
-          <Image src={'/icon/multiSelect.svg'} width={18} height={18} />
+          {selected ? (
+            <p onClick={handleClickReset}>취소</p>
+          ) : (
+            <Image src={'/icon/multiSelect.svg'} width={18} height={18} />
+          )}
         </span>
       </div>
-      <MagazineCreateContainer thumbnails={pages} />
-      <ActiveButton
-        active={!!magazineInfo.cover_scrap_id}
-        onClick={handleComplete}
-        custom={css`
-          margin-top: auto;
-        `}
-      >
-        완료
-      </ActiveButton>
+      <MagazineCreateContainer thumbnails={pages} selectItem={selected} />
+      {selected ? (
+        <DeleteNavigation onClick={() => showDeletePagesToast} />
+      ) : (
+        <ActiveButton
+          active={!!magazineInfo.cover_scrap_id}
+          onClick={handleComplete}
+          custom={css`
+            margin-top: auto;
+          `}
+        >
+          완료
+        </ActiveButton>
+      )}
     </>
   );
 };
