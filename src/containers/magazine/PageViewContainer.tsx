@@ -35,7 +35,7 @@ const PageViewContainer = ({ pages = PAGES }: Props) => {
           {pages.map((page, idx) => (
             <li key={page.page_id} id={`${idx + 1}`} css={CSSCarouselItem}>
               <Photo
-                src={page.file_url || getValidURL(page.contents).toString()}
+                src={page.file_url === null ? page.preview_url : page.file_url || getValidURL(page.contents).toString()}
                 text={page.contents}
                 height={'45vh'}
               />
