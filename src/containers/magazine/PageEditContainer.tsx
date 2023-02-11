@@ -44,6 +44,7 @@ const PageEditContainer = ({ pages, startPage }: Props) => {
     type: 'textarea' as const,
     title: '텍스트 입력하기',
   };
+
   return (
     <>
       <span
@@ -82,7 +83,7 @@ const PageEditContainer = ({ pages, startPage }: Props) => {
                   css={CSSPageContent}
                   onClick={() =>
                     show({
-                      content: <ToastInput {...toastProps} />,
+                      content: <ToastInput {...toastProps} defaultValue={editPageInfo[idx].text} onBack={close} />,
                     })
                   }
                 >

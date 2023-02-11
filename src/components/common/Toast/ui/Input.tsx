@@ -13,8 +13,9 @@ interface InputProps {
   type: 'input' | 'textarea';
   label: string;
   submit: string;
+  defaultValue?: string;
 }
-const ToastInput = ({ onSubmit, onBack, title, type, label, submit }: InputProps) => {
+const ToastInput = ({ onSubmit, onBack, title, type, label, submit, defaultValue }: InputProps) => {
   const ref = useRef<HTMLInputElement | HTMLTextAreaElement>();
 
   return (
@@ -42,7 +43,7 @@ const ToastInput = ({ onSubmit, onBack, title, type, label, submit }: InputProps
           `
         }
       >
-        <Image src={'/icon/backArrow.svg'} width={10} height={17} onClick={onBack} />
+        <Image src={'/icon/backArrow.svg'} width={10} height={17} onClick={onBack} alt="뒤로가기" />
         {title}
       </span>
 
@@ -77,6 +78,7 @@ const ToastInput = ({ onSubmit, onBack, title, type, label, submit }: InputProps
                   border-color: ${theme.color.black02};
                 }
               `}
+              defaultValue={defaultValue}
             />
           </>
         )}
