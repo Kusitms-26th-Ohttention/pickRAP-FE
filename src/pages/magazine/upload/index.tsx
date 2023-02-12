@@ -5,11 +5,18 @@ import { useRouter } from 'next/router';
 import React, { useMemo, useState } from 'react';
 
 import { useSaveMagazine } from '@/application/hooks/api/magazine';
+import usePopup from '@/application/hooks/common/usePopup';
 import useToast from '@/application/hooks/common/useToast';
 import { useEditPageReset, useEditPageSet } from '@/application/store/edit/hook';
-import { useMagazineInfo, useResetMagazineInfo, useSetMagazineInfo } from '@/application/store/magazine/hook';
+import {
+  useMagazineInfo,
+  usePageDeleteList,
+  useResetMagazineInfo,
+  useSetMagazineInfo,
+} from '@/application/store/magazine/hook';
 import SelectCategoryWithContent from '@/components/category/Select/SelectCategoryWithContent';
 import { ActiveButton } from '@/components/common/Button';
+import { DeletePopup } from '@/components/common/Popup/Sentence';
 import DeleteNavigation from '@/components/scrap/DeleteNavigation';
 import { DeleteScrapToast } from '@/components/scrap/Toast';
 import MagazineCreateContainer from '@/containers/magazine/MagazineCreateContainer';
@@ -28,10 +35,17 @@ import MagazineCreateContainer from '@/containers/magazine/MagazineCreateContain
 const UploadMagazine: NextPage = () => {
   const router = useRouter();
   const { show, close } = useToast();
+  const popup = usePopup();
   const [selected, setSelected] = useState(false);
+  const pageDeleteList = usePageDeleteList();
 
   const handleClickReset = () => {
     setSelected(false);
+  };
+
+  const handleDeletePages = () => {
+    setSelected(false);
+    popup(DeletePopup, 'success');
   };
 
   const handleMultiSelect = () => {
@@ -40,7 +54,7 @@ const UploadMagazine: NextPage = () => {
 
   const showDeletePagesToast = () =>
     show({
-      content: <DeleteScrapToast onBack={close} />,
+      content: <DeleteScrapToast onBack={close} onDelete={handleDeletePages} />,
     });
 
   const magazineInfo = useMagazineInfo();
@@ -69,6 +83,7 @@ const UploadMagazine: NextPage = () => {
     const ret: (MagazineThumbnail & { onClick?: () => void })[] = [
       {
         cover_url: magazineInfo.cover_scrap_src,
+        scrap_id: magazineInfo.cover_scrap_id,
         placeholder: magazineInfo.cover_scrap_placeholder,
         title: '표지 설정',
         magazine_id: 0,
@@ -90,6 +105,7 @@ const UploadMagazine: NextPage = () => {
       },
       ...magazineInfo.page_list.map((page, idx) => ({
         cover_url: page.src,
+        scrap_id: page.scrap_id,
         placeholder: page.placeholder,
         title: `${idx + 1} 페이지`,
         magazine_id: idx,
@@ -140,7 +156,7 @@ const UploadMagazine: NextPage = () => {
             left: 0;
           `}
         >
-          <Image src={'/icon/backArrow.svg'} layout={'fill'} objectFit={'cover'} />
+          <Image src={'/icon/backArrow.svg'} layout={'fill'} objectFit={'cover'} alt="뒤로가기" />
         </span>
         <span
           onClick={handleMultiSelect}
@@ -157,13 +173,13 @@ const UploadMagazine: NextPage = () => {
           {selected ? (
             <p onClick={handleClickReset}>취소</p>
           ) : (
-            <Image src={'/icon/multiSelect.svg'} width={18} height={18} />
+            <Image src={'/icon/multiSelect.svg'} width={18} height={18} alt="삭제" />
           )}
         </span>
       </div>
       <MagazineCreateContainer thumbnails={pages} selectItem={selected} />
       {selected ? (
-        <DeleteNavigation onClick={() => showDeletePagesToast} />
+        <DeleteNavigation onClick={showDeletePagesToast} />
       ) : (
         <ActiveButton
           active={!!magazineInfo.cover_scrap_id}
