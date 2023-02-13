@@ -35,9 +35,10 @@ const TypedComplete = ({
   backState,
   placeholder = '업로드 하기',
 }: TypedDetailProps) => {
-  const [title, setTitle] = useInput({ maxLength: 15 });
-  const [hashtag, setHashtag] = useInput();
-  const [memo, setMemo] = useInput();
+  const prevTags = editHashtag?.join(' ');
+  const [title, setTitle] = useInput({ maxLength: 15, defaultValue: editTitle });
+  const [hashtag, setHashtag] = useInput({ defaultValue: prevTags });
+  const [memo, setMemo] = useInput({ defaultValue: editMemo });
   const { replace, show, close } = useToast();
   const popup = usePopup();
   const {
@@ -49,7 +50,7 @@ const TypedComplete = ({
     <form
       onSubmit={(e) => {
         e.preventDefault();
-        if (!hashtag) {
+        if (!hashtag && !prevTags) {
           show({ content: <Popup type={'warn'}>해시태그 입력은 필수입니다</Popup>, type: 'popup' });
           return;
         }
@@ -110,7 +111,7 @@ const TypedComplete = ({
             콘텐츠 제목
           </label>
           <InputBase
-            value={title}
+            defaultValue={editTitle ? editTitle : title}
             onChange={(e) => setTitle(e.target.value)}
             id="title"
             rightPlaceholder={`${title.length}/15`}
@@ -135,7 +136,7 @@ const TypedComplete = ({
             </span>
           </label>
           <InputBase
-            value={hashtag}
+            defaultValue={editHashtag ? prevTags : hashtag}
             onChange={(e) => setHashtag(e.target.value)}
             placeholder={'필수 입력 사항입니다.'}
             id="hashtag"
@@ -150,7 +151,7 @@ const TypedComplete = ({
           >
             간단 메모
           </label>
-          <InputBase id="memo" value={memo} onChange={(e) => setMemo(e.target.value)} />
+          <InputBase id="memo" defaultValue={editMemo ? editMemo : memo} onChange={(e) => setMemo(e.target.value)} />
         </div>
       </div>
       <ActiveButton active>{placeholder}</ActiveButton>
