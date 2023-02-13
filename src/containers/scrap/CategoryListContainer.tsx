@@ -47,7 +47,7 @@ const CategoryListContainer = ({ select, selectItem, onClickItem }: CategoryList
       >
         <div css={CSSCategoryListContainer}>
           {categories?.map((category) => (
-            <div key={category.id} onClick={() => onClickItem({ id: category.id, name: category.name })}>
+            <div key={category.id} onClick={() => !selectItem && onClickItem({ id: category.id, name: category.name })}>
               <div onClick={() => selectItem && selectCategoryItems(category.id)}>
                 <CategoryListItem
                   select={select}
