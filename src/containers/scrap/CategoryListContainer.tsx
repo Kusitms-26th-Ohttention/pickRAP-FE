@@ -50,7 +50,7 @@ const CategoryListContainer = ({ select, selectItem, onClickItem }: CategoryList
             <div key={category.id} onClick={() => !selectItem && onClickItem({ id: category.id, name: category.name })}>
               <div onClick={() => selectItem && selectCategoryItems(category.id)}>
                 <CategoryListItem
-                  select={select}
+                  select={selectItem}
                   src={getSrcByType(category) ?? '/icon/scrap/defaultCategory.svg'}
                   title={category.name}
                 />
