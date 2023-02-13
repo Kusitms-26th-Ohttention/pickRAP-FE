@@ -11,9 +11,10 @@ interface Props {
   onSubmit?: (value: string, errorFn: Dispatch<SetStateAction<boolean>>) => void;
   title: string;
   errMsg?: string;
+  defaultValue?: string;
 }
 
-const InputModal = ({ onSubmit, title, errMsg }: Props) => {
+const InputModal = ({ onSubmit, title, errMsg, defaultValue }: Props) => {
   const [category, setCategory] = useInput({ maxLength: 15 });
   const [isError, setIsError] = useState(false);
   const { close } = useToast();
@@ -36,9 +37,9 @@ const InputModal = ({ onSubmit, title, errMsg }: Props) => {
         <InputLabel htmlFor={'category'}>{title}</InputLabel>
         <InputBase
           rightPlaceholder={`${category.length}/15`}
-          value={category}
           onChange={(e) => setCategory(e.target.value)}
           id={'category'}
+          defaultValue={defaultValue}
         />
         {isError ? (
           <span

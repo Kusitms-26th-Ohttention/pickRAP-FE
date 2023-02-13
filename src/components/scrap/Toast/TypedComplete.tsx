@@ -15,6 +15,10 @@ interface TypedDetailProps {
   onSubmit?: (value: string) => void;
   onBack?: () => void;
   placeholder?: string;
+  editTitle?: string;
+  editHashtag?: string[];
+  editMemo?: string;
+  backState?: boolean;
 }
 
 /**
@@ -22,11 +26,19 @@ interface TypedDetailProps {
  * Compound Component 로 유연성 고려하기
  * placeholder props 추후 리팩토링
  */
-const TypedComplete = ({ onSubmit, onBack, placeholder = '업로드 하기' }: TypedDetailProps) => {
+const TypedComplete = ({
+  onSubmit,
+  onBack,
+  editTitle,
+  editHashtag,
+  editMemo,
+  backState,
+  placeholder = '업로드 하기',
+}: TypedDetailProps) => {
   const [title, setTitle] = useInput({ maxLength: 15 });
   const [hashtag, setHashtag] = useInput();
   const [memo, setMemo] = useInput();
-  const { replace, show } = useToast();
+  const { replace, show, close } = useToast();
   const popup = usePopup();
   const {
     scrap: { uploadRequest, ...rest },
@@ -59,7 +71,7 @@ const TypedComplete = ({ onSubmit, onBack, placeholder = '업로드 하기' }: T
       `}
     >
       <span
-        onClick={() => replace({ content: <SelectCategoryWithCreate /> })}
+        onClick={() => (backState ? close() : replace({ content: <SelectCategoryWithCreate /> }))}
         css={(theme) =>
           css`
             display: flex;
