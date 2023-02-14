@@ -16,6 +16,7 @@ import {
 } from '@/application/store/magazine/hook';
 import SelectCategoryWithContent from '@/components/category/Select/SelectCategoryWithContent';
 import { ActiveButton } from '@/components/common/Button';
+import { MagazineWarningPopup } from '@/components/common/Popup/MagazineWarningSentence';
 import { DeletePopup } from '@/components/common/Popup/Sentence';
 import DeleteNavigation from '@/components/scrap/DeleteNavigation';
 import { DeleteScrapToast } from '@/components/scrap/Toast';
@@ -72,11 +73,17 @@ const UploadMagazine: NextPage = () => {
     });
   };
 
+  console.log('커버설정', magazineInfo);
+
   const handleComplete = () => {
-    mutation.mutate(magazineInfo, {
-      onSuccess: handleBack,
-    });
-    console.debug('complete :::', magazineInfo);
+    if (magazineInfo.cover_scrap_id === 0) {
+      popup(MagazineWarningPopup, 'warn');
+    } else {
+      mutation.mutate(magazineInfo, {
+        onSuccess: handleBack,
+      });
+      console.debug('complete :::', magazineInfo);
+    }
   };
 
   const pages = useMemo(() => {
