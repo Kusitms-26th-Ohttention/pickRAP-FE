@@ -73,8 +73,6 @@ const UploadMagazine: NextPage = () => {
     });
   };
 
-  console.log('커버설정', magazineInfo);
-
   const handleComplete = () => {
     if (magazineInfo.cover_scrap_id === 0) {
       popup(MagazineWarningPopup, 'warn');
