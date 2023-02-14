@@ -34,11 +34,12 @@ const CreateScrap = () => {
 
     const type = file.name.split('.').pop();
     if (!type) throw Error(ERR_MESSAGE.NOT_SUPPORTED_FILE);
+    console.log(type);
 
-    if (/(png|jpg|jpeg)/.test(type)) handleScrap({ type: 'image', data: file });
+    if (/(png|jpg|jpeg|PNG|JPG|JPEG)/.test(type)) handleScrap({ type: 'image', data: file });
     else if (/pdf/.test(type)) handleScrap({ type: 'pdf', data: file });
     else if (/mp4/.test(type)) handleScrap({ type: 'video', data: file });
-    else if (/mov/.test(type)) handleScrap({ type: 'video', data: file });
+    else if (/mov|MOV/.test(type)) handleScrap({ type: 'video', data: file });
     else throw Error(ERR_MESSAGE.NOT_SUPPORTED_FILE);
 
     replace({ content: <SelectCategoryWithCreate /> });
