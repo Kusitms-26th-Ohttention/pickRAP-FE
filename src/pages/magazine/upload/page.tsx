@@ -52,20 +52,27 @@ const UploadPage: NextPage = () => {
         페이지 추가
       </TopNavigation>
       <PageEditContainer {...editContainerProps} />
-      <ActiveButton
-        active
-        onClick={() => {
-          console.debug('final upload state :::', editPages);
-          setMagazineInfo((prev) => ({
-            ...prev,
-            page_list: [...(prev?.page_list || []), ...editPages],
-            start_number: prev.start_number! + editPages.length,
-          }));
-          router.replace('/magazine/upload').then(resetEditPages);
-        }}
+      <div
+        css={css`
+          /* position: absolute;
+          width: 100%; */
+        `}
       >
-        저장
-      </ActiveButton>
+        <ActiveButton
+          active
+          onClick={() => {
+            console.debug('final upload state :::', editPages);
+            setMagazineInfo((prev) => ({
+              ...prev,
+              page_list: [...(prev?.page_list || []), ...editPages],
+              start_number: prev.start_number! + editPages.length,
+            }));
+            router.replace('/magazine/upload').then(resetEditPages);
+          }}
+        >
+          저장
+        </ActiveButton>
+      </div>
     </>
   );
 };
