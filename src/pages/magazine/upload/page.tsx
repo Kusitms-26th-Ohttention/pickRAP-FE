@@ -54,8 +54,9 @@ const UploadPage: NextPage = () => {
       <PageEditContainer {...editContainerProps} />
       <div
         css={css`
-          /* position: absolute;
-          width: 100%; */
+          position: absolute;
+          width: 100%;
+          bottom: -45px;
         `}
       >
         <ActiveButton
