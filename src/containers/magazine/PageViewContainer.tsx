@@ -15,6 +15,10 @@ interface Props {
 }
 
 const PageViewContainer = ({ pages = PAGES }: Props) => {
+  const handleClickLink = (link: string) => {
+    window.open(link, '_blank', 'noopener, noreferrer');
+  };
+
   return (
     <>
       <article
@@ -38,6 +42,10 @@ const PageViewContainer = ({ pages = PAGES }: Props) => {
                 src={page.file_url === null ? page.preview_url : page.file_url || getValidURL(page.contents).toString()}
                 text={page.contents}
                 height={'45vh'}
+                custom={css`
+                  z-index: 3;
+                `}
+                onClick={() => page.contents && handleClickLink(page.contents)}
               />
               <p css={CSSPageContent}>{page.text}</p>
               <div css={CSSSnapper} />
