@@ -17,7 +17,6 @@ const initSelectedContext = { yearSelect: false, monthSelect: false };
 type SelectContextKey = keyof typeof initSelectedContext;
 
 const TagAnalysisDetail = () => {
-  // const [selected, setSelected] = useState(initSelectedContext);
   const [selected, setSelected] = useRecoilState(yearMonthBoxState);
   const [period, setPeriod] = useState('전체');
   const tagYear = useGetCurrentYear();
