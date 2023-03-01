@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 
-import { api, getAccessToken, setAccessToken } from '@/infra/api';
+import { api, setAccessToken } from '@/infra/api';
 
 interface UseSNSLoginProps {
   code: string;
@@ -15,13 +15,11 @@ const useSNSLogin = ({ code, provider, state }: UseSNSLoginProps) => {
     queryKey: ['accessToken', code, provider, state],
     queryFn: () => api.auth.snsLogin({ code, provider, state }),
     onSuccess: (res) => {
-      if (getAccessToken()) {
-        router.push('/scrap');
-      } else if (res.headers.authorization) {
+      if (res.headers.authorization) {
         const token = res.headers.authorization.slice(7);
         setAccessToken(token);
-        router.push('/auth/complete');
       }
+      router.push('/auth/complete');
     },
     onError: () => {
       console.error('SNS 로그인 에러');
