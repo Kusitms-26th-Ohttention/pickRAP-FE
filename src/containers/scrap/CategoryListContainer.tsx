@@ -47,13 +47,14 @@ const CategoryListContainer = ({ select, selectItem, onClickItem }: CategoryList
       >
         <div css={CSSCategoryListContainer}>
           {categories?.map((category) => (
-            <div key={category.id} onClick={() => selectItem && selectCategoryItems(category.id)}>
-              <CategoryListItem
-                onClick={() => onClickItem({ id: category.id, name: category.name })}
-                select={select}
-                src={getSrcByType(category) ?? '/icon/scrap/defaultCategory.svg'}
-                title={category.name}
-              />
+            <div key={category.id} onClick={() => !selectItem && onClickItem({ id: category.id, name: category.name })}>
+              <div onClick={() => selectItem && selectCategoryItems(category.id)}>
+                <CategoryListItem
+                  select={selectItem}
+                  src={getSrcByType(category) ?? '/icon/scrap/defaultCategory.svg'}
+                  title={category.name}
+                />
+              </div>
             </div>
           ))}
         </div>

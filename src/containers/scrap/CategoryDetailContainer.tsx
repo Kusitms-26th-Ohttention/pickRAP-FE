@@ -44,6 +44,7 @@ const CategoryDetailContainer = ({ select, info, selectItem }: CategoryDetailCon
           onClick={() =>
             show(
               <CreateCategory
+                defaultValue={categoryName}
                 errMsg={ERR_MESSAGE.NOT_MODIFY_DEFAULT_CATEGORY}
                 onSubmit={(category, setError) => {
                   mutation.mutate(
