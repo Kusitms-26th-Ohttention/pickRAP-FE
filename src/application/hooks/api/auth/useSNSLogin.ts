@@ -15,13 +15,11 @@ const useSNSLogin = ({ code, provider, state }: UseSNSLoginProps) => {
     queryKey: ['accessToken', code, provider, state],
     queryFn: () => api.auth.snsLogin({ code, provider, state }),
     onSuccess: (res) => {
-      if (res.headers.authorization) {
-        const token = res.headers.authorization.slice(7);
-        setAccessToken(token);
-      }
       if (getAccessToken()) {
         router.push('/scrap');
-      } else {
+      } else if (res.headers.authorization) {
+        const token = res.headers.authorization.slice(7);
+        setAccessToken(token);
         router.push('/auth/complete');
       }
     },
