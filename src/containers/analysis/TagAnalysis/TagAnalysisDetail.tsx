@@ -1,5 +1,6 @@
 import { css } from '@emotion/react';
 import { useRef, useState } from 'react';
+import { useRecoilState } from 'recoil';
 
 import {
   useGetCurrentMonth,
@@ -7,6 +8,7 @@ import {
   useResetCurrentMonth,
   useResetCurrentYear,
 } from '@/application/store/analysis/analysisHook';
+import { yearMonthBoxState } from '@/application/store/analysis/analysisState';
 import SelectPeriod from '@/components/analysis/SelectPeriod';
 import YearMonthSelector from '@/components/analysis/SelectPeriod/YearMonthSelector';
 import TagDetailContainer from '@/containers/analysis/TagAnalysis/TagDetailContainer';
@@ -15,7 +17,7 @@ const initSelectedContext = { yearSelect: false, monthSelect: false };
 type SelectContextKey = keyof typeof initSelectedContext;
 
 const TagAnalysisDetail = () => {
-  const [selected, setSelected] = useState(initSelectedContext);
+  const [selected, setSelected] = useRecoilState(yearMonthBoxState);
   const [period, setPeriod] = useState('전체');
   const tagYear = useGetCurrentYear();
   const tagMonth = useGetCurrentMonth();

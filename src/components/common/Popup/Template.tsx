@@ -26,8 +26,10 @@ const PopupTemplate = ({ children }: PropsWithChildren) => {
         background: ${theme.color.white01};
         position: absolute;
         width: 86vw;
-        max-width: 380px;
-        top: 50%;
+        /* TODO 해시태그 작성 팝업창은 height길이가 175px이어야함  */
+        height: 150px;
+        max-width: 240px;
+        top: 45%;
         left: 50%;
         transform: translate(-50%, -50%);
 
@@ -35,7 +37,7 @@ const PopupTemplate = ({ children }: PropsWithChildren) => {
         pointer-events: auto;
 
         box-shadow: 0 8px 11px rgba(0, 0, 0, 0.1);
-        border-radius: 6px;
+        border-radius: 10px;
       `}
     >
       {children}

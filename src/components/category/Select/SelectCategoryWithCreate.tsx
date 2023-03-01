@@ -10,6 +10,7 @@ import { ERR_CODE } from '@/application/utils/constant';
 import CreateCategory from '@/components/category/Modal/CreateCategory';
 import SelectCategory from '@/components/category/Select/SelectCategory';
 import SelectCategoryItem from '@/components/category/Select/SelectCategoryItem';
+import { SuccessPopup } from '@/components/common/Popup/Sentence';
 import TypedComplete from '@/components/scrap/Toast/TypedComplete';
 
 const newCategory = { file_url: '/icon/scrap/newCategory.svg', name: '새로운 카테고리 생성' } as Category;
@@ -39,7 +40,7 @@ const SelectCategoryWithCreate = () => {
                         toast({ content: <TypedComplete /> });
                       }, 500);
                       handleScrap({ type: 'category', data: data.data.id });
-                      submitForm && popup('성공적으로 생성 되었습니다', 'success');
+                      submitForm && popup(SuccessPopup, 'success');
                     },
                     onError: (err) => {
                       if (axios.isAxiosError(err)) {
