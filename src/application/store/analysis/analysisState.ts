@@ -1,5 +1,10 @@
 import { atom, selector } from 'recoil';
 
+export const yearMonthBoxState = atom({
+  key: 'yearMonthBoxState',
+  default: { yearSelect: false, monthSelect: false },
+});
+
 export const tagDetailState = atom({
   key: 'tagDetailState',
   default: false,

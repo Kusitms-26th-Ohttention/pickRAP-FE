@@ -8,6 +8,7 @@ import useModal from '@/application/hooks/common/useModal';
 import usePopup from '@/application/hooks/common/usePopup';
 import { ERR_CODE, ERR_MESSAGE } from '@/application/utils/constant';
 import CreateCategory from '@/components/category/Modal/CreateCategory';
+import { EditPopup } from '@/components/common/Popup/Sentence';
 import PhotoListContainer from '@/containers/scrap/PhotoListContainer';
 
 interface CategoryDetailContainerProps {
@@ -50,7 +51,7 @@ const CategoryDetailContainer = ({ select, info, selectItem }: CategoryDetailCon
                     {
                       onSuccess: async () => {
                         setCategoryName(category);
-                        popup('성공적으로 수정 되었습니다', 'success');
+                        popup(EditPopup, 'success');
                       },
                       onError: (err) => {
                         if (axios.isAxiosError(err)) {

@@ -9,6 +9,7 @@ import { ERR_CODE } from '@/application/utils/constant';
 import CreateCategory from '@/components/category/Modal/CreateCategory';
 import SelectCategory from '@/components/category/Select/SelectCategory';
 import SelectCategoryItem from '@/components/category/Select/SelectCategoryItem';
+import { SuccessPopup } from '@/components/common/Popup/Sentence';
 import TypedComplete from '@/components/scrap/Toast/TypedComplete';
 
 const newCategory = { file_url: '/icon/scrap/newCategory.svg', name: '새로운 카테고리 생성' } as Category;
@@ -31,7 +32,7 @@ const SelectCategoryWithCreate = () => {
                   { name: category },
                   {
                     onSuccess: ({ data }) => {
-                      popup('성공적으로 생성 되었습니다', 'success');
+                      popup(SuccessPopup, 'success');
                       handleScrap({ type: 'category', data: data.data.id });
                       // TODO popup().then Promise로 api 개선
                       // 현재 버그 가능성 많음

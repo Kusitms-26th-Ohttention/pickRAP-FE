@@ -1,8 +1,10 @@
 import { css } from '@emotion/react';
 import type { PropsWithChildren } from 'react';
 import { useState } from 'react';
+import { useResetRecoilState } from 'recoil';
 
 import useClickOutside from '@/application/hooks/utils/useClickOutside';
+import { yearMonthBoxState } from '@/application/store/analysis/analysisState';
 import Chip from '@/components/common/Chip';
 import type { SelectProps } from '@/components/common/Select/context';
 import { SelectContext, useSelectContext } from '@/components/common/Select/context';
@@ -34,6 +36,7 @@ function SelectRoot({ children, open, ...rest }: PropsWithChildren<SelectProps>)
 
 const Trigger = () => {
   const [context, setContext] = useSelectContext();
+  const yearMonthBoxClose = useResetRecoilState(yearMonthBoxState);
 
   return (
     <Chip size="large" active>
@@ -41,7 +44,10 @@ const Trigger = () => {
         css={(theme) => css`
           color: ${theme.color.white01};
         `}
-        onClick={() => setContext((prev) => ({ ...prev, open: !context.open }))}
+        onClick={() => {
+          yearMonthBoxClose();
+          setContext((prev) => ({ ...prev, open: !context.open }));
+        }}
       >
         {context.value}
       </button>

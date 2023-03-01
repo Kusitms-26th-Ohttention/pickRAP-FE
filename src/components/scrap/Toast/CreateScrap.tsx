@@ -13,6 +13,7 @@ import { ERR_CODE, ERR_MESSAGE } from '@/application/utils/constant';
 import CreateCategory from '@/components/category/Modal/CreateCategory';
 import SelectCategoryWithCreate from '@/components/category/Select/SelectCategoryWithCreate';
 import { ActiveButton } from '@/components/common/Button';
+import { SuccessPopup } from '@/components/common/Popup/Sentence';
 import { TypedDetailToast } from '@/components/scrap/Toast/index';
 
 const CreateScrap = () => {
@@ -52,7 +53,7 @@ const CreateScrap = () => {
             { name: category },
             {
               onSuccess: () => {
-                popup('성공적으로 생성 되었습니다', 'success');
+                popup(SuccessPopup, 'success');
               },
               onError: (err) => {
                 if (axios.isAxiosError(err)) {
