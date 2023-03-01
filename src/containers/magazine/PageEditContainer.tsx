@@ -75,10 +75,10 @@ const PageEditContainer = ({ pages, startPage }: Props) => {
                   width: 100%;
                   border: 2px solid #dbdbdb;
                   border-radius: 4px;
-                  padding: min(40px, 4.8vh);
+                  padding: min(30px, 2.5vh);
                 `}
               >
-                <Photo src={page.src} placeholder={page.placeholder} height={'33vh'} />
+                <Photo src={page.src} placeholder={page.placeholder} height={'35vh'} />
                 <p
                   css={CSSPageContent}
                   onClick={() =>
@@ -161,7 +161,7 @@ const CSSPageContent = (theme: Theme) =>
     color: ${theme.color.gray04};
     letter-spacing: 0.005em;
     line-height: 20px;
-    height: 18.7vh;
+    height: 22.3vh;
 
     align-items: center;
     justify-content: center;

@@ -56,7 +56,22 @@ const ShowScrap: NextPage = () => {
         <SwipeSection.Bottom>
           <SwipeSection.Tag tags={scrap?.hashtags || []} />
           <Profile {...PROFILE} />
-          <ActiveButton active onClick={() => show({ content: <TypedCompleteToast placeholder={'완료 하기'} /> })}>
+          <ActiveButton
+            active
+            onClick={() =>
+              show({
+                content: (
+                  <TypedCompleteToast
+                    placeholder={'완료 하기'}
+                    backState={true}
+                    editTitle={scrap?.title}
+                    editHashtag={scrap?.hashtags}
+                    editMemo={scrap?.memo}
+                  />
+                ),
+              })
+            }
+          >
             편집하기
           </ActiveButton>
         </SwipeSection.Bottom>

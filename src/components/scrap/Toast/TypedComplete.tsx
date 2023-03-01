@@ -15,6 +15,10 @@ interface TypedDetailProps {
   onSubmit?: (value: string) => void;
   onBack?: () => void;
   placeholder?: string;
+  editTitle?: string;
+  editHashtag?: string[];
+  editMemo?: string;
+  backState?: boolean;
 }
 
 /**
@@ -22,11 +26,20 @@ interface TypedDetailProps {
  * Compound Component 로 유연성 고려하기
  * placeholder props 추후 리팩토링
  */
-const TypedComplete = ({ onSubmit, onBack, placeholder = '업로드 하기' }: TypedDetailProps) => {
-  const [title, setTitle] = useInput({ maxLength: 15 });
-  const [hashtag, setHashtag] = useInput();
-  const [memo, setMemo] = useInput();
-  const { replace, show } = useToast();
+const TypedComplete = ({
+  onSubmit,
+  onBack,
+  editTitle,
+  editHashtag,
+  editMemo,
+  backState,
+  placeholder = '업로드 하기',
+}: TypedDetailProps) => {
+  const prevTags = editHashtag?.join(' ');
+  const [title, setTitle] = useInput({ maxLength: 15, defaultValue: editTitle });
+  const [hashtag, setHashtag] = useInput({ defaultValue: prevTags });
+  const [memo, setMemo] = useInput({ defaultValue: editMemo });
+  const { replace, show, close } = useToast();
   const popup = usePopup();
   const {
     scrap: { uploadRequest, ...rest },
@@ -37,7 +50,7 @@ const TypedComplete = ({ onSubmit, onBack, placeholder = '업로드 하기' }: T
     <form
       onSubmit={(e) => {
         e.preventDefault();
-        if (!hashtag) {
+        if (!hashtag && !prevTags) {
           show({ content: <Popup type={'warn'}>해시태그 입력은 필수입니다</Popup>, type: 'popup' });
           return;
         }
@@ -59,7 +72,7 @@ const TypedComplete = ({ onSubmit, onBack, placeholder = '업로드 하기' }: T
       `}
     >
       <span
-        onClick={() => replace({ content: <SelectCategoryWithCreate /> })}
+        onClick={() => (backState ? close() : replace({ content: <SelectCategoryWithCreate /> }))}
         css={(theme) =>
           css`
             display: flex;
@@ -98,7 +111,7 @@ const TypedComplete = ({ onSubmit, onBack, placeholder = '업로드 하기' }: T
             콘텐츠 제목
           </label>
           <InputBase
-            value={title}
+            defaultValue={editTitle ? editTitle : title}
             onChange={(e) => setTitle(e.target.value)}
             id="title"
             rightPlaceholder={`${title.length}/15`}
@@ -123,7 +136,7 @@ const TypedComplete = ({ onSubmit, onBack, placeholder = '업로드 하기' }: T
             </span>
           </label>
           <InputBase
-            value={hashtag}
+            defaultValue={editHashtag ? prevTags : hashtag}
             onChange={(e) => setHashtag(e.target.value)}
             placeholder={'필수 입력 사항입니다.'}
             id="hashtag"
@@ -138,7 +151,7 @@ const TypedComplete = ({ onSubmit, onBack, placeholder = '업로드 하기' }: T
           >
             간단 메모
           </label>
-          <InputBase id="memo" value={memo} onChange={(e) => setMemo(e.target.value)} />
+          <InputBase id="memo" defaultValue={editMemo ? editMemo : memo} onChange={(e) => setMemo(e.target.value)} />
         </div>
       </div>
       <ActiveButton active>{placeholder}</ActiveButton>
