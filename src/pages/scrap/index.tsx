@@ -50,7 +50,7 @@ const Scrap: NextPage = () => {
 
   const [categoryInfo, setCategoryInfo] = useState<{ id: number; name: string }>({ id: 0, name: '' });
   const ref = useRef<SelectContextKey>('category');
-  const { show } = useToast();
+  const { show, close } = useToast();
   const popup = usePopup();
 
   const handleDeleteScrap = () => {
@@ -64,7 +64,8 @@ const Scrap: NextPage = () => {
     popup(DeletePopup, 'success');
   };
 
-  const showDeleteScrapToast = () => show({ content: <DeleteScrapToast onDelete={handleDeleteScrap} /> });
+  const showDeleteScrapToast = () =>
+    show({ content: <DeleteScrapToast onBack={close} onDelete={handleDeleteScrap} /> });
 
   const handleTabClick = (key: SelectContextKey) => {
     ref.current = key;

@@ -44,6 +44,7 @@ const PageEditContainer = ({ pages, startPage }: Props) => {
     type: 'textarea' as const,
     title: '텍스트 입력하기',
   };
+
   return (
     <>
       <span
@@ -82,7 +83,7 @@ const PageEditContainer = ({ pages, startPage }: Props) => {
                   css={CSSPageContent}
                   onClick={() =>
                     show({
-                      content: <ToastInput {...toastProps} />,
+                      content: <ToastInput {...toastProps} defaultValue={editPageInfo[idx].text} onBack={close} />,
                     })
                   }
                 >
@@ -100,6 +101,7 @@ const PageEditContainer = ({ pages, startPage }: Props) => {
               right: 0;
               gap: 12px;
               display: flex;
+              background-color: white;
             `}
           >
             <Link href={{ hash: `${getPrevPage(currentPage) + startPage}` }}>
@@ -108,6 +110,7 @@ const PageEditContainer = ({ pages, startPage }: Props) => {
                 src={'/icon/magazine/prevPage.svg'}
                 width={48}
                 height={48}
+                alt="이전 버튼"
               />
             </Link>
             <Link href={{ hash: `${getNextPage(currentPage) + startPage}` }}>
@@ -116,6 +119,7 @@ const PageEditContainer = ({ pages, startPage }: Props) => {
                 src={'/icon/magazine/nextPage.svg'}
                 width={48}
                 height={48}
+                alt="다음 버튼"
               />
             </Link>
           </div>
@@ -132,7 +136,7 @@ const CSSCarouselContainer = css`
   bottom: 0;
   left: 0;
   display: flex;
-  overflow-x: auto;
+  overflow-x: hidden;
   counter-reset: item;
   scroll-behavior: smooth;
   scroll-snap-type: x mandatory;

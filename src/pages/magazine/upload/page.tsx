@@ -30,7 +30,7 @@ const UploadPage: NextPage = () => {
   const resetEditPages = useEditPageReset();
   const editContainerProps = {
     pages: editPages,
-    startPage: magazineInfo.start_number,
+    startPage: magazineInfo.start_number - 1,
   };
   return (
     <>

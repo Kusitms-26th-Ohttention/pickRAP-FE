@@ -26,6 +26,7 @@ const MagazineCreateContainer = ({ thumbnails, selectItem }: Props) => {
     modal(
       <InputModal
         title={'제목 수정'}
+        defaultValue={magazineInfo.title}
         errMsg={ERR_MESSAGE.DUPLICATED_TITLE}
         onSubmit={(value, errorFn) => {
           mutation.mutate(value, {
