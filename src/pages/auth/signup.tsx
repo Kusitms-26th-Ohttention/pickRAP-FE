@@ -4,6 +4,7 @@ import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 
+import useSignIn from '@/application/hooks/api/auth/useSignIn';
 import useSignUp from '@/application/hooks/api/auth/useSignUp';
 import { useInput } from '@/application/hooks/common/useInput';
 import { EMAIL_REGEXP, PASSWORD_REGEXP } from '@/application/utils/constant';
@@ -28,6 +29,7 @@ const SignUp: NextPage = () => {
   const [errInput, setErrInput] = useState('');
   const [errForm, setErrForm] = useState('');
   const { mutate: signUpMutate } = useSignUp();
+  const { mutateAsync: loginMutate } = useSignIn();
 
   const handleSubmit = () => {
     setErrForm('');
@@ -40,7 +42,10 @@ const SignUp: NextPage = () => {
         { email, password, name },
         {
           onError: errorHandler(setErrForm),
-          onSuccess: () => router.push('/auth/complete'),
+          onSuccess: async () => {
+            await loginMutate({ email, password });
+            router.push('/auth/complete');
+          },
         },
       );
     }
