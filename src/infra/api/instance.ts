@@ -52,6 +52,8 @@ instance.interceptors.response.use(
       const status = err.response?.status;
       const origin = err.config as AxiosRequestConfig;
 
+      if (origin.url === '/auth/reissue') return Promise.reject(err);
+
       if (status == 401 && !origin.headers?.retry) {
         const res = await instance.post('/auth/reissue', null, { headers: { retry: true } });
 

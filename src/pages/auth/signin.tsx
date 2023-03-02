@@ -118,8 +118,8 @@ const SignIn: NextPage = () => {
           margin-top: 8vh;
         `}
       >
-        <NaverButton />
-        <KakaoButton />
+        <NaverButton nextUrl={'/scrap'} />
+        <KakaoButton nextUrl={'/scrap'} />
       </div>
     </div>
   );
