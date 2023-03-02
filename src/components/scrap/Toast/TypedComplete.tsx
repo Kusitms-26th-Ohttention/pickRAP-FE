@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 import Image from 'next/image';
-import React from 'react';
+import { useState } from 'react';
 
 import { useInput } from '@/application/hooks/common/useInput';
 import usePopup from '@/application/hooks/common/usePopup';
@@ -44,6 +44,7 @@ const TypedComplete = ({
   const {
     scrap: { uploadRequest, ...rest },
   } = useScrapForm();
+  const [isRequest, setIsRequest] = useState(false);
 
   return (
     // TODO AuthForm 포함 Common Form 추상화
@@ -55,12 +56,13 @@ const TypedComplete = ({
           return;
         }
         const tags = hashtag.split(' ');
+        setIsRequest(true);
         uploadRequest(
           { ...rest, hashtags: tags, title, memo },
           {
             onSuccess: () => {
-              // TODO 매우 별로인 코드
               popup(`성공적으로 ${placeholder === '완료 하기' ? '수정' : '생성'} 되었습니다`, 'success');
+              setIsRequest(false);
             },
           },
         );
@@ -154,7 +156,7 @@ const TypedComplete = ({
           <InputBase id="memo" defaultValue={editMemo ? editMemo : memo} onChange={(e) => setMemo(e.target.value)} />
         </div>
       </div>
-      <ActiveButton active>{placeholder}</ActiveButton>
+      <ActiveButton active={!isRequest}>{placeholder}</ActiveButton>
     </form>
   );
 };

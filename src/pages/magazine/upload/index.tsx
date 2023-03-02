@@ -198,7 +198,7 @@ const UploadMagazine: NextPage = () => {
         <DeleteNavigation onClick={showDeletePagesToast} />
       ) : (
         <ActiveButton
-          active={!!magazineInfo.cover_scrap_id}
+          active={!!magazineInfo.cover_scrap_id && !mutation.isLoading}
           onClick={handleComplete}
           custom={css`
             margin-top: auto;
