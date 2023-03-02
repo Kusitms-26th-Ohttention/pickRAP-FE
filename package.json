@@ -71,8 +71,7 @@
   },
   "lint-staged": {
     "src/**/*.{js,jsx,ts,tsx}": [
-      "next lint --fix",
-      "tsc",
+      "eslint --fix",
       "prettier --write"
     ]
   }
