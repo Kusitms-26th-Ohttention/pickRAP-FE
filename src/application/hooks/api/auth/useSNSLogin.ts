@@ -7,9 +7,10 @@ interface UseSNSLoginProps {
   code: string;
   provider: 'naver' | 'kakao';
   state?: string;
+  nextUrl: string;
 }
 
-const useSNSLogin = ({ code, provider, state }: UseSNSLoginProps) => {
+const useSNSLogin = ({ code, provider, state, nextUrl }: UseSNSLoginProps) => {
   const router = useRouter();
   return useQuery({
     queryKey: ['accessToken', code, provider, state],
@@ -19,7 +20,7 @@ const useSNSLogin = ({ code, provider, state }: UseSNSLoginProps) => {
         const token = res.headers.authorization.slice(7);
         setAccessToken(token);
       }
-      router.push('/auth/complete');
+      router.replace(nextUrl);
     },
     onError: () => {
       console.error('SNS 로그인 에러');
