@@ -47,3 +47,13 @@ export const SCRAPS = [0, 0, 0, 0, 0, 0].map(() => ({
   url_preview: '',
 }));
 export const EDIT_PAGE = [0, 0, 0, 0, 0].map(() => ({ scrap_id: 0, text: '', src: '/picture/mock.png' }));
+
+export const SEARCH_MAGAZINE = [
+  { user: '김수정', title: '최애 마블 장면' },
+  { user: '김소희', title: '사랑에 대해 고민하게 만드는 영화영화영화' },
+  { user: '유정민', title: '심오한 주제 어쩌구저쩌구' },
+  { user: '문민혁', title: 'Musical movie' },
+  { user: '윤태민', title: '어벤져스에 대해 알아보자' },
+  { user: '뉴진스', title: '뉴진스의 하입보이요 HYPE BOY' },
+  { user: '토끼', title: '산토끼 토끼야' },
+];

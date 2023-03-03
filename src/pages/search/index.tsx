@@ -7,7 +7,7 @@ import Search from '@/components/common/Search';
 import { ThreeDotsSpinner } from '@/components/common/Spinner';
 import Tab from '@/components/common/Tab';
 import withNavigation from '@/containers/HOC/withNavigation';
-import SearchListContainer from '@/containers/scrap/SearchListContainer';
+import SearchListContainer from '@/containers/search/SearchListContainer';
 import SSRSafeSuspense from '@/containers/Suspense';
 
 const Browse: NextPage = () => {

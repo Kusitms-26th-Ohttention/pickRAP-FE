@@ -4,7 +4,7 @@ import Image from 'next/image';
 import type { ReactElement } from 'react';
 
 interface PhotoProps {
-  src: string | null | undefined;
+  src?: string | null | undefined;
   width?: string;
   height?: string;
   blur?: ReactElement;
