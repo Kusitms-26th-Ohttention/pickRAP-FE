@@ -33,6 +33,7 @@ export const font = {
   M_BODY_12: FONT({ size: 12, family: 'Noto Sans KR', weight: 'M' }),
   M_BODY_14: FONT({ size: 14, family: 'Noto Sans KR', weight: 'M' }),
   R_BODY_15: FONT({ size: 15, family: 'Noto Sans KR', weight: 'R' }),
+  M_BODY_15: FONT({ size: 15, family: 'Noto Sans KR', weight: 'M' }),
   M_BODY_16: FONT({ size: 16, family: 'Noto Sans KR', weight: 'M' }),
   B_BODY_16: FONT({ size: 16, family: 'Noto Sans KR', weight: 'B' }),
   M_BODY_17: FONT({ size: 17, family: 'Noto Sans KR', weight: 'M' }),
