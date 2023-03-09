@@ -7,6 +7,7 @@ import Search from '@/components/common/Search';
 import { ThreeDotsSpinner } from '@/components/common/Spinner';
 import Tab from '@/components/common/Tab';
 import withNavigation from '@/containers/HOC/withNavigation';
+import RecommendListContainer from '@/containers/search/RecommendListContainer';
 import SearchListContainer from '@/containers/search/SearchListContainer';
 import SSRSafeSuspense from '@/containers/Suspense';
 
@@ -45,6 +46,13 @@ const Browse: NextPage = () => {
           <Tab.Group>
             <Tab.Label>매거진</Tab.Label>
           </Tab.Group>
+          <SSRSafeSuspense fallback={<ThreeDotsSpinner />}>
+            <Tab.Panel>
+              <Tab.Content>
+                <RecommendListContainer />
+              </Tab.Content>
+            </Tab.Panel>
+          </SSRSafeSuspense>
         </Tab>
       )}
     </>
