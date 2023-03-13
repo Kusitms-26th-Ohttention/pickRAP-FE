@@ -7,6 +7,8 @@ export interface SaveMagazineRequest {
   title: string;
 }
 
+export type GetRecommentMagazines = RecommendMagazine[];
+
 export interface GetMagazineDetailRequest {
   id: number;
 }
