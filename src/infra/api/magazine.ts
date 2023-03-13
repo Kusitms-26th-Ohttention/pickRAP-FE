@@ -5,6 +5,7 @@ import type {
   GetMagazineDetailRequest,
   GetMagazineDetailResponse,
   GetMagazinesResponse,
+  GetRecommentMagazines,
   SaveMagazineRequest,
   UpdateMagazineRequest,
 } from '@/infra/api/types/magazine';
@@ -13,6 +14,9 @@ class MagazineApi {
   constructor(private api: typeof instance) {}
   getMagazines = () => {
     return this.api.get<GetMagazinesResponse>('/magazine');
+  };
+  getRecommendMagazines = () => {
+    return this.api.get<GetRecommentMagazines>('/magazine/recommend');
   };
   saveMagazine = (args: SaveMagazineRequest) => {
     return this.api.post(`/magazine`, args);

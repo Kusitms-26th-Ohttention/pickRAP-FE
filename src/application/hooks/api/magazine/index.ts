@@ -8,6 +8,14 @@ export const useGetMagazines = () => {
   return { magazines: magazines || [], ...rest };
 };
 
+export const useGetRecommendMagazines = () => {
+  const { data, ...rest } = useQuery({
+    queryKey: ['getRecommendMagazines'],
+    queryFn: api.magazine.getRecommendMagazines,
+  });
+  return { recommendMagazines: data?.data.data || [], ...rest };
+};
+
 export const useSaveMagazine = () => {
   const queryClient = useQueryClient();
   return useMutation({
