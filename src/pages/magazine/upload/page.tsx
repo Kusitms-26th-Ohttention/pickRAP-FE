@@ -39,7 +39,7 @@ const UploadPage: NextPage = () => {
           confirm('페이지를 나가시겠어요?', {
             onSuccess: () => {
               resetEditPages();
-              router.push('/magazine/upload');
+              router.back();
             },
             description: '페이지를 나가면, 저장되지 않습니다',
           });
@@ -68,7 +68,8 @@ const UploadPage: NextPage = () => {
               page_list: [...(prev?.page_list || []), ...editPages],
               start_number: prev.start_number! + editPages.length,
             }));
-            router.replace('/magazine/upload').then(resetEditPages);
+            resetEditPages();
+            router.back();
           }}
         >
           저장

@@ -104,7 +104,7 @@ const PageEditContainer = ({ pages, startPage }: Props) => {
               background-color: white;
             `}
           >
-            <Link href={{ hash: `${getPrevPage(currentPage) + startPage}` }}>
+            <Link replace href={{ hash: `${getPrevPage(currentPage) + startPage}` }}>
               <Image
                 onClick={() => setCurrentPage(getPrevPage(currentPage))}
                 src={'/icon/magazine/prevPage.svg'}
@@ -113,7 +113,7 @@ const PageEditContainer = ({ pages, startPage }: Props) => {
                 alt="이전 버튼"
               />
             </Link>
-            <Link href={{ hash: `${getNextPage(currentPage) + startPage}` }}>
+            <Link replace href={{ hash: `${getNextPage(currentPage) + startPage}` }}>
               <Image
                 onClick={() => setCurrentPage(getNextPage(currentPage))}
                 src={'/icon/magazine/nextPage.svg'}

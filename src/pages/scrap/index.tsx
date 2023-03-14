@@ -48,8 +48,11 @@ const Scrap: NextPage = () => {
   const categoryMutation = useDeleteCategory();
   const scrapMutation = useDeleteScrap();
 
-  const [categoryInfo, setCategoryInfo] = useState<{ id: number; name: string }>({ id: 0, name: '' });
-  const ref = useRef<SelectContextKey>('category');
+  const {
+    query: { id, name },
+  } = router;
+
+  const ref = useRef<SelectContextKey>(name ? 'categoryInfo' : 'category');
   const { show, close } = useToast();
   const popup = usePopup();
 
@@ -104,9 +107,10 @@ const Scrap: NextPage = () => {
 
   const handleUploadToast = () => show({ content: <CreateScrapToast /> });
 
-  const handleClickCategoryList = (info: typeof categoryInfo) => {
+  const handleClickCategoryList = (info: { id: number; name: string }) => {
     ref.current = 'categoryInfo';
-    setCategoryInfo(info);
+
+    router.push({ query: info }, '/scrap');
   };
 
   useEffect(() => handleSearch(), [tagScrap, handleSearch]);
@@ -124,9 +128,9 @@ const Scrap: NextPage = () => {
           align-items: center;
         `}
       >
-        {categoryInfo.name ? (
+        {name ? (
           <span
-            onClick={() => setCategoryInfo({ id: 0, name: '' })}
+            onClick={() => handleClickCategoryList({ id: 0, name: '' })}
             css={css`
               width: 10px;
               height: 17px;
@@ -190,7 +194,7 @@ const Scrap: NextPage = () => {
           <SSRSafeSuspense fallback={<ThreeDotsSpinner />}>
             <Tab.Panel>
               <Tab.Content>
-                {!categoryInfo.name ? (
+                {!name ? (
                   <CategoryListContainer
                     select={selected.category}
                     onClickItem={handleClickCategoryList}
@@ -198,7 +202,7 @@ const Scrap: NextPage = () => {
                   />
                 ) : (
                   <CategoryDetailContainer
-                    info={categoryInfo}
+                    info={{ id: Number(id), name: name.toString() }}
                     select={selected.categoryInfo}
                     selectItem={selected[ref.current]}
                   />

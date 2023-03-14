@@ -2,6 +2,7 @@ import { css } from '@emotion/react';
 import type { NextPage } from 'next';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 
 import { ActiveButton } from '@/components/common/Button';
 import { getAccessToken } from '@/infra/api';
@@ -9,15 +10,13 @@ import { getAccessToken } from '@/infra/api';
 const Home: NextPage = () => {
   const router = useRouter();
 
-  // NOTE: 토큰 존재 유무만 체크
-  const handleSignup = () => {
-    if (getAccessToken()) router.push('/scrap');
-    else router.push('/auth/signup');
-  };
-  const handleSignin = () => {
-    if (getAccessToken()) router.push('/scrap');
-    else router.push('/auth/signin');
-  };
+  const handleSignup = () => router.push('/auth/signup');
+
+  const handleSignin = () => router.push('/auth/signin');
+
+  useEffect(() => {
+    if (getAccessToken()) router.replace('/scrap');
+  }, [router]);
 
   return (
     <>

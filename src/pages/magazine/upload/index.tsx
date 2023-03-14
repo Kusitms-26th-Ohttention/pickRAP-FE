@@ -2,7 +2,7 @@ import { css } from '@emotion/react';
 import type { NextPage } from 'next';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 
 import { useSaveMagazine } from '@/application/hooks/api/magazine';
 import usePopup from '@/application/hooks/common/usePopup';
@@ -13,6 +13,7 @@ import {
   usePageDeleteList,
   useResetMagazineInfo,
   useSetMagazineInfo,
+  useSetPageDeleteList,
 } from '@/application/store/magazine/hook';
 import SelectCategoryWithContent from '@/components/category/Select/SelectCategoryWithContent';
 import { ActiveButton } from '@/components/common/Button';
@@ -39,13 +40,27 @@ const UploadMagazine: NextPage = () => {
   const popup = usePopup();
   const [selected, setSelected] = useState(false);
   const pageDeleteList = usePageDeleteList();
+  const setPageDeleteList = useSetPageDeleteList();
+
+  const magazineInfo = useMagazineInfo();
+  const setMagazineInfo = useSetMagazineInfo();
+  const [_, setEditPage] = useEditPageSet();
+
+  const mutation = useSaveMagazine();
+  const resetMagazineInfo = useResetMagazineInfo();
+  const resetEditPage = useEditPageReset();
 
   const handleClickReset = () => {
     setSelected(false);
   };
 
   const handleDeletePages = () => {
+    setMagazineInfo((prev) => ({
+      ...prev,
+      page_list: prev.page_list?.filter((page) => !pageDeleteList.includes(page.scrap_id)),
+    }));
     setSelected(false);
+    setPageDeleteList([]);
     popup(DeletePopup, 'success');
   };
 
@@ -57,14 +72,6 @@ const UploadMagazine: NextPage = () => {
     show({
       content: <DeleteScrapToast onBack={close} onDelete={handleDeletePages} />,
     });
-
-  const magazineInfo = useMagazineInfo();
-  const setMagazineInfo = useSetMagazineInfo();
-  const [_, setEditPage] = useEditPageSet();
-
-  const mutation = useSaveMagazine();
-  const resetMagazineInfo = useResetMagazineInfo();
-  const resetEditPage = useEditPageReset();
 
   const handleBack = () => {
     router.replace('/magazine').then(() => {
@@ -80,11 +87,10 @@ const UploadMagazine: NextPage = () => {
       mutation.mutate(magazineInfo, {
         onSuccess: handleBack,
       });
-      console.debug('complete :::', magazineInfo);
     }
   };
 
-  const pages = useMemo(() => {
+  const pages = (() => {
     const ret: (MagazineThumbnail & { onClick?: () => void })[] = [
       {
         cover_url: magazineInfo.cover_scrap_src,
@@ -114,6 +120,11 @@ const UploadMagazine: NextPage = () => {
         placeholder: page.placeholder,
         title: `${idx + 1} 페이지`,
         magazine_id: idx,
+        onClick: () => {
+          if (!selected) return;
+          const id = page.scrap_id;
+          setPageDeleteList((prev) => (prev.includes(id) ? prev.filter((p) => p !== id) : prev.concat(id)));
+        },
       })),
     ];
 
@@ -136,7 +147,7 @@ const UploadMagazine: NextPage = () => {
     });
 
     return ret;
-  }, [magazineInfo, show, setMagazineInfo, close, setEditPage, router]);
+  })();
 
   return (
     <>
@@ -187,7 +198,7 @@ const UploadMagazine: NextPage = () => {
         <DeleteNavigation onClick={showDeletePagesToast} />
       ) : (
         <ActiveButton
-          active={!!magazineInfo.cover_scrap_id}
+          active={!!magazineInfo.cover_scrap_id && !mutation.isLoading}
           onClick={handleComplete}
           custom={css`
             margin-top: auto;

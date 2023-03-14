@@ -28,7 +28,7 @@ const PageViewContainer = ({ pages = PAGES }: Props) => {
         `}
       >
         <ol css={CSSCarouselContainer}>
-          <li css={CSSCarouselItem}>
+          <li css={CSSCarouselItem} id={'0'}>
             <MagazinePageProfile {...PROFILE} />
             <div css={CSSSnapper} />
             <div css={CSSCarouselHandle}>
@@ -50,8 +50,8 @@ const PageViewContainer = ({ pages = PAGES }: Props) => {
               <p css={CSSPageContent}>{page.text}</p>
               <div css={CSSSnapper} />
               <div css={CSSCarouselHandle}>
-                <Link href={{ hash: `#${idx === 0 ? pages.length : idx}` }}>Prev Item</Link>
-                <Link href={{ hash: `#${idx === pages.length - 1 ? 1 : idx + 2}` }}>Next Item</Link>
+                <Link href={{ hash: `#${idx}` }}>Prev Item</Link>
+                <Link href={{ hash: `#${idx === pages.length - 1 ? 0 : idx + 2}` }}>Next Item</Link>
               </div>
             </li>
           ))}

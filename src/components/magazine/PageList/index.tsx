@@ -1,5 +1,4 @@
 import { css } from '@emotion/react';
-import { useRouter } from 'next/router';
 import { useCallback, useRef } from 'react';
 import { useSetRecoilState } from 'recoil';
 
@@ -12,8 +11,6 @@ interface Props {
 }
 
 const PageList = ({ pages, selectItem }: Props) => {
-  const router = useRouter();
-
   // 썸네일 클릭 시 해당 id 추가, 선택 취소 시 id 확인 후 제거
   const setPageItems = useSetRecoilState(pageIdsArray);
   const pickSet = useRef(new Set<number>());
@@ -27,12 +24,8 @@ const PageList = ({ pages, selectItem }: Props) => {
   );
 
   const handleMultiClickItem = (id: number) => {
+    if (!selectItem) return;
     selectPageItems(id);
-  };
-
-  const handleEditItem = (id: number) => {
-    console.log('click!', id);
-    // router.push('/magazine/upload/page');
   };
 
   return (
@@ -48,11 +41,7 @@ const PageList = ({ pages, selectItem }: Props) => {
         <div
           key={idx}
           onClick={() => {
-            idx !== 0 && idx !== pages.length
-              ? selectItem
-                ? handleMultiClickItem(page.scrap_id!)
-                : handleEditItem(page.scrap_id!)
-              : '';
+            idx !== 0 && idx !== pages.length && handleMultiClickItem(page.scrap_id!);
           }}
         >
           {idx === 0 || idx === pages.length - 1 ? (
