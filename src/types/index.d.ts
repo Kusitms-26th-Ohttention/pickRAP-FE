@@ -93,3 +93,9 @@ interface RevisitAnalysis {
   preview_url: string;
   file_url: string;
 }
+
+interface RecommendMagazine {
+  cover_url: string;
+  magazine_id: number;
+  title: string;
+}

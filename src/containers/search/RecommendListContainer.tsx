@@ -1,8 +1,12 @@
 import { css } from '@emotion/react';
 
+import { useGetRecommendMagazines } from '@/application/hooks/api/magazine';
+
 import RecommendPhotoListContainer from './RecommendPhotoListContainer';
 
 const RecommendListContainer = () => {
+  // const recommendMagazineList = useGetRecommendMagazines();
+
   return (
     <>
       <span style={{ height: 12 }} />
