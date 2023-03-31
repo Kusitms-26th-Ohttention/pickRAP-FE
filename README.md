@@ -1,10 +1,14 @@
-<div align="center">사진</div>
+<div align="center">
+<img width="784" alt="피크랩표지" src="https://user-images.githubusercontent.com/81777778/229023448-4b22fed4-4a12-446a-be4e-10632a3d0ce1.png"></div>
 
 스크랩으로 나만의 감성과 정체성을 찾고 만들어나가보세요!✨  
 모바일 환경에서 보는 걸 추천할게요 📱  
-[피크랩 구경하러 가기](https://pickrap.com/)
+➡️[피크랩 구경하러 가기](https://pickrap.com/)⬅️
 
-<div align="center">사진</div>
+<div align="center">
+<img width="778" alt="피크랩기능" src="https://user-images.githubusercontent.com/81777778/229023463-6784ae12-21f0-476d-bf23-e9bdf372f5e1.png">
+
+</div>
 
 **스크랩**  
 내가 좋아하는 사진, 동영상, 링크, 글을 스크랩해봐요 📃
@@ -17,8 +21,6 @@
 
 **탐색**  
 다른 사람들의 매거진을 구경하러 떠나볼까요? 🔦
-
-<hr />
 
 ## 🛠 TECH STACK
 
