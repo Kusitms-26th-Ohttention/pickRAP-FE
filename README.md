@@ -1,34 +1,41 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+<div align="center">사진</div>
 
-## Getting Started
+스크랩으로 나만의 감성과 정체성을 찾고 만들어나가보세요!✨  
+모바일 환경에서 보는 걸 추천할게요 📱  
+[피크랩 구경하러 가기](https://pickrap.com/)
 
-First, run the development server:
+<div align="center">사진</div>
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+**스크랩**  
+내가 좋아하는 사진, 동영상, 링크, 글을 스크랩해봐요 📃
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+**매거진**  
+내가 스크랩한 것들로 나만의 매거진을 만들어봐요 📂
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+**분석**  
+내가 만든 매거진을 분석하여 나를 완성하고 알아가봐요 🔆
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+**탐색**  
+다른 사람들의 매거진을 구경하러 떠나볼까요? 🔦
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+<hr />
 
-## Learn More
+## 🛠 TECH STACK
 
-To learn more about Next.js, take a look at the following resources:
+- NEXT.JS / REACT / TYPE SCRIPT
+- REACT QEURY / RECOIL / AXIOS
+- EMOTION
+- ESLINT / PRETTIER
+- STORYBOOK / GITHUB ACTIONS
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🤝 Commit Convention
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+| 머릿말   | 설명                                   |
+| -------- | -------------------------------------- |
+| FEAT     | 기능 구현, 추가                        |
+| Setting  | 패키지 설치, 개발 설정                 |
+| Design   | 스타일 관련 코드                       |
+| Refactor | 코드 리팩터링                          |
+| Fix      | 버그 수정, 예외 케이스 대응, 기능 개선 |
+| Docs     | README.md 작성, 주석 작성              |
+| Chore    | 기타 작업                              |
