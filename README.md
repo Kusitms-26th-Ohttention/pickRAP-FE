@@ -31,10 +31,10 @@
 - STORYBOOK / GITHUB ACTIONS
 
 ## 🤝 Commit Convention
-
+🤪 GITMOJI
 | 머릿말   | 설명                                   |
 | -------- | -------------------------------------- |
-| FEAT     | 기능 구현, 추가                        |
+| Feat     | 기능 구현, 추가                        |
 | Setting  | 패키지 설치, 개발 설정                 |
 | Design   | 스타일 관련 코드                       |
 | Refactor | 코드 리팩터링                          |
